@@ -194,6 +194,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>VerintKMApplication</finalName>
+		<finalName>verintkm</finalName>
 	</build>
 </project>
