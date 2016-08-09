@@ -188,6 +188,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>VerintSearchServices</finalName>
+		<finalName>searchservices</finalName>
 	</build>
 </project>
