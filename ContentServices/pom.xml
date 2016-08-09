@@ -263,6 +263,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>VerintContentServices</finalName>
+		<finalName>contentservices</finalName>
 	</build>
 </project>
