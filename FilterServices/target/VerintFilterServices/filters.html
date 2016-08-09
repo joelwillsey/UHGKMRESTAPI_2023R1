@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Verint KM Filters</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, minimumscale=1.0, maximum-scale=1.0" />
+	<link media="screen" type="text/css" href="css/filters.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/ionicons.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/common.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/jquery-ui/11.4.1/jquery-ui.min.css" rel="stylesheet"/>
+	<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
+	<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.js"></script>
+	<script type='text/javascript' src='js/respond.min.js'></script>
+	<script type='text/javascript' src="js/common.js"></script>
+	<script type='text/javascript'>
+		var filtersServiceName = '/enterprise/filterservices/';
+		var historyPushEnabled = false;
+		var defaultTitle = 'Verint Filters Widget';
+
+		// Check for a valid authentication
+		if (typeof basicAuth != 'undefined' && !basicAuth) {
+			window.document.location = 'login.html';
+		}
+	</script>
+	<script type='text/javascript' src="js/browse_widget.js"></script>
+
+	<script type='text/javascript' src="js/filters.js"></script>
+</head>
+<body style="postion: relative;">
+<!-- Begin Filter Widget -->
+	<section id="filter-container" class="filter_container">
+		<div id="filter_wrapper" style="height: inherit">
+			<div id="f_wrapper" style="height: inherit; overflow-y: auto;">
+				<section id="search-cloud" class="filter_section">
+					<div class="fs_label">
+						<ul><li id="fs-li-cloud" class="filter_section"><h4><i id="fs-i-cloud" class="fs_arrow icon ion-chevron-down"></i>Search Cloud</h4></li></ul>
+					</div>
+					<div id="fs-cloud-data" class="fs_data_tags">
+						<div class="fs_dt_reset">
+							<ul><li id="fs-cloud-reset" class="fs_cloud_reset">Reset All</li></ul>
+						</div>
+						<div class="fs_dt_info">
+							<label id="fs-dt-info-label" class="fs_dt_info_label">No Search Cloud</label>
+							<ul id="ul-all-tags" class="ul_all_tags fs_dt_info_filters">
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section id="topic-filter" class="filter_section">
+					<div id="fs-data-browse" class="fs_data">
+						<div class="fs_data_info">
+							<div class="fs_di_tagset">
+								<div class="fs_label">
+									<ul><li id="fs-li-browse" class="filter_section"><h4><i id="fs-i-browse" class="fs_arrow icon ion-chevron-down"></i>Browse</h4></li></ul>
+								</div>
+								<div id="fs-browse-data" class="fs_di_tagset_data">
+									<div id="tags-topic" class="fs_dt_reset">
+										<ul><li id="fs-reset-topic">Reset</li></ul>
+									</div>
+									<div id='div-topic-tags' class="fs_di_tagset_wrapper tag_tree_on">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section id="other-filter" class="filter_section">
+					<div id="fs-data" class="fs_data">
+						<div class="fs_data_info">
+							<div class="fs_di_tagset">
+								<div class="fs_label">
+									<ul><li id="fs-li-filters" class="filter_section"><h4><i id="fs-i-filters" class="fs_arrow icon ion-chevron-down"></i>Filters</h4></li></ul>
+								</div>
+								<div id="fs-filters-data" class="fs_di_tagset_data">
+									<div>
+										<div id="fs-dt-reset-filters" class="fs_dt_reset fs_dt" style="background-color: transparent; display: inline-block; height: auto !important;min-height: 19px !important;">
+											<button id='fs-reset-button' title="Reset Filter">Reset</button>
+										</div>
+										<div id="fs-dt-apply-filters" class="fs_dt_apply fs_dt" style="background-color: transparent; display: inline-block; float: right; height: auto !important;min-height: 19px !important;">
+											<button id='fs-apply-button' title="Apply Filter">Apply</button>
+										</div>
+									</div>
+									<div id="fs-di-tagset-topic" class="fs_di_tagset">
+										<div class="fs_di_tagset_label_info">
+											<label>Topic:&nbsp;</label>
+										</div>
+										<div class="fs_di_tagset_info">
+											<div class="fs_di_tagset_info_left">
+												<ul id="topic-selection" class="fs_di_tagset_info_left_list">
+													<li id="topic-search-input" class="tag_search_field">
+														<input id="topic-input" type="text" autocomplete="off" style="width: 105px; height: auto;" value="" tabindex=""/>
+													</li>
+												</ul>
+												<div id='topic-tags' class="fs_di_tagset_list_left_list_tags">
+  													<ul id="ul-topic-tags" class="fs_di_tagset_list_left_list_tags_results"></ul>
+												</div>
+											</div>
+										</div>
+										<a id="topic-arrow" href="javascript:void(0);" class="fs_di_tagset_selection" onclick="$.fn.toggleTag('topic-tags');">
+											<i id="i-topic-tags" class="icon ion-chevron-right">&nbsp;</i>
+										</a>
+									</div>
+									<div class="fs_di_tagset">
+										<div class="fs_di_tagset_label_info">
+											<label>Knowledge Base:&nbsp;</label>
+										</div>
+										<div class="fs_di_tagset_info">
+											<div class="fs_di_tagset_info_left">
+												<ul id="kbase-selection" class="fs_di_tagset_info_left_list">
+													<li id="kbase-search-input" class="tag_search_field">
+														<input id="kbase-input" type="text" autocomplete="off" tabindex=""/>
+													</li>
+												</ul>
+												<div id='kbase-tags' class="fs_di_tagset_list_left_list_tags">
+  													<ul id="ul-kbase-tags" class="fs_di_tagset_list_left_list_tags_results"></ul>
+												</div>
+											</div>
+											<div class="fs_di_tagset_list_right fs_dt">
+												<button id="fs-di-tagset-kbase-add">Add</button>
+											</div>
+										</div>
+										<div id="kbase-tags-wrapper">
+											<a href="javascript:void(0);" class="fs_di_tagset_selection" onclick="$.fn.toggleTag('kbase-tags');">
+												<i id="i-kbase-tags" class="icon ion-chevron-right">&nbsp;</i>
+											</a>
+										</div>
+										<div id="div-kbase-tags" class="div_kbase_tags fs_di_tagset_wrapper tag_tree_on"></div>
+									</div>
+									<div class="fs_di_tagset">
+										<div class="fs_di_tagset_label_info">
+											<label>Product:&nbsp;</label>
+										</div>
+										<div class="fs_di_tagset_info">
+											<div class="fs_di_tagset_info_left">
+												<ul id="product-selection" class="fs_di_tagset_info_left_list">
+													<li id="product-search-input" class="tag_search_field">
+														<input id="product-input" type="text" autocomplete="off" tabindex=""/>
+													</li>
+												</ul>
+												<div id='product-tags' class="fs_di_tagset_list_left_list_tags">
+  													<ul id="ul-product-tags" class="fs_di_tagset_list_left_list_tags_results"></ul>
+												</div>
+											</div>
+											<div class="fs_di_tagset_list_right fs_dt">
+												<button id="fs-di-tagset-product-add">Add</button>
+											</div>
+										</div>
+										<div id="product-tags-wrapper">
+											<a href="javascript:void(0);" class="fs_di_tagset_selection" onclick="$.fn.toggleTag('product-tags');">
+												<i id="i-product-tags" class="icon ion-chevron-right">&nbsp;</i>
+											</a>
+										</div>
+										<div id="div-product-tags" class="div_product_tags fs_di_tagset_wrapper tag_tree_on"></div>
+									</div>
+									<div class="fs_di_tagset">
+										<div class="fs_di_tagset_label_info">
+											<label>Region:</label>
+										</div>
+										<div class="fs_di_tagset_info">
+											<div class="fs_di_tagset_info_left">
+												<ul id='region-selection' class="fs_di_tagset_info_left_list">
+													<li id='region-search-input' class="tag_search_field">
+														<input id="region-input" type="text" tabindex=""/>
+													</li>
+												</ul>
+												<div id='region-tags' class="fs_di_tagset_list_left_list_tags">
+  													<ul id="ul-region-tags" class="fs_di_tagset_list_left_list_tags_results"></ul>
+												</div>
+											</div>
+											<div class="fs_di_tagset_list_right fs_dt">
+												<button id="fs-di-tagset-region-add">Add</button>
+											</div>
+										</div>
+										<div id="region-tags-wrapper">
+											<a href="javascript:void(0);" class="fs_di_tagset_selection" onclick="$.fn.toggleTag('region-tags');">
+												<i id="i-region-tags" class="icon ion-chevron-right">&nbsp;</i>
+											</a>
+										</div>
+										<div id="div-region-tags" class="div_region_tags fs_di_tagset_wrapper tag_tree_on"></div>
+									</div>
+									<div class="fs_di_tagset">
+										<div class="fs_di_tagset_label_info">
+											<label>Content Type:&nbsp;</label>
+										</div>
+										<div class="fs_di_tagset_info">
+											<div class="fs_di_tagset_info_left">
+												<ul id="cntntType-selection" class="fs_di_tagset_info_left_list">
+													<li id="cntntType-search-input" class="tag_search_field">
+														<input id="cntntType-input" type="text" autocomplete="off" tabindex=""/>
+													</li>
+												</ul>
+												<div id='cntntType-tags' class="fs_di_tagset_list_left_list_tags">
+  													<ul id="ul-cntntType-tags" class="fs_di_tagset_list_left_list_tags_results"></ul>
+												</div>
+											</div>
+											<div class="fs_di_tagset_list_right fs_dt">
+												<button id="fs-di-tagset-cntntType-add">Add</button>
+											</div>
+										</div>
+										<div id="cntntType-tags-wrapper">
+											<a href="javascript:void(0);" class="fs_di_tagset_selection" onclick="$.fn.toggleTag('cntntType-tags');">
+												<i id="i-cntntType-tags" class="icon ion-chevron-right">&nbsp;</i>
+											</a>
+										</div>
+										<div id="div-cntntType-tags" class="div_kbase_tags fs_di_tagset_wrapper tag_tree_on"></div>
+									</div>
+									<div class="fs_di_tagset">
+										<div class="fs_di_content_category_label">
+											<label>Content Category: *</label>
+										</div>
+										<div class="fs_di_content_category_info">
+											<div id="div-content-tags" class="fs_di_tagset_list"></div>
+										</div>
+									</div>
+									<div class="fs_di_tagset">
+										<div class="fs_di_content_id_label">
+											<label>Content ID:</label>
+										</div>
+										<div class="fs_di_content_id_info">
+											<input id="filter-content-id" class="" tabindex="" title="Content ID" type="text" name="filter-content-id" size="10" maxlength="50"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</section>
+<!-- End Filters Widget -->
+</body>
+</html>

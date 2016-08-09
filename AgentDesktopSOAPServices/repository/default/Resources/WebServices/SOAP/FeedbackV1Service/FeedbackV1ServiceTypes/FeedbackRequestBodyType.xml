@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="FeedbackRequestBodyType"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/FeedbackV1Service.wsdl"
+        version="3.13.4"
+        xsName="FeedbackRequestBodyType">
+      <InstanceFields>
+        <StringField
+            isAttribute="false"
+            name="comment"
+            xsName="comment"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="contentID"
+            xsName="contentID"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <BooleanField
+            isAttribute="false"
+            name="notification"
+            xsName="notification"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <StringField
+            isAttribute="false"
+            name="locale"
+            xsName="locale"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="username"
+            xsName="username"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="password"
+            xsName="password"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <IntegerField
+            isAttribute="false"
+            name="feedbackCodeID"
+            xsName="feedbackCodeID"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <IntegerField
+            isAttribute="false"
+            name="rating"
+            xsName="rating"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <StringField
+            isAttribute="false"
+            name="viewID"
+            xsName="viewID"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="email"
+            xsName="email"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="name"
+            xsName="name"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+      </InstanceFields>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="comment"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="comment" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="contentID"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="contentID" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="notification"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="notification" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="locale"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="locale" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="username"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="username" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="password"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="password" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="feedbackCodeID"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="feedbackCodeID" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="rating"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="rating" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="viewID"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="viewID" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="email"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="email" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="name"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="name" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

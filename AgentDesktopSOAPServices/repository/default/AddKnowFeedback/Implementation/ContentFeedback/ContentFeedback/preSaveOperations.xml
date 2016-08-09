@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Procedure [] >
+  <Procedure
+      designNotes="Undefined"
+      exceptionStrategy="0"
+      isPending="false"
+      isPrivate="false"
+      isTPL="false"
+      language="EcmaScript"
+      name="preSaveOperations"
+      nested="false"
+      version="3.13.4">
+    <ReferenceParameters />
+    <ProcedureLocals />
+    <Verbatim
+        fieldName="text">
+<![CDATA[this.createdDate = GTSystem.getCurrentDate();
+if (this.createdBy == null || this.createdBy.length == 0) {
+    this.createdBy = GTSystem.getGtUsername();
+}
+this.viewId = this.getContent().getViewUUID();
+]]>
+    </Verbatim>
+  </Procedure>

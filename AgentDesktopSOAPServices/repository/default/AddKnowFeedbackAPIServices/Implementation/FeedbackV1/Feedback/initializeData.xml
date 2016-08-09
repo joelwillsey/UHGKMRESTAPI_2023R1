@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Procedure [] >
+  <Procedure
+      designNotes="Undefined"
+      isTPL="false"
+      language="EcmaScript"
+      name="initializeData"
+      nested="false"
+      version="3.13.4">
+    <ReferenceParameters />
+    <ProcedureLocals>
+      <ObjectField
+          designNotes=""
+          name="feedbackCode">
+        <TypeDefinitionReference
+            name="EIFeedbackCode"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="evaId">
+        <TypeDefinitionReference
+            name="IEvaId"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="statusList">
+        <TypeDefinitionReference
+            name="GTList"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="contentIdBean">
+        <TypeDefinitionReference
+            name="ContentIdBean"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="contentIdBeanList">
+        <TypeDefinitionReference
+            name="ContentIdBeanList"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="dynamicContentList">
+        <TypeDefinitionReference
+            name="DynamicContentList"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="dynamicContent">
+        <TypeDefinitionReference
+            name="EIDynamicContent"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="tempContent">
+        <TypeDefinitionReference
+            name="Content"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="entityDefinition">
+        <TypeDefinitionReference
+            name="IEntityDefinition"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="feedbackNotificationType">
+        <TypeDefinitionReference
+            name="FeedbackNotificationType"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="feedbackNotification">
+        <TypeDefinitionReference
+            name="EmailFeedbackNotification"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="feedbackCodeList">
+        <TypeDefinitionReference
+            name="IFeedbackCodeList"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="loadedFeedbackNotification">
+        <TypeDefinitionReference
+            name="EIAbstractFeedbackNotification"
+            nested="false" />
+      </ObjectField>
+    </ProcedureLocals>
+    <Verbatim
+        fieldName="text">
+<![CDATA[Log.application.debug("Feedback initializeData()");
+
+// Create the response object
+returnResponse = new FeedbackServiceResponse();
+
+// Check if feedback is already given or not
+if (!this.entity.isPersisted()) {
+    loadedContentFeedback = ContentFeedback.loadShallowByViewId(this.viewID);
+    if (loadedContentFeedback) {
+        loadedContentFeedback.copyTo(this.entity);
+        existingFeedback = true;
+
+        this.returnResponse.feedbackCode = loadedContentFeedback.getFeedbackCode().getID().id;
+        feedbackNotification = loadedContentFeedback.getFeedbackNotification();
+        if (feedbackNotification != null) {
+            this.returnResponse.notification = true;
+            this.returnResponse.notificationEmail = feedbackNotification.emailAddress;
+            this.returnResponse.notificationName = feedbackNotification.name;
+        }
+        this.returnResponse.optionalComments = loadedContentFeedback.getComment().toString();
+
+        // Return because we have found an existing one
+        return;
+    }
+    // Do we have 0 or 1 ratings?
+    if(this.rating) {
+        this.entity.setRating(this.rating);
+    }
+}
+
+evaId = EvaIdFactory.createIEvaId(this.feedbackCodeID, 666, 1);
+feedbackCodeList = EIFeedbackCode.listAllShallow();
+feedbackCodeList.selectItem(this.feedbackCodeID);
+feedbackCode = new EIFeedbackCode();
+feedbackCode.name = feedbackCodeList.get(this.feedbackCodeID-1).name;
+feedbackCode.displayName = feedbackCodeList.get(this.feedbackCodeID-1).displayName;
+feedbackCode.id = evaId;
+
+// Get the content
+tempContent = new Content();
+tempContent = tempContent.findByContentEntityUUID(this.contentID, this.locale);
+
+// Check for a valid object
+if (tempContent == null) {
+    // Throw cannot find content exception
+    throwException(new SOAPException("Cannot find content for content ID"));
+}
+tempContent.viewId = this.viewID;
+
+// Get the dynamicContent data for this ID
+statusList = new GTList();
+contentIdBean = new ContentIdBean();
+contentIdBeanList = new ContentIdBeanList();
+contentIdBean.setContentId(this.contentID);
+contentIdBean.setLastModifiedDate(0);
+contentIdBeanList.add(contentIdBean);
+statusList.add(IContentFieldDefinition.PUBLISHED_FIELD_NAME);
+dynamicContentList = EIDynamicContent.listAllByStatusAndUUIDAndModifiedDate(contentIdBeanList, statusList, locale, false);
+if (dynamicContentList && dynamicContentList.size() > 0) {
+    dynamicContent = dynamicContentList.get(0);
+    if (dynamicContent != null) {
+        tempContent.contentEntity = dynamicContent;
+    }
+}
+this.content = tempContent;
+
+// Setup the feedback entity
+this.entity.setContent(this.content);
+this.entity.setFeedbackCode(feedbackCode);
+
+// Setup the content feedback config
+this.contentFeedbackConfig = EIContentFeedbackConfig.loadShallowByContentCategory(this.content.getContentCategory());
+if (!this.contentFeedbackConfig) {
+    this.contentFeedbackConfig = EIContentFeedbackConfig.loadDefaultConfig();
+}
+
+// If we have an notification then make sure it is set up
+if (this.notification) {
+     feedbackNotificationType = FeedbackNotificationType.getByName("Email");
+     entityDefinition = EIEntityDefinition.loadShallowByType(feedbackNotificationType.entityDefinitionTypeId);
+     feedbackNotification = EVAFactory.createInstance(entityDefinition);
+     feedbackNotification.name = this.name;
+     feedbackNotification.emailAddress = this.email;
+     this.entity.setFeedbackNotificationType(feedbackNotificationType);
+     this.entity.setFeedbackNotification(feedbackNotification);
+ }
+
+// Check for a valid comment
+if (!StringUtil.isEmpty(this.comment)) {
+    this.entity.setComment(this.comment);
+}
+
+// Save content feedback
+this.entity.createdBy = this.username;
+this.entity.saveDeep();
+this.outcome = OutcomeCodes.getSuccessModifiedCode();
+this.returnResponse.outcomeCode = this.outcome;
+this.returnResponse.notification = false;
+]]>
+    </Verbatim>
+  </Procedure>

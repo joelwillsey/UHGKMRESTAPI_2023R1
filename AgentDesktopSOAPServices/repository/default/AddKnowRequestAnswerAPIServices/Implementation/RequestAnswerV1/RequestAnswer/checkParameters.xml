@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Procedure [] >
+  <Procedure
+      designNotes="Undefined"
+      isTPL="false"
+      language="EcmaScript"
+      name="checkParameters"
+      nested="false"
+      version="3.13.4">
+    <ReferenceParameters />
+    <ProcedureLocals />
+    <Verbatim
+        fieldName="text">
+<![CDATA[Log.application.debug("RequestAnswer checkParameters()");
+
+Log.application.trace("keyword: " + this.keyword);
+Log.application.trace("expectation: " + this.expectation);
+Log.application.trace("locale: " + this.locale);
+Log.application.trace("selectedFilter: " + this.selectedFilter);
+Log.application.trace("searchDate: " + this.searchDate);
+Log.application.trace("username: " + this.username);
+Log.application.trace("password: " + this.password);
+
+if (StringUtil.isEmpty(this.keyword)) {
+    // Throw keyword exception
+    throwException(new SOAPException("Keyword is not valid"));
+}
+
+if (StringUtil.isEmpty(this.expectation)) {
+    // Throw expecation exception
+    throwException(new SOAPException("Expectation is not valid"));
+}
+
+if (StringUtil.isEmpty(this.username)) {
+    // Throw username exception
+    throwException(new SOAPException("Username is not valid"));
+}
+
+if (StringUtil.isEmpty(this.locale)) {
+    // Throw locale exception
+    throwException(new SOAPException("Locale is not valid"));
+}
+]]>
+    </Verbatim>
+  </Procedure>

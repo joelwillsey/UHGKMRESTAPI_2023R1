@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Procedure [] >
+  <Procedure
+      designNotes="Undefined"
+      isTPL="false"
+      language="EcmaScript"
+      name="checkExistingFeedback"
+      nested="false"
+      version="3.13.4">
+    <ReferenceParameters />
+    <ProcedureLocals />
+    <ResultType>
+      <BooleanField
+          designNotes=""
+          name="" />
+    </ResultType>
+    <Verbatim
+        fieldName="text">
+<![CDATA[Log.application.debug("Feedback checkExistingFeedback()");
+
+if (this.existingFeedback) {
+    return true;
+} else {
+    return false;
+}
+]]>
+    </Verbatim>
+  </Procedure>

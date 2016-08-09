@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="LoginResponse">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="LoginResponse" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="KnowledgeLoginResponseBodyType"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/KnowledgeLoginV1Service.wsdl"
+        version="3.13.4"
+        xsName="KnowledgeLoginResponseBodyType">
+      <InstanceFields>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="loginResponse"
+            xsName="loginResponse"
+            xsNillable="false"
+            xsdType="LoginResponse">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="LoginResponse"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+      <ClassProcedures
+          name="">
+        <Procedure
+            name="constructLoginResponse"
+            nested="true" />
+      </ClassProcedures>
+      <InstanceProcedures
+          name="">
+        <Procedure
+            name="createloginResponse"
+            nested="true" />
+      </InstanceProcedures>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="loginResponse"
+            nested="false"
+            type="tns:LoginResponse"
+            version="3.13.4"
+            xsName="loginResponse" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

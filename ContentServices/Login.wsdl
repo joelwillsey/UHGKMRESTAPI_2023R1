@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <definitions
+      name="KnowledgeLoginV1Service"
+      targetNamespace="http://localhost:80/KnowledgeLoginV1Service.wsdl"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="http://localhost:80/KnowledgeLoginV1Service.wsdl"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Created by KANA Software (a Verint company) on Mon May 30 03:56:02 BST 2016. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema
+          elementFormDefault="unqualified"
+          targetNamespace="http://localhost:80/KnowledgeLoginV1Service.wsdl">
+        <xsd:complexType
+            name="WIBaseResponse">
+          <xsd:complexContent>
+            <xsd:extension
+                base="tns:BaseServiceResponse">
+              <xsd:sequence>
+                <xsd:element
+                    maxOccurs="1"
+                    minOccurs="1"
+                    name="successful"
+                    type="xsd:boolean" />
+              </xsd:sequence>
+            </xsd:extension>
+          </xsd:complexContent>
+        </xsd:complexType>
+        <xsd:complexType
+            name="BaseServiceResponse">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="warnings"
+                type="tns:WarningList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="errors"
+                type="tns:ErrorList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ErrorMessage">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="message"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="code"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="WarningMessageList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="WarningMessage"
+                type="tns:WarningMessage" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="WarningList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="WarningMessage"
+                type="tns:WarningMessageList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ErrorList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="ErrorMessage"
+                type="tns:ErrorMessageList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ErrorMessageList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="ErrorMessage"
+                type="tns:ErrorMessage" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="WILoginResponse">
+          <xsd:complexContent>
+            <xsd:extension
+                base="tns:WIBaseResponse">
+              <xsd:sequence>
+                <xsd:element
+                    maxOccurs="1"
+                    minOccurs="1"
+                    name="contactID"
+                    type="xsd:string" />
+              </xsd:sequence>
+            </xsd:extension>
+          </xsd:complexContent>
+        </xsd:complexType>
+        <xsd:complexType
+            name="WarningMessage">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="message"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="code"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="LoginResponse">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="response"
+                type="tns:WILoginResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeLoginRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeLoginResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="loginResponse"
+                type="tns:LoginResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:element
+            name="KnowledgeLoginRequestBody"
+            type="tns:KnowledgeLoginRequestBodyType" />
+        <xsd:element
+            name="KnowledgeLoginResponseBody"
+            type="tns:KnowledgeLoginResponseBodyType" />
+      </xsd:schema>
+    </types>
+    <message
+        name="KnowledgeLoginRequest">
+      <part
+          element="tns:KnowledgeLoginRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="KnowledgeLoginResponse">
+      <part
+          element="tns:KnowledgeLoginResponseBody"
+          name="body" />
+    </message>
+    <portType
+        name="KnowledgeLoginV1PortType">
+      <operation
+          name="KnowledgeLogin">
+        <input
+            message="tns:KnowledgeLoginRequest" />
+        <output
+            message="tns:KnowledgeLoginResponse" />
+      </operation>
+    </portType>
+    <binding
+        name="KnowledgeLoginV1Binding"
+        type="tns:KnowledgeLoginV1PortType">
+      <soap:binding
+          style="document"
+          transport="http://schemas.xmlsoap.org/soap/http" />
+      <operation
+          name="KnowledgeLogin">
+        <soap:operation
+            soapAction="KnowledgeLoginV1Service#KnowledgeLogin" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+    </binding>
+    <service
+        name="KnowledgeLoginV1Service">
+      <documentation>
+        Undefined
+      </documentation>
+      <port
+          binding="tns:KnowledgeLoginV1Binding"
+          name="KnowledgeLoginV1Port">
+        <soap:address
+            location="http://10.211.55.4:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowledgeUserLoginAPIServices.API.LoginV1.KnowledgeLoginV1" />
+      </port>
+    </service>
+  </definitions>

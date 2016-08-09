@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SoapMessage [] >
+  <PackageEntry>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <SoapMessage
+        isPrivate="false"
+        name="KnowledgeLoginResponse"
+        nested="false"
+        soapHeader=""
+        version="3.13.2">
+      <InstanceFields>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="body"
+            xsName="body"
+            xsdType="KnowledgeLoginResponseBody">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="KnowledgeLoginResponseBody"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+    </SoapMessage>
+  </PackageEntry>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Procedure [] >
+  <Procedure
+      designNotes="Undefined"
+      isTPL="false"
+      language="EcmaScript"
+      name="checkParameters"
+      nested="false"
+      version="3.13.4">
+    <ReferenceParameters />
+    <ProcedureLocals />
+    <Verbatim
+        fieldName="text">
+<![CDATA[Log.application.debug("Feedback checkParameters()");
+
+Log.application.trace("comment: " + this.comment);
+Log.application.trace("contentID: " + this.contentID);
+Log.application.trace("email: " + this.email);
+Log.application.trace("feedbackCodeID: " + this.feedbackCodeID);
+Log.application.trace("locale: " + this.locale);
+Log.application.trace("name: " + this.name);
+Log.application.trace("notification: " + this.notification);
+Log.application.trace("password: " + this.password);
+Log.application.trace("rating: " + this.rating);
+Log.application.trace("username: " + this.username);
+Log.application.trace("viewID: " + this.viewID);
+
+if (StringUtil.isEmpty(this.contentID)) {
+    // Throw contentID exception
+    throwException(new SOAPException("Content ID is not valid"));
+}
+
+if (StringUtil.isEmpty(this.locale)) {
+    // Throw locale exception
+    throwException(new SOAPException("locale is not valid"));
+}
+
+if (StringUtil.isEmpty(this.username)) {
+    // Throw username exception
+    throwException(new SOAPException("username is not valid"));
+}
+
+// Check if notification is to be sent
+if (this.notification) {
+    if (StringUtil.isEmpty(this.email)) {
+        // Throw email exception
+        throwException(new SOAPException("email is not valid"));
+    }
+
+    if (StringUtil.isEmpty(this.name)) {
+        // Throw name exception
+        throwException(new SOAPException("name is not valid"));
+    }
+}
+
+// Check for a valid viewID
+if (StringUtil.isEmpty(this.viewID)) {
+    this.viewID = "viewID";
+}
+]]>
+    </Verbatim>
+  </Procedure>

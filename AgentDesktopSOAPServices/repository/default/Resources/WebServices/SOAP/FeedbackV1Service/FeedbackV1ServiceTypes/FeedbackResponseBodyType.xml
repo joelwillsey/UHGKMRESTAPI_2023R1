@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="FeedbackServiceResponse">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackV1Service" />
+        <PackageName
+            name="FeedbackV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="FeedbackServiceResponse" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="FeedbackResponseBodyType"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/FeedbackV1Service.wsdl"
+        version="3.13.4"
+        xsName="FeedbackResponseBodyType">
+      <InstanceFields>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="returnResponse"
+            xsName="returnResponse"
+            xsNillable="false"
+            xsdType="FeedbackServiceResponse">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="FeedbackServiceResponse"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+      <ClassProcedures
+          name="">
+        <Procedure
+            name="constructFeedbackServiceResponse"
+            nested="true" />
+      </ClassProcedures>
+      <InstanceProcedures
+          name="">
+        <Procedure
+            name="createreturnResponse"
+            nested="true" />
+      </InstanceProcedures>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="returnResponse"
+            nested="false"
+            type="tns:FeedbackServiceResponse"
+            version="3.13.4"
+            xsName="returnResponse" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

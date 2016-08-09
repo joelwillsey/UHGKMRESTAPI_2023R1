@@ -1,0 +1,860 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <definitions
+      name="SearchV1Service"
+      targetNamespace="http://model.services.contactcentre.kana.com/SearchV1Service.wsdl"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="http://model.services.contactcentre.kana.com/SearchV1Service.wsdl"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Created by KANA Software (a Verint company) on Sat Mar 26 20:11:43 PDT 2016. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema
+          elementFormDefault="unqualified"
+          targetNamespace="http://model.services.contactcentre.kana.com/SearchV1Service.wsdl">
+        <xsd:complexType
+            name="KnowledgeGroupUnit">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="knowledgeUnits"
+                type="tns:KnowledgeUnitList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="isFeatured"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="title"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="ratingInformation"
+                type="tns:RatingInformation" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentType"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="viewCount"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentSource"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeGroupUnitList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="KnowledgeGroupUnit"
+                type="tns:KnowledgeGroupUnit" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeResultSet">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="knowledgeGroupUnits"
+                type="tns:KnowledgeGroupUnitList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="numberOfResults"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="suggestedQueryList"
+                type="tns:SuggestedQueryList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ReplacedTerm">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="term"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="replacement"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="SuggestedQuery">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="knowledgeGroupUnits"
+                type="tns:KnowledgeGroupUnitList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="queryText"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="replacedTermsList"
+                type="tns:ReplacedTermsList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="type"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="numberOfGroupResultsFound"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeUnit">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentOwner"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="lastPublishedDate"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="synopsis"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="workflowState"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="relevanceScore"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="lastModifiedDate"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="associatedContentURL"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentUnitID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="title"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentCategoryTags"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="pageIdentifier"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="tags"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentVersion"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="SuggestedQueryList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="SuggestedQuery"
+                type="tns:SuggestedQuery" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ReplacedTermsList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="ReplacedTerm"
+                type="tns:ReplacedTerm" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="SearchDateType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="toDate"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="fromDate"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeUnitList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="KnowledgeUnit"
+                type="tns:KnowledgeUnit" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="RatingInformation">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="averageRating"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="numberOfRatings"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ControlData">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="spellCheckEnabled"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfUnitsPerGroup"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="paginationStartIndex"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfGroupResults"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="MarkAsViewedRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="MarkAsViewedResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="viewUUID"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="RateRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="rating"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="RateResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="ratingUUID"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="SharedTextSearchRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentCategory"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentOwner"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="controlData"
+                type="tns:ControlData" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="expirationDate"
+                type="tns:SearchDateType" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="modifiedDate"
+                type="tns:SearchDateType" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="publishedDate"
+                type="tns:SearchDateType" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="publishedId"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="searchText"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="sortFieldName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="tags"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="workflowState"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="SharedTextSearchResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="response"
+                type="tns:KnowledgeResultSet" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="MarkAsFeaturedRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="isFeatured"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="version"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="MarkAsFeaturedResponseBodyType">
+          <xsd:sequence />
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetFeaturedContentRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="controlData"
+                type="tns:ControlData" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="version"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetFeaturedContentResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="response"
+                type="tns:KnowledgeResultSet" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetTopContentRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="toDate"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="fromDate"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfTopContent"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetTopContentResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="response"
+                type="tns:KnowledgeResultSet" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:element
+            name="MarkAsViewedRequestBody"
+            type="tns:MarkAsViewedRequestBodyType" />
+        <xsd:element
+            name="MarkAsViewedResponseBody"
+            type="tns:MarkAsViewedResponseBodyType" />
+        <xsd:element
+            name="RateRequestBody"
+            type="tns:RateRequestBodyType" />
+        <xsd:element
+            name="RateResponseBody"
+            type="tns:RateResponseBodyType" />
+        <xsd:element
+            name="SharedTextSearchRequestBody"
+            type="tns:SharedTextSearchRequestBodyType" />
+        <xsd:element
+            name="SharedTextSearchResponseBody"
+            type="tns:SharedTextSearchResponseBodyType" />
+        <xsd:element
+            name="MarkAsFeaturedRequestBody"
+            type="tns:MarkAsFeaturedRequestBodyType" />
+        <xsd:element
+            name="MarkAsFeaturedResponseBody"
+            type="tns:MarkAsFeaturedResponseBodyType" />
+        <xsd:element
+            name="GetFeaturedContentRequestBody"
+            type="tns:GetFeaturedContentRequestBodyType" />
+        <xsd:element
+            name="GetFeaturedContentResponseBody"
+            type="tns:GetFeaturedContentResponseBodyType" />
+        <xsd:element
+            name="GetTopContentRequestBody"
+            type="tns:GetTopContentRequestBodyType" />
+        <xsd:element
+            name="GetTopContentResponseBody"
+            type="tns:GetTopContentResponseBodyType" />
+      </xsd:schema>
+    </types>
+    <message
+        name="MarkAsViewedRequest">
+      <part
+          element="tns:MarkAsViewedRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="MarkAsViewedResponse">
+      <part
+          element="tns:MarkAsViewedResponseBody"
+          name="body" />
+    </message>
+    <message
+        name="RateRequest">
+      <part
+          element="tns:RateRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="RateResponse">
+      <part
+          element="tns:RateResponseBody"
+          name="body" />
+    </message>
+    <message
+        name="SharedTextSearchRequest">
+      <part
+          element="tns:SharedTextSearchRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="SharedTextSearchResponse">
+      <part
+          element="tns:SharedTextSearchResponseBody"
+          name="body" />
+    </message>
+    <message
+        name="MarkAsFeaturedRequest">
+      <part
+          element="tns:MarkAsFeaturedRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="MarkAsFeaturedResponse">
+      <part
+          element="tns:MarkAsFeaturedResponseBody"
+          name="body" />
+    </message>
+    <message
+        name="GetFeaturedContentRequest">
+      <part
+          element="tns:GetFeaturedContentRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="GetFeaturedContentResponse">
+      <part
+          element="tns:GetFeaturedContentResponseBody"
+          name="body" />
+    </message>
+    <message
+        name="GetTopContentRequest">
+      <part
+          element="tns:GetTopContentRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="GetTopContentResponse">
+      <part
+          element="tns:GetTopContentResponseBody"
+          name="body" />
+    </message>
+    <portType
+        name="SearchV1PortType">
+      <operation
+          name="MarkAsViewed">
+        <input
+            message="tns:MarkAsViewedRequest" />
+        <output
+            message="tns:MarkAsViewedResponse" />
+      </operation>
+      <operation
+          name="Rate">
+        <input
+            message="tns:RateRequest" />
+        <output
+            message="tns:RateResponse" />
+      </operation>
+      <operation
+          name="SharedTextSearch">
+        <input
+            message="tns:SharedTextSearchRequest" />
+        <output
+            message="tns:SharedTextSearchResponse" />
+      </operation>
+      <operation
+          name="MarkAsFeatured">
+        <input
+            message="tns:MarkAsFeaturedRequest" />
+        <output
+            message="tns:MarkAsFeaturedResponse" />
+      </operation>
+      <operation
+          name="GetFeaturedContent">
+        <input
+            message="tns:GetFeaturedContentRequest" />
+        <output
+            message="tns:GetFeaturedContentResponse" />
+      </operation>
+      <operation
+          name="GetTopContent">
+        <input
+            message="tns:GetTopContentRequest" />
+        <output
+            message="tns:GetTopContentResponse" />
+      </operation>
+    </portType>
+    <binding
+        name="SearchV1Binding"
+        type="tns:SearchV1PortType">
+      <soap:binding
+          style="document"
+          transport="http://schemas.xmlsoap.org/soap/http" />
+      <operation
+          name="MarkAsViewed">
+        <soap:operation
+            soapAction="SearchV1Service#MarkAsViewed" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+      <operation
+          name="Rate">
+        <soap:operation
+            soapAction="SearchV1Service#Rate" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+      <operation
+          name="SharedTextSearch">
+        <soap:operation
+            soapAction="SearchV1Service#SharedTextSearch" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+      <operation
+          name="MarkAsFeatured">
+        <soap:operation
+            soapAction="SearchV1Service#MarkAsFeatured" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+      <operation
+          name="GetFeaturedContent">
+        <soap:operation
+            soapAction="SearchV1Service#GetFeaturedContent" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+      <operation
+          name="GetTopContent">
+        <soap:operation
+            soapAction="SearchV1Service#GetTopContent" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+    </binding>
+    <service
+        name="SearchV1Service">
+      <documentation>
+        Provides web services to interact with EIKnowledgeContext
+      </documentation>
+      <port
+          binding="tns:SearchV1Binding"
+          name="SearchV1Port">
+        <soap:address
+            location="http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowledgeContextAPIServices.API.Search.SearchV1" />
+      </port>
+    </service>
+  </definitions>

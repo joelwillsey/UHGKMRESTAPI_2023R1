@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Verint KM Search Results</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, minimumscale=1.0, maximum-scale=1.0" />
+	<link media="screen" type="text/css" href="css/search_results.css" rel="stylesheet"/>
+	<script type='text/javascript' src="js/search_results.js"></script>
+</head>
+<body>
+<!-- Begin Search Results Widget -->
+	<section id="search-results" class="search_results">
+		<section id='sr-header-non-search' class="sr_header_non_search_on">
+			<div class="sr_hns_left">
+				<label class="sr_label"></label>
+			</div>
+			<div class="sr_hns_right">
+				<button id="sr-hns-manage" class="sr_hns_right_button sr_hns_right_off" title="Manage">Manage</button>
+				<button id="sr-hns-refresh" class="sr_hns_right_button" title="Refresh">Refresh</button>
+			</div>
+		</section>
+		<section id="sr-numbers-mobile" class="sr_numbers_mobile">
+			<div class="sr_numbers_showing"></div>
+		</section>
+		<section id='sr-header-search' class="sr_header_search_on">
+			<button id="sr-request" class="sr_hs_request" title="Request Answer">&nbsp;</button>
+			<div class="sr_hs_sort">
+				<div class="sr_hs_sort_by"><label>Sort by:</label></div>
+				<div class="sr_hs_sort_date">
+					<a id="sr-sort-by-date" class="" href="javascript:void(0);" title="Sort By Last Published Date">Date</a>
+				</div>
+				<div class="sr_hs_sort_pipe">|</div>
+				<div class="sr_hs_sort_relevance">
+					<a id="sr-sort-by-relevance" class="active" href="javascript:void(0);" title="Sort By Relevance">Relevance</a>
+				</div>
+			</div>
+		</section>
+		<section id="sr-numbers" class="sr_numbers">
+			<div class="sr_numbers_showing"></div>
+		</section>
+		<section id="sr-listing" class="sr_listing">
+			<div class="sr_listing_result">
+			</div>
+		</section>
+		<section id="sr-pagination" class="sr_pagination">
+		</section>
+	</section>
+	<section id="widgets" style="display: none;">
+		<div id="manage-bookmarks-widget"></div>
+		<div id="request-answer-widget"></div>
+	</section>
+<!-- End Search Results Widget -->
+</body>
+</html>

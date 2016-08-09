@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XSelement [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="LoginUserResponseBodyType">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="LoginV1Service" />
+        <PackageName
+            name="LoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="LoginUserResponseBodyType" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XSelement
+        abstract="false"
+        form="defaultValue"
+        isPrivate="false"
+        minOccurs="1"
+        name="LoginUserResponseBody"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/LoginV1Service.wsdl"
+        type="tns:LoginUserResponseBodyType"
+        version="3.13.4"
+        xsName="LoginUserResponseBody">
+      <Superclass
+          name="LoginUserResponseBodyType"
+          nested="false" />
+    </XSelement>
+  </PackageEntry>

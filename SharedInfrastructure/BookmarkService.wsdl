@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <definitions
+      name="KMBookmarkServiceV1Service"
+      targetNamespace="http://model.services.contactcentre.kana.com/KMBookmarkServiceV1Service.wsdl"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV1Service.wsdl"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Created by KANA Software (a Verint company) on Sat Mar 26 20:05:43 PDT 2016. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema
+          elementFormDefault="unqualified"
+          targetNamespace="http://model.services.contactcentre.kana.com/KMBookmarkServiceV1Service.wsdl">
+        <xsd:complexType
+            name="BookmarkedContentList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="BookmarkedContent"
+                type="tns:BookmarkedContent" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ErrorMessage">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="code"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="message"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ErrorList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="ErrorMessage"
+                type="tns:ErrorMessage" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="BookmarkedContent">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="synopsis"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="localeName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="createdDate"
+                type="xsd:date" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="sequenceNumber"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="isFeatured"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="title"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentId"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentType"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ManageBookmarkRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentId"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="userName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="userAction"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="localeName"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ManageBookmarkResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="errorList"
+                type="tns:ErrorList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ListAllBookmarksRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="userName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="sortColumnName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="sortOrder"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ListAllBookmarksResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentList"
+                type="tns:BookmarkedContentList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ReorderBookmarksRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="userName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="reorderDirection"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="localeName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentId"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ReorderBookmarksResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="errorList"
+                type="tns:ErrorList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:element
+            name="ManageBookmarkRequestBody"
+            type="tns:ManageBookmarkRequestBodyType" />
+        <xsd:element
+            name="ManageBookmarkResponseBody"
+            type="tns:ManageBookmarkResponseBodyType" />
+        <xsd:element
+            name="ListAllBookmarksRequestBody"
+            type="tns:ListAllBookmarksRequestBodyType" />
+        <xsd:element
+            name="ListAllBookmarksResponseBody"
+            type="tns:ListAllBookmarksResponseBodyType" />
+        <xsd:element
+            name="ReorderBookmarksRequestBody"
+            type="tns:ReorderBookmarksRequestBodyType" />
+        <xsd:element
+            name="ReorderBookmarksResponseBody"
+            type="tns:ReorderBookmarksResponseBodyType" />
+      </xsd:schema>
+    </types>
+    <message
+        name="ManageBookmarkRequest">
+      <part
+          element="tns:ManageBookmarkRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="ManageBookmarkResponse">
+      <part
+          element="tns:ManageBookmarkResponseBody"
+          name="body" />
+    </message>
+    <message
+        name="ListAllBookmarksRequest">
+      <part
+          element="tns:ListAllBookmarksRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="ListAllBookmarksResponse">
+      <part
+          element="tns:ListAllBookmarksResponseBody"
+          name="body" />
+    </message>
+    <message
+        name="ReorderBookmarksRequest">
+      <part
+          element="tns:ReorderBookmarksRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="ReorderBookmarksResponse">
+      <part
+          element="tns:ReorderBookmarksResponseBody"
+          name="body" />
+    </message>
+    <portType
+        name="KMBookmarkServiceV1PortType">
+      <operation
+          name="ManageBookmark">
+        <input
+            message="tns:ManageBookmarkRequest" />
+        <output
+            message="tns:ManageBookmarkResponse" />
+      </operation>
+      <operation
+          name="ListAllBookmarks">
+        <input
+            message="tns:ListAllBookmarksRequest" />
+        <output
+            message="tns:ListAllBookmarksResponse" />
+      </operation>
+      <operation
+          name="ReorderBookmarks">
+        <input
+            message="tns:ReorderBookmarksRequest" />
+        <output
+            message="tns:ReorderBookmarksResponse" />
+      </operation>
+    </portType>
+    <binding
+        name="KMBookmarkServiceV1Binding"
+        type="tns:KMBookmarkServiceV1PortType">
+      <soap:binding
+          style="document"
+          transport="http://schemas.xmlsoap.org/soap/http" />
+      <operation
+          name="ManageBookmark">
+        <soap:operation
+            soapAction="KMBookmarkServiceV1Service#ManageBookmark" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+      <operation
+          name="ListAllBookmarks">
+        <soap:operation
+            soapAction="KMBookmarkServiceV1Service#ListAllBookmarks" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+      <operation
+          name="ReorderBookmarks">
+        <soap:operation
+            soapAction="KMBookmarkServiceV1Service#ReorderBookmarks" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+    </binding>
+    <service
+        name="KMBookmarkServiceV1Service">
+      <documentation>
+        Soap Service to expose API(s) to manage bookmarks.
+      </documentation>
+      <port
+          binding="tns:KMBookmarkServiceV1Binding"
+          name="KMBookmarkServiceV1Port">
+        <soap:address
+            location="http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowContentServices.API.BookmarkService.KMBookmarkServiceV1" />
+      </port>
+    </service>
+  </definitions>

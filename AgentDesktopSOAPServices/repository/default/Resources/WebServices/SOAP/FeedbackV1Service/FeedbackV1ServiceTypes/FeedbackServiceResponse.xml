@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="FeedbackServiceResponse"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/FeedbackV1Service.wsdl"
+        version="3.13.4"
+        xsName="FeedbackServiceResponse">
+      <InstanceFields>
+        <StringField
+            isAttribute="false"
+            name="optionalComments"
+            xsName="optionalComments"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <IntegerField
+            isAttribute="false"
+            name="feedbackCode"
+            xsName="feedbackCode"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <StringField
+            isAttribute="false"
+            name="notificationName"
+            xsName="notificationName"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <BooleanField
+            isAttribute="false"
+            name="notification"
+            xsName="notification"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <IntegerField
+            isAttribute="false"
+            name="outcomeCode"
+            xsName="outcomeCode"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <StringField
+            isAttribute="false"
+            name="notificationEmail"
+            xsName="notificationEmail"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+      </InstanceFields>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="optionalComments"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="optionalComments" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="feedbackCode"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="feedbackCode" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="notificationName"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="notificationName" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="notification"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="notification" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="outcomeCode"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="outcomeCode" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="notificationEmail"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="notificationEmail" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

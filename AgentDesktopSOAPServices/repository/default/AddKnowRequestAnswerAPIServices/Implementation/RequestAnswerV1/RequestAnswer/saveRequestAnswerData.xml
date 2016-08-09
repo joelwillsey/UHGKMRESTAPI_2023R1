@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Procedure [] >
+  <Procedure
+      designNotes="Undefined"
+      isTPL="false"
+      language="EcmaScript"
+      name="saveRequestAnswerData"
+      nested="false"
+      version="4.1.0">
+    <ReferenceParameters />
+    <ProcedureLocals>
+      <ObjectField
+          designNotes=""
+          name="currentAgent">
+        <TypeDefinitionReference
+            name="EIAgent"
+            nested="false" />
+      </ObjectField>
+      <DateField
+          designNotes=""
+          name="currentDate" />
+      <ObjectField
+          designNotes=""
+          name="entitlementSet">
+        <TypeDefinitionReference
+            name="EntitlementSet"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="tid">
+        <TypeDefinitionReference
+            name="IEvaId"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          name="verb">
+        <TypeDefinitionReference
+            name="EIVerb"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          name="processDescriptorReference">
+        <TypeDefinitionReference
+            name="ProcessDescriptorReference"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          name="entityDefinition">
+        <TypeDefinitionReference
+            name="EntityDefinition"
+            nested="false" />
+      </ObjectField>
+    </ProcedureLocals>
+    <Verbatim
+        fieldName="text">
+<![CDATA[Log.application.debug("RequestAnswer saveRequestAnswerData()");
+
+currentAgent = EIAgent.getCurrentAgent();
+Log.application.trace("currentAgent: " + currentAgent);
+
+//populate the configEntity from the verbName as IDs may change between environments
+//the configEntity is used to populate the Targets to the work item later in this process
+entityDefinition = EntityDefinition.loadDeepByName("KnowledgeSearchED");
+verb = entityDefinition.getVerb("createRequestAnswer");
+processDescriptorReference = verb.getProcessDescriptorReference();
+this.configEntity = processDescriptorReference.configEntity;
+
+// Setup the RequestAnswerWorkItem object
+this.requestAnswerWorkItem = new EIRequestAnswerWorkItem();
+this.requestAnswerWorkItem.setSearchQuery(this.keyword);
+this.requestAnswerWorkItem.setExpectation(this.expectation);
+this.requestAnswerWorkItem.setLocale(this.locale);
+this.requestAnswerWorkItem.setAgent(currentAgent);
+this.requestAnswerWorkItem.setSelectedFilter(this.selectedFilter);
+
+// Check for a valid Date
+if (this.searchDate) {
+    this.requestAnswerWorkItem.setSearchDate(this.searchDate);
+} else {
+    currentDate = new Date();
+    this.requestAnswerWorkItem.setSearchDate(currentDate);
+}
+this.requestAnswerWorkItem.saveShallow();
+]]>
+    </Verbatim>
+  </Procedure>

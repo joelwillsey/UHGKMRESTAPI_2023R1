@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ObjectDefinition [] >
+  <PackageEntry>
+    <ObjectDefinition
+        designNotes="Undefined"
+        isPrivate="false"
+        name="FeedbackServiceResponse"
+        nested="false"
+        version="3.13.2">
+      <InstanceFields>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="optionalComments">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="notificationName">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="notificationEmail">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <BooleanField
+            designNotes=""
+            isAttribute="false"
+            name="notification">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <IntegerField
+            designNotes=""
+            isAttribute="false"
+            name="outcomeCode">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <IntegerField
+            designNotes=""
+            isAttribute="false"
+            name="feedbackCode">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+      </InstanceFields>
+    </ObjectDefinition>
+  </PackageEntry>

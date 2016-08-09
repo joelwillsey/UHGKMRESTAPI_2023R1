@@ -1,0 +1,113 @@
+.request_answer_main {
+	background-color: #ffffff;
+	left: 565px;
+	overflow: auto;
+	top: 18px;
+	visibility: visible;
+	z-index: 100;
+}
+	.request_answer_wrapper {
+	 	background-color: #ffffff;
+	 	height: auto;
+		visibility: inherit;
+		width: auto;
+	}
+		.request_answer_header h1 {
+			background-color: #0099cc;
+		    border-bottom: 1px solid #0099cc;
+		    border-image: none;
+		    border-style: none none solid;
+		    border-width: 0 0 1px;
+		    color: #ffffff;
+		    cursor: move;
+		    display: block;
+		    font-size: 14px !important;
+		    font-weight: normal;
+		    height: 32px;
+		    line-height: 32px;
+		    margin: 0;
+		    padding: 0 0 0 6px;			
+		}
+		.request_answer_body {
+			height: auto;
+		}
+			.request_answer_query_info {
+				padding: 12px 6px !important;
+			}
+				.request_answer_message_area {
+				 	display: none;
+				}
+				.request_answer_label {
+				 	height:15px;
+				 	width: 134px; 
+				}
+				.request_answer_query {
+				 	white-space: normal;
+				}
+					.request_answer_query input {
+						background-color: rgba(0, 0, 0, 0.05);
+						border-color: rgba(0, 0, 0, 0.1);
+						border-radius: 3px; 
+						box-shadow: none;
+						box-sizing: border-box; 
+						font-size: 12px;
+						height: 24px !important;
+						line-height: 11px; 
+						padding-left: 6px;
+						padding-right: 6px;
+						overflow-x: hidden; 
+						overflow-y: auto; 
+						text-align: left;
+						white-space: pre-wrap; 
+						width: 100%;
+						word-wrap: break-word;					
+					}
+		.request_answer_expectation_info {
+			margin: 0 12px;
+		}
+			.request_answer_expectation textarea {
+				box-sizing: border-box;
+				width: 100%;
+			}
+	.request_answer_footer {
+		overflow: auto; 
+		padding: 12px 6px !important;
+	}
+		.request_answer_submit_info {
+			float: right;
+			overflow: hidden;
+		}
+			.request_answer_button button {
+				background-color: #eeeeee;
+			    background-image: linear-gradient(to bottom, #fff 1%, #dfdfdf 100%);
+			    background-repeat: no-repeat;
+			    border: 1px solid #888888;
+			    border-radius: 3px;
+			    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(39, 41, 43, 0.15) inset;
+			    box-sizing: border-box;
+			    color: #222222;
+			    cursor: pointer;
+			    display: inline-block;
+			    font-family: "OpenSans",Arial,sans-serif;
+			    font-size: 12px;
+			    height: 24px;
+			    line-height: 22px;
+			    margin: 0;
+			    min-width: 0;
+			    transition: opacity 0.1s ease 0s, background-color 0.1s ease 0s, color 0.1s ease 0s, box-shadow 0.1s ease 0s, background 0.1s ease 0s;
+			    text-align: center;
+			    white-space: nowrap;
+			    width: auto;
+			}
+				.request_answer_button button:hover {
+				    border-color: #0099cc;
+				}
+				.request_answer_button button:active {
+				    color: #0099cc;
+				}
+		.request_answer_cancel_info {
+			float: left;
+		}
+		.request_answer_underline {
+			text-decoration: underline;
+		}

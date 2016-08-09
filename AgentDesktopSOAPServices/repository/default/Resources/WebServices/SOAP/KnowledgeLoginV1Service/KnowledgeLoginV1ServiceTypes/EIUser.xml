@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="EIVirtualEnvironment">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIVirtualEnvironment" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIProfileTypeList">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIProfileTypeList" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIProfileType">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIProfileType" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EILocale">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EILocale" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="IEvaId">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IEvaId" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="EIUser"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/KnowledgeLoginV1Service.wsdl"
+        version="3.13.4"
+        xsName="EIUser">
+      <InstanceFields>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="virtualEnvironment"
+            xsName="virtualEnvironment"
+            xsNillable="false"
+            xsdType="EIVirtualEnvironment">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="EIVirtualEnvironment"
+              nested="false" />
+        </ObjectField>
+        <DateField
+            isAttribute="false"
+            name="expires"
+            xsName="expires"
+            xsNillable="false"
+            xsdType="date">
+          <DateField_loc
+              locale="">
+            <Format />
+          </DateField_loc>
+        </DateField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="profileTypeList"
+            xsName="profileTypeList"
+            xsNillable="false"
+            xsdType="EIProfileTypeList">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="EIProfileTypeList"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="activeProfile"
+            xsName="activeProfile"
+            xsNillable="false"
+            xsdType="EIProfileType">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="EIProfileType"
+              nested="false" />
+        </ObjectField>
+        <DateField
+            isAttribute="false"
+            name="created"
+            xsName="created"
+            xsNillable="false"
+            xsdType="date">
+          <DateField_loc
+              locale="">
+            <Format />
+          </DateField_loc>
+        </DateField>
+        <StringField
+            isAttribute="false"
+            name="username"
+            xsName="username"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <IntegerField
+            isAttribute="false"
+            name="grace"
+            xsName="grace"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <BooleanField
+            isAttribute="false"
+            name="isDeleted"
+            xsName="isDeleted"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="localeRef"
+            xsName="localeRef"
+            xsNillable="false"
+            xsdType="EILocale">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="EILocale"
+              nested="false" />
+        </ObjectField>
+        <BooleanField
+            isAttribute="false"
+            name="isDisabled"
+            xsName="isDisabled"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="virtualEnvironmentId"
+            xsName="virtualEnvironmentId"
+            xsNillable="false"
+            xsdType="IEvaId">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IEvaId"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+      <ClassProcedures
+          name="">
+        <Procedure
+            name="constructEIVirtualEnvironment"
+            nested="true" />
+        <Procedure
+            name="constructEIProfileTypeList"
+            nested="true" />
+        <Procedure
+            name="constructEIProfileType"
+            nested="true" />
+        <Procedure
+            name="constructEILocale"
+            nested="true" />
+        <Procedure
+            name="constructIEvaId"
+            nested="true" />
+      </ClassProcedures>
+      <InstanceProcedures
+          name="">
+        <Procedure
+            name="createvirtualEnvironment"
+            nested="true" />
+        <Procedure
+            name="createprofileTypeList"
+            nested="true" />
+        <Procedure
+            name="createactiveProfile"
+            nested="true" />
+        <Procedure
+            name="createlocaleRef"
+            nested="true" />
+        <Procedure
+            name="createvirtualEnvironmentId"
+            nested="true" />
+      </InstanceProcedures>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="virtualEnvironment"
+            nested="false"
+            type="tns:EIVirtualEnvironment"
+            version="3.13.4"
+            xsName="virtualEnvironment" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="expires"
+            nested="false"
+            type="xsd:date"
+            version="3.13.4"
+            xsName="expires" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="profileTypeList"
+            nested="false"
+            type="tns:EIProfileTypeList"
+            version="3.13.4"
+            xsName="profileTypeList" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="activeProfile"
+            nested="false"
+            type="tns:EIProfileType"
+            version="3.13.4"
+            xsName="activeProfile" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="created"
+            nested="false"
+            type="xsd:date"
+            version="3.13.4"
+            xsName="created" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="username"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="username" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="grace"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="grace" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="isDeleted"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="isDeleted" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="localeRef"
+            nested="false"
+            type="tns:EILocale"
+            version="3.13.4"
+            xsName="localeRef" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="isDisabled"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="isDisabled" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="virtualEnvironmentId"
+            nested="false"
+            type="tns:IEvaId"
+            version="3.13.4"
+            xsName="virtualEnvironmentId" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

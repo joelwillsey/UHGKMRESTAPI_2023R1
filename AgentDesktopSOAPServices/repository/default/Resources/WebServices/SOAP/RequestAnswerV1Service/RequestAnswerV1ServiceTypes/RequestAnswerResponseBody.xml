@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XSelement [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="RequestAnswerResponseBodyType">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="RequestAnswerV1Service" />
+        <PackageName
+            name="RequestAnswerV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="RequestAnswerResponseBodyType" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XSelement
+        abstract="false"
+        form="defaultValue"
+        isPrivate="false"
+        minOccurs="1"
+        name="RequestAnswerResponseBody"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/RequestAnswerV1Service.wsdl"
+        type="tns:RequestAnswerResponseBodyType"
+        version="3.13.4"
+        xsName="RequestAnswerResponseBody">
+      <Superclass
+          name="RequestAnswerResponseBodyType"
+          nested="false" />
+    </XSelement>
+  </PackageEntry>

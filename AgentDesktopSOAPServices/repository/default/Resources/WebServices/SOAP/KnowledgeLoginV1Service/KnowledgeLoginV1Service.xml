@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SoapObject [] >
+  <PackageEntry>
+    <SoapObject
+        isPrivate="false"
+        name="KnowledgeLoginV1Service"
+        nested="false"
+        soapAddress="http://10.211.55.4:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowledgeUserLoginAPIServices.API.LoginV1.KnowledgeLoginV1"
+        style="document"
+        version="3.13.2">
+      <SoapProcedure
+          exceptionStrategy="0"
+          inputNamespace="http://localhost:80/KnowledgeLoginV1Service.wsdl"
+          isPending="false"
+          isPrivate="false"
+          language="EcmaScript"
+          name="KnowledgeLogin"
+          nested="false"
+          soapAction="KnowledgeLoginV1Service#KnowledgeLogin"
+          style="inheritFromParent"
+          version="">
+        <SoapInputMessage
+            name="KnowledgeLoginRequest"
+            use="literal" />
+        <SoapOutputMessage
+            name="KnowledgeLoginResponse"
+            use="literal" />
+      </SoapProcedure>
+    </SoapObject>
+  </PackageEntry>

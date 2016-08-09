@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SoapObject [] >
+  <PackageEntry>
+    <SoapObject
+        isPrivate="false"
+        name="LoginV1Service"
+        nested="false"
+        soapAddress="http://10.211.55.4:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowledgeUserLoginAPIServices.API.LoginV1.LoginV1"
+        style="document"
+        version="3.13.2">
+      <SoapProcedure
+          exceptionStrategy="0"
+          inputNamespace="http://localhost:80/LoginV1Service.wsdl"
+          isPending="false"
+          isPrivate="false"
+          language="EcmaScript"
+          name="LoginUser"
+          nested="false"
+          soapAction="LoginV1Service#LoginUser"
+          style="inheritFromParent"
+          version="">
+        <SoapInputMessage
+            name="LoginUserRequest"
+            use="literal" />
+        <SoapOutputMessage
+            name="LoginUserResponse"
+            use="literal" />
+      </SoapProcedure>
+    </SoapObject>
+  </PackageEntry>

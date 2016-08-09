@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="IEvaId">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IEvaId" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="IEvaId">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IEvaId" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="IVerbList">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IVerbList" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="IEntitlementSet">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IEntitlementSet" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="IAssociationTypeList">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IAssociationTypeList" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="IEntityDefinition">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IEntityDefinition" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="IEntityDefinition"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/FeedbackAPIService.wsdl"
+        version="3.13.4"
+        xsName="IEntityDefinition">
+      <InstanceFields>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="typeId"
+            xsName="typeId"
+            xsNillable="false"
+            xsdType="IEvaId">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IEvaId"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="superEntityDefinitionId"
+            xsName="superEntityDefinitionId"
+            xsNillable="false"
+            xsdType="IEvaId">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IEvaId"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="verbs"
+            xsName="verbs"
+            xsNillable="false"
+            xsdType="IVerbList">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IVerbList"
+              nested="false" />
+        </ObjectField>
+        <StringField
+            isAttribute="false"
+            name="name"
+            xsName="name"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="entitlementSet"
+            xsName="entitlementSet"
+            xsNillable="false"
+            xsdType="IEntitlementSet">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IEntitlementSet"
+              nested="false" />
+        </ObjectField>
+        <BooleanField
+            isAttribute="false"
+            name="isBasic"
+            xsName="isBasic"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="associationTypes"
+            xsName="associationTypes"
+            xsNillable="false"
+            xsdType="IAssociationTypeList">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IAssociationTypeList"
+              nested="false" />
+        </ObjectField>
+        <BooleanField
+            isAttribute="false"
+            name="isLoadedFromDb"
+            xsName="isLoadedFromDb"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <StringField
+            isAttribute="false"
+            name="instanceIcon"
+            xsName="instanceIcon"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="interfacePath"
+            xsName="interfacePath"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <BooleanField
+            isAttribute="false"
+            name="isDeleted"
+            xsName="isDeleted"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <StringField
+            isAttribute="false"
+            name="icon"
+            xsName="icon"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="displayName"
+            xsName="displayName"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <BooleanField
+            isAttribute="false"
+            name="isExpandable"
+            xsName="isExpandable"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <StringField
+            isAttribute="false"
+            name="description"
+            xsName="description"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="logicalObjPath"
+            xsName="logicalObjPath"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="superEntityDefinition"
+            xsName="superEntityDefinition"
+            xsNillable="false"
+            xsdType="IEntityDefinition">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IEntityDefinition"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+      <ClassProcedures
+          name="">
+        <Procedure
+            name="constructIEvaId"
+            nested="true" />
+        <Procedure
+            name="constructIVerbList"
+            nested="true" />
+        <Procedure
+            name="constructIEntitlementSet"
+            nested="true" />
+        <Procedure
+            name="constructIAssociationTypeList"
+            nested="true" />
+        <Procedure
+            name="constructIEntityDefinition"
+            nested="true" />
+      </ClassProcedures>
+      <InstanceProcedures
+          name="">
+        <Procedure
+            name="createtypeId"
+            nested="true" />
+        <Procedure
+            name="createsuperEntityDefinitionId"
+            nested="true" />
+        <Procedure
+            name="createverbs"
+            nested="true" />
+        <Procedure
+            name="createentitlementSet"
+            nested="true" />
+        <Procedure
+            name="createassociationTypes"
+            nested="true" />
+        <Procedure
+            name="createsuperEntityDefinition"
+            nested="true" />
+      </InstanceProcedures>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="typeId"
+            nested="false"
+            type="tns:IEvaId"
+            version="3.13.4"
+            xsName="typeId" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="superEntityDefinitionId"
+            nested="false"
+            type="tns:IEvaId"
+            version="3.13.4"
+            xsName="superEntityDefinitionId" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="verbs"
+            nested="false"
+            type="tns:IVerbList"
+            version="3.13.4"
+            xsName="verbs" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="name"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="name" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="entitlementSet"
+            nested="false"
+            type="tns:IEntitlementSet"
+            version="3.13.4"
+            xsName="entitlementSet" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="isBasic"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="isBasic" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="associationTypes"
+            nested="false"
+            type="tns:IAssociationTypeList"
+            version="3.13.4"
+            xsName="associationTypes" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="isLoadedFromDb"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="isLoadedFromDb" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="instanceIcon"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="instanceIcon" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="interfacePath"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="interfacePath" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="isDeleted"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="isDeleted" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="icon"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="icon" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="displayName"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="displayName" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="isExpandable"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="isExpandable" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="description"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="description" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="logicalObjPath"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="logicalObjPath" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="superEntityDefinition"
+            nested="false"
+            type="tns:IEntityDefinition"
+            version="3.13.4"
+            xsName="superEntityDefinition" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

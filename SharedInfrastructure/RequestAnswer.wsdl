@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <definitions
+      name="RequestAnswerV1Service"
+      targetNamespace="http://model.services.contactcentre.kana.com/RequestAnswerV1Service.wsdl"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="http://model.services.contactcentre.kana.com/RequestAnswerV1Service.wsdl"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Created by KANA Software (a Verint company) on Mon May 16 03:45:46 BST 2016. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema
+          elementFormDefault="unqualified"
+          targetNamespace="http://model.services.contactcentre.kana.com/RequestAnswerV1Service.wsdl">
+        <xsd:complexType
+            name="RequestAnswerRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="keyword"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="expectation"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="selectedFilter"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="searchDate"
+                type="xsd:date" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="RequestAnswerResponseBodyType">
+          <xsd:sequence />
+        </xsd:complexType>
+        <xsd:element
+            name="RequestAnswerRequestBody"
+            type="tns:RequestAnswerRequestBodyType" />
+        <xsd:element
+            name="RequestAnswerResponseBody"
+            type="tns:RequestAnswerResponseBodyType" />
+      </xsd:schema>
+    </types>
+    <message
+        name="RequestAnswerRequest">
+      <part
+          element="tns:RequestAnswerRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="RequestAnswerResponse">
+      <part
+          element="tns:RequestAnswerResponseBody"
+          name="body" />
+    </message>
+    <portType
+        name="RequestAnswerV1PortType">
+      <operation
+          name="RequestAnswer">
+        <input
+            message="tns:RequestAnswerRequest" />
+        <output
+            message="tns:RequestAnswerResponse" />
+      </operation>
+    </portType>
+    <binding
+        name="RequestAnswerV1Binding"
+        type="tns:RequestAnswerV1PortType">
+      <soap:binding
+          style="document"
+          transport="http://schemas.xmlsoap.org/soap/http" />
+      <operation
+          name="RequestAnswer">
+        <soap:operation
+            soapAction="RequestAnswerV1Service#RequestAnswer" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+    </binding>
+    <service
+        name="RequestAnswerV1Service">
+      <documentation>
+        Undefined
+      </documentation>
+      <port
+          binding="tns:RequestAnswerV1Binding"
+          name="RequestAnswerV1Port">
+        <soap:address
+            location="http://10.211.55.4:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowRequestAnswerAPIServices.API.RequestAnswer.RequestAnswerV1" />
+      </port>
+    </service>
+  </definitions>

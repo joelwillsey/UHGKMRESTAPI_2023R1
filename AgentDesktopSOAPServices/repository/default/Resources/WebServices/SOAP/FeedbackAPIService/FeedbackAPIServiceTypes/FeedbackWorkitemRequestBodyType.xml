@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="IContext">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IContext" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIContentFeedback">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIContentFeedback" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="GTFormHolderControl1">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="GTFormHolderControl1" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="IEntityDefinition">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IEntityDefinition" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIContentFeedbackWorkItemRouting">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIContentFeedbackWorkItemRouting" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="FeedbackWorkitemRequestBodyType"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/FeedbackAPIService.wsdl"
+        version="3.13.4"
+        xsName="FeedbackWorkitemRequestBodyType">
+      <InstanceFields>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="context"
+            xsName="context"
+            xsNillable="false"
+            xsdType="IContext">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IContext"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="contentFeedback"
+            xsName="contentFeedback"
+            xsNillable="false"
+            xsdType="EIContentFeedback">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="EIContentFeedback"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="formHolder"
+            xsName="formHolder"
+            xsNillable="false"
+            xsdType="GTFormHolderControl">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="GTFormHolderControl1"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="entityDefinition"
+            xsName="entityDefinition"
+            xsNillable="false"
+            xsdType="IEntityDefinition">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IEntityDefinition"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="entity"
+            xsName="entity"
+            xsNillable="false"
+            xsdType="EIContentFeedbackWorkItemRouting">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="EIContentFeedbackWorkItemRouting"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+      <ClassProcedures
+          name="">
+        <Procedure
+            name="constructIContext"
+            nested="true" />
+        <Procedure
+            name="constructEIContentFeedback"
+            nested="true" />
+        <Procedure
+            name="constructGTFormHolderControl1"
+            nested="true" />
+        <Procedure
+            name="constructIEntityDefinition"
+            nested="true" />
+        <Procedure
+            name="constructEIContentFeedbackWorkItemRouting"
+            nested="true" />
+      </ClassProcedures>
+      <InstanceProcedures
+          name="">
+        <Procedure
+            name="createcontext"
+            nested="true" />
+        <Procedure
+            name="createcontentFeedback"
+            nested="true" />
+        <Procedure
+            name="createformHolder"
+            nested="true" />
+        <Procedure
+            name="createentityDefinition"
+            nested="true" />
+        <Procedure
+            name="createentity"
+            nested="true" />
+      </InstanceProcedures>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="context"
+            nested="false"
+            type="tns:IContext"
+            version="3.13.4"
+            xsName="context" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="contentFeedback"
+            nested="false"
+            type="tns:EIContentFeedback"
+            version="3.13.4"
+            xsName="contentFeedback" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="formHolder"
+            nested="false"
+            type="tns:GTFormHolderControl"
+            version="3.13.4"
+            xsName="formHolder" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="entityDefinition"
+            nested="false"
+            type="tns:IEntityDefinition"
+            version="3.13.4"
+            xsName="entityDefinition" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="entity"
+            nested="false"
+            type="tns:EIContentFeedbackWorkItemRouting"
+            version="3.13.4"
+            xsName="entity" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

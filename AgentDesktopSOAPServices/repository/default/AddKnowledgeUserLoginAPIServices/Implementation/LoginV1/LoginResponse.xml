@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ObjectDefinition [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="User">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkUser" />
+        <PackageName
+            name="Implementation" />
+        <PackageName
+            name="User" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="User" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EntitlementSet">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkEVA" />
+        <PackageName
+            name="Implementation" />
+        <PackageName
+            name="EntitlementSet" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EntitlementSet" />
+    </ImportDeclaration>
+    <ObjectDefinition
+        designNotes="Undefined"
+        isPrivate="false"
+        name="LoginResponse"
+        nested="false"
+        version="3.13.2">
+      <InstanceFields>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="locale">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <IntegerField
+            designNotes=""
+            isAttribute="false"
+            name="loginResult">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="message">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="displayName">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <IntegerField
+            designNotes=""
+            isAttribute="false"
+            name="grace">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <DateField
+            designNotes=""
+            isAttribute="false"
+            name="expires"
+            xsdType="date">
+          <DateField_loc
+              locale="">
+            <Format />
+          </DateField_loc>
+        </DateField>
+        <BooleanField
+            designNotes=""
+            isAttribute="false"
+            name="isDeleted">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <BooleanField
+            designNotes=""
+            isAttribute="false"
+            name="isDisabled">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="firstName">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="fullName">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="lastName">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+      </InstanceFields>
+    </ObjectDefinition>
+  </PackageEntry>

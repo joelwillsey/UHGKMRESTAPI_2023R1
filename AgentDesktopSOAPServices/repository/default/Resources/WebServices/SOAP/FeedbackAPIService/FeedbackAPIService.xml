@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SoapObject [] >
+  <PackageEntry>
+    <SoapObject
+        isPrivate="false"
+        name="FeedbackAPIService"
+        nested="false"
+        soapAddress="http://127.0.0.1:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowFeedback.Implementation.ContentFeedbackRouting.ContentFeedbackWorkItemRouting.Verbs.FeedbackAPI"
+        style="document"
+        version="3.13.2">
+      <SoapProcedure
+          exceptionStrategy="0"
+          inputNamespace="http://localhost:80/FeedbackAPIService.wsdl"
+          isPending="false"
+          isPrivate="false"
+          language="EcmaScript"
+          name="FeedbackWorkitem"
+          nested="false"
+          soapAction="FeedbackAPIService#FeedbackWorkitem"
+          style="inheritFromParent"
+          version="">
+        <SoapInputMessage
+            name="FeedbackWorkitemRequest"
+            use="literal" />
+        <SoapOutputMessage
+            name="FeedbackWorkitemResponse"
+            use="literal" />
+      </SoapProcedure>
+    </SoapObject>
+  </PackageEntry>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <definitions
+      name="LoginV1Service"
+      targetNamespace="http://model.services.contactcentre.kana.com/LoginV1Service.wsdl"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="http://model.services.contactcentre.kana.com/LoginV1Service.wsdl"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Created by KANA Software (a Verint company) on Sun May 29 22:39:10 PDT 2016. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema
+          elementFormDefault="unqualified"
+          targetNamespace="http://model.services.contactcentre.kana.com/LoginV1Service.wsdl">
+        <xsd:complexType
+            name="LoginResponse">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="expires"
+                type="xsd:date" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="fullName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="grace"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="isDeleted"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="displayName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="firstName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="isDisabled"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="loginResult"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="lastName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="message"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="LoginUserRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="LoginUserResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="loginResponse"
+                type="tns:LoginResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:element
+            name="LoginUserRequestBody"
+            type="tns:LoginUserRequestBodyType" />
+        <xsd:element
+            name="LoginUserResponseBody"
+            type="tns:LoginUserResponseBodyType" />
+      </xsd:schema>
+    </types>
+    <message
+        name="LoginUserRequest">
+      <part
+          element="tns:LoginUserRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="LoginUserResponse">
+      <part
+          element="tns:LoginUserResponseBody"
+          name="body" />
+    </message>
+    <portType
+        name="LoginV1PortType">
+      <operation
+          name="LoginUser">
+        <input
+            message="tns:LoginUserRequest" />
+        <output
+            message="tns:LoginUserResponse" />
+      </operation>
+    </portType>
+    <binding
+        name="LoginV1Binding"
+        type="tns:LoginV1PortType">
+      <soap:binding
+          style="document"
+          transport="http://schemas.xmlsoap.org/soap/http" />
+      <operation
+          name="LoginUser">
+        <soap:operation
+            soapAction="LoginV1Service#LoginUser" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+    </binding>
+    <service
+        name="LoginV1Service">
+      <documentation>
+        Undefined
+      </documentation>
+      <port
+          binding="tns:LoginV1Binding"
+          name="LoginV1Port">
+        <soap:address
+            location="http://10.211.55.4:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowledgeUserLoginAPIServices.API.LoginV1.LoginV1" />
+      </port>
+    </service>
+  </definitions>

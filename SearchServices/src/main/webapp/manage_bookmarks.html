@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Manage Bookmarks</title>
+	<meta charset="UTF-8">
+	<link media="screen" type="text/css" href="css/ionicons.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/manage_bookmarks.css" rel="stylesheet" />
+</head>
+<body>
+<!-- Begin Manage Bookmarks -->
+	<div id="bookmark-html" class="bookmark_html">
+		<div class="bookmark_exit" onclick="$.fn.bookmarkExit();">
+			<i class="icon ion-close"></i>
+		</div>
+		<div class="bookmark_label">
+			<div class="bookmark_description" style="" title="">Below are
+				the list of bookmarked contents for this agent. To remove a
+				bookmark, select an item and click 'Remove' button. You can also
+				multiple select to remove bookmarked content. Click 'Move Up' or
+				'Move Down' button to reorder the list.</div>
+		</div>
+		<div class="bookmark_table">
+			<div class="bookmark_table_wrapper">
+				<div class="bookmark_table_header">
+					<div class="bookmark_table_header_col bookmark_col1">
+						<span>Type</span>
+					</div>
+					<div class="bookmark_table_header_col bookmark_col2">
+						<span>Featured</span>
+					</div>
+					<div class="bookmark_table_header_col bookmark_col3">
+						<span>Title</span>
+					</div>
+					<div id="bookmark-table-header-end" class="bookmark_table_header_end bookmark_col4">
+						<span>Synopsis</span>
+					</div>
+				</div>
+				<div class="bookmark_list">
+				</div>
+			</div>
+			<div class="bookmark_move_buttons" align="center">
+				<div class="bookmark_move_buttons_block">
+					<div>
+						<button id="bookmark-button-up" class="bookmark_button" onclick="$.fn.bookmarkButtonUp();" accesskey="U" tabindex="6" title="Move Up" type="button" name="bookmark-button-up">
+							<span>Move <span style="text-decoration: underline;">U</span>p</span>
+						</button>
+					</div>
+					<div>
+						<button id="bookmark-button-down" class="bookmark_button" onclick="$.fn.bookmarkButtonDown();" accesskey="D" tabindex="7" title="Move Down" style="min-width: 100%;" type="button" name="bookmark-button-down">
+							<span>Move <span style="text-decoration: underline;">D</span>own</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bookmark_buttons">
+			<div class="bookmark_actions">
+				<div class="bookmark_actions_wrapper">
+					<button id="bookmark-button-view" class="bookmark_action_button" onclick="$.fn.bookmarkButtonView();" accesskey="V" tabindex="8" title="View" type="button" name="bookmark-button-view">
+						<span><span style="text-decoration: underline;">V</span>iew</span>
+					</button>
+				</div>
+				<div class="bookmark_actions_wrapper">
+					<button id="bookmark-button-remove" class="bookmark_action_button" onclick="$.fn.bookmarkButtonRemove();" accesskey="R" tabindex="9" title="Remove" type="button" name="bookmark-button-view">
+						<span><span style="text-decoration: underline;">R</span>emove</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- End Manage Bookmarks -->
+</body>
+</html>

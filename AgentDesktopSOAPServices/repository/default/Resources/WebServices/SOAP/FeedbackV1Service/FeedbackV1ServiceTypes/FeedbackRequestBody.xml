@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XSelement [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="FeedbackRequestBodyType">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackV1Service" />
+        <PackageName
+            name="FeedbackV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="FeedbackRequestBodyType" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XSelement
+        abstract="false"
+        form="defaultValue"
+        isPrivate="false"
+        minOccurs="1"
+        name="FeedbackRequestBody"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/FeedbackV1Service.wsdl"
+        type="tns:FeedbackRequestBodyType"
+        version="3.13.4"
+        xsName="FeedbackRequestBody">
+      <Superclass
+          name="FeedbackRequestBodyType"
+          nested="false" />
+    </XSelement>
+  </PackageEntry>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SoapMessage [] >
+  <PackageEntry>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="RequestAnswerV1Service" />
+        <PackageName
+            name="RequestAnswerV1ServiceTypes" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <SoapMessage
+        isPrivate="false"
+        name="RequestAnswerRequest"
+        nested="false"
+        soapHeader=""
+        version="3.13.2">
+      <InstanceFields>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="body"
+            xsName="body"
+            xsdType="RequestAnswerRequestBody">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="RequestAnswerRequestBody"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+    </SoapMessage>
+  </PackageEntry>

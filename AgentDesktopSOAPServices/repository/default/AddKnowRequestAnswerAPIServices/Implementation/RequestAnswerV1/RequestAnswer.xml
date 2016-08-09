@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ProcessDefinition [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="AuthoringActionWorkItemConfig">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="AddKnowContentCase" />
+        <PackageName
+            name="Implementation" />
+        <PackageName
+            name="CreateAuthoringWorkItemAction" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="AuthoringActionWorkItemConfig" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIWorkItem">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="CoreWorkflow" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Interfaces" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIWorkItem" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIRequestAnswerWorkItem">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="AddKnowContentCase" />
+        <PackageName
+            name="API" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIRequestAnswerWorkItem" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="FrameworkTranslationWrapper">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkCommon" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Objects" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="FrameworkTranslationWrapper" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="AddKnowContentCase_ManualTranslationCatalogue">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="AddKnowContentCase" />
+        <PackageName
+            name="Implementation" />
+        <PackageName
+            name="Translations" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="AddKnowContentCase_ManualTranslationCatalogue" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIAgent">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="CoreAgent" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Interfaces" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIAgent" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="DateUtil">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkCommon" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Objects" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="DateUtil" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIProfileTypeList">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkDesktop" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Interfaces" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIProfileTypeList" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIUser">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkUser" />
+        <PackageName
+            name="API" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIUser" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="GTLocaleWrapper">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkCommon" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Objects" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="GTLocaleWrapper" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="Globals">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkCommon" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Objects" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="Globals" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIContext">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkEVA" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Interfaces" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIContext" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIEntitlementManager">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkEVA" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Interfaces" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIEntitlementManager" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="Log">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkCommon" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Logging" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="Log" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EntitlementSet">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkEVA" />
+        <PackageName
+            name="Implementation" />
+        <PackageName
+            name="EntitlementSet" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EntitlementSet" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIAuthoringActionWorkItemConfig">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="AddKnowContentCase" />
+        <PackageName
+            name="API" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIAuthoringActionWorkItemConfig" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="AuthoringActionWorkItemConfigAdapter">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="AddKnowContentCase" />
+        <PackageName
+            name="Implementation" />
+        <PackageName
+            name="CreateAuthoringWorkItemAction" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="AuthoringActionWorkItemConfigAdapter" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EVAFactory">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkEVA" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Objects" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EVAFactory" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EvaIdFactory">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkEVA" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Objects" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EvaIdFactory" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="StringUtil">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkCommon" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Objects" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="StringUtil" />
+    </ImportDeclaration>
+    <ProcessDefinition
+        appearsInHistory="true"
+        cyclic="false"
+        designNotes="Undefined"
+        exceptionStrategy="1"
+        icon=""
+        isPrivate="false"
+        logicalDatabaseConnection=""
+        name="RequestAnswer"
+        nested="false"
+        pointOfNoReturn="false"
+        transactionBehaviour="TX_NOT_SUPPORTED"
+        version="3.13.2"
+        waitOnChildren="false">
+      <InstanceFields>
+        <ObjectField
+            designNotes=""
+            isAggregate="false"
+            isAttribute="false"
+            name="workItem">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="EIWorkItem"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            designNotes=""
+            isAggregate="false"
+            isAttribute="false"
+            name="requestAnswerWorkItem">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="EIRequestAnswerWorkItem"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            designNotes=""
+            isAggregate="false"
+            isAttribute="false"
+            name="configEntity">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="EIAuthoringActionWorkItemConfig"
+              nested="false" />
+        </ObjectField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="keyword">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="expectation">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="selectedFilter">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <DateField
+            designNotes=""
+            isAttribute="false"
+            name="searchDate"
+            xsdType="date">
+          <DateField_loc
+              locale="">
+            <Format />
+          </DateField_loc>
+        </DateField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="username">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="password">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <ObjectField
+            designNotes=""
+            isAggregate="false"
+            isAttribute="false"
+            name="context">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IContext"
+              nested="false" />
+        </ObjectField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="locale">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+      </InstanceFields>
+      <InstanceProcedures
+          name="">
+        <Procedure
+            name="setSession"
+            nested="true" />
+        <Procedure
+            name="saveRequestAnswerData"
+            nested="true" />
+        <Procedure
+            name="deliverWork"
+            nested="true" />
+        <Procedure
+            name="checkParameters"
+            nested="true" />
+      </InstanceProcedures>
+      <StartNode
+          displayName=""
+          name=""
+          x="80"
+          y="80" />
+      <EndNode
+          displayName=""
+          name=""
+          x="736"
+          y="80" />
+      <ProcedureCall
+          builtIn="false"
+          classMethod="false"
+          displayName=""
+          methodName="setSession"
+          name="setSession"
+          resultType=""
+          type="ProcessDefinition"
+          x="352"
+          y="80">
+        <RecordDefinitionReference
+            name="RequestAnswer"
+            nested="false" />
+      </ProcedureCall>
+      <ProcedureCall
+          builtIn="false"
+          classMethod="false"
+          displayName=""
+          methodName="saveRequestAnswerData"
+          name="saveRequestAnswerData"
+          resultType=""
+          type="ProcessDefinition"
+          x="480"
+          y="80">
+        <RecordDefinitionReference
+            name="RequestAnswer"
+            nested="false" />
+      </ProcedureCall>
+      <ProcedureCall
+          builtIn="false"
+          classMethod="false"
+          displayName=""
+          methodName="deliverWork"
+          name="deliveryWork"
+          resultType=""
+          type="ProcessDefinition"
+          x="608"
+          y="80">
+        <RecordDefinitionReference
+            name="RequestAnswer"
+            nested="false" />
+      </ProcedureCall>
+      <ProcedureCall
+          builtIn="false"
+          classMethod="false"
+          displayName=""
+          methodName="checkParameters"
+          name="checkParameters"
+          resultType=""
+          type="ProcessDefinition"
+          x="224"
+          y="80">
+        <RecordDefinitionReference
+            name="RequestAnswer"
+            nested="false" />
+      </ProcedureCall>
+      <Transition
+          isExceptionTransition="false"
+          name="transition1">
+        <FromNode
+            name="setSession" />
+        <ToNode
+            name="saveRequestAnswerData" />
+        <GraphNodeList
+            name="">
+          <GraphNode
+              icon=""
+              isLabelHolder="true"
+              label=""
+              name=""
+              x="416"
+              y="80" />
+        </GraphNodeList>
+      </Transition>
+      <Transition
+          isExceptionTransition="false"
+          name="transition2">
+        <FromNode
+            name="saveRequestAnswerData" />
+        <ToNode
+            name="deliveryWork" />
+        <GraphNodeList
+            name="">
+          <GraphNode
+              icon=""
+              isLabelHolder="true"
+              label=""
+              name=""
+              x="544"
+              y="80" />
+        </GraphNodeList>
+      </Transition>
+      <Transition
+          isExceptionTransition="false"
+          name="transition3">
+        <FromNode
+            name="deliveryWork" />
+        <EndNodeReference
+            name="" />
+        <GraphNodeList
+            name="">
+          <GraphNode
+              icon=""
+              isLabelHolder="true"
+              label=""
+              name=""
+              x="672"
+              y="80" />
+        </GraphNodeList>
+      </Transition>
+      <Transition
+          isExceptionTransition="false"
+          name="transition0">
+        <StartNodeReference
+            name="" />
+        <ToNode
+            name="checkParameters" />
+        <GraphNodeList
+            name="">
+          <GraphNode
+              icon=""
+              isLabelHolder="true"
+              label=""
+              name=""
+              x="160"
+              y="80" />
+        </GraphNodeList>
+      </Transition>
+      <Transition
+          isExceptionTransition="false"
+          name="transition4">
+        <FromNode
+            name="checkParameters" />
+        <ToNode
+            name="setSession" />
+        <GraphNodeList
+            name="">
+          <GraphNode
+              icon=""
+              isLabelHolder="true"
+              label=""
+              name=""
+              x="288"
+              y="80" />
+        </GraphNodeList>
+      </Transition>
+      <Parameter
+          from=""
+          name="keyword"
+          to="" />
+      <Parameter
+          from=""
+          name="expectation"
+          to="" />
+      <Parameter
+          from=""
+          name="selectedFilter"
+          to="" />
+      <Parameter
+          from=""
+          name="searchDate"
+          to="" />
+      <Parameter
+          from=""
+          name="username"
+          to="" />
+      <Parameter
+          from=""
+          name="password"
+          to="" />
+      <Parameter
+          from=""
+          name="locale"
+          to="" />
+      <BuilderInfo
+          name="" />
+      <TopicScope
+          defineTopicScope="false"
+          name="" />
+    </ProcessDefinition>
+  </PackageEntry>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XSelement [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="KnowledgeLoginRequestBodyType">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="KnowledgeLoginRequestBodyType" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XSelement
+        abstract="false"
+        form="defaultValue"
+        isPrivate="false"
+        minOccurs="1"
+        name="KnowledgeLoginRequestBody"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/KnowledgeLoginV1Service.wsdl"
+        type="tns:KnowledgeLoginRequestBodyType"
+        version="3.13.4"
+        xsName="KnowledgeLoginRequestBody">
+      <Superclass
+          name="KnowledgeLoginRequestBodyType"
+          nested="false" />
+    </XSelement>
+  </PackageEntry>

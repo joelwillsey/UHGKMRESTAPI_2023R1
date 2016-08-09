@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SoapMessage [] >
+  <PackageEntry>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackAPIService" />
+        <PackageName
+            name="FeedbackAPIServiceTypes" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <SoapMessage
+        isPrivate="false"
+        name="FeedbackWorkitemRequest"
+        nested="false"
+        soapHeader=""
+        version="3.13.2">
+      <InstanceFields>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="body"
+            xsName="body"
+            xsdType="FeedbackWorkitemRequestBody">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="FeedbackWorkitemRequestBody"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+    </SoapMessage>
+  </PackageEntry>

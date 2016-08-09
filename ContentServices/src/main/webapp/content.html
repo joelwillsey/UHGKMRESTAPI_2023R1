@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Verint KM Content View</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, minimumscale=1.0, maximum-scale=1.0" />
+	<link media="screen" type="text/css" href="css/content.css" rel="stylesheet"/>
+	<script type='text/javascript' src="js/content.js"></script>
+</head>
+<body>
+<!-- Begin Content Widget -->
+	<article id="content-container" class="content_container">
+		<section id="content-loader" class="content_loader">
+			<section class="content_header_mobile">
+				<div class="content_header_mobile_top">
+					<div><i class="content-header-mobile-top-left-arrow icon ion-chevron-left"></i></div>
+					<div class="content_header_mobile_top_left"></div>
+					<div class="content_header_mobile_top_right">
+						<div class="content_header_mobile_top_right_featured"></div>
+						<div class="content_header_mobile_top_right_bookmark">
+							<a id="mobile-content-bookmark" class="content_header_right_bookmark_action" href="javascript:void(0);" tabindex="1" title="Bookmark"></a>
+						</div>
+						<div class="content_header_mobile_top_right_exit">
+							<a id="exit-button-mobile" href="javascript:void(0);" tabindex="2" title="Exit"><i class="icon ion-close"></i></a>
+						</div>
+					</div>
+				</div>
+				<div class="content_header_mobile_bottom">
+					<div class="title"></div>
+				</div>
+			</section>	
+			<section class="content_header">
+				<div style="width: 100%; position: relative;">
+					<div class="content_header_left_icon"></div>
+					<div class="content_header_left_title"></div>		
+					<div class="content_header_right">
+						<div class="content_header_right_featured"></div>
+						<div class="content_header_right_bookmark">
+							<a id="content-bookmark" class="content_header_right_bookmark_action" href="javascript:void(0);" tabindex="3" title="Bookmark"></a>
+						</div>
+						<div class="content_header_right_exit">
+							<a id="exit-button" href="javascript:void(0);" tabindex="4" title="Exit"><i class="icon ion-close"></i></a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="content_body">
+				<section class="content_body_author_info">
+					<div class="content_body_author_info_left">
+						<div class="content_body_author_info_left_date"></div>
+						<div class="content_body_author_info_left_id"></div>
+					</div>
+					<div class="content_body_author_info_right">
+						<div class="content_body_author_info_right_action">
+							<div class="content_body_author_info_right_ratings"></div>							
+							<div class="content_body_author_info_right_rating_display">
+								<ul class="content_body_author_info_right_rating_display_ratingBar">
+									<li id="ratingStars" class="current" style="width: 0.0em;"></li>
+									<li><a class="rate1" title="1 star" tabindex="5"></a></li>
+									<li><a class="rate2" title="2 star" tabindex="6"></a></li>
+									<li><a class="rate3" title="3 star" tabindex="7"></a></li>
+									<li><a class="rate4" title="4 star" tabindex="8"></a></li>
+									<li><a class="rate5" title="5 star" tabindex="9"></a></li>
+									<li id="ratingGlass"></li>
+								</ul>
+							</div>
+						</div>
+						<div class="content_body_author_info_right_buttons">
+							<div class="content_body_author_info_right_feedback">
+								<button id="feedback" title="Feedback" tabindex="10">&nbsp;</button>
+							</div>
+							<div class="content_body_author_info_right_share">
+								<a id="content-email-link" href="javascript:void(0);" title="Email" tabindex="11">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section class="content_skipto">
+					<div class="content_skipto_label"><label>Skip To:</label></div>
+					<nav class="content_skipto_links"></nav>
+					<div class="content_skipto_refresh">
+						<a id="content-skipto-refresh" href="javascript:void(0);" tabindex="12">Refresh</a>
+					</div>
+				</section>
+				<section class="content_body_fields">
+				</section>
+			</section>
+		</section>
+	</article>
+<!-- Begin Feedback Widget -->
+	<section id="widgets" style="display: none;">
+		<div id="feedback-widget">
+			<script id="feedback-info" src="js/feedback_container.js" type="text/javascript"></script>
+		</div>
+	</section>
+<!-- End Feedback Widget -->
+<!-- End Content Widget -->
+</body>
+</html>

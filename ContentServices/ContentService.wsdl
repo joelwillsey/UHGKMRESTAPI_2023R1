@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <definitions
+      name="ContentV1Service"
+      targetNamespace="http://model.services.contactcentre.kana.com/ContentV1Service.wsdl"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="http://model.services.contactcentre.kana.com/ContentV1Service.wsdl"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Created by KANA Software (a Verint company) on Sat Mar 26 20:06:39 PDT 2016. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema
+          elementFormDefault="unqualified"
+          targetNamespace="http://model.services.contactcentre.kana.com/ContentV1Service.wsdl">
+        <xsd:complexType
+            name="ContentDetails">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="id"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="translatedTo"
+                type="tns:StringItemList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="language"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="lastModifiedDate"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="averageRating"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="body"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="publishedId"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentCategory"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="isFeatured"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="version"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="isDeleted"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="title"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="numberOfRatings"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentType"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="description"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="viewCount"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="StringItemList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="StringItem"
+                type="tns:StringItem" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="StringItem">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="value"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetContentDetailsRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="version"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="workflowState"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentID"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetContentDetailsResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="response"
+                type="tns:ContentDetails" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:element
+            name="GetContentDetailsRequest"
+            type="tns:GetContentDetailsRequestBodyType" />
+        <xsd:element
+            name="GetContentDetailsResponse"
+            type="tns:GetContentDetailsResponseBodyType" />
+      </xsd:schema>
+    </types>
+    <message
+        name="GetContentDetailsRequest">
+      <part
+          element="tns:GetContentDetailsRequest"
+          name="body" />
+    </message>
+    <message
+        name="GetContentDetailsResponse">
+      <part
+          element="tns:GetContentDetailsResponse"
+          name="body" />
+    </message>
+    <portType
+        name="ContentV1PortType">
+      <operation
+          name="GetContentDetails">
+        <input
+            message="tns:GetContentDetailsRequest" />
+        <output
+            message="tns:GetContentDetailsResponse" />
+      </operation>
+    </portType>
+    <binding
+        name="ContentV1Binding"
+        type="tns:ContentV1PortType">
+      <soap:binding
+          style="document"
+          transport="http://schemas.xmlsoap.org/soap/http" />
+      <operation
+          name="GetContentDetails">
+        <soap:operation
+            soapAction="ContentV1Service#GetContentDetails" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+    </binding>
+    <service
+        name="ContentV1Service">
+      <documentation>
+        Externally visible APIs for KM Content
+      </documentation>
+      <port
+          binding="tns:ContentV1Binding"
+          name="ContentV1Port">
+        <soap:address
+            location="http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowContentServices.API.ContentService.ContentV1" />
+      </port>
+    </service>
+  </definitions>

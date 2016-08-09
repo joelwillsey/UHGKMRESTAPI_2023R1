@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Procedure [] >
+  <Procedure
+      designNotes="Undefined"
+      isTPL="false"
+      language="EcmaScript"
+      name="login"
+      nested="false"
+      version="3.13.4">
+    <ReferenceParameters />
+    <ProcedureLocals>
+      <IntegerField
+          name="loginResult" />
+      <StringField
+          length="0"
+          name="result" />
+      <ObjectField
+          name="user">
+        <TypeDefinitionReference
+            name="EIUser"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          name="agent">
+        <TypeDefinitionReference
+            name="Agent"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          name="tagList">
+        <TypeDefinitionReference
+            name="ITagSetSelectionList"
+            nested="false" />
+      </ObjectField>
+      <IntegerField
+          name="tagListSize" />
+      <IntegerField
+          name="x" />
+      <ObjectField
+          name="of">
+        <TypeDefinitionReference
+            name="ObjectField"
+            nested="false" />
+      </ObjectField>
+    </ProcedureLocals>
+    <Verbatim
+        fieldName="text">
+<![CDATA[Log.application.debug("LoginUser login()");
+Log.application.debug("username: " + this.username);
+Log.application.debug("password: " + this.password);
+
+if (StringUtil.isEmpty(this.username)) {
+    // Throw username exception
+    throwException(new SOAPException("Username is not valid"));
+}
+
+if (StringUtil.isEmpty(this.password)) {
+    // Throw password exception
+    throwException(new SOAPException("Password is not valid"));
+}
+
+// Create the return object
+this.loginResponse = new LoginResponse();
+Log.application.debug("LoginResponse created");
+
+if(!this.username) {
+    this.username = GTSystem.getGtUsername();
+}
+
+if(!this.password) {
+    this.password = GTSystem.getGtPassword();
+}
+
+// Login user
+Log.application.debug("Calling loginAs()");
+loginResult = GTSecurity.loginAs(this.username,this.password);
+Log.application.debug("Done calling loginAs()");
+
+// Setup user
+
+user = EIUser.getUser(this.username);
+EIUser.setCurrentUser(user);
+Log.application.debug("Done setting curren user: " + user);
+
+// Set the locale
+if (user && user != null && user.localeRef && user.localeRef != null) {
+Log.application.debug("User1111");
+    this.loginResponse.locale = user.localeRef.name;
+Log.application.debug("User333");
+
+} else {
+Log.application.debug("User2222");
+    this.loginResponse.locale = GTLocaleWrapper.DEFAULT_LOCALE;
+}
+
+// Check for valid login result
+Log.application.debug("Setup loginResult: " + loginResult);
+this.loginResponse.loginResult = loginResult;
+if (loginResult == GTSecurity.SUCCESS_RESPONSE) {
+    if (user != null) {
+        this.loginResponse.message = "Account login successful";
+        this.loginResponse.displayName = user.displayName;
+        this.loginResponse.expires = user.expires;
+        this.loginResponse.grace = user.grace;
+        this.loginResponse.isDeleted = user.isDeleted;
+        this.loginResponse.isDisabled = user.isDisabled;
+        agent = Agent.getAgentFromUserName(this.username);
+        //agent = Agent.getAgentFromAgentID(user.id);
+        if (agent != null) {
+            this.loginResponse.firstName = agent.firstName;
+            this.loginResponse.fullName = agent.fullName;
+            this.loginResponse.lastName = agent.lastName;
+            tagList = agent.implicitTags;
+            if (tagList != null) {
+                tagListSize = tagList.size();
+                for (x = 0; x < tagListSize; x++) {
+                    of = agent.implicitTags.get(x);
+                }
+            }
+        }
+    } else {
+        this.loginResponse.message = "Account login was successful but user authorization failed";
+    }
+} else {
+    if (loginResult == GTSecurity.DISABLED_RESPONSE) {
+        this.loginResponse.message = "Account is disabled";
+    } else if (loginResult == GTSecurity.ERROR_RESPONSE) {
+        this.loginResponse.message = "Account error logging user in";
+    } else if (loginResult == GTSecurity.EXPIRED_RESPONSE) {
+         this.loginResponse.message = "Account is expired";
+    } else if (loginResult == GTSecurity.WARNING_RESPONSE) {
+         this.loginResponse.message = "Account password is required to be changed";
+    } else if (loginResult == GTSecurity.GRACE_RESPONSE) {
+         this.loginResponse.message = "Account password is about to expire";
+    } else {
+         this.loginResponse.message = "Account error unknown";
+    }
+}
+Log.application.debug("Login message" + this.loginResponse.message);
+]]>
+    </Verbatim>
+  </Procedure>

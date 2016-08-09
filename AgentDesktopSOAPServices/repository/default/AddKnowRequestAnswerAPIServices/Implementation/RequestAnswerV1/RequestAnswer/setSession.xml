@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Procedure [] >
+  <Procedure
+      designNotes="Undefined"
+      isTPL="false"
+      language="EcmaScript"
+      name="setSession"
+      nested="false"
+      version="3.13.4">
+    <ReferenceParameters />
+    <ProcedureLocals>
+      <ObjectField
+          designNotes=""
+          name="currentAgent">
+        <TypeDefinitionReference
+            name="EIAgent"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="profileTypeList">
+        <TypeDefinitionReference
+            name="EIProfileTypeList"
+            nested="false" />
+      </ObjectField>
+      <IntegerField
+          designNotes=""
+          name="loginResult" />
+      <IntegerField
+          designNotes=""
+          name="sr" />
+      <IntegerField
+          designNotes=""
+          name="fr" />
+      <IntegerField
+          designNotes=""
+          name="wr" />
+      <IntegerField
+          designNotes=""
+          name="er" />
+      <StringField
+          designNotes=""
+          length="0"
+          name="uname" />
+    </ProcedureLocals>
+    <Verbatim
+        fieldName="text">
+<![CDATA[Log.application.debug("RequestAnswer setSession()");
+
+// Set the Context
+this.context = new EIContext();
+
+// Set the Agent
+currentAgent = new EIAgent();
+currentAgent.userRef = new EIUser();
+currentAgent.userRef.username = this.username;
+EIUser.setCurrentUser(EIUser.getUser(this.username));
+GTSystem.logTrace("RequestAnswer.setSession username = " + this.username + ", EIUser = " + EIUser);
+currentAgent = currentAgent.searchByExample().get(0);
+if (currentAgent) {
+    profileTypeList = currentAgent.userRef.getProfileTypeList(false);
+    if (profileTypeList && profileTypeList.size() > 0) {
+            currentAgent.userRef.activeProfile = profileTypeList.get(0);
+    }
+    EIAgent.setCurrentAgent(currentAgent);
+}
+this.context.addWithName(currentAgent, "AgentED");
+this.context.addWithName(new EIEntitlementManager(), "EntitlementManagerED");
+
+// get the locale from the request, if not found, then try from the user, if still not found from the fallback_locale in the database
+if (!this.locale) {
+    if (EIUser.getCurrentUser() && EIUser.getCurrentUser().getLocale()) {
+        this.locale = EIUser.getCurrentUser().getLocale().getName();
+    }
+    if (!this.locale) {
+        this.locale = Globals.get(GTLocaleWrapper.FALLBACK_LOCALE_KEY);
+    }
+}
+]]>
+    </Verbatim>
+  </Procedure>

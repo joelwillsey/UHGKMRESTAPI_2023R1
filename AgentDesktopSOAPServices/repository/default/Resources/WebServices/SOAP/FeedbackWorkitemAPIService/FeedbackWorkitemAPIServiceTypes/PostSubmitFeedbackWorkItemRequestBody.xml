@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XSelement [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="PostSubmitFeedbackWorkItemRequestBodyType">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="FeedbackWorkitemAPIService" />
+        <PackageName
+            name="FeedbackWorkitemAPIServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="PostSubmitFeedbackWorkItemRequestBodyType" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XSelement
+        abstract="false"
+        form="defaultValue"
+        isPrivate="false"
+        minOccurs="1"
+        name="PostSubmitFeedbackWorkItemRequestBody"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/FeedbackWorkitemAPIService.wsdl"
+        type="tns:PostSubmitFeedbackWorkItemRequestBodyType"
+        version="3.13.4"
+        xsName="PostSubmitFeedbackWorkItemRequestBody">
+      <Superclass
+          name="PostSubmitFeedbackWorkItemRequestBodyType"
+          nested="false" />
+    </XSelement>
+  </PackageEntry>

@@ -1,0 +1,4 @@
+com\verint\services\km\service\LoginService.class
+com\verint\services\km\dao\LoginDAOImpl.class
+InstallCert$SavingTrustManager.class
+InstallCert.class

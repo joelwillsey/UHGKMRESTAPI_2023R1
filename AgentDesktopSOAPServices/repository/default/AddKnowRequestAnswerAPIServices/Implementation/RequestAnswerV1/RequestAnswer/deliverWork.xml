@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Procedure [] >
+  <Procedure
+      designNotes="Undefined"
+      exceptionStrategy="0"
+      isPending="false"
+      isTPL="false"
+      language="EcmaScript"
+      name="deliverWork"
+      nested="false"
+      version="3.13.4">
+    <ReferenceParameters />
+    <ProcedureLocals>
+      <ObjectField
+          designNotes=""
+          name="authoringActionWorkItem">
+        <TypeDefinitionReference
+            name="AuthoringActionWorkItemConfig"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="entitlementSet">
+        <TypeDefinitionReference
+            name="IEntitlementSet"
+            nested="false" />
+      </ObjectField>
+    </ProcedureLocals>
+    <Verbatim
+        fieldName="text">
+<![CDATA[Log.application.debug("RequestAnswer deliverWork()");
+
+// Create the regular work item
+workItem = new EIWorkItem();
+workItem.setInternalWork(this.requestAnswerWorkItem, EIRequestAnswerWorkItem.WORK_TYPE);
+workItem.workTypeInteger = EIRequestAnswerWorkItem.WORK_TYPE;
+workItem.creationDate = new Date();
+workItem.subject = this.requestAnswerWorkItem.getSearchQuery().substring(0,200);
+workItem.reference = this.requestAnswerWorkItem.id.getId().toString();
+workItem.activityName = FrameworkTranslationWrapper.translate(AddKnowContentCase_ManualTranslationCatalogue.TRANSLATION_NAMESPACE, "requestAnswer");
+if (EIAgent.getCurrentAgent()) {
+    workItem.source = EIAgent.getCurrentAgent().toString();
+} else {
+    workItem.source = GTSystem.getGtUsername();
+}
+workItem.dueDate = DateUtil.addDate(new Date(), 1, 0, 0);
+
+// Setup entitlements to route work to proper groups
+entitlementSet = new EntitlementSet();
+if(this.configEntity){
+    authoringActionWorkItem = configEntity;
+    workItem.priority = authoringActionWorkItem.priority;
+    if(authoringActionWorkItem.targets && !authoringActionWorkItem.targets.isEmpty()){
+        entitlementSet.addAll(authoringActionWorkItem.targets);
+    }else{
+        entitlementSet.add(EIAgent.getAgentFromUserName(this.requestAnswerWorkItem.getAgent().userRef.username));
+    }
+}else{
+    workItem.priority = 1;
+    entitlementSet.add(EIAgent.getAgentFromUserName(this.requestAnswerWorkItem.getAgent().userRef.username));
+}
+
+workItem.saveShallow();
+workItem.deliver(entitlementSet);
+this.requestAnswerWorkItem.workItem = workItem;
+]]>
+    </Verbatim>
+  </Procedure>

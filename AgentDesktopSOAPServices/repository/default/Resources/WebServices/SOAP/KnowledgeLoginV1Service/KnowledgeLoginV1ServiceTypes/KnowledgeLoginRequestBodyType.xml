@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="KnowledgeLoginRequestBodyType"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/KnowledgeLoginV1Service.wsdl"
+        version="3.13.4"
+        xsName="KnowledgeLoginRequestBodyType">
+      <InstanceFields>
+        <StringField
+            isAttribute="false"
+            name="password"
+            xsName="password"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="username"
+            xsName="username"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+      </InstanceFields>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="password"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="password" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="username"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="username" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

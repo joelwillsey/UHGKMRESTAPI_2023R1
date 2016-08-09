@@ -1,0 +1,8 @@
+com\verint\services\km\dao\TagsDAOImpl.class
+com\verint\services\km\service\CrossTagsService.class
+com\verint\services\km\service\LoginService.class
+com\verint\services\km\dao\TagsDAO.class
+com\verint\services\km\service\TagsService.class
+com\verint\services\km\dao\CrossTagsDAOImpl.class
+com\verint\services\km\dao\CrossTagsDAO.class
+com\verint\services\km\dao\LoginDAOImpl.class

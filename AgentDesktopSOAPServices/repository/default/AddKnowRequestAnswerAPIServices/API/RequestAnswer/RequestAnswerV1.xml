@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SOAPProcess [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="RequestAnswer">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="AddKnowRequestAnswerAPIServices" />
+        <PackageName
+            name="Implementation" />
+        <PackageName
+            name="RequestAnswerV1" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="RequestAnswer" />
+    </ImportDeclaration>
+    <SOAPProcess
+        activationMode="POOLED"
+        appearsInHistory="true"
+        cyclic="false"
+        designNotes="Undefined"
+        elementFormDefault="unqualified"
+        exceptionStrategy="1"
+        icon=""
+        isPrivate="false"
+        logicalDatabaseConnection=""
+        messageEncoding="Literal_Encoding"
+        name="RequestAnswerV1"
+        namespace="http://localhost:80/RequestAnswerV1Service.wsdl"
+        nested="false"
+        pointOfNoReturn="false"
+        soapStyle="Document"
+        soapVersion="V1_1"
+        transactionBehaviour="TX_NOT_SUPPORTED"
+        version="3.13.2"
+        waitOnChildren="true">
+      <StartNode
+          displayName=""
+          name=""
+          x="16"
+          y="32" />
+      <EndNode
+          displayName=""
+          name=""
+          x="240"
+          y="32" />
+      <Transition
+          isExceptionTransition="false">
+        <StartNodeReference
+            name="" />
+        <EndNodeReference
+            name="" />
+        <GraphNodeList
+            name="">
+          <GraphNode
+              icon=""
+              isLabelHolder="true"
+              label=""
+              name=""
+              x="128"
+              y="32" />
+        </GraphNodeList>
+      </Transition>
+      <BuilderInfo
+          name="" />
+      <TopicScope
+          defineTopicScope="false"
+          name="" />
+      <ProcessDefinitionReference
+          name="RequestAnswer"
+          nested="false" />
+    </SOAPProcess>
+  </PackageEntry>

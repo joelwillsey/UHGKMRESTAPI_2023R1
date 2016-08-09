@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <definitions
+      name="FeedbackV1Service"
+      targetNamespace="http://model.services.contactcentre.kana.com/FeedbackV1Service.wsdl"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="http://model.services.contactcentre.kana.com/FeedbackV1Service.wsdl"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Created by KANA Software (a Verint company) on Mon May 16 03:44:41 BST 2016. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema
+          elementFormDefault="unqualified"
+          targetNamespace="http://model.services.contactcentre.kana.com/FeedbackV1Service.wsdl">
+        <xsd:complexType
+            name="FeedbackServiceResponse">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="optionalComments"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="feedbackCode"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="notificationName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="notification"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="outcomeCode"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="notificationEmail"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="FeedbackRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="comment"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="notification"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="feedbackCodeID"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="rating"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="viewID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="email"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="name"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="FeedbackResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="returnResponse"
+                type="tns:FeedbackServiceResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:element
+            name="FeedbackRequestBody"
+            type="tns:FeedbackRequestBodyType" />
+        <xsd:element
+            name="FeedbackResponseBody"
+            type="tns:FeedbackResponseBodyType" />
+      </xsd:schema>
+    </types>
+    <message
+        name="FeedbackRequest">
+      <part
+          element="tns:FeedbackRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="FeedbackResponse">
+      <part
+          element="tns:FeedbackResponseBody"
+          name="body" />
+    </message>
+    <portType
+        name="FeedbackV1PortType">
+      <operation
+          name="Feedback">
+        <input
+            message="tns:FeedbackRequest" />
+        <output
+            message="tns:FeedbackResponse" />
+      </operation>
+    </portType>
+    <binding
+        name="FeedbackV1Binding"
+        type="tns:FeedbackV1PortType">
+      <soap:binding
+          style="document"
+          transport="http://schemas.xmlsoap.org/soap/http" />
+      <operation
+          name="Feedback">
+        <soap:operation
+            soapAction="FeedbackV1Service#Feedback" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+    </binding>
+    <service
+        name="FeedbackV1Service">
+      <documentation>
+        Undefined
+      </documentation>
+      <port
+          binding="tns:FeedbackV1Binding"
+          name="FeedbackV1Port">
+        <soap:address
+            location="http://10.211.55.4:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowFeedbackAPIServices.API.Feedback.FeedbackV1" />
+      </port>
+    </service>
+  </definitions>

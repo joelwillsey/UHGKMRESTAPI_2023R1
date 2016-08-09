@@ -1,0 +1,3 @@
+<jboss-web>
+    <context-root>filestorage</context-root>
+</jboss-web>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="LoginResponse"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/LoginV1Service.wsdl"
+        version="3.13.4"
+        xsName="LoginResponse">
+      <InstanceFields>
+        <DateField
+            isAttribute="false"
+            name="expires"
+            xsName="expires"
+            xsNillable="false"
+            xsdType="date">
+          <DateField_loc
+              locale="">
+            <Format />
+          </DateField_loc>
+        </DateField>
+        <StringField
+            isAttribute="false"
+            name="fullName"
+            xsName="fullName"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <IntegerField
+            isAttribute="false"
+            name="grace"
+            xsName="grace"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <BooleanField
+            isAttribute="false"
+            name="isDeleted"
+            xsName="isDeleted"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <StringField
+            isAttribute="false"
+            name="displayName"
+            xsName="displayName"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="locale"
+            xsName="locale"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="firstName"
+            xsName="firstName"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <BooleanField
+            isAttribute="false"
+            name="isDisabled"
+            xsName="isDisabled"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <IntegerField
+            isAttribute="false"
+            name="loginResult"
+            xsName="loginResult"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <StringField
+            isAttribute="false"
+            name="lastName"
+            xsName="lastName"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="message"
+            xsName="message"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+      </InstanceFields>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="expires"
+            nested="false"
+            type="xsd:date"
+            version="3.13.4"
+            xsName="expires" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="fullName"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="fullName" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="grace"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="grace" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="isDeleted"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="isDeleted" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="displayName"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="displayName" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="locale"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="locale" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="firstName"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="firstName" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="isDisabled"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="isDisabled" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="loginResult"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="loginResult" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="lastName"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="lastName" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="message"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="message" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

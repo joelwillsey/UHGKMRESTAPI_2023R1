@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="IPerspectiveList">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IPerspectiveList" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="ITagSetSelectionList">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="ITagSetSelectionList" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="IEntitlementSet">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="Resources" />
+        <PackageName
+            name="WebServices" />
+        <PackageName
+            name="SOAP" />
+        <PackageName
+            name="KnowledgeLoginV1Service" />
+        <PackageName
+            name="KnowledgeLoginV1ServiceTypes" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="IEntitlementSet" />
+    </ImportDeclaration>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="EIProfileType"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/KnowledgeLoginV1Service.wsdl"
+        version="3.13.4"
+        xsName="EIProfileType">
+      <InstanceFields>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="perspectiveList"
+            xsName="perspectiveList"
+            xsNillable="false"
+            xsdType="IPerspectiveList">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IPerspectiveList"
+              nested="false" />
+        </ObjectField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="tagSetSelections"
+            xsName="tagSetSelections"
+            xsNillable="false"
+            xsdType="ITagSetSelectionList">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="ITagSetSelectionList"
+              nested="false" />
+        </ObjectField>
+        <StringField
+            isAttribute="false"
+            name="name"
+            xsName="name"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            isAttribute="false"
+            name="desktopProcess"
+            xsName="desktopProcess"
+            xsNillable="false"
+            xsdType="string">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <BooleanField
+            isAttribute="false"
+            name="isDeleted"
+            xsName="isDeleted"
+            xsNillable="false"
+            xsdType="boolean">
+          <BooleanField_loc
+              locale="">
+            <Format />
+          </BooleanField_loc>
+        </BooleanField>
+        <ObjectField
+            isAggregate="false"
+            isAttribute="false"
+            name="entitlementSet"
+            xsName="entitlementSet"
+            xsNillable="false"
+            xsdType="IEntitlementSet">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="IEntitlementSet"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+      <ClassProcedures
+          name="">
+        <Procedure
+            name="constructIPerspectiveList"
+            nested="true" />
+        <Procedure
+            name="constructITagSetSelectionList"
+            nested="true" />
+        <Procedure
+            name="constructIEntitlementSet"
+            nested="true" />
+      </ClassProcedures>
+      <InstanceProcedures
+          name="">
+        <Procedure
+            name="createperspectiveList"
+            nested="true" />
+        <Procedure
+            name="createtagSetSelections"
+            nested="true" />
+        <Procedure
+            name="createentitlementSet"
+            nested="true" />
+      </InstanceProcedures>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="perspectiveList"
+            nested="false"
+            type="tns:IPerspectiveList"
+            version="3.13.4"
+            xsName="perspectiveList" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="tagSetSelections"
+            nested="false"
+            type="tns:ITagSetSelectionList"
+            version="3.13.4"
+            xsName="tagSetSelections" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="name"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="name" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="desktopProcess"
+            nested="false"
+            type="xsd:string"
+            version="3.13.4"
+            xsName="desktopProcess" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="isDeleted"
+            nested="false"
+            type="xsd:boolean"
+            version="3.13.4"
+            xsName="isDeleted" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="entitlementSet"
+            nested="false"
+            type="tns:IEntitlementSet"
+            version="3.13.4"
+            xsName="entitlementSet" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>

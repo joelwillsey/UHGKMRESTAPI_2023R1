@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ProcessDefinition [] >
+  <PackageEntry>
+    <ImportDeclaration
+        name="Log">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkCommon" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Logging" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="Log" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="StringUtil">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkCommon" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Objects" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="StringUtil" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="EIUser">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkUser" />
+        <PackageName
+            name="API" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="EIUser" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="GTLocaleWrapper">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkCommon" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Objects" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="GTLocaleWrapper" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="Agent">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="CoreAgent" />
+        <PackageName
+            name="Internal" />
+        <PackageName
+            name="Agent" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="Agent" />
+    </ImportDeclaration>
+    <ImportDeclaration
+        name="ITagSetSelectionList">
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="FrameworkEVA" />
+        <PackageName
+            name="API" />
+        <PackageName
+            name="Interfaces" />
+      </PackageSpecifier>
+      <PackageEntryReference
+          name="ITagSetSelectionList" />
+    </ImportDeclaration>
+    <ProcessDefinition
+        appearsInHistory="true"
+        cyclic="false"
+        designNotes="Undefined"
+        exceptionStrategy="1"
+        icon=""
+        isPrivate="false"
+        logicalDatabaseConnection=""
+        name="LoginUser"
+        nested="false"
+        pointOfNoReturn="false"
+        transactionBehaviour="TX_NOT_SUPPORTED"
+        version="3.13.2"
+        waitOnChildren="false">
+      <InstanceFields>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="username">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <StringField
+            designNotes=""
+            isAttribute="false"
+            length="0"
+            name="password">
+          <StringField_loc
+              locale="">
+            <Format />
+          </StringField_loc>
+        </StringField>
+        <ObjectField
+            designNotes=""
+            isAggregate="false"
+            isAttribute="false"
+            name="loginResponse">
+          <ObjectField_loc
+              locale="">
+            <Format />
+          </ObjectField_loc>
+          <TypeDefinitionReference
+              name="LoginResponse"
+              nested="false" />
+        </ObjectField>
+      </InstanceFields>
+      <InstanceProcedures
+          name="">
+        <Procedure
+            name="login"
+            nested="true" />
+      </InstanceProcedures>
+      <StartNode
+          displayName=""
+          name=""
+          x="32"
+          y="64" />
+      <EndNode
+          displayName=""
+          name=""
+          x="374"
+          y="64" />
+      <ProcedureCall
+          builtIn="false"
+          classMethod="false"
+          displayName=""
+          methodName="login"
+          name="login"
+          resultType=""
+          type="ProcessDefinition"
+          x="192"
+          y="64">
+        <RecordDefinitionReference
+            name="LoginUser"
+            nested="false" />
+      </ProcedureCall>
+      <Transition
+          isExceptionTransition="false"
+          name="transition0">
+        <StartNodeReference
+            name="" />
+        <ToNode
+            name="login" />
+        <GraphNodeList
+            name="">
+          <GraphNode
+              icon=""
+              isLabelHolder="true"
+              label=""
+              name=""
+              x="112"
+              y="64" />
+        </GraphNodeList>
+      </Transition>
+      <Transition
+          isExceptionTransition="false"
+          name="transition1">
+        <FromNode
+            name="login" />
+        <EndNodeReference
+            name="" />
+        <GraphNodeList
+            name="">
+          <GraphNode
+              icon=""
+              isLabelHolder="true"
+              label=""
+              name=""
+              x="272"
+              y="64" />
+        </GraphNodeList>
+      </Transition>
+      <Result
+          from=""
+          name="loginResponse"
+          to="" />
+      <Parameter
+          from=""
+          name="password"
+          to="" />
+      <Parameter
+          from=""
+          name="username"
+          to="" />
+      <BuilderInfo
+          name="" />
+      <TopicScope
+          defineTopicScope="false"
+          name="" />
+    </ProcessDefinition>
+  </PackageEntry>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XScomplexType [] >
+  <PackageEntry>
+    <ImportPackageDeclaration>
+      <PackageSpecifier
+          name="">
+        <PackageName
+            name="GT" />
+        <PackageName
+            name="Runtime" />
+        <PackageName
+            name="DefaultDocuments" />
+      </PackageSpecifier>
+    </ImportPackageDeclaration>
+    <XScomplexType
+        abstract="false"
+        finalAttribute="none"
+        isInnerType="false"
+        isPrivate="false"
+        mixed="false"
+        name="IEvaId"
+        nested="false"
+        parentSchema=""
+        parentSchemaNamespace="http://localhost:80/KnowledgeLoginV1Service.wsdl"
+        version="3.13.4"
+        xsName="IEvaId">
+      <InstanceFields>
+        <IntegerField
+            isAttribute="false"
+            name="environmentId"
+            xsName="environmentId"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <IntegerField
+            isAttribute="false"
+            name="releaseId"
+            xsName="releaseId"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+        <IntegerField
+            isAttribute="false"
+            name="id"
+            xsName="id"
+            xsNillable="false"
+            xsdType="integer">
+          <IntegerField_loc
+              locale="">
+            <Format />
+          </IntegerField_loc>
+        </IntegerField>
+      </InstanceFields>
+      <XSsequence
+          minOccurs="1">
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="environmentId"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="environmentId" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="releaseId"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="releaseId" />
+        <XSelement
+            abstract="false"
+            form="defaultValue"
+            isPrivate="false"
+            maxOccurs="1"
+            minOccurs="1"
+            name="id"
+            nested="false"
+            type="xsd:integer"
+            version="3.13.4"
+            xsName="id" />
+      </XSsequence>
+      <XSchoiceElementArray />
+    </XScomplexType>
+  </PackageEntry>
