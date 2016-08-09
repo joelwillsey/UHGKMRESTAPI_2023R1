@@ -206,6 +206,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>VerintFilterServices</finalName>
+		<finalName>filterservices</finalName>
 	</build>
 </project>

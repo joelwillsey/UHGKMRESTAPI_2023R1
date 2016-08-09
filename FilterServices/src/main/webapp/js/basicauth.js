@@ -9,6 +9,11 @@ $.fn.setupHeader = function(jqXHR) {
 	jqXHR.setRequestHeader('x-km-authorization', authToken);
 }
 
+// Look at HTTP Response header
+$.fn.interrogateResponse = function(headers) {
+
+}
+
 // Handle the error specific to Basic Auth
 $.fn.handleAuthError = function(jqXHR, textStatus, errorThrown) {
 	if (typeof jqXHR != 'undefined' && typeof jqXHR.status != 'undefined'
