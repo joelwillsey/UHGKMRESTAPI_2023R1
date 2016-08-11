@@ -446,6 +446,31 @@ $(document).ready(function() {
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
 		} else if (type === 'publishedid') {
 			// Do nothing for now
+		} else if (type === 'kbase') {
+			//we only want to allow one 'kbase' tag to be active at one time
+			
+			// Run check on whether another kbase tag is active
+			$('.ul_all_tags li').each(
+					function(index){  
+						var li = $(this);
+						var topicTag = li.context.id.substring(0,8);
+						if (topicTag == 'sc-kbase') {
+							//calls remove tag on existing kbase tag in cloud and search
+							$.fn.removeTag(type, li.context.id.substring(3));							
+						}
+					}
+				);
+			
+			//creating the tags to put into the cloud/search
+			var buildLi = '<li id="sc-' + element +'" class="search-choice search-choice-cloud" title="' + $('#' + element).text() + '" rel="' + $('#' + element).attr('rel') + '">';
+			buildLi += '<span>' + $('#' + element).text() + '</span>';
+			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '" onclick="$.fn.removeCloudTag(\'' + type + '\', \'' + $('#' + element).attr('id') + '\');" href="javascript:void(0);" tagtype="' + type + '"></a>';
+			buildLi += '</li>';
+			log(buildLi);
+			
+			//inserts the html code at the designated spot
+			$(buildLi).insertAt(1, $('.ul_all_tags'));
+			
 		} else {
 			var buildLi = '<li id="sc-' + element +'" class="search-choice search-choice-cloud" title="' + $('#' + element).text() + '" rel="' + $('#' + element).attr('rel') + '">';
 			buildLi += '<span>' + $('#' + element).text() + '</span>';
@@ -530,7 +555,7 @@ $(document).ready(function() {
 		buildLi += '<span>' + $('#' + element).text() + '</span>';
 		buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '" onclick="$.fn.removeTag(\'' + type + '\', \'' + $('#' + element).attr('id') + '\');" href="javascript:void(0);"></a>';
 		buildLi += '</li>';
-		$.fn.addToSearchCloud(element, element);
+		$.fn.addToSearchCloud(type, element);
 		log('TagClick: ' + '#tag-span-' + element);
 		$('#tag-span-' + element).addClass('tree_selected');
 		$('#' + element).remove();
@@ -539,6 +564,9 @@ $(document).ready(function() {
 		$(buildLi).prependTo('#' + type + '-selection');
 		$('#' + element + '-input').width('102px');
 		$('#' + element + '-input').attr('value', '');
+		
+		//calling the crosstags to update
+		$.fn.getCrossTag(element,'topic');
 
 		// Send inter-widget communication
 		$.fn.widgetCommunication();
@@ -547,7 +575,7 @@ $(document).ready(function() {
 	// Remove Tag
 	$.fn.removeTag = function(type, item) {
 		log(item);
-		var buildLi = '<li id="' + item + '" class="active-result" title="' + $('#' + item + ' span').text() + '" onclick="$.fn.tag' + type + 'Click(\'' + item + '\');" style="" rel="' + $('#' + item).attr('rel') + '">' + $('#' + item + ' span').text() + '</li>';
+		var buildLi = '<li id="' + item + '" class="active-result" title="' + $('#' + item + ' span').text() + '" onclick="$.fn.tagClick(\'' + type + '\', \'' + item + '\');" style="" rel="' + $('#' + item).attr('rel') + '">' + $('#' + item + ' span').text() + '</li>';
 		var rel = parseInt($('#' + item).attr('rel'));
 		$('#' + item).remove();
 		$('#sc-' + item).remove();
@@ -557,6 +585,9 @@ $(document).ready(function() {
 			$('#' + type + '-input').width('102px');
 		}
 		$(buildLi).insertAt(rel, $('#ul-' + type + '-tags'));
+		
+		var treeData = "";
+		$('#div-topic-tags').html(treeData);
 
 		// Send inter-widget communication
 		$.fn.widgetCommunication();
@@ -607,7 +638,7 @@ $(document).ready(function() {
 					if (typeof data.tagSets[x].tags != 'undefined' && data.tagSets[x].tags != null && data.tagSets[x].tags.length > 0) {
 						//var treeData = $.fn.createTreeFilter(data.tagSets[x].tags, 'topic_westjet');
 						var treeData = $.fn.createTreeFilter(data.tagSets[x].tags, 'topic', 'topic', false);
-						$('#div-topic-tags').html(treeData);
+						//$('#div-topic-tags').html(treeData);
 					}
 				} else if (data.tagSets[x].systemTagName === 'product') {
 					if (typeof data.tagSets[x].tags != 'undefined' && data.tagSets[x].tags != null && data.tagSets[x].tags.length > 0) {
@@ -680,23 +711,46 @@ $(document).ready(function() {
     $(".dpui-widget").trigger("dpui:startWidget");
 
     // Cross Tags Example
-	$.fn.getCrossTag = function() {
-		var url = filtersServiceName + 'km/crosstags?sourcetag=vertical_westjet&targettagset=topic';
+	$.fn.getCrossTag = function( source, target) {
+		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
-			var treeData = $.fn.createTreeFilter(data.tags, 'topic_westjet', 'topic', false);
-			$('#div-topic-tags').html(treeData);
+			if(data.tags["0"].systemTagName != 'undefined' && data.tags["0"].systemTagName != null){
+				var treeData = $.fn.createTreeFilter(data.tags, data.tags["0"].systemTagName, target, false);
+				$('#div-topic-tags').html(treeData);
+			}
+			
 		});
 	}
-
     // Get all the tags for the TagSets
 	$.fn.getTagsforTagSets = function() {
-		var url = filtersServiceName + 'km/tags/gettagsfortagsets?tagsets=topic,kbase,product,region,content,cntntType';
+		var url = filtersServiceName + 'km/tags/gettagsfortagsets?tagsets=topic,product,region,content,cntntType';
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
 			$.fn.parseTags(data);
-			// Example of getting a cross tag
-//			$.fn.getCrossTag();
+			$.fn.getKBaseTags();
 		});
 	}
+	
+	$.fn.getKBaseTags = function() {
+		  var url = filtersServiceName + 'km/kbasetags';
+		  $.fn.serviceCall('GET', '', url, 15000, function(data) {
+		   $.fn.populateKBaseTags(data);
+		  });
+		 }
+	
+	// Parse the Tags
+		 $.fn.populateKBaseTags = function(data) {
+		  //populates the HTML with KBase selections
+			 var kbaseData = '';
+			 if (typeof data.tags != 'undefined' && data.tags != null && data.tags.length > 0) {
+				 for (var x = 0; x < data.tags.length; x++) {
+					 if (typeof data.tags[x] != 'undefined' && data.tags[x] != null && data.tags[x].systemTagName.length > 0) {
+						 $('#div-kbase-tags').html(data.tags[x].systemTagDisplayName);
+						 kbaseData += '<li id="' + data.tags[x].systemTagName + '" rel="' + x + '" class="active-result" style="" onclick="$.fn.tagClick(\'kbase\', \'' + data.tags[x].systemTagName + '\');" title="' + data.tags[x].systemTagDisplayName + '">' + data.tags[x].systemTagDisplayName + '</li>';
+						 $('#ul-kbase-tags').html(kbaseData);
+					 }
+				 }
+			 }
+		 }
 
 	// Get the Tags
 	$.fn.getTagsforTagSets();

@@ -63,11 +63,10 @@ public class TagsService extends BaseService {
 	 * @return
 	 */
 	@GET
-	@Path("/gettagsets")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public TagSetResponse getTagsets(@Context HttpServletRequest httpRequest) {
 		LOGGER.info("Entering getTagsets()");
-		final TagSetResponse tagSetResponse = new TagSetResponse();
+		TagSetResponse tagSetResponse = new TagSetResponse();
 
 		try {
 			// Get the authentication information

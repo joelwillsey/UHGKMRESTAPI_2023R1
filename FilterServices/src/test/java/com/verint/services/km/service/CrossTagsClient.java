@@ -58,7 +58,7 @@ public class CrossTagsClient extends BaseClient {
 		unmarshaller = jc.createUnmarshaller();
 		unmarshaller.setProperty(UnmarshallerProperties.MEDIA_TYPE, "application/json");
 		unmarshaller.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, false);
-        String bAuth = "kmagent" + ":" + "kmagent";
+        String bAuth = "kmagent" + ":" + "admin12345";
         String encodedCredentials = Base64.getEncoder().encodeToString(bAuth.getBytes("utf-8"));
 		String basicAuth = " Basic " + encodedCredentials;
 		System.out.println("BasicAuth: " + basicAuth);
