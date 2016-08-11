@@ -714,8 +714,8 @@ $(document).ready(function() {
 	$.fn.getCrossTag = function( source, target) {
 		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
-			if(data.tags["0"].systemTagName != 'undefined' && data.tags["0"].systemTagName != null){
-				var treeData = $.fn.createTreeFilter(data.tags, data.tags["0"].systemTagName, target, false);
+			if(data.crossTags["0"].tags["0"].systemTagName != 'undefined' && data.crossTags["0"].tags["0"].systemTagName != null){
+				var treeData = $.fn.createTreeFilter(data.crossTags["0"].tags, data.crossTags["0"].tags["0"].systemTagName, target, false);
 				$('#div-topic-tags').html(treeData);
 			}
 			
