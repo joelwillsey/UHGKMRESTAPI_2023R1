@@ -70,15 +70,12 @@ $(document).ready(function() {
 	$('#sr-request').on('click', function() {
 		log('query: ' + query);
 		// Load Request Answer HTML
-		$.get(searchServiceName + 'request_answer.html', function(data) {
-			$('#request-answer-widget').html(data);
 			$('#popup').html($('#request-answer-widget').html());
 			$('#request-answer-widget').html('');
 			$.fn.initData(query, '');
 			$('#background').addClass('background_on');
 			$('#popup').addClass('popup');
 			$('#popup').addClass('popup_on');
-		});
 	});
 	
 	// Call search to paginate
@@ -93,9 +90,13 @@ $(document).ready(function() {
 	}
 	
 	// Call to view Content
-	$.fn.viewContent = function(data) {
-		log(data);
-		$('.dpui-widget').trigger("dpui:viewContent", data);
+	$.fn.viewContent = function(contentId, contentType) {
+		var packagedData = [];
+		packagedData = {
+			"contentId" : contentId,
+			"contentType" : contentType
+		}
+		$('.dpui-widget').trigger("dpui:viewContent", packagedData);
 	}
 	$.fn.viewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
     	var packagedData = [];
@@ -115,8 +116,10 @@ $(document).ready(function() {
 
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
-		log(data);
-		window.open (contentServiceName + 'content_container.html?id='+data, data + '_contentwindow','menubar=1,resizable=1,width=1040,height=850');
+		window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1040,height=850');
+	}
+	$.fn.launchDTContent = function(data) {
+		window.open (contentServiceName + 'content_container.html?dt=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchViewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
 		var passedUrl = 'contentId=' + encodeURIComponent(contentId) + '&url=' + encodeURIComponent(url) + '&isFeatured=' + isFeatured + '&averageRating=' + averageRating;
@@ -138,7 +141,7 @@ $(document).ready(function() {
 	// Setup slice results if there are any
 	$.fn.setupSlicedContent = function(data, results) {
 		results.push('<article>');
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\');">');
+		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {
@@ -211,7 +214,7 @@ $(document).ready(function() {
 	// Setup results links
 	$.fn.setupResultsLinks = function(data, results) {
 		results.push('<article>');
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\');">');
+		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {
@@ -226,7 +229,12 @@ $(document).ready(function() {
 		results.push('      </div>');
 		results.push('    </div>');
 		results.push('  </a>');
-		results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+		// Check for a decision tree or not
+		if (data.contentType === 'pageSet') {
+			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchDTContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+		} else {
+			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+		}
 		results.push('</article>');
 		return results;
 	}

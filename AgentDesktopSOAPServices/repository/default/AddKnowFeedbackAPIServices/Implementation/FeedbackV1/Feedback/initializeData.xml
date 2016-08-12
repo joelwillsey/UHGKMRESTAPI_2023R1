@@ -200,7 +200,12 @@ this.entity.createdBy = this.username;
 this.entity.saveDeep();
 this.outcome = OutcomeCodes.getSuccessModifiedCode();
 this.returnResponse.outcomeCode = this.outcome;
-this.returnResponse.notification = false;
+if(this.notification){
+    this.returnResponse.notification = this.notification;
+}
+else{
+    this.returnResponse.notification = false;
+}
 ]]>
     </Verbatim>
   </Procedure>

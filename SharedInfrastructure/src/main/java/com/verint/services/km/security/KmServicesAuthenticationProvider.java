@@ -61,7 +61,7 @@ public class KmServicesAuthenticationProvider implements AuthenticationProvider 
 		LOGGER.debug("Username: " + username);
 		LOGGER.debug("Password: " + password);
 		
-		final LoginRequest request = new LoginRequest();
+/*		final LoginRequest request = new LoginRequest();
 		request.setUsername(username);
 		request.setPassword(password);
 		
@@ -75,6 +75,12 @@ public class KmServicesAuthenticationProvider implements AuthenticationProvider 
 
 		// Check for a response
 		if (response == null) {
+			throw new BadCredentialsException("Username/password not found");
+		}
+*/
+
+		// Check for a response
+		if (username == null || password == null) {
 			throw new BadCredentialsException("Username/password not found");
 		}
 

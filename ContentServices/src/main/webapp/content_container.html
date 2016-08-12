@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="js/common.js"></script>
 	<script type="text/javascript">
 		var contentServiceName = '/contentservices/';
+		var decisionTreeUrl = 'https://demo.kana.com/enterprise/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet/';
 		var historyPushEnabled = false;
 		var defaultTitle = 'Verint Content Widget';
 		
@@ -69,15 +70,20 @@
 			}
 	    } else {
 			if ($(window).outerWidth(true) < 1025) {
+				log('here1');
 				$('#content-container').removeClass('content_resize');
 				$.fn.deleteClass('.content_resize');
 			} else {
+				$('#content-container').addClass('content_container_on');
+				log('here2');
 				var sizeOfContentWidget = $(window).outerHeight(true) - $('#widgetHeader').outerHeight(true) - 25;
+				log(sizeOfContentWidget);
 				$('#content-container').removeClass('content_resize');
 				$.fn.deleteClass('.content_resize');
 				$.fn.createClass('.content_resize', 'height: ' + sizeOfContentWidget + 'px;');
+				log('here3');
 				$('#content-container').addClass('content_resize');
-				$('#content-container').addClass('content_container_on');
+				log('here4');
 			}
 	    }
 	}

@@ -1,4 +1,4 @@
-/**
+/**F
  * 
  */
 package com.verint.services.km.dao;
@@ -86,15 +86,17 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		final ContentRequest contentRequest = new ContentRequest();
 //		String body = "<img v:shapes=\"Picture_x0020_1\" height=\"449\" width=\"624\" style=\"font-size:10.0pt;line-height:115%;font-family:Verdana,sans-serif;\" src=\"/GTConnect/UnifiedAcceptor/FrameworkDesktop.Main?gtxResource=/asset/images/clip_image004347501196479703654_ServiceDesk_en-US.jpg&gtxResourceFileName=clip_image004347501196479703654_ServiceDesk_en-US.jpg&mode=download\"/><p>xyz</p><img v:shapes=\"Picture_x0020_1\" height=\"449\" width=\"624\" style=\"font-size:10.0pt;line-height:115%;font-family:Verdana,sans-serif;\" src=\"/GTConnect/UnifiedAcceptor/FrameworkDesktop.Main?gtxResource=/asset/images/clip_image004347501196479703654_ServiceDesk_en-US.jpg&gtxResourceFileName=clip_image004347501196479703654_ServiceDesk_en-US.jpg&mode=download\"/><div><p>oweek</p></div><img v:shapes=\"Picture_x0020_1\" height=\"449\" width=\"624\" style=\"font-size:10.0pt;line-height:115%;font-family:Verdana,sans-serif;\" src=\"/GTConnect/UnifiedAcceptor/FrameworkDesktop.Main?gtxResource=/asset/images/clip_image004347501196479703654_ServiceDesk_en-US.jpg&gtxResourceFileName=clip_image004347501196479703654_ServiceDesk_en-US.jpg&mode=download\"/>";
 		//String body = "<body><title>New Process for Simple Address Changes</title><featured>true</featured><publicBody><p><br data-mce-bogus=\"1\"></p></publicBody><relatedContent></relatedContent><publicSectionContent></publicSectionContent><publicSegmentContent></publicSegmentContent><attachments></attachments><publishedDate>2016-04-22T23:45:46.227+00:00</publishedDate><expiredDate></expiredDate><lastModifiedBy>kmmanager</lastModifiedBy><owner>kmmanager</owner><weighting></weighting><status>PUBLISHED</status><tagsets><tagset> <systemTagSetName>system</systemTagSetName><displayTagSetName>Process</displayTagSetName><tag><systemTagName>kipviewworkitemsocial</systemTagName><displayTagName>View Work Item - Social</displayTagName></tag></tagset></tagsets></body>]]></body>";
-		String body = "<p><img src=\"/images/knowledgeImages/EditCustomer.png\" alt=\"\" data-mce-src=\"/images/knowledgeImages/EditCustomer.png\"></p>";
-		((ContentDAOImpl)contentDAO).updateImg(body);
+//		String body = "<p><img src=\"/images/knowledgeImages/EditCustomer.png\" alt=\"\" data-mce-src=\"/images/knowledgeImages/EditCustomer.png\"></p>";
+		String body = "<img src=\"{{{{GTSYSTEM_RESOURCE_PATH_PLACEHOLDER}}}}?gtxResource=/asset/images/sfrx_img6581411467656126519-898975550771652792_ServiceDesk_en-US.png&gtxResourceFileName=sfrx_img6581411467656126519-898975550771652792_ServiceDesk_en-US.png&mode=download\"/>";
+		body = ((ContentDAOImpl)contentDAO).updateImg(body);
+		System.out.println("Body: " + body);
 
 		contentRequest.setContentId("OfZNOcPQLP0Hd3Kle7DUh5");
 		contentRequest.setUsername("wjkm2");
 		contentRequest.setPassword("wjkm2");
 		try {
-			final ContentResponse contentResponse = contentDAO.getContent(contentRequest);
-			LOGGER.debug("ContentResponse: " + contentResponse);
+//			final ContentResponse contentResponse = contentDAO.getContent(contentRequest);
+//			LOGGER.debug("ContentResponse: " + contentResponse);
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
@@ -171,7 +173,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		    				LOGGER.debug("tempData: " + tempData);
 		    				tempData = tempData.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
 		    				LOGGER.debug("tempData: " + tempData);
-		    				data = "<p>" + data + "</p>" + "<p><iframe src=\"" + ExternalUrl + "fileStorage/" + tempData + "\" width=\"100%\" height=\"400px\"/></p>";
+		    				data = "<p>" + data + "</p>" + "<p><iframe src=\"" + ExternalUrl + tempData + "\" width=\"100%\" height=\"400px\"/></p>";
 		    				LOGGER.debug("data: " + data);
 		    	    		customField.setData(data);
 		    	    		contentResponse.addCustomField(customField);
@@ -184,13 +186,13 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			}
 
 			// Setup Public Body
-			contentResponse.setPublicBody(parsePrivateData(contentResponse.getPublicBody()));
+			contentResponse.setPublicBody(parseBodyData(contentResponse.getPublicBody()));
 			// Setup Public Answer
-			contentResponse.setPublicAnswer(parsePrivateData(contentResponse.getPublicAnswer()));
+			contentResponse.setPublicAnswer(parseBodyData(contentResponse.getPublicAnswer()));
 			// Setup Private Body
-			contentResponse.setPrivateBody(parsePrivateData(contentResponse.getPrivateBody()));
+			contentResponse.setPrivateBody(parseBodyData(contentResponse.getPrivateBody()));
 			// Get Private Answer
-			contentResponse.setPrivateAnswer(parsePrivateData(contentResponse.getPrivateAnswer()));
+			contentResponse.setPrivateAnswer(parseBodyData(contentResponse.getPrivateAnswer()));
 			// Fix Dates
 			contentResponse = setupPublishedDate(contentResponse);
 
@@ -207,10 +209,11 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
     				url = url.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
     				url = url.replaceFirst("\\\\", "/");
     				LOGGER.debug("url: " + url);
-    				url = ExternalUrl + "filstorage/" + url;
+    				url = ExternalUrl + url;
     				attachment.setUrl(url);
     			}
 			}
+
 			// Reformat custom fields
 			final Set<CustomField> customFields = contentResponse.getCustomFields();
 			if (customFields != null && !customFields.isEmpty()) {
@@ -220,7 +223,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 					final String data = cf.getData();
 					if (data != null && data.length() > 0) {
 						cf.setData(data.replace("></br>", "/>"));
-						cf.setData((parsePrivateData(cf.getData())));
+						cf.setData((parseBodyData(cf.getData())));
 					}
 				}
 			}
@@ -239,21 +242,21 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	 * @param privateData
 	 * @return
 	 */
-	private String parsePrivateData(String privateData) {
-		LOGGER.info("Entering parsePrivateData()");
-		LOGGER.debug("Incoming privateData: " + privateData);
+	private String parseBodyData(String bodyData) {
+		LOGGER.info("Entering parseBodyData()");
+		LOGGER.debug("Incoming bodyData: " + bodyData);
 
 		// Check for an empty body
-		if (privateData != null && privateData.length() > 0) {
-			privateData = privateData.replace("></br>", "/>");
-			privateData = updateAHref(privateData);
-			privateData = updateImg(privateData);
+		if (bodyData != null && bodyData.length() > 0) {
+			bodyData = bodyData.replace("></br>", "/>");
+			bodyData = updateAHref(bodyData);
+			bodyData = updateImg(bodyData);
 			final ElementParser ep = new ElementParser();
-			privateData = ep.parseInlineContent(privateData);
+			bodyData = ep.parseInlineContent(bodyData);
 		}
-		LOGGER.debug("Outgoing privateData: " + privateData);
-		LOGGER.info("Exiting setupPrivateBody()");
-		return privateData;
+		LOGGER.debug("Outgoing privateData: " + bodyData);
+		LOGGER.info("Exiting parseBodyData()");
+		return bodyData;
 	}
 
 	/**
@@ -301,7 +304,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			gtxResource = body.indexOf("?gtxResource=");
 			if (gtxResource != -1) {
 				bodyBefore =  body.substring(0, ahref + " href=\"".length());
-				bodyAfter = ExternalUrl + "fileStorage/" + body.substring(gtxResource + "?gtxResource=".length());
+				bodyAfter = ExternalUrl + body.substring(gtxResource + "?gtxResource=".length());
 				bodyAfter = bodyAfter.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
 				ahref = bodyAfter.indexOf(" href=\"");
 				finalBody += bodyBefore;
@@ -337,7 +340,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			int resourceIndex = tempBody.indexOf("gtxResource=");
 			if (srcIndex != -1 && resourceIndex != -1) {
 				bodyBefore = bodyBefore + tempBody.substring(0, srcIndex + "src=\"".length());
-				bodyAfter = ExternalUrl + "fileStorage/"+ tempBody.substring(resourceIndex + "gtxResource=".length());
+				bodyAfter = ExternalUrl + tempBody.substring(resourceIndex + "gtxResource=".length());
 				finalBody = bodyBefore + bodyAfter;
 				img = bodyAfter.indexOf("<img");
 				foundImg = true;

@@ -130,7 +130,11 @@ $(document).ready(function() {
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
 		log(data);
-		window.open (contentServiceName + 'content_container.html?id='+data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
+		window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
+	}
+	$.fn.launchDTViewContent = function(data) {
+		log(data);
+		window.open (contentServiceName + 'content_container.html?dt=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
 	}
 
 	// Bookmark function
@@ -316,13 +320,21 @@ $(document).ready(function() {
 			contentBody.push('  </div>');
 			for (var p = 0; p < data.publicSectionContent.length; p++) {
 				contentBody.push('  <div class="content_body_field_resuable_content">');
-				contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.publicSectionContent[p].id + '\');">');
+				if (data.publicSectionContent[p].type == 'pageSet') {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.publicSectionContent[p].id + '\');">');
+				} else {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.publicSectionContent[p].id + '\');">');
+				}
 				contentBody.push('      <div class="content_body_field_resuable_content_icon ' + data.publicSectionContent[p].type + '">&nbsp;</div>');
 				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.publicSectionContent[p].title + '</div>');
 				contentBody.push('    </a>');
 				contentBody.push('  </div>');
 				contentBody.push('  <div class="content_body_field_resuable_link">');
-				contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.publicSectionContent[p].id + '\');">');
+				if (data.publicSectionContent[p].type == 'pageSet') {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.publicSectionContent[p].id + '\');">');
+				} else {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.publicSectionContent[p].id + '\');">');
+				}
 				contentBody.push('      <img src="' + contentServiceName + '/images/ReadLaterGray16x16.png"/>');
 				contentBody.push('    </a>');
 				contentBody.push('  </div>');
@@ -363,13 +375,21 @@ $(document).ready(function() {
 			contentBody.push('  </div>');
 			for (var p = 0; p < data.privateSectionContent.length; p++) {
 				contentBody.push('  <div class="content_body_field_resuable_content">');
-				contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.privateSectionContent[p].id + '\');">');
+				if (data.privateSectionContent[p].type == 'pageSet') {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.privateSectionContent[p].id + '\');">');
+				} else {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.privateSectionContent[p].id + '\');">');
+				}
 				contentBody.push('      <div class="content_body_field_resuable_content_icon ' + data.privateSectionContent[p].type + '">&nbsp;</div>');
 				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.privateSectionContent[p].title + '</div>');
 				contentBody.push('    </a>');
 				contentBody.push('  </div>');
 				contentBody.push('  <div class="content_body_field_resuable_link">');
-				contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.privateSectionContent[p].id + '\');">');
+				if (data.privateSectionContent[p].type == 'pageSet') {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.privateSectionContent[p].id + '\');">');
+				} else {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.privateSectionContent[p].id + '\');">');
+				}
 				contentBody.push('      <img src="' + contentServiceName + '/images/ReadLaterGray16x16.png"/>');
 				contentBody.push('    </a>');
 				contentBody.push('  </div>');
@@ -394,7 +414,11 @@ $(document).ready(function() {
 			contentBody.push('  </div>');
 			for (var p = 0; p < data.privateSectionContent.length; p++) {
 				contentBody.push('  <div class="content_body_field_resuable_content">');
-				contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.privateSectionContent[p].id + '\');">');
+				if (data.privateSectionContent[p].type == 'pageSet') {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.privateSectionContent[p].id + '\');">');
+				} else {
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.privateSectionContent[p].id + '\');">');
+				}
 				contentBody.push('      <div class="content_body_field_resuable_content_icon ' + data.privateSectionContent[p].type + '">&nbsp;</div>');
 				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.privateSectionContent[p].title + '</div>');
 				contentBody.push('    </a>');
@@ -450,7 +474,11 @@ $(document).ready(function() {
 				for (var i = 0; i < data.relatedContent.contentEntries.length; i++) {
 					contentBody.push('  <div class="content_body_field_related_data">');
 					contentBody.push('    <div class="content_body_field_resuable_related_content">');
-					contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.relatedContent.contentEntries[i].id +  '\');">');
+					if (data.relatedContent.contentEntries[i].type == 'pageSet') {
+						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.relatedContent.contentEntries[i].id +  '\');">');
+					} else {
+						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.relatedContent.contentEntries[i].id +  '\');">');
+					}
 					contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.contentEntries[i].type + '">&nbsp;</div>');
 					contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.contentEntries[i].title + '</div>');
 					contentBody.push('      </a>');
@@ -464,8 +492,12 @@ $(document).ready(function() {
 				for (var i = 0; i < data.relatedContent.externalContents.length; i++) {
 					contentBody.push('  <div class="content_body_field_related_data">');
 					contentBody.push('    <div class="content_body_field_resuable_content">');
-					contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.relatedContent.externalContents[i].url +  '\');">');
-					contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.contentEntries[i].type + '">&nbsp;</div>');
+					if (data.relatedContent.contentEntries[i].type == 'pageSet') {
+						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.relatedContent.externalContents[i].url +  '\');">');
+					} else {
+						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.relatedContent.externalContents[i].url +  '\');">');
+					}
+					contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.externalContents[i].type + '">&nbsp;</div>');
 					contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.externalContents[i].name + '</div>');
 					contentBody.push('      </a>');
 					contentBody.push('    </div>');
@@ -707,17 +739,52 @@ $(document).ready(function() {
 		}
 		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id, 20000, function(data) {
 			log('Get content ID: ' + data);
-		    if (typeof data != 'undefined' && data != null) {
+		    if (typeof data != 'undefined' && data != null && data != '') {
 		    	$.fn.setupContent(data);
 		    }
 		});
 	}
+	
+	// Show the decision tree content
+	$.fn.showDTContent = function(id) {
+		// First check if pushState is supported and if so is it enabled
+		// Changes the browser URL to use the parameters so users can save searches and/or bookmark them
+		if (history.pushState && typeof historyPushEnabled != 'undefined' && historyPushEnabled) {
+	    	var query = '?dt=' + id;
+	    	var stateObj = { path: query };
+			// IE9 has an issue with history; Don't know if IE
+	    	if ($.fn.isIE() === 9) {
+	    		 // IE9 code
+	    		log('IE9 Detected');
+				history.pushState(stateObj, "newPage", query);
+			} else {
+				history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
+			}
+		}
+
+		// This is a Decision Tree
+    	// Show the content
+		$.fn.setupContentWidget(); // Some bug w/ browsers where I need to call this
+		var inlineHtml = '<iframe src="' + decisionTreeUrl + id + '" style="width: 100%; height: 100%;"/>';
+		$('#content-decision-tree').css('display', 'block');
+		$('#content-decision-tree').css('width', '100%');
+		$('#content-decision-tree').css('height', '100%');
+		$('#content-decision-tree').html(inlineHtml);		
+	}
 
 	// Setup refresh of content
-	$.fn.viewResultsContent = function(id) {
+	$.fn.viewResultsContent = function(data) {
 		// First reset view cache
 		contentIds.length = 0;
-		$.fn.retrieveContent(id);	
+		if (typeof data != 'undefined' && data != '' && data != null) {
+			if (typeof data.contentType != 'undefined' && data.contentType === 'pageSet') {
+				$.fn.showDTContent(data.contentId);
+			} else {
+				$('#content-decision-tree').css('display', 'none');
+				$('#content-loader').addClass('content_loader_on');
+				$.fn.retrieveContent(data.contentId);
+			}
+		}
 	}
 
 	// Setup cross widget communication
@@ -755,15 +822,23 @@ $(document).ready(function() {
 
 	// Check to see if an id was passed in
 	var cId = $.fn.getParameterByName('id');
-	if (typeof cId != 'undefined' && cId != null && cId != 'null') {
+	if (typeof cId != 'undefined' && cId != null && cId != 'null' && cId != '') {
 		log(cId);
 		externalLink = true;
-		$.fn.retrieveContent(cId, $.fn.contentCallback);
+		$.fn.retrieveContent(cId);
 	} 
 
+	// Check to see if a decision tree is being launched
+	var dt = $.fn.getParameterByName('dt');
+	if (typeof dt != 'undefined' && dt != null && dt != 'null' && dt != '') {
+		log(dt);
+		externalLink = true;
+		$.fn.showDTContent(dt);
+	} 
+	
 	// Get external content if necessary
 	var contentId = $.fn.getParameterByName('contentId');
-	if (typeof contentId != 'undefined' && contentId != null && contentId != 'null') {
+	if (typeof contentId != 'undefined' && contentId != null && contentId != 'null' && contentId != '') {
 		log(contentId);
 		externalLink = true;
     	packagedData = {
