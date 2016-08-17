@@ -20,9 +20,11 @@ public interface CrossTagsDAO {
 	 * @param password
 	 * @param sourcetag
 	 * @param targettagset
+	 * @param targettagset2 
+	 * @param targettagset1 
 	 * @return
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public CrossTagResponse getTagSetConfigurations(String username, String password, String[] sourcetag, String targettagset) throws SQLException, IOException;
+	public CrossTagResponse getTagSetConfigurations(String username, String password, String[] sourcetag, String targettagset, String targettagset1, String targettagset2) throws SQLException, IOException;
 }

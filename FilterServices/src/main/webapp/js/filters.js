@@ -566,7 +566,7 @@ $(document).ready(function() {
 		$('#' + element + '-input').attr('value', '');
 		
 		//calling the crosstags to update
-		$.fn.getCrossTag(element,'topic');
+		$.fn.getCrossTag(element,'topic','cntntType','region');
 
 		// Send inter-widget communication
 		$.fn.widgetCommunication();
@@ -588,6 +588,13 @@ $(document).ready(function() {
 		
 		var treeData = "";
 		$('#div-topic-tags').html(treeData);
+		$.fn.getTagsforTagSets();
+//		$('#div-cntntType-tags').html(treeData);
+//		$('#ul-cntntType-tags').html(treeData);
+//		$('#div-region-tags').html(treeData);
+//		$('#ul-region-tags').html(treeData);
+		
+		
 
 		// Send inter-widget communication
 		$.fn.widgetCommunication();
@@ -711,15 +718,30 @@ $(document).ready(function() {
     $(".dpui-widget").trigger("dpui:startWidget");
 
     // Cross Tags Example
-	$.fn.getCrossTag = function( source, target) {
-		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target;
+	$.fn.getCrossTag = function( source, target, target1, target2) {
+		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target +'&targettagset1='+ target1 +'&targettagset2='+ target2;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
-			if(data.crossTags["0"].tags["0"].systemTagName != 'undefined' && data.crossTags["0"].tags["0"].systemTagName != null){
-				var treeData = $.fn.createTreeFilter(data.crossTags["0"].tags, data.crossTags["0"].tags["0"].systemTagName, target, false);
-				$('#div-topic-tags').html(treeData);
-			}
-			
+			$.fn.populateCrossTags(data);
 		});
+	}
+	
+	$.fn.populateCrossTags = function(data) {
+		for(var i = 0; i < data.crossTags.length; ++i){
+			var currentTargetSet = data.crossTags[i].tags[0].parentTagName;
+			
+			if (currentTargetSet == 'topic'){
+				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'topic', false);
+				$('#div-topic-tags').html(treeData);
+			}else if (currentTargetSet == 'cntntType'){
+				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'cntntType', false);
+				$('#div-cntntType-tags').html(treeData);
+				$('#ul-cntntType-tags').html($.fn.setupFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'cntntType'));
+			}else if (currentTargetSet == 'region'){
+				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'region', false);
+				$('#div-region-tags').html(treeData);
+				$('#ul-region-tags').html($.fn.setupFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'region'));
+			}
+		}
 	}
     // Get all the tags for the TagSets
 	$.fn.getTagsforTagSets = function() {

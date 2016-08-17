@@ -68,10 +68,14 @@ public class CrossTagsService extends BaseService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public CrossTagResponse getCrossTags(@QueryParam("sourcetag") String sourcetag,
     		@QueryParam("targettagset") String targettagset,
+    		@QueryParam("targettagset1") String targettagset1,
+    		@QueryParam("targettagset2") String targettagset2,
     		@Context HttpServletRequest httpRequest) {
 		LOGGER.info("Entering getCrossTags()");
 		LOGGER.debug("sourcetag: " + sourcetag);
 		LOGGER.debug("targettagset: " + targettagset);
+		LOGGER.debug("targettagset1: " + targettagset1);
+		LOGGER.debug("targettagset2: " + targettagset2);
 		CrossTagResponse crossTagResponse = new CrossTagResponse();
 
 		try {
@@ -93,7 +97,7 @@ public class CrossTagsService extends BaseService {
 						sourcetags[x++] = st2.nextToken(); 
 					}
 					// Get all the cross tag combinations
-					crossTagResponse = crossTagsDAO.getTagSetConfigurations(credentials[0], credentials[1], sourcetags, targettagset);
+					crossTagResponse = crossTagsDAO.getTagSetConfigurations(credentials[0], credentials[1], sourcetags, targettagset, targettagset1, targettagset2);
 				}
 			}
 		} catch (SQLException sqle) {
