@@ -30,6 +30,7 @@ import com.verint.services.km.model.ContentRequest;
 import com.verint.services.km.model.ContentResponse;
 import com.verint.services.km.model.CustomField;
 import com.verint.services.km.model.Translated;
+import com.verint.services.km.util.PropertyUtil;
 
 /**
  * @author jmiller
@@ -42,18 +43,12 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	
 	static {
 		try {
-			final String OSName = System.getProperty("os.name");
-			LOGGER.debug("OSName: " + OSName);
-			String fileLocation = "/opt/kmservices/";
-			if (OSName != null && OSName.length() > 0) {
-				if (OSName.startsWith("Windows")) {
-					fileLocation = "C:\\opt\\kmservices\\";
-				}
-			}
+			String fileLocation = PropertyUtil.getExternalFilesPath();
+			LOGGER.debug("FileLocation: " + fileLocation);
+			
 			// Get the properties
 			final Properties prop = new Properties();
-			LOGGER.debug("FileLocation: " + fileLocation + "externalFiles.properties");
-	        final InputStream in = new FileInputStream(fileLocation + "externalFiles.properties");
+	        final InputStream in = new FileInputStream(fileLocation);
 	        prop.load(in);
 	        in.close();
 	        ExternalUrl = prop.getProperty("serverurl");	        
