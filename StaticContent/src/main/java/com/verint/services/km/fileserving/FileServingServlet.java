@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.verint.services.km.util.PropertyUtil;
+
 //@WebServlet("/UploadDownloadFileServlet")
 public class FileServingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,18 +27,12 @@ public class FileServingServlet extends HttpServlet {
 
 	static {
 		try {
-			final String OSName = System.getProperty("os.name");
-			LOGGER.debug("OSName: " + OSName);
-			String fileLocation = "/opt/kmservices/";
-			if (OSName != null && OSName.length() > 0) {
-				if (OSName.startsWith("Windows")) {
-					fileLocation = "C:\\opt\\kmservices\\";
-				}
-			}
+			String fileLocation = PropertyUtil.getExternalFilesPath();
+			LOGGER.debug("FileLocation: " + fileLocation);
 
 			// Get the properties
 			final Properties prop = new Properties();
-			final InputStream in = new FileInputStream(fileLocation + "externalFiles.properties");
+			final InputStream in = new FileInputStream(fileLocation);
 			prop.load(in);
 			in.close();
 			FileLocation = prop.getProperty("filelocation");

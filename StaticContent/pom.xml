@@ -17,6 +17,12 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.verint.sharedinfrastructure</groupId>
+			<artifactId>SharedInfrastructure</artifactId>
+			<version>1.4-RELEASE</version>
+		</dependency>
+		
 		<!-- Javax Servlet support -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

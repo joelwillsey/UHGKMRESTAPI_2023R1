@@ -5,7 +5,10 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <dependent-module archiveName="SharedInfrastructure-1.4-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/SharedInfrastructure/SharedInfrastructure">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/StaticContent/target/classes"/>
-        <property name="context-root" value="enterprise/filestorage"/>
+        <property name="context-root" value="StaticContent"/>
     </wb-module>
 </project-modules>
