@@ -54,12 +54,13 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 	 * @see com.verint.services.km.dao.CrossTagsDAO#getTagSetConfigurations(java.lang.String, java.lang.String, java.lang.String[], java.lang.String)
 	 */
 	@Override
-	public CrossTagResponse getTagSetConfigurations(String username, String password, String[] sourcetag, String targettagset, String targettagset1, String targettagset2) throws SQLException, IOException {
+	public CrossTagResponse getTagSetConfigurations(String username, String password, String[] sourcetag, String targettagset, String targettagset1, String targettagset2, String targettagset3) throws SQLException, IOException {
 		LOGGER.info("Entering getTagSetConfiguration()");
 		LOGGER.debug("sourcetag: " + sourcetag);
 		LOGGER.debug("targettagset: " + targettagset);
 		LOGGER.debug("targettagset1: " + targettagset1);
 		LOGGER.debug("targettagset2: " + targettagset2);
+		LOGGER.debug("targettagset2: " + targettagset3);
 		final CrossTagResponse response = new CrossTagResponse();
 		
 		// Get the connection and statement
@@ -67,7 +68,7 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 		PreparedStatement stmt = null;
 
 		//looping through all three target sets to get all crosstags in one source
-		for(int c = 0; c < 3; c++){
+		for(int c = 0; c < 4; c++){
 			
 			//setting the currentTagSet
 			String currentTagSet = "";
@@ -79,6 +80,8 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 			case 1: currentTagSet = targettagset1;
 					break;
 			case 2: currentTagSet = targettagset2;
+					break;
+			case 3: currentTagSet = targettagset3;
 					break;
 			}
 		
@@ -133,8 +136,9 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 						boolean found = false;
 						boolean skipFirst = false;
 						boolean doneWithTree = false;
-						
+
 						final List<Tag> lTags = new ArrayList<Tag>();
+								
 						String parentTagName = "";
 						
 						for (int x = 0; (tags != null) && (x < tags.length); x++) {
@@ -173,7 +177,18 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 						response.addCrossTag(crossTag);
 					} else {
 						boolean doneWithTree = false;
+						
+						//creation of the header tag
+						Tag headerTag = new Tag();
+						headerTag.setParentTagName(tags[0].getSystemTagName());
+						headerTag.setSystemTagName(tags[0].getSystemTagName());
+						headerTag.setSystemTagDisplayName("Header");
+						
 						final List<Tag> lTags = new ArrayList<Tag>();
+						
+						//insertion of the header tag into the tag list
+						lTags.add(headerTag);
+						
 						String parentTagName = "";
 						for (int x = 0; (tags != null) && (x < tags.length); x++) {
 							
@@ -218,9 +233,9 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 			LOGGER.error("SQLException", sqle);
 			throw sqle;
 		} finally {
-			if (stmt != null && c == 2)
+			if (stmt != null && c == 3)
 				stmt.close();
-			if (connection != null && c == 2)
+			if (connection != null && c == 3)
 				connection.close();
 		}
 		}

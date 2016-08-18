@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	var params = $.fn.getAllParametersString();
 
 	// Service Cloud arrow link
 	$('#fs-li-cloud').on('click', function() {
@@ -14,7 +15,7 @@ $(document).ready(function() {
 	$('#fs-li-filters').on('click', function() {
 		$.fn.changeArrow('#fs-filters-data', '#fs-i-filters');
 	});
-
+	
 	// Service Cloud Reset link
 	$('.fs_cloud_reset').on('click', function() {
 		$('.ul_all_tags li').each(
@@ -566,7 +567,7 @@ $(document).ready(function() {
 		$('#' + element + '-input').attr('value', '');
 		
 		//calling the crosstags to update
-		$.fn.getCrossTag(element,'topic','cntntType','region');
+		$.fn.getCrossTag(element,'topic','cntntType','region','product');
 
 		// Send inter-widget communication
 		$.fn.widgetCommunication();
@@ -586,16 +587,32 @@ $(document).ready(function() {
 		}
 		$(buildLi).insertAt(rel, $('#ul-' + type + '-tags'));
 		
-		var treeData = "";
-		$('#div-topic-tags').html(treeData);
-		$.fn.getTagsforTagSets();
-//		$('#div-cntntType-tags').html(treeData);
-//		$('#ul-cntntType-tags').html(treeData);
-//		$('#div-region-tags').html(treeData);
-//		$('#ul-region-tags').html(treeData);
+		//added special remove cases for when we remove kbase tags
+		if (type == 'kbase'){
+			
+			//clears a lot of the values to not be able to select them when there is no kbase tag selected
+			var treeData = "";
+			$('#div-topic-tags').html(treeData);
+			$('#ul-cntntType-tags').html(treeData);
+			$('#ul-region-tags').html(treeData);
+			$('#ul-product-tags').html(treeData);
+			
+			
+			$('.ul_all_tags li').each(
+					function(index) {
+						log(index);
+						var li = $(this);
+						log(li);
+						var id = li.attr('id');
+						id = id.substring(3);
+						var tagtype = $('#' + li.attr('id') + ' a').attr('tagtype');
+						if (typeof tagtype != 'undefined') {
+							$.fn.removeTag(tagtype, id);
+						} 
+						li.remove();
+					})
+		}
 		
-		
-
 		// Send inter-widget communication
 		$.fn.widgetCommunication();
 	}
@@ -718,8 +735,8 @@ $(document).ready(function() {
     $(".dpui-widget").trigger("dpui:startWidget");
 
     // Cross Tags Example
-	$.fn.getCrossTag = function( source, target, target1, target2) {
-		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target +'&targettagset1='+ target1 +'&targettagset2='+ target2;
+	$.fn.getCrossTag = function( source, target, target1, target2, target3) {
+		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target +'&targettagset1='+ target1 +'&targettagset2='+ target2 +'&targettagset3='+ target3;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
 			$.fn.populateCrossTags(data);
 		});
@@ -740,6 +757,10 @@ $(document).ready(function() {
 				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'region', false);
 				$('#div-region-tags').html(treeData);
 				$('#ul-region-tags').html($.fn.setupFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'region'));
+			}else if (currentTargetSet == 'product'){
+				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'product', true);
+				$('#div-product-tags').html(treeData);
+				$('#ul-product-tags').html($.fn.setupFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'product'));
 			}
 		}
 	}
@@ -771,9 +792,30 @@ $(document).ready(function() {
 						 $('#ul-kbase-tags').html(kbaseData);
 					 }
 				 }
+				 //put in a check here to see if see if the kbase data exists in the url tags and select it//
+				 
+				 //this pulls in the params and puts them into an array
+				 var kTagsParams = $.fn.getParameterByName('tags');
+				 var partsOfStr = kTagsParams.split(',');
+				 
+				 //crosschecks the params with the ktags
+				 PARAMSLOOP: for (var i = 0; i < partsOfStr.length; ++i){
+					 for (var j = 0; j < data.tags.length; ++j){
+						 if ( partsOfStr[i] == data.tags[j].systemTagName){
+							 //invoking the ktag onclick function if we find a match in the params
+							 var elem = document.getElementById(data.tags[j].systemTagName);
+							 
+							 if ( typeof elem.onclick == "function"){
+								 elem.onclick.apply(elem);
+								 break PARAMSLOOP;
+							 }
+						 }
+					 }
+				 }
+				 
 			 }
 		 }
 
 	// Get the Tags
-	$.fn.getTagsforTagSets();
+	$.fn.getKBaseTags()
 });

@@ -26,5 +26,5 @@ public interface CrossTagsDAO {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public CrossTagResponse getTagSetConfigurations(String username, String password, String[] sourcetag, String targettagset, String targettagset1, String targettagset2) throws SQLException, IOException;
+	public CrossTagResponse getTagSetConfigurations(String username, String password, String[] sourcetag, String targettagset, String targettagset1, String targettagset2, String targettagset3) throws SQLException, IOException;
 }
