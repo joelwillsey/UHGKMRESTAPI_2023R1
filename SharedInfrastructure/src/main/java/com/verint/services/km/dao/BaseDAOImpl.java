@@ -36,6 +36,7 @@ import com.kana.contactcentre.services.model.SearchV1Service_wsdl.SearchV1Servic
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagV1BindingStub;
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagV1PortType;
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagV1ServiceLocator;
+import com.verint.services.km.util.PropertyUtil;
 
 /**
  * @author jmiller
@@ -58,19 +59,12 @@ public class BaseDAOImpl  {
 
 	static {
 		try {
-			final String OSName = System.getProperty("os.name");
-			LOGGER.debug("OSName: " + OSName);
-			String fileLocation = "/opt/kmservices/";
-			if (OSName != null && OSName.length() > 0) {
-				if (OSName.startsWith("Windows")) {
-					fileLocation = "C:\\opt\\kmservices\\";
-				}
-			}
+			String fileLocation = PropertyUtil.getSoapConnectionPath();
+			LOGGER.debug("FileLocation: " + fileLocation);
 
 			// Get the properties
 			final Properties prop = new Properties();
-			LOGGER.debug("FileLocation: " + fileLocation + "soapConnection.properties");
-	        final InputStream in = new FileInputStream(fileLocation + "soapConnection.properties");
+	        final InputStream in = new FileInputStream(fileLocation);
 	        prop.load(in);
 	        in.close();
 	        

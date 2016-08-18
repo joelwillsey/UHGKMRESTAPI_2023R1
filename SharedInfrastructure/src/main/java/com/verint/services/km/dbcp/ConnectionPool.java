@@ -17,6 +17,8 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.verint.services.km.util.PropertyUtil;
+
 /**
  * @author jmiller
  *
@@ -26,20 +28,13 @@ public class ConnectionPool {
 	private static BasicDataSource DATASOURCE = null;
 
 	static {
-		final String OSName = System.getProperty("os.name");
-		LOGGER.debug("OSName: " + OSName);
-
-		String fileLocation = "/opt/kmservices/";
-		if (OSName != null && OSName.length() > 0) {
-			if (OSName.startsWith("Windows")) {
-				fileLocation = "C:\\opt\\kmservices\\";
-			}
-		}
+		String fileLocation = PropertyUtil.getConnectionPoolPath();
+		LOGGER.debug("FileLocation: " + fileLocation);
+		
 		try {
 			// Get the properties
 			final Properties prop = new Properties();
-			LOGGER.debug("FileLocation: " + fileLocation + "connectionPool.properties");
-	        final InputStream in = new FileInputStream(fileLocation + "connectionPool.properties");
+	        final InputStream in = new FileInputStream(fileLocation);
 	        LOGGER.debug("After: " + in);
 	        prop.load(in);
 	        
