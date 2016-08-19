@@ -289,11 +289,11 @@ button {
 			    	width: 30px;
 				}
 			.content_body_author_info_right_share {
-				display: inline-block;
+				display: none;
 				visibility: visible;
 			}
 				.content_body_author_info_right_share button, .content_body_author_info_right_share a {
-					display: inline-block;
+					display: none;
 					background-image: url("../images/sciboodleShare30x30.png");
 			    	background-position: center center;
 			    	background-color: #ffffff;
