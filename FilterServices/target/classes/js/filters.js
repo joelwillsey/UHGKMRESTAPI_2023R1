@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	var params = $.fn.getAllParametersString();
 
 	// Service Cloud arrow link
 	$('#fs-li-cloud').on('click', function() {
@@ -465,7 +464,6 @@ $(document).ready(function() {
 			//creating the tags to put into the cloud/search
 			var buildLi = '<li id="sc-' + element +'" class="search-choice search-choice-cloud" title="' + $('#' + element).text() + '" rel="' + $('#' + element).attr('rel') + '">';
 			buildLi += '<span>' + $('#' + element).text() + '</span>';
-			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '" onclick="$.fn.removeCloudTag(\'' + type + '\', \'' + $('#' + element).attr('id') + '\');" href="javascript:void(0);" tagtype="' + type + '"></a>';
 			buildLi += '</li>';
 			log(buildLi);
 			
@@ -554,7 +552,9 @@ $(document).ready(function() {
 		log('TagClick: ' + element);
 		var buildLi = '<li id="' + element +'" class="search-choice" title="' + $('#' + element).text() + '" rel="' + $('#' + element).attr('rel') + '">';
 		buildLi += '<span>' + $('#' + element).text() + '</span>';
-		buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '" onclick="$.fn.removeTag(\'' + type + '\', \'' + $('#' + element).attr('id') + '\');" href="javascript:void(0);"></a>';
+		if (type != 'kbase'){
+			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '"  href="javascript:void(0);"></a>';
+		}
 		buildLi += '</li>';
 		$.fn.addToSearchCloud(type, element);
 		log('TagClick: ' + '#tag-span-' + element);
@@ -566,11 +566,18 @@ $(document).ready(function() {
 		$('#' + element + '-input').width('102px');
 		$('#' + element + '-input').attr('value', '');
 		
+		jQuery.ajaxSetup({async:false});
+		
 		//calling the crosstags to update
 		$.fn.getCrossTag(element,'topic','cntntType','region','product');
 
+		
 		// Send inter-widget communication
 		$.fn.widgetCommunication();
+		jQuery.ajaxSetup({async:true});
+		
+		//adding a click to the apply button to update results page, until I can come up with a better idea
+		$("#fs-apply-button").click()
 	}
 
 	// Remove Tag
@@ -597,7 +604,7 @@ $(document).ready(function() {
 			$('#ul-region-tags').html(treeData);
 			$('#ul-product-tags').html(treeData);
 			
-			
+			//resets the search cloud, unless its the English tag
 			$('.ul_all_tags li').each(
 					function(index) {
 						log(index);
@@ -608,13 +615,18 @@ $(document).ready(function() {
 						var tagtype = $('#' + li.attr('id') + ' a').attr('tagtype');
 						if (typeof tagtype != 'undefined') {
 							$.fn.removeTag(tagtype, id);
-						} 
-						li.remove();
+						}
+						if ( id != "English"){
+							li.remove();
+						}
+						
 					})
+		}else {
+			
+			// Send inter-widget communication
+			$.fn.widgetCommunication();
+			
 		}
-		
-		// Send inter-widget communication
-		$.fn.widgetCommunication();
 	}
 
 	// Setup Filter
@@ -764,23 +776,24 @@ $(document).ready(function() {
 			}
 		}
 	}
-    // Get all the tags for the TagSets
+    // Get all the tags for the TagSets, will use this for the content categories only (since most others will be overwritten)
 	$.fn.getTagsforTagSets = function() {
-		var url = filtersServiceName + 'km/tags/gettagsfortagsets?tagsets=topic,product,region,content,cntntType';
+		var url = filtersServiceName + 'km/tags/gettagsfortagsets?tagsets=content';
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
 			$.fn.parseTags(data);
-			$.fn.getKBaseTags();
 		});
 	}
-	
+	//get all the kbase tags
 	$.fn.getKBaseTags = function() {
 		  var url = filtersServiceName + 'km/kbasetags';
 		  $.fn.serviceCall('GET', '', url, 15000, function(data) {
 		   $.fn.populateKBaseTags(data);
 		  });
+		  
+		  $.fn.getTagsforTagSets()
 		 }
 	
-	// Parse the Tags
+	// Parse the kbase tags Tags
 		 $.fn.populateKBaseTags = function(data) {
 		  //populates the HTML with KBase selections
 			 var kbaseData = '';
@@ -792,23 +805,44 @@ $(document).ready(function() {
 						 $('#ul-kbase-tags').html(kbaseData);
 					 }
 				 }
-				 //put in a check here to see if see if the kbase data exists in the url tags and select it//
 				 
 				 //this pulls in the params and puts them into an array
-				 var kTagsParams = $.fn.getParameterByName('tags');
-				 var partsOfStr = kTagsParams.split(',');
+				 var kTagsParameterStrings = $.fn.getParameterByName('tags');
+				 var parameterArray = "";
+				 
+				 if (kTagsParameterStrings != null){
+					 parameterArray = kTagsParameterStrings.split(',');
+				 }
+				 
+				 var noKBaseInParameters = true;
 				 
 				 //crosschecks the params with the ktags
-				 PARAMSLOOP: for (var i = 0; i < partsOfStr.length; ++i){
+				 PARAMSLOOP: for (var i = 0; i < parameterArray.length; ++i){
 					 for (var j = 0; j < data.tags.length; ++j){
-						 if ( partsOfStr[i] == data.tags[j].systemTagName){
+						 if ( parameterArray[i] == data.tags[j].systemTagName){
 							 //invoking the ktag onclick function if we find a match in the params
 							 var elem = document.getElementById(data.tags[j].systemTagName);
 							 
 							 if ( typeof elem.onclick == "function"){
 								 elem.onclick.apply(elem);
+								 noKBaseInParameters = false;
+								 
+								 //breaks the loop in order to not go through all of the kbase tags in the loop, handles having multiple kbase tags in the url
 								 break PARAMSLOOP;
 							 }
+						 }
+					 }
+				 }
+				 
+				 //handles if there isn't a kbase parameter in the url
+				 if ( noKBaseInParameters){
+					 if (data.tags[0] != 'undefined') {
+						 
+						 //applies the first kbase parameter that gets 
+						 var elem = document.getElementById(data.tags[0].systemTagName);
+						 
+						 if ( typeof elem.onclick == "function"){
+							 elem.onclick.apply(elem);
 						 }
 					 }
 				 }
@@ -817,5 +851,6 @@ $(document).ready(function() {
 		 }
 
 	// Get the Tags
+	//$.fn.getTagsforTagSets()
 	$.fn.getKBaseTags()
 });
