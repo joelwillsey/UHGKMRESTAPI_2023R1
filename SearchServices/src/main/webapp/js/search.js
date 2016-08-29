@@ -194,12 +194,7 @@ $(document).ready(function() {
 			search_text = '';
 		}
 		if (typeof tags != 'undefined' && tags != null && tags != '') {
-			if (tags.substring(0,20) != "search_showinsearch,"){
-				tags = "search_showinsearch,"+tags;
-			}else{
 				tags = tags;
-			}
-			
 		} else {
 			if (typeof categories != 'undefined' && categories != null && categories === 'content_knowledgealert') {
 				tags = '';
@@ -254,7 +249,12 @@ $(document).ready(function() {
 				history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
 			}
 	        document.title = defaultTitle;
-		} 
+		}
+		//adding in "search_showinsearch tag" so that it doesn't show up in the url
+		if (tags.substring(0,20) != "search_showinsearch,"){
+			tags = "search_showinsearch,"+tags;
+		}
+		
 		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, 15000, callBack);
 	}
 
