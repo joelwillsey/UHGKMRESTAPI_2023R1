@@ -601,8 +601,11 @@ $(document).ready(function() {
 			var treeData = "";
 			$('#div-topic-tags').html(treeData);
 			$('#ul-cntntType-tags').html(treeData);
+			$('#div-cntntType-tags').html(treeData);
 			$('#ul-region-tags').html(treeData);
+			$('#div-region-tags').html(treeData);
 			$('#ul-product-tags').html(treeData);
+			$('#div-product-tags').html(treeData);
 			
 			//resets the search cloud, unless its the English tag
 			$('.ul_all_tags li').each(

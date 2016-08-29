@@ -7,28 +7,32 @@
 	<link media="screen" type="text/css" href="css/ionicons.min.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/jquery-ui/11.4.1/jquery-ui.min.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/common.css" rel="stylesheet"/>
-	<link media="screen" type="text/css" href="/enterprise/searchservices/css/search.css" rel="stylesheet"/>
-	<link media="screen" type="text/css" href="/enterprise/searchservices/css/search_results.css" rel="stylesheet"/>
-	<link media="screen" type="text/css" href="/enterprise/searchservices/css/request_answer.css" rel="stylesheet" />
-	<link media="screen" type="text/css" href="/enterprise/searchservices/css/manage_bookmarks.css" rel="stylesheet" />
-	<link media="screen" type="text/css" href="/enterprise/filterservices/css/filters.css" rel="stylesheet"/>
-	<link media="screen" type="text/css" href="/enterprise/filterservices/css/add_filter.css" rel="stylesheet"/>
-	<link media="screen" type="text/css" href="/enterprise/contentservices/css/responsive-tables.css" rel="stylesheet"/>
-	<link media="screen" type="text/css" href="/enterprise/contentservices/css/content.css" rel="stylesheet"/>
-	<link media="screen" type="text/css" href="/enterprise/contentservices/css/feedback.css" rel="stylesheet" />
-	<link rel="icon" type="image/ico" href="images/favicon.ico">
+	<link media="screen" type="text/css" href="/searchservices/css/search.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="/searchservices/css/search_results.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="/searchservices/css/request_answer.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="/searchservices/css/manage_bookmarks.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="/filterservices/css/filters.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="/filterservices/css/add_filter.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="/contentservices/css/responsive-tables.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="/contentservices/css/content.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="/contentservices/css/feedback.css" rel="stylesheet" />
+	<link rel="icon" type="image/png" href="images/favicon.png">
 	<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
 	<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.min.js"></script>
 	<script type='text/javascript' src="js/jquery/1.4.1/jquery.cookie.js"></script>
 	<script type='text/javascript' src='js/respond.min.js'></script>
 	<script type='text/javascript' src='js/history.min.js'></script>
+	<script type="text/javascript" src="js/basicauth.js"></script>
+<!-- <script type="text/javascript" src="js/samlv2.js"></script> -->
+	<script type='text/javascript' src="js/common.js"></script>
 	<script type='text/javascript' > 
-		var contentServiceName = '/enterprise/contentservices/';
-		var searchServiceName = '/enterprise/searchservices/';
-		var filtersServiceName = '/enterprise/filterservices/';
-		var verintKmServiceName = '/enterprise/verintkm/';
+		var contentServiceName = '/contentservices/';
+		var searchServiceName = '/searchservices/';
+		var filtersServiceName = '/filterservices/';
+		var verintKmServiceName = '/verintkm/';
+		var decisionTreeUrl = 'https://demo.kana.com/enterprise/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet/';
 		var historyPushEnabled = true;
-		var defaultTitle = 'Verint Knowledge';
+		var defaultTitle = 'Verint Knowledge Management';
 
 		// Check for history support
 		if (history.pushState && history.replaceState) {
@@ -42,18 +46,24 @@
 				var location = window.history.location || window.location;
 			}) (window.addEventListener ? ['addEventListener', ''] : ['attachEvent', 'on']);
 		}
+
+		// Check if authenticated
+		$.fn.isUserAuthenticated();
+		
+		// Setup cookie to store the initial URL
+		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
+		document.cookie = 'savedurl=' + 'verintkm.html%3F' + urlToSend + '; path=/';
 	</script>
-	<script type='text/javascript' src="js/common.js"></script>
-	<script type='text/javascript' src="/enterprise/searchservices/js/search.js"></script>
-	<script type='text/javascript' src="/enterprise/searchservices/js/search_results.js"></script>
-	<script type='text/javascript' src="/enterprise/searchservices/js/request_answer.js"></script>
-	<script type='text/javascript' src="/enterprise/searchservices/js/manage_bookmarks.js"></script>
-	<script type='text/javascript' src="/enterprise/filterservices/js/browse_widget.js"></script>
-	<script type='text/javascript' src="/enterprise/filterservices/js/filters.js"></script>
-	<script type='text/javascript' src="/enterprise/filterservices/js/add_filter.js"></script>
-	<script type='text/javascript' src="/enterprise/contentservices/js/content.js"></script>
-	<script type='text/javascript' src="/enterprise/contentservices/js/feedback.js"></script>
-	<script type='text/javascript' src="/enterprise/contentservices/js/responsive-tables.js"></script>
+	<script type='text/javascript' src="/searchservices/js/search.js"></script>
+	<script type='text/javascript' src="/searchservices/js/search_results.js"></script>
+	<script type='text/javascript' src="/searchservices/js/request_answer.js"></script>
+	<script type='text/javascript' src="/searchservices/js/manage_bookmarks.js"></script>
+	<script type='text/javascript' src="/filterservices/js/browse_widget.js"></script>
+	<script type='text/javascript' src="/filterservices/js/filters.js"></script>
+	<script type='text/javascript' src="/filterservices/js/add_filter.js"></script>
+	<script type='text/javascript' src="/contentservices/js/content.js"></script>
+	<script type='text/javascript' src="/contentservices/js/feedback.js"></script>
+	<script type='text/javascript' src="/contentservices/js/responsive-tables.js"></script>
 	<style media="screen" type="text/css">
 		.search_area {
 			display: inline-block;
@@ -97,11 +107,11 @@
 		</div>
 	</div>
 	<section id="widgetHeader" style="position: relative; height: 45px;">
-		<div id="widgetHeader-logo" style="background-image: url(images/uhg-logo.png); background-repeat: no-repeat; height: 45px; width: 250px; display: block; width: 100%; overflow: none;">
+		<div id="widgetHeader-logo" style="background-image: url(images/brand_uhg.png); background-repeat: no-repeat; height: 45px; width: 522px; display: block; width: 100%; overflow: none; background-color: #666666">
 			<div style="float: right; height: 45px; line-height: 45px; text-align: center; ">
-				<span id="widgetHeader-name" style="display: inline-block; vertical-align: middle; line-height: normal;"></span>
+				<span id="widgetHeader-name" style="display: inline-block; vertical-align: middle; line-height: normal; color: #ffffff"></span>
 				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>
-				<button id="widget-logout" style="background-image: url(images/logout2.png); height: 20px; width: 20px; display: inline-block; vertical-align: middle; line-height: normal;"></button>
+				<button id="widget-logout" style="background-image: url(images/Logout_btn.png); height: 22px; width: 22px; display: inline-block; vertical-align: middle; line-height: normal; background-color: #666666"></button>
 			</div>
 		</div>
 	</section>
@@ -477,7 +487,7 @@
 												<i id="i-cntntType-tags" class="icon ion-chevron-right">&nbsp;</i>
 											</a>
 										</div>
-										<!--  <div id="div-cntntType-tags" class="div_cntntType_tags fs_di_tagset_wrapper tag_tree_on"></div> -->
+										  <div id="div-cntntType-tags" class="div_cntntType_tags fs_di_tagset_wrapper tag_tree_on" style="display: none;"></div> 
 									</div>
 									<div class="fs_di_tagset">
 										<div class="fs_di_content_category_label">
@@ -557,6 +567,8 @@
 				<div id="content-widget">
 <!-- Begin Content Widget -->
 	<article id="content-container" class="content_container">
+		<section id="content-decision-tree" style="display: none;">
+		</section>	
 		<section id="content-loader" class="content_loader">
 			<section class="content_header_mobile">
 				<div class="content_header_mobile_top">
@@ -778,7 +790,9 @@
 		}
 </style>
 <script type='text/javascript'>
-	if (typeof basicAuth != 'undefined' && basicAuth) {
+	if (typeof authToken != 'undefined' && authToken) {
+		$('#app-container').css('display', 'block');
+	} else {
 		$('#app-container').css('display', 'block');
 	}
 	
@@ -965,7 +979,7 @@
 	// Logout button
 	// NOTE: This needs to be improved as the cookie is not actually being deleted
 	$('#widget-logout').on('click', function() {
-		$.cookie('BasicAuth', null, { path: '/' });
+		$.cookie('AuthToken', null, { path: '/' });
 		$.cookie('AgentInfo', null, { path: '/' });
 		basicAuth = '';
 		$('#widgetHeader-name').html('');
