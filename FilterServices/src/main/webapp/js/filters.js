@@ -553,7 +553,7 @@ $(document).ready(function() {
 		var buildLi = '<li id="' + element +'" class="search-choice" title="' + $('#' + element).text() + '" rel="' + $('#' + element).attr('rel') + '">';
 		buildLi += '<span>' + $('#' + element).text() + '</span>';
 		if (type != 'kbase'){
-			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '"  href="javascript:void(0);"></a>';
+			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '"onclick="$.fn.removeCloudTag(\''+ type +'\', \''+ element +'\');"	href="javascript:void(0);"></a>';
 		}
 		buildLi += '</li>';
 		$.fn.addToSearchCloud(type, element);
