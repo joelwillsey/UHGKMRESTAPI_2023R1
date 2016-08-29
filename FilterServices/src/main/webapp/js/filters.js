@@ -761,7 +761,7 @@ $(document).ready(function() {
 		//create an array of all of the crosstag types, to remove later and populate missing ones
 		var crossTagTypes = ['topic','cntntType','region','product'];
 		
-		
+		//goes through all of the tags in crosstags and populates and removes them from the array
 		for(var i = 0; i < data.crossTags.length; ++i){
 			var currentTargetSet = data.crossTags[i].tags[0].parentTagName;
 			
@@ -807,13 +807,11 @@ $(document).ready(function() {
 			}
 		}
 		
-		var emptyTags = "";
-		
-		for ( var j = 0; j < crossTagTypes.length; ++j){
-			emptyTags += crossTagTypes[j]+",";
+		//create list of crosstags that need to have all of their tags populated, and then populate them
+		var emptyTags =  crossTagTypes.toString();
+		if (emptyTags != null && emptyTags != ""){
+			$.fn.getTagsforTagSets(emptyTags);
 		}
-		
-		$.fn.getTagsforTagSets(emptyTags);
 	}
     // Get all the tags for the TagSets, will use this for the content categories only (since most others will be overwritten)
 	$.fn.getTagsforTagSets = function(tagSets) {
