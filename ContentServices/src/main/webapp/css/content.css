@@ -381,6 +381,11 @@ button {
 			margin-bottom: 5px;
 		    text-indent: 0;
 		}
+			.content_body_field_label label.neworchanged {
+				background: transparent url(../images/iconNewOrChanged.png) no-repeat scroll center right;
+				color: #232221;
+				padding-right: 18px;
+			}
 			.content_body_field_label label.public {
 				background: transparent url(../images/iconPublic.png) no-repeat scroll center right;
 				color: #379919;
