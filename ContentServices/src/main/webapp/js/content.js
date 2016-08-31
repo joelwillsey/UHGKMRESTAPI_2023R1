@@ -314,6 +314,9 @@ $(document).ready(function() {
 			contentBody.push('<section id="content-public" class="content_body_field public_field">');
 			contentBody.push('  <div class="content_body_field_label">');
 			contentBody.push('    <label class="public">Public Information</label>');
+			if ($.fn.isContentNewOrChanged(data.lastModifiedDate)) {
+				contentBody.push('    <label class="neworchanged">New Or Changed</label>');	
+			}
 			contentBody.push('  </div>');
 			contentBody.push('  <div class="content_body_field_data">');
 			contentBody.push(data.publicBody);
@@ -351,6 +354,9 @@ $(document).ready(function() {
 			contentBody.push('<section id="content-public" class="content_body_field public_field">');
 			contentBody.push('  <div class="content_body_field_label">');
 			contentBody.push('    <label class="public">Public Answer</label>');
+			if ($.fn.isContentNewOrChanged(data.lastModifiedDate)) {
+				contentBody.push('    <label class="neworchanged">New Or Changed</label>');	
+			}
 			contentBody.push('  </div>');
 			contentBody.push('  <div class="content_body_field_data">');
 			contentBody.push(data.publicAnswer);
@@ -369,6 +375,9 @@ $(document).ready(function() {
 			contentBody.push('<section id="content-private" class="content_body_field private_field">');
 			contentBody.push('  <div class="content_body_field_label">');
 			contentBody.push('    <label class="private">Private Information</label>');
+			if ($.fn.isContentNewOrChanged(data.lastModifiedDate)) {
+				contentBody.push('    <label class="neworchanged">New Or Changed</label>');	
+			}
 			contentBody.push('  </div>');
 			contentBody.push('  <div class="content_body_field_data">');
 			contentBody.push(data.privateBody);
@@ -408,6 +417,9 @@ $(document).ready(function() {
 			contentBody.push('<section id="content-private" class="content_body_field private_field">');
 			contentBody.push('  <div class="content_body_field_label">');
 			contentBody.push('    <label class="private">Private Answer</label>');
+			if ($.fn.isContentNewOrChanged(data.lastModifiedDate)) {
+				contentBody.push('    <label class="neworchanged">New Or Changed</label>');	
+			}
 			contentBody.push('  </div>');
 			contentBody.push('  <div class="content_body_field_data">');
 			contentBody.push(data.privateAnswer);
@@ -466,6 +478,9 @@ $(document).ready(function() {
 			contentBody.push('<section id="content-related" class="content_body_field related_field">');
 			contentBody.push('  <div class="content_body_field_label">');
 			contentBody.push('    <label class="related">Related Content</label>');
+			if ($.fn.isContentNewOrChanged(data.lastModifiedDate)) {
+				contentBody.push('    <label class="neworchanged">New Or Changed</label>');	
+			}
 			contentBody.push('  </div>');
 			if (data.relatedContent.contentEntries != 'undefined' && 
 					data.relatedContent.contentEntries != null &&
@@ -519,6 +534,9 @@ $(document).ready(function() {
 				contentBody.push('<section id="content-' + data.customFields[i].name + '" class="content_body_field custom_field">');
 				contentBody.push('  <div class="content_body_field_label">');
 				contentBody.push('    <label class="custom">' + data.customFields[i].name + '</label>');
+				if ($.fn.isContentNewOrChanged(data.lastModifiedDate)) {
+					contentBody.push('    <label class="neworchanged">New Or Changed</label>');	
+				}
 				contentBody.push('  </div>');
 				contentBody.push('  <div class="content_body_field_custom_data">');
 				contentBody.push(data.customFields[i].data);
@@ -538,6 +556,9 @@ $(document).ready(function() {
 			contentBody.push('<section id="content-attachments" class="content_body_field attachment_field">');
 			contentBody.push('  <div class="content_body_field_label">');
 			contentBody.push('    <label class="attachment">Attachments</label>');
+			if ($.fn.isContentNewOrChanged(data.lastModifiedDate)) {
+				contentBody.push('    <label class="neworchanged">New Or Changed</label>');	
+			}
 			contentBody.push('  </div>');
 			for (var i = 0; i < data.attachments.length; i++) {
 				contentBody.push('  <div class="content_body_field_attachment_content">');
@@ -784,6 +805,26 @@ $(document).ready(function() {
 				$('#content-loader').addClass('content_loader_on');
 				$.fn.retrieveContent(data.contentId);
 			}
+		}
+	}
+	
+	// checks the current date of the content and whether or no it should have the new or changed label
+	// returns true if less then the date agreed on, otherwise returns false
+	$.fn.isContentNewOrChanged = function(currentDate){
+		//CURRENTLY SET TO 3 DAYS; CHANGE HERE TO CHANGE THE TIME
+		var newOrChangedTime = 60*60*24*3; // time in seconds (seconds*minutes*hours*days)
+		
+		// converts both times to epoch time
+		var date = new Date(currentDate).getTime()/1000.0;
+		var currentDate = new Date().getTime()/1000.0;
+		
+		// calculates the difference between both dates
+		var dateDifference = currentDate - date;
+		
+		if (dateDifference < newOrChangedTime) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
