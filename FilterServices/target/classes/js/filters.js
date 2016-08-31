@@ -553,7 +553,7 @@ $(document).ready(function() {
 		var buildLi = '<li id="' + element +'" class="search-choice" title="' + $('#' + element).text() + '" rel="' + $('#' + element).attr('rel') + '">';
 		buildLi += '<span>' + $('#' + element).text() + '</span>';
 		if (type != 'kbase'){
-			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '"  href="javascript:void(0);"></a>';
+			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '"onclick="$.fn.removeCloudTag(\''+ type +'\', \''+ element +'\');"	href="javascript:void(0);"></a>';
 		}
 		buildLi += '</li>';
 		$.fn.addToSearchCloud(type, element);
@@ -758,30 +758,64 @@ $(document).ready(function() {
 	}
 	
 	$.fn.populateCrossTags = function(data) {
+		//create an array of all of the crosstag types, to remove later and populate missing ones
+		var crossTagTypes = ['topic','cntntType','region','product'];
+		
+		//goes through all of the tags in crosstags and populates and removes them from the array
 		for(var i = 0; i < data.crossTags.length; ++i){
 			var currentTargetSet = data.crossTags[i].tags[0].parentTagName;
 			
 			if (currentTargetSet == 'topic'){
 				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'topic', false);
 				$('#div-topic-tags').html(treeData);
+				
+				//remove the crossTag from the array of all tag types
+				var index = crossTagTypes.indexOf(currentTargetSet);
+				if (index > -1) {
+					crossTagTypes.splice(index, 1);
+				}			
 			}else if (currentTargetSet == 'cntntType'){
 				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'cntntType', false);
 				$('#div-cntntType-tags').html(treeData);
 				$('#ul-cntntType-tags').html($.fn.setupFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'cntntType'));
+				
+				//remove the crossTag from the array of all tag types
+				var index = crossTagTypes.indexOf(currentTargetSet);
+				if (index > -1) {
+					crossTagTypes.splice(index, 1);
+				}
 			}else if (currentTargetSet == 'region'){
 				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'region', false);
 				$('#div-region-tags').html(treeData);
 				$('#ul-region-tags').html($.fn.setupFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'region'));
+				
+				//remove the crossTag from the array of all tag types
+				var index = crossTagTypes.indexOf(currentTargetSet);
+				if (index > -1) {
+					crossTagTypes.splice(index, 1);
+				}
 			}else if (currentTargetSet == 'product'){
 				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'product', true);
 				$('#div-product-tags').html(treeData);
 				$('#ul-product-tags').html($.fn.setupFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'product'));
+				
+				//remove the crossTag from the array of all tag types
+				var index = crossTagTypes.indexOf(currentTargetSet);
+				if (index > -1) {
+					crossTagTypes.splice(index, 1);
+				}
 			}
+		}
+		
+		//create list of crosstags that need to have all of their tags populated, and then populate them
+		var emptyTags =  crossTagTypes.toString();
+		if (emptyTags != null && emptyTags != ""){
+			$.fn.getTagsforTagSets(emptyTags);
 		}
 	}
     // Get all the tags for the TagSets, will use this for the content categories only (since most others will be overwritten)
-	$.fn.getTagsforTagSets = function() {
-		var url = filtersServiceName + 'km/tags/gettagsfortagsets?tagsets=content';
+	$.fn.getTagsforTagSets = function(tagSets) {
+		var url = filtersServiceName + 'km/tags/gettagsfortagsets?tagsets='+tagSets;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
 			$.fn.parseTags(data);
 		});
@@ -793,7 +827,7 @@ $(document).ready(function() {
 		   $.fn.populateKBaseTags(data);
 		  });
 		  
-		  $.fn.getTagsforTagSets()
+		  $.fn.getTagsforTagSets("content");
 		 }
 	
 	// Parse the kbase tags Tags

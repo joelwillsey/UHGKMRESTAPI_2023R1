@@ -147,6 +147,13 @@ $(document).ready(function() {
 		if (data.isFeatured) {
 			results.push('  <img src="images/AKCBFeatured14x14.png" />');
 		}
+		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate)) {
+			if (data.knowledgeUnits["0"].contentVersion == "1.0"){
+				results.push('  <img src="images/iconNewContent.png" title="New Content"/>');	
+			}else{	
+				results.push('  <img src="images/iconChanged.png" title="Recently Changed"/>');
+			}
+		}
 		results.push('&nbsp;</div>');
 		results.push('  </a>');
 
@@ -218,8 +225,16 @@ $(document).ready(function() {
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {
-			results.push('  <img src="images/AKCBFeatured14x14.png" />');
+			results.push('  <img src="images/AKCBFeatured14x14.png" />');			
 		}
+		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate)) {
+			if (data.knowledgeUnits["0"].contentVersion == "1.0"){
+				results.push('  <img src="images/iconNewContent.png" title="New Content"/>');	
+			}else{	
+				results.push('  <img src="images/iconChanged.png" title="Recently Changed"/>');
+			}
+		}
+		
 		results.push('&nbsp;</div>');
 		results.push('    <div class="sr_lr_synopsis">' + data.knowledgeUnits[0].synopsis + '</div>');
 		results.push('    <div class="sr_lr_info">');
@@ -403,6 +418,26 @@ $(document).ready(function() {
 		}
 		// Reshape widgets
 		$.fn.setupSearchResultsWidget();
+	}
+	
+	// checks the current date of the content and whether or no it should have the new or changed label
+	// returns true if less then the date agreed on, otherwise returns false
+	$.fn.isContentNewOrChanged = function(currentDate){
+		//CURRENTLY SET TO 3 DAYS; CHANGE HERE TO CHANGE THE TIME
+		var newOrChangedTime = 60*60*24*3; // time in seconds (seconds*minutes*hours*days)
+		
+		// converts both times to epoch time
+		var date = new Date(currentDate).getTime()/1000.0;
+		var currentDate = new Date().getTime()/1000.0;
+		
+		// calculates the difference between both dates
+		var dateDifference = currentDate - date;
+		
+		if (dateDifference < newOrChangedTime) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	// Setup the inter-widget communication
