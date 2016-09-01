@@ -188,22 +188,25 @@ $(document).ready(function() {
 	});
 
 	// kbase Input popup
-	$('#kbase-selection').on('click', function() {
-		$.fn.showPopup('#kbase-tags', '#ul-kbase-tags'); //we'll pass in the popup number to our showPopup() function to show which popup we want
-		$(document).click(function(e) {
-		    	var eTarget = $(e.target);
-		    	var cl = $(e.target).closest('#ul-kbase-tags').length
-		    	var l = cl.length;
-		    	if ($(e.target).closest('#ul-kbase-tags').length != 0 ||
-		    			$(e.target).closest('#kbase-selection').length)
-		    		return false;
-		    	$('#kbase-tags').hide();
-		    	$(document).unbind( "click" );
+	$('#kbase-selection').click( function() {
+			$.fn.showPopup('#kbase-tags', '#ul-kbase-tags'); //we'll pass in the popup number to our showPopup() function to show which popup we want
+			$(document).click(function(e) {
+			    	var eTarget = $(e.target);
+			    	var cl = $(e.target).closest('#ul-kbase-tags').length
+			    	var l = cl.length;
+			    	if ($(e.target).closest('#ul-kbase-tags').length != 0 ||
+			    			$(e.target).closest('#kbase-selection').length)
+			    		return false;
+			    	$('#kbase-tags').hide();
+			    	$(document).unbind( "click" );
+			});
+		})
+		.focusout( function() {
+			$('#kbase-tags').hide();
 		});
-	});
 
 	// cntntType Input popup
-	$('#cntntType-selection').on('click', function() {
+	$('#cntntType-selection').click( function() {
 		$.fn.showPopup('#cntntType-tags', '#ul-cntntType-tags'); //we'll pass in the popup number to our showPopup() function to show which popup we want
 		$(document).click(function(e) {
 		    	var eTarget = $(e.target);
@@ -215,10 +218,13 @@ $(document).ready(function() {
 		    	$('#cntntType-tags').hide();
 		    	$(document).unbind( "click" );
 		});
-	});
+	})
+	.focusout( function() {
+			$('#cntntType-tags').hide();
+		});
 	
 	// Product Input popup
-	$('#product-selection').on('click', function() {
+	$('#product-selection').click( function() {
 		$.fn.showPopup('#product-tags', '#ul-prodct-tags'); //we'll pass in the popup number to our showPopup() function to show which popup we want
 		$(document).click(function(e) {
 		    	var eTarget = $(e.target);
@@ -230,10 +236,13 @@ $(document).ready(function() {
 		    	$('#product-tags').hide();
 		    	$(document).unbind( "click" );
 		});
-	});
+	})
+	.focusout( function() {
+			$('#product-tags').hide();
+		});
 
 	// Region Input popup
-	$('#region-selection').on('click', function() {
+	$('#region-selection').click( function() {
 		$.fn.showPopup('#region-tags', '#ul-region-tags');
 		$(document).click(function(e) {
 		    	var eTarget = $(e.target);
@@ -245,7 +254,10 @@ $(document).ready(function() {
 		    	$('#region-tags').hide();
 		    	$(document).unbind( "click" );
 		});
-	});
+	})
+	.focusout( function() {
+			$('#region-tags').hide();
+		});
 
 // BEGIN: SUPPORTING BUTTON/LINK METHODS
 	// Add Filter supporting method
