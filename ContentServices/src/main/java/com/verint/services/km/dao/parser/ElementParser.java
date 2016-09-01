@@ -494,7 +494,9 @@ public class ElementParser {
 						// info = parseData(info.getData(), "version");
 						// String version = info.getElementData();
 					}
-					String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>";
+					String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a></div>";
+					//String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>";
+					String newUrl = "<div class = \"sr_listing_result\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>" + openNewUrlInWindow;
 					data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("</" + element + ">").length());
 				}
 			}
@@ -542,7 +544,9 @@ public class ElementParser {
 							// Get rid of ContentED.
 							int tempIndex = tokens[0].indexOf("ContentED.");
 							String id = tokens[0].substring(tempIndex + "ContentED.".length());
-							String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>";
+							String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a></div>";
+							//String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>";
+							String newUrl = "<div class = \"sr_listing_result\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>" + openNewUrlInWindow;
 							LOGGER.debug("newUrl: " + newUrl);
 							data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("--]]").length());
 						} else {

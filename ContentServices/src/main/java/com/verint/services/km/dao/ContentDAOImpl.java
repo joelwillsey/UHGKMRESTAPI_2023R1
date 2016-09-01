@@ -364,6 +364,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		// Found an image?
 		if (foundImg) {
 			finalBody = finalBody.replaceAll("&gtxResourceFileName", "?gtxResourceFileName");
+			finalBody = finalBody.replaceAll("&amp;gtxResourceFileName", "?gtxResourceFileName");
 		}
 
 		LOGGER.debug("finalBody: " + finalBody);
