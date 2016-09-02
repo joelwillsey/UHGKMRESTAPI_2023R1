@@ -287,6 +287,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	 * @param body
 	 * @return
 	 */
+	/**
 	private String updateAHref(String body) {
 		LOGGER.info("Entering updateAHref()");
 		String finalBody = "";
@@ -312,8 +313,41 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		LOGGER.info("finalBody: " + finalBody);
 		LOGGER.info("existing updateAHref()");
 		return finalBody;
-	}
+	} **/
 	
+	private String updateAHref(String body) {
+		LOGGER.info("Entering updateAHref()");
+		String finalBody = body;
+		int searchIndex = 0;
+		//Find the first href="
+		int ahrefStart = body.indexOf(" href=\"");
+		while (ahrefStart != -1) {			
+			searchIndex = ahrefStart + " href=\"".length();
+			int aherfEnd = body.indexOf("\"", ahrefStart + " href=\"".length());
+			if (aherfEnd != -1){				
+				//we found the end of the ahref
+				String hrefSource = body.substring(ahrefStart, aherfEnd + "\"".length());
+				LOGGER.info("--- Found href attribute: " + hrefSource);
+				int gtxResource = 0;
+				gtxResource = hrefSource.indexOf("?gtxResource=");	
+				String newAhref = "";
+				if (gtxResource != -1) {
+					finalBody = finalBody.substring(0, ahrefStart);
+					//we found a gtxResource Link, need to change the link
+					newAhref = ExternalUrl + hrefSource.substring(gtxResource + "?gtxResource=".length());
+					newAhref = newAhref.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
+					LOGGER.info("--- Transformed href attribute from " + hrefSource + " to " + newAhref);
+					finalBody = finalBody + newAhref + body.substring(aherfEnd + "\"".length());
+				} 
+			}else{
+				LOGGER.error("Parse error on search for href string, unable to find the \" after  href=\", started search at index " + ahrefStart);
+			}			
+			ahrefStart = body.indexOf(" href=\"", searchIndex);
+		}		
+		LOGGER.info("finalBody: " + finalBody);
+		LOGGER.info("existing updateAHref()");
+		return finalBody;
+	}
 	/**
 	 * 
 	 * @param body

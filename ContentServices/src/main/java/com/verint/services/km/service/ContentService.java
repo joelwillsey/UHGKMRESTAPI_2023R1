@@ -112,8 +112,16 @@ public class ContentService extends BaseService {
 					AppErrorMessage.CONTENT_RETRIEVAL_ERROR);
 		} catch (Throwable t) {
 			LOGGER.error("Unexpected exception in content()", t);
-			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
-					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
+			int indexUnableToContentId;
+			indexUnableToContentId = t.getMessage().indexOf("Unable to find content for this contentId");
+			if (indexUnableToContentId != -1){
+				throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
+						t.getMessage().substring(indexUnableToContentId));
+			} else {
+				LOGGER.error("Error Message: " +t.getMessage());
+				throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
+						AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
+			}
 		}
 		LOGGER.debug("ContentResponse: " + contentResponse);
 		LOGGER.info("Exiting content()");
