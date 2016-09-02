@@ -145,7 +145,8 @@ $(document).ready(function() {
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {
-			results.push('  <img src="images/AKCBFeatured14x14.png" />');
+			results.push('  <img src="images/iconNewContent.png" />');
+			//results.push('  <img src="images/AKCBFeatured14x14.png" />');
 		}
 		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate)) {
 			if (data.knowledgeUnits["0"].contentVersion == "1.0"){
@@ -225,8 +226,9 @@ $(document).ready(function() {
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {
-			results.push('  <img src="images/AKCBFeatured14x14.png" />');			
+			results.push('  <img src="images/AKCBFeatured14x14.png" />');
 		}
+		
 		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate)) {
 			if (data.knowledgeUnits["0"].contentVersion == "1.0"){
 				results.push('  <img src="images/iconNewContent.png" title="New Content"/>');	
@@ -427,7 +429,12 @@ $(document).ready(function() {
 		var newOrChangedTime = 60*60*24*3; // time in seconds (seconds*minutes*hours*days)
 		
 		// converts both times to epoch time
-		var date = new Date(currentDate).getTime()/1000.0;
+		var a=currentDate.split("T");
+		var s=a[1].split("+");
+		var d=a[0].split("-");
+		var t=s[0].split(":");
+		var date = new Date(d[0],(d[1]-1),d[2],t[0],t[1],t[2]).getTime()/1000.0;
+		//var date = new Date(currentDate);
 		var currentDate = new Date().getTime()/1000.0;
 		
 		// calculates the difference between both dates
