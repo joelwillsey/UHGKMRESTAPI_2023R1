@@ -200,10 +200,13 @@ $(document).ready(function() {
 			    	$('#kbase-tags').hide();
 			    	$(document).unbind( "click" );
 			});
-		})
-		.focusout( function() {
+	})
+	.focusout( function() {
+		if ($(this).has(document.activeElement).length == 0){
 			$('#kbase-tags').hide();
-		});
+		}
+	});
+	
 
 	// cntntType Input popup
 	$('#cntntType-selection').click( function() {
@@ -220,8 +223,11 @@ $(document).ready(function() {
 		});
 	})
 	.focusout( function() {
+		if ($(this).has(document.activeElement).length == 0){
 			$('#cntntType-tags').hide();
-		});
+		}
+	});
+	
 	
 	// Product Input popup
 	$('#product-selection').click( function() {
@@ -238,8 +244,11 @@ $(document).ready(function() {
 		});
 	})
 	.focusout( function() {
+		if ($(this).has(document.activeElement).length == 0){
 			$('#product-tags').hide();
-		});
+		}
+	});
+	
 
 	// Region Input popup
 	$('#region-selection').click( function() {
@@ -256,8 +265,11 @@ $(document).ready(function() {
 		});
 	})
 	.focusout( function() {
+		if ($(this).has(document.activeElement).length == 0){
 			$('#region-tags').hide();
-		});
+		}
+	});
+	
 
 // BEGIN: SUPPORTING BUTTON/LINK METHODS
 	// Add Filter supporting method
@@ -580,9 +592,10 @@ $(document).ready(function() {
 		
 		jQuery.ajaxSetup({async:false});
 		
-		//calling the crosstags to update
-		$.fn.getCrossTag(element,'topic','cntntType','region','product');
-
+		if (type == "kbase"){
+			//calling the crosstags to update
+			$.fn.getCrossTag(element,'topic','cntntType','region','product');
+		}
 		
 		// Send inter-widget communication
 		$.fn.widgetCommunication();
