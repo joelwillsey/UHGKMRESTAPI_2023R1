@@ -27,6 +27,9 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.KMB
 import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginV1BindingStub;
 import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginV1PortType;
 import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginV1ServiceLocator;
+import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.NewOrChangedV1BindingStub;
+import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.NewOrChangedV1PortType;
+import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.NewOrChangedV1ServiceLocator;
 import com.kana.contactcentre.services.model.RequestAnswerV1Service_wsdl.RequestAnswerV1BindingStub;
 import com.kana.contactcentre.services.model.RequestAnswerV1Service_wsdl.RequestAnswerV1PortType;
 import com.kana.contactcentre.services.model.RequestAnswerV1Service_wsdl.RequestAnswerV1ServiceLocator;
@@ -50,6 +53,7 @@ public class BaseDAOImpl  {
 	protected static String MaxNumberOfUnitsPerGroup;
 	protected static SearchV1PortType SearchPortType;
 	protected static KMBookmarkServiceV1PortType KMBookmarkServicePortType;
+	protected static NewOrChangedV1PortType NewOrChangedPortType;
 	protected static ContentV1PortType ContentPortType;
 	protected static TagV1PortType TagPortType;
 	protected static RequestAnswerV1PortType RequestAnswerPortType;
@@ -72,6 +76,7 @@ public class BaseDAOImpl  {
 	        final String ContentV1Port_address = prop.getProperty("soap.contentservice");
 	        final String TagV1Port_address = prop.getProperty("soap.taggingservice");
 	        final String BookmarkV1Port_address = prop.getProperty("soap.bookmarkservice");
+	        final String NewOrChangedV1Port_address = prop.getProperty("soap.neworchangedservice");
 	        final String RequestAnswerV1Port_address = prop.getProperty("soap.requestanswer");
 	        final String FeedbackV1Port_address = prop.getProperty("soap.feedback");
 	        final String LoginV1Port_address = prop.getProperty("soap.login");
@@ -92,6 +97,12 @@ public class BaseDAOImpl  {
 			KMBookmarkServicePortType = bookmarkServiceLocator.getKMBookmarkServiceV1Port(new URL(BookmarkV1Port_address));
 			KMBookmarkServiceV1BindingStub bookmarkBinding = (KMBookmarkServiceV1BindingStub) KMBookmarkServicePortType;
 			bookmarkBinding.setTimeout(SOAP_TIMEOUT * 1000);
+			
+			// New or Changed Service
+			final NewOrChangedV1ServiceLocator newOrChangedServiceLocator = new NewOrChangedV1ServiceLocator();
+			NewOrChangedPortType = newOrChangedServiceLocator.getNewOrChangedV1Port(new URL(NewOrChangedV1Port_address));
+			NewOrChangedV1BindingStub newOrChangedBinding = (NewOrChangedV1BindingStub) NewOrChangedPortType;
+			newOrChangedBinding.setTimeout(SOAP_TIMEOUT * 1000);
 			
 			// Content Service
 			final ContentV1ServiceLocator contentServiceLocator = new ContentV1ServiceLocator(); 
