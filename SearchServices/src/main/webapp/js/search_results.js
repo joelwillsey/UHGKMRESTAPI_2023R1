@@ -116,15 +116,15 @@ $(document).ready(function() {
 
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
-		window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1040,height=850');
+		window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=040,height=850');
 	}
 	$.fn.launchDTContent = function(data) {
-		window.open (contentServiceName + 'content_container.html?dt=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1040,height=850');
+		window.open (contentServiceName + 'content_container.html?dt=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchViewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
 		var passedUrl = 'contentId=' + encodeURIComponent(contentId) + '&url=' + encodeURIComponent(url) + '&isFeatured=' + isFeatured + '&averageRating=' + averageRating;
 		passedUrl += '&numRatings=' + numRatings + '&title=' + encodeURIComponent(title) + '&publishedDate=' + encodeURIComponent(publishedDate) + '&tags=' + encodeURIComponent(tags);
-		window.open (contentServiceName + 'content_container.html?'+ passedUrl, contentId + '_contentwindow','menubar=1,resizable=1,width=1030,height=750');
+		window.open (contentServiceName + 'content_container.html?'+ passedUrl, contentId + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1030,height=750');
 	}
 
 	// Setup search results numbers
@@ -148,7 +148,7 @@ $(document).ready(function() {
 			results.push('  <img src="images/iconNewContent.png" />');
 			//results.push('  <img src="images/AKCBFeatured14x14.png" />');
 		}
-		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate)) {
+		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate, data.knowledgeUnits["0"].tags)) {
 			if (data.knowledgeUnits["0"].contentVersion == "1.0"){
 				results.push('  <img src="images/iconNewContent.png" title="New Content"/>');	
 			}else{	
@@ -229,7 +229,7 @@ $(document).ready(function() {
 			results.push('  <img src="images/AKCBFeatured14x14.png" />');
 		}
 		
-		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate)) {
+		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate, data.knowledgeUnits["0"].tags)) {
 			if (data.knowledgeUnits["0"].contentVersion == "1.0"){
 				results.push('  <img src="images/iconNewContent.png" title="New Content"/>');	
 			}else{	
@@ -424,7 +424,7 @@ $(document).ready(function() {
 	
 	// checks the current date of the content and whether or no it should have the new or changed label
 	// returns true if less then the date agreed on, otherwise returns false
-	$.fn.isContentNewOrChanged = function(currentDate){
+	$.fn.isContentNewOrChanged = function(currentDate, tagData){
 		//CURRENTLY SET TO 3 DAYS; CHANGE HERE TO CHANGE THE TIME
 		var newOrChangedTime = 60*60*24*3; // time in seconds (seconds*minutes*hours*days)
 		
@@ -434,13 +434,23 @@ $(document).ready(function() {
 		var d=a[0].split("-");
 		var t=s[0].split(":");
 		var date = new Date(d[0],(d[1]-1),d[2],t[0],t[1],t[2]).getTime()/1000.0;
-		//var date = new Date(currentDate);
 		var currentDate = new Date().getTime()/1000.0;
 		
 		// calculates the difference between both dates
 		var dateDifference = currentDate - date;
 		
-		if (dateDifference < newOrChangedTime) {
+		//check for the new or changed tag when adding the icon to the knowledge piece
+		
+		//create a flag
+		var tagsFlag = false;
+		
+		for(var i = 0; i < tagData.length; i ++){
+			if (tagData[i].systemTagName == "newchange_neworchanged"){
+				tagsFlag = true;
+			}
+		}
+		
+		if (dateDifference < newOrChangedTime && tagsFlag) {
 			return true;
 		} else {
 			return false;
