@@ -163,15 +163,10 @@ $(document).ready(function() {
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {
-			results.push('  <img src="images/iconNewContent.png" />');
-			//results.push('  <img src="images/AKCBFeatured14x14.png" />');
+			results.push('  <img src="images/AKCBFeatured14x14.png" />');
 		}
 		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate, data.knowledgeUnits["0"].tags)) {
-			if (data.knowledgeUnits["0"].contentVersion == "1.0"){
-				results.push('  <img src="images/iconNewContent.png" title="New Content"/>');	
-			}else{	
-				results.push('  <img src="images/iconChanged.png" title="Recently Changed"/>');
-			}
+			results.push('  <img src="images/iconNewContent.png" title="New Content"/>');
 		}
 		results.push('&nbsp;</div>');
 		results.push('  </a>');
@@ -248,11 +243,7 @@ $(document).ready(function() {
 		}
 		
 		if ($.fn.isContentNewOrChanged(data.knowledgeUnits["0"].lastModifiedDate, data.knowledgeUnits["0"].tags)) {
-			if (data.knowledgeUnits["0"].contentVersion == "1.0"){
-				results.push('  <img src="images/iconNewContent.png" title="New Content"/>');	
-			}else{	
-				results.push('  <img src="images/iconChanged.png" title="Recently Changed"/>');
-			}
+			results.push('  <img src="images/iconNewContent.png" title="New Content"/>');
 		}
 		
 		results.push('&nbsp;</div>');

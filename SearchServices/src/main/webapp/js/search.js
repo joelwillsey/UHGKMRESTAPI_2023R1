@@ -129,8 +129,8 @@ $(document).ready(function() {
 		$.fn.toggleSearch('search');
 		$('.dpui-widget').trigger('dpui:hideManageButton');
 
-    	// For now, don't call search
-    	// $.fn.search('Search', page, size, '', '');
+		// For now, don't call search
+    	//$.fn.search('Search', page, size, '', '');
 	});
 
 	// Tab menu
@@ -140,7 +140,7 @@ $(document).ready(function() {
 		$.fn.toggleSearch('search');
 
     	// For now, don't call search
-    	// $.fn.search('Search', page, size, '', '');
+    	//$.fn.search('Search', page, size, '', '');
 	});
 
 	
@@ -191,10 +191,10 @@ $(document).ready(function() {
 		});
 	}
 
-	// Top Content Service
+	// New or Changed Service
 	$.fn.newOrChanged = function(page, size, kbase) {
         $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, 15000, function(data) {
-        	$.fn.sendToResults('Top Content', data);
+        	$.fn.sendToResults('New or Changed', data);
         });
 	}
 
