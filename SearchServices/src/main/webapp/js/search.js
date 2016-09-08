@@ -98,9 +98,9 @@ $(document).ready(function() {
 	});
 
 	// Top Content button
-	$('#tab-new-or-changed-button').on('click', function() {
+	$('#tab-new-changed-button').on('click', function() {
     	$.fn.toggleMenu(this);
-    	$.fn.toggleSearch('top');
+    	$.fn.toggleSearch('neworchanged');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
     	$.fn.topContent(page, size);
 	});
@@ -176,7 +176,7 @@ $(document).ready(function() {
 
 	// Top Content Service
 	$.fn.topContent = function(page, size) {
-        $.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/neworchanged?page=' + page + '&size=' + size, 15000, function(data) {
+        $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&size=' + size, 15000, function(data) {
         	$.fn.sendToResults('Top Content', data);
         });
 	}

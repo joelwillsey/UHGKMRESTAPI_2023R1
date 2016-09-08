@@ -129,10 +129,28 @@ $(document).ready(function() {
 
 	// Setup search results numbers
 	$.fn.setupResultsNumbers = function(data) {
-		var oneOf = ((data.page-1) * data.size);
-		var twoOf = oneOf + data.size;
+		
+		//declare these variables locally to deal with services that dont return them
+		var page;
+		var size;
+		
+		//runs checks to give default values to page and size
+		if(data.page == 'undefined' || data.page == null){
+			page = 1;
+		} else {
+			page = data.page;
+		}
+		if(data.size == 'undefined' || data.size == null){
+			size = 20;
+		} else {
+			size = data.size;
+		}
+		
+		// sets values for the showing numbers
+		var oneOf = ((page-1) * size);
+		var twoOf = oneOf + size;
 		// Check if we are at the end of the pagination
-		if ((data.numberOfResults < data.size) || (data.numberOfResults < twoOf)) {
+		if ((data.numberOfResults < size) || (data.numberOfResults < twoOf)) {
 			var twoOf = data.numberOfResults;				
 		}
 		$('.sr_numbers_showing').html('Showing ' + (oneOf + 1) + ' - ' + twoOf + ' of ' + data.numberOfResults + ' Results');
