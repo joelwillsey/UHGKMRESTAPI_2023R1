@@ -28,7 +28,10 @@ import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.NewOrChangedRequest;
 import com.verint.services.km.model.NewOrChangedResponse;
 import com.verint.services.km.model.Tag;
-
+/**
+ * @author ERaygorodetskiy
+ *
+ */
 @Repository
 public class NewOrChangedDAOImpl extends BaseDAOImpl implements NewOrChangedDAO{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchDAOImpl.class);

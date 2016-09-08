@@ -17,13 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.verint.services.km.dao.NewOrChangedDAO;
-import com.verint.services.km.dao.SearchDAO;
 import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.NewOrChangedRequest;
 import com.verint.services.km.model.NewOrChangedResponse;
-import com.verint.services.km.model.SearchResponse;
+
+/**
+ * @author ERaygorodetskiy
+ *
+ */
 
 @Path("/neworchanged")
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -63,7 +66,6 @@ public class NewOrChangedService extends BaseService {
 	 * @throws AppException
 	 */
 	@GET
-	@Path("/neworchangedsearch")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public NewOrChangedResponse newOrChangedSearch(@QueryParam("locale") String locale,
 			@QueryParam("maxNumberOfNewOrChanged") BigInteger maxNumberOfNewOrChanged,
@@ -97,8 +99,11 @@ public class NewOrChangedService extends BaseService {
 			final NewOrChangedRequest newOrChangedRequest = new NewOrChangedRequest();
 			newOrChangedRequest.setLocale(locale);
 			newOrChangedRequest.setMaxNumberOfNewOrChanged(maxNumberOfNewOrChanged);
+			newOrChangedRequest.setUsername(credentials[0]);
+			newOrChangedRequest.setPassword(credentials[1]);
 			newOrChangedRequest.setApplicationID(applicationID);
 			newOrChangedRequest.setKBaseTags(kbase_tags);
+			
 			LOGGER.debug("NewOrChangedRequest: " +newOrChangedRequest);
 			
 			// Do the search and get the response back
