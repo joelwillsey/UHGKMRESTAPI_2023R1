@@ -595,6 +595,8 @@ $(document).ready(function() {
 		if (type == "kbase"){
 			//calling the crosstags to update
 			$.fn.getCrossTag(element,'topic','cntntType','region','product');
+			
+			$.fn.toggleMenu('#tab-search-button.search_search');
 		}
 		
 		// Send inter-widget communication
