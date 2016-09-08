@@ -129,6 +129,10 @@ $(document).ready(function() {
 		$.fn.toggleSearch('search');
 		$('.dpui-widget').trigger('dpui:hideManageButton');
 
+		$.fn.search("", 1, 20, filterTags, contentTypeTags, "", "", function(data) {
+    		$.fn.sendToResults('Search', data);
+    	});
+		
 		// For now, don't call search
     	//$.fn.search('Search', page, size, '', '');
 	});

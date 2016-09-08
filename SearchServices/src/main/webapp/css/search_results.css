@@ -51,6 +51,7 @@ button{
 			background: #ffffff url("../images/sciboodleFeedbackWhite36x36.png") no-repeat scroll center center;
 			display: inline-block;
 			visibility: visable;
+			width: 43px !important;
 		}
 		.sr_hs_sort {
 			float: right;
