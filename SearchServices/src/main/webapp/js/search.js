@@ -97,12 +97,29 @@ $(document).ready(function() {
     	$.fn.featured(page, size);
 	});
 
-	// Top Content button
+	// New or Changed Button button
 	$('#tab-new-changed-button').on('click', function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('neworchanged');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
-    	$.fn.topContent(page, size);
+    	
+    	 //this pulls in the params and puts them into an array
+		 var kTagsParameterStrings = $.fn.getParameterByName('tags');
+		 var parameterArray = "";
+		 var currentKTag = "";
+		 
+		 if (kTagsParameterStrings != null){
+			 parameterArray = kTagsParameterStrings.split(',');
+		 }
+		 
+		 for (var i = 0; i < parameterArray.length; i++){
+			 var current = parameterArray[i].substring(0,5);
+			 if(parameterArray[i].substring(0,5) == "kbase"){
+				 currentKTag = parameterArray[i];
+			 }
+		 }
+    	
+    	$.fn.newOrChanged(page, size, currentKTag);
 	});
 
     // Search button
@@ -175,8 +192,8 @@ $(document).ready(function() {
 	}
 
 	// Top Content Service
-	$.fn.topContent = function(page, size) {
-        $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&size=' + size, 15000, function(data) {
+	$.fn.newOrChanged = function(page, size, kbase) {
+        $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, 15000, function(data) {
         	$.fn.sendToResults('Top Content', data);
         });
 	}
@@ -327,9 +344,9 @@ $(document).ready(function() {
                 	if (data === 'My Bookmarks')
                 		$.fn.bookmark(page, size);
                 	if (data === 'Featured Content')
-                		$.fn.topContent(page, size);
+                		$.fn.featured(page, size);
                 	if (data === 'Top Content')
-                    	$.fn.topContent(page, size);
+                		$.fn.newOrChanged(page, size, "");
                 }
             });
             self.element.bind("dpui:updateSearchCloud", function(e, data) {
