@@ -40,6 +40,8 @@ button {
 	background: #003C71 none repeat scroll 0 0;
 	color: white;
 	height: auto;
+/* 	Inserting this in for now, will likely get removed in the future */
+	margin-top: 11%;
 }
 .logo {
 	line-height: 4em;
