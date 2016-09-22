@@ -496,7 +496,7 @@ public class ElementParser {
 					}
 					String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a></div>";
 					//String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>";
-					String newUrl = "<div class = \"sr_listing_result\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>" + openNewUrlInWindow;
+					String newUrl = "<div class = \"sr_embedded_content\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>" + openNewUrlInWindow;
 					data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("</" + element + ">").length());
 				}
 			}
