@@ -274,6 +274,15 @@ $(document).ready(function() {
 		$(name).insertAfter('#add-filter-tree');
 		$(name).css('display', 'block');
 		$('#ul-filter-section-tree > li').show();
+		
+		//alphabetizes the add popup list
+		var myList = $(name+' > #ul-filter-section-tree');
+		var listitems = $(name+' > #ul-filter-section-tree > li');
+		
+		listitems.sort(function(a,b) {
+			return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase())
+		})
+		$.each(listitems, function(idx, itm) {myList.append(itm); });
 	
 		$('#popup').html($('#add-filter-widget').html());
 		$('#add-filter-widget').html('');
