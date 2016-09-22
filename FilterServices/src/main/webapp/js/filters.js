@@ -211,6 +211,10 @@ $(document).ready(function() {
 	// cntntType Input popup
 	$('#cntntType-selection').click( function() {
 		$.fn.showPopup('#cntntType-tags', '#ul-cntntType-tags'); //we'll pass in the popup number to our showPopup() function to show which popup we want
+		
+		//sorts the list alphabetically
+		$.fn.sortList('#ul-cntntType-tags');
+		
 		$(document).click(function(e) {
 		    	var eTarget = $(e.target);
 		    	var cl = $(e.target).closest('#ul-cntntType-tags').length
@@ -221,17 +225,16 @@ $(document).ready(function() {
 		    	$('#cntntType-tags').hide();
 		    	$(document).unbind( "click" );
 		});
-	})
-	.focusout( function() {
-		if ($(this).has(document.activeElement).length == 0){
-			$('#cntntType-tags').hide();
-		}
 	});
 	
 	
 	// Product Input popup
 	$('#product-selection').click( function() {
 		$.fn.showPopup('#product-tags', '#ul-prodct-tags'); //we'll pass in the popup number to our showPopup() function to show which popup we want
+		
+		//sorts the list alphabetically
+		$.fn.sortList('#ul-prodct-tags');
+		
 		$(document).click(function(e) {
 		    	var eTarget = $(e.target);
 		    	var cl = $(e.target).closest('#ul-prodct-tags').length
@@ -242,17 +245,16 @@ $(document).ready(function() {
 		    	$('#product-tags').hide();
 		    	$(document).unbind( "click" );
 		});
-	})
-	.focusout( function() {
-		if ($(this).has(document.activeElement).length == 0){
-			$('#product-tags').hide();
-		}
 	});
 	
 
 	// Region Input popup
 	$('#region-selection').click( function() {
 		$.fn.showPopup('#region-tags', '#ul-region-tags');
+		
+		//sorts the list alphabetically
+		$.fn.sortList('#ul-region-tags');
+		
 		$(document).click(function(e) {
 		    	var eTarget = $(e.target);
 		    	var cl = $(e.target).closest('#ul-region-tags').length
@@ -263,11 +265,6 @@ $(document).ready(function() {
 		    	$('#region-tags').hide();
 		    	$(document).unbind( "click" );
 		});
-	})
-	.focusout( function() {
-		if ($(this).has(document.activeElement).length == 0){
-			$('#region-tags').hide();
-		}
 	});
 	
 
@@ -816,6 +813,8 @@ $(document).ready(function() {
 				$('#div-region-tags').html(treeData);
 				$('#ul-region-tags').html($.fn.setupFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'region'));
 				
+				
+				
 				//remove the crossTag from the array of all tag types
 				var index = crossTagTypes.indexOf(currentTargetSet);
 				if (index > -1) {
@@ -913,6 +912,17 @@ $(document).ready(function() {
 				 
 			 }
 		 }
+	
+	//sort function, currently being used for alphabetically sorting the crosstags
+	$.fn.sortList = function(data) {
+		var myList = $(data);
+		var listitems = myList.children('li').get();
+		listitems.sort(function(a,b) {
+			return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase())
+		})
+		$.each(listitems, function(idx, itm) {myList.append(itm); });
+	}
+	
 
 	// Get the Tags
 	//$.fn.getTagsforTagSets()
