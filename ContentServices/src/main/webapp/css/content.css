@@ -413,6 +413,7 @@ button {
 		}
 			.content_body_field_data a {
 				text-decoration: none;
+				display: inline-flex;
 			}
 				.content_body_field_data a:link, .content_body_field_data a:visited {
     				color: #2f5b88;
