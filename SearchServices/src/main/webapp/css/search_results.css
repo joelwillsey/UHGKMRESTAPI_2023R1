@@ -168,6 +168,12 @@ button{
 			text-align: center;
 			width: 100%;
 		}
+		
+	.sr_embedded_content {
+		color: #000000;
+    	height: 100%;
+    	margin-bottom: 10px;	
+	}
 
 	.sr_listing {
     	margin-bottom: 10px;
