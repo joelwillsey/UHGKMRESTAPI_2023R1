@@ -802,6 +802,15 @@ $(document).ready(function() {
 				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'topic', false);
 				$('#div-topic-tags').html(treeData);
 				
+				//alphabetizes the topic list
+				var myList = $('#div-topic-tags > #ul-filter-section-tree');
+				var listitems = $('#div-topic-tags > #ul-filter-section-tree > li');
+				
+				listitems.sort(function(a,b) {
+					return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase())
+				})
+				$.each(listitems, function(idx, itm) {myList.append(itm); });
+				
 				//remove the crossTag from the array of all tag types
 				var index = crossTagTypes.indexOf(currentTargetSet);
 				if (index > -1) {
