@@ -782,9 +782,16 @@ $(document).ready(function() {
 	$.ui.ajaxStatus( {}, $( "<div></div>" ).appendTo( "body") );
     $(".dpui-widget").trigger("dpui:startWidget");
 
-    // Cross Tags Example
+    // populates the cross tags according to source tag and 4 target tags
 	$.fn.getCrossTag = function( source, target, target1, target2, target3) {
-		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target +'&targettagset1='+ target1 +'&targettagset2='+ target2 +'&targettagset3='+ target3;
+		//topic tag would be populated first, since this could have several appended to it
+		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target;
+		$.fn.serviceCall('GET', '', url, 15000, function(data) {
+			$.fn.populateCrossTags(data);
+		});
+		
+		//populates the rest
+		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target1 +'&targettagset1='+ target2 +'&targettagset2='+ target3;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
 			$.fn.populateCrossTags(data);
 		});
@@ -792,15 +799,21 @@ $(document).ready(function() {
 	
 	$.fn.populateCrossTags = function(data) {
 		//create an array of all of the crosstag types, to remove later and populate missing ones
-		var crossTagTypes = ['topic','cntntType','region','product'];
+		var crossTagTypes = ['cntntType','region','product'];
+		
+		//$('#div-topic-tags').html("");
+		var topicTreeData = "";
 		
 		//goes through all of the tags in crosstags and populates and removes them from the array
 		for(var i = 0; i < data.crossTags.length; ++i){
 			var currentTargetSet = data.crossTags[i].tags[0].parentTagName;
 			
 			if (currentTargetSet == 'topic'){
-				var treeData = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'topic', false);
-				$('#div-topic-tags').html(treeData);
+				var treeValue = $.fn.createTreeFilter(data.crossTags[i].tags, data.crossTags[i].tags["0"].systemTagName, 'topic', false);
+				
+				topicTreeData += treeValue;
+
+				$('#div-topic-tags').html(topicTreeData);
 				
 				//remove the crossTag from the array of all tag types
 				var index = crossTagTypes.indexOf(currentTargetSet);
