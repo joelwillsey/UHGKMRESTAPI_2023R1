@@ -437,6 +437,11 @@ $(document).ready(function() {
 		//CURRENTLY SET TO 3 DAYS; CHANGE HERE TO CHANGE THE TIME
 		var newOrChangedTime = 60*60*24*3; // time in seconds (seconds*minutes*hours*days)
 		
+		// Returns false if the service doesn't return a lastModifiedDate (e.g. the bookmark search)
+		if(currentDate == ""){
+			return false;
+		}
+		
 		// converts both times to epoch time
 		var a=currentDate.split("T");
 		var s=a[1].split("+");
