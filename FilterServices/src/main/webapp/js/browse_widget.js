@@ -158,11 +158,13 @@
 			// check if already selected
 			if ($('#tag-span-' + data).hasClass('tree_selected')) {
 				return;
+			} else {
+				$.fn.tagClick(type, data);
 			}
-			$.fn.tagClick(type, data);
+			
 //			$.fn.addToSearchCloud(data, data);
 		}
-		$('#tag-span-' + data).addClass('tree_selected');
+		//$('#tag-span-' + data).addClass('tree_selected');
 
 		var tags = $.fn.getAllTags();
 		var selectedContentTypes = $.fn.getSelectedContentTags();
