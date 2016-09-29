@@ -484,8 +484,13 @@ button {
 	position: relative;
 }
 	.fs_di_tagset_selection {
-		display: inline;
-		width: 100%;
+		display: block;
+		right: 0;
+		position: absolute;
+		top: 0;
+		z-index: 10;
+/* 		display: inline; */
+/* 		width: 100%; */
 	}
 	.fs_di_tagset_desktop {
 		display: none;
@@ -515,10 +520,10 @@ button {
 			float: right;
 			line-height: 35px;
 		}
-	.tag_tree_off {
-		color: #222222;
-		display: none;
-	}
+/* 	.tag_tree_off { */
+/* 		color: #222222; */
+/* 		display: none; */
+/* 	} */
 	.tree_selected {
 	    background: #f3fcff none repeat scroll 0 0;
 	    border: none;

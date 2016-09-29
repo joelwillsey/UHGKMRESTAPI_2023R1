@@ -166,13 +166,15 @@ $(document).ready(function() {
 	// Product Add Filter
 	$('#fs-di-tagset-product-add').on('click', function() {
 		filterType = 'product';
-		$.fn.addFilter('#div-product-tags');
+		$.fn.addFilter('#div-product-tags', '#ul-product-tags');
+		//$.fn.addFilter('#div-product-tags');
 	});
 
 	// Region Add Filter
 	$('#fs-di-tagset-region-add').on('click', function() {
 		filterType = 'region';
-		$.fn.addFilter('#div-region-tags');
+		$.fn.addFilter('#div-region-tags', '#ul-region-tags');
+		//$.fn.addFilter('#div-region-tags');
 	});
 	
 	// Product input field
@@ -270,8 +272,9 @@ $(document).ready(function() {
 
 // BEGIN: SUPPORTING BUTTON/LINK METHODS
 	// Add Filter supporting method
-	$.fn.addFilter = function(name) {
+	$.fn.addFilter = function(name, ulList) {
 		$(name).insertAfter('#add-filter-tree');
+		$('#searchlist').html('<ul style="color: #000000; cursor: pointer;">' + $(ulList).html() + '</ul>');
 		$(name).css('display', 'block');
 		$('#ul-filter-section-tree > li').show();
 		
