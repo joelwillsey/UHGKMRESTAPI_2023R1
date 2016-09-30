@@ -244,8 +244,8 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		// Check for an empty body
 		if (bodyData != null && bodyData.length() > 0) {
 			bodyData = bodyData.replace("></br>", "/>");
-			bodyData = updateAHref(bodyData);
-			bodyData = updateImg(bodyData);
+			//bodyData = updateAHref(bodyData);
+			//bodyData = updateImg(bodyData);
 			final ElementParser ep = new ElementParser();
 			bodyData = ep.parseInlineContent(bodyData);
 		}
