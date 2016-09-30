@@ -175,24 +175,6 @@
 			<version>1.6.2</version>
 		</dependency>
 
-		<!-- Oracle Driver -->
-		<dependency>
-		    <groupId>com.oracle</groupId>
-		    <artifactId>ojdbc</artifactId>
-		    <version>6</version>
-			<scope>system</scope>
-		    <systemPath>${basedir}/src/lib/ojdbc6.jar</systemPath> <!-- must match file name -->
-		</dependency>
-
-		<!-- MS SQL Driver -->
-		<dependency>
-		    <groupId>com.microsoft</groupId>
-		    <artifactId>sqljdbc</artifactId>
-		    <version>4.2</version>
-			<scope>system</scope>
-		    <systemPath>${basedir}/src/lib/sqljdbc42.jar</systemPath> <!-- must match file name -->
-		</dependency>
-
 		<!-- JBoss Logging -->
 		<dependency>
 		   <groupId>org.jboss.logging</groupId>
@@ -205,29 +187,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-install-plugin</artifactId>
-			    <version>2.3.1</version>
-			    <executions>
-			        <execution>
-			            <id>install-oracle-jdbc</id>
-			            <goals>
-			                <goal>install-file</goal>
-			            </goals>
-			            <phase>clean</phase>
-			            <configuration>
-			                <groupId>com.oracle</groupId>
-			                <artifactId>ojdbc6</artifactId>
-			                <version>11.2.0</version>
-			                <packaging>jar</packaging>
-			                <generatePom>true</generatePom>
-			                <createChecksum>true</createChecksum>
-			                <file>${project.basedir}/src/lib/ojdbc6.jar</file>
-			            </configuration>
-			        </execution>
-			    </executions>
-			</plugin>
 			<plugin>
             	<groupId>org.apache.maven.plugins</groupId>
             	<artifactId>maven-war-plugin</artifactId>
