@@ -138,12 +138,12 @@ $(document).ready(function() {
 	}
 
 	// Bookmark function
-    var bookmarkFunction = function() {
-		$('#mobile-content-bookmark').addClass('bookmarked');
-		$('#content-bookmark').addClass('bookmarked');
-    	$.fn.addBookmark(contentId);
-    	$(".content_header_right_bookmark_action").off('click');
-    }
+//   var bookmarkFunction = function() {
+//		$('#mobile-content-bookmark').addClass('bookmarked');
+//		$('#content-bookmark').addClass('bookmarked');
+//   	$.fn.addBookmark(contentId);
+//    	$(".content_header_right_bookmark_action").off('click');
+//    }
     
 	// Setup skip links
     $.fn.setupLinks = function(data) {
@@ -226,16 +226,6 @@ $(document).ready(function() {
     		$('.content_header_right_featured').html('<div class="content_header_right_not_featured_show">&nbsp;</div>');    		
     	}
 
-    	// Is this bookmarked content?
-    	if (data.bookmarked) {
-    		$('#mobile-content-bookmark').addClass('bookmarked');
-    		$('#content-bookmark').addClass('bookmarked');
-    	} else {
-    		$('#mobile-content-bookmark').removeClass('bookmarked');
-    		$('#content-bookmark').removeClass('bookmarked');
-    	    $('.content_header_right_bookmark_action').on('click', bookmarkFunction);
-    	}
-
     	// Setup published date
     	$('.content_body_author_info_left_date').html(data.publishedDate);
 
@@ -282,10 +272,19 @@ $(document).ready(function() {
     	$('.content_body_fields').html(contentBody.join('\n'));
     	contentBody.length = 0;
 
+		    	// Is this bookmarked content?
+    	if (data.bookmarked) {
+    		$('#mobile-content-bookmark').addClass('bookmarked');
+    		$('#content-bookmark').addClass('bookmarked');
+    	} else {
+    		$('#mobile-content-bookmark').removeClass('bookmarked');
+    		$('#content-bookmark').removeClass('bookmarked');
+    	}
+
     	// Show the content
     	$('#content-container').addClass('content_container_on');
     	$('#content-loader').addClass('content_loader_on');
-    	$('#content-area').css('display', 'block');
+    	$('#content-area').addClass('content_area_on');
 
     	// Currently a hack
     	// TODO fix this??
@@ -579,7 +578,6 @@ $(document).ready(function() {
     	} else {
     		$('#mobile-content-bookmark').removeClass('bookmarked');
     		$('#content-bookmark').removeClass('bookmarked');
-    	    $('.content_header_right_bookmark_action').on('click', bookmarkFunction);
     	}
 
     	// Setup published date
@@ -711,8 +709,13 @@ $(document).ready(function() {
 	}
 
     // Add bookmark
-	$.fn.addBookmark = function(id) {
-		var dataPackage = '{"contentId":"' + id + '"}';
+	$.fn.addBookmark = function(id, enable) {
+		var dataPackage = '{"contentId":"' + id + '","userAction":"REMOVE"}';
+		
+		if (enable) {
+			dataPackage = '{"contentId":"' + id + '","userAction":"ADD"}';
+		}
+
 		$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/addbookmark', 15000, function(data) {
 				// Do nothing for now...
 		});
@@ -750,7 +753,8 @@ $(document).ready(function() {
 		// First check if pushState is supported and if so is it enabled
 		// Changes the browser URL to use the parameters so users can save searches and/or bookmark them
 		if (history.pushState && typeof historyPushEnabled != 'undefined' && historyPushEnabled) {
-	    	var query = '?dt=' + id;
+	    	var millis = new Date().getTime();
+			var query = '?dt=' + id;
 	    	var stateObj = { path: query };
 			// IE9 has an issue with history; Don't know if IE
 	    	if ($.fn.isIE() === 9) {
@@ -765,7 +769,7 @@ $(document).ready(function() {
 		// This is a Decision Tree
     	// Show the content
 		$.fn.setupContentWidget(); // Some bug w/ browsers where I need to call this
-		var inlineHtml = '<iframe src="' + decisionTreeUrl + id + '" style="width: 100%; height: 100%;"/>';
+		var inlineHtml = '<iframe src="' + decisionTreeUrl + query + '" style="width: 100%; height: 100%;"/>';
 		$('#content-decision-tree').css('display', 'block');
 		$('#content-decision-tree').css('width', '100%');
 		$('#content-decision-tree').css('height', '100%');
