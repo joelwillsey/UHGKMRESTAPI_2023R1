@@ -244,8 +244,8 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		// Check for an empty body
 		if (bodyData != null && bodyData.length() > 0) {
 			bodyData = bodyData.replace("></br>", "/>");
-			//bodyData = updateAHref(bodyData);
-			//bodyData = updateImg(bodyData);
+			bodyData = updateAHref(bodyData);
+			bodyData = updateImg(bodyData);
 			final ElementParser ep = new ElementParser();
 			bodyData = ep.parseInlineContent(bodyData);
 		}
@@ -366,11 +366,18 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			String tempBody = bodyAfter.substring(img + "<img".length());
 			bodyBefore = bodyBefore + bodyAfter.substring(0, img + "<img".length());
 			int srcIndex = tempBody.indexOf("src=\"");
+			
+			//indexes the popup image source in order to check that we can or cant change the image
+			int srcPopupIndex = tempBody.indexOf("src=\"images/ReadLaterGray16x16.png\"");
 			int resourceIndex = tempBody.indexOf("gtxResource=");
 			if (srcIndex != -1 && resourceIndex != -1) {
 				bodyBefore = bodyBefore + tempBody.substring(0, srcIndex + "src=\"".length());
 				bodyAfter = ExternalUrl + tempBody.substring(resourceIndex + "gtxResource=".length());
-				finalBody = bodyBefore + bodyAfter;
+				
+				// makes sure that the popup link doesn't get messed up
+				if(srcIndex != srcPopupIndex){
+					finalBody = bodyBefore + bodyAfter;
+				}
 				img = bodyAfter.indexOf("<img");
 				foundImg = true;
 			} else if (srcIndex != -1) {
