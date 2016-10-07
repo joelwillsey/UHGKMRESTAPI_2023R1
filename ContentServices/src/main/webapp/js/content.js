@@ -491,11 +491,9 @@ $(document).ready(function() {
 				for (var i = 0; i < data.relatedContent.externalContents.length; i++) {
 					contentBody.push('  <div class="content_body_field_related_data">');
 					contentBody.push('    <div class="content_body_field_resuable_content">');
-					if (data.relatedContent.contentEntries[i].type == 'pageSet') {
-						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.relatedContent.externalContents[i].url +  '\');">');
-					} else {
-						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.relatedContent.externalContents[i].url +  '\');">');
-					}
+					//we dont need to have a check on the content entries in order to post external content related content
+					//and it actually breaks a lot of the time if we do
+					contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.relatedContent.externalContents[i].url +  '\');">');
 					contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.externalContents[i].type + '">&nbsp;</div>');
 					contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.externalContents[i].name + '</div>');
 					contentBody.push('      </a>');
