@@ -4,14 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.verint.services.km.dbcp.ConnectionPool;
-
-import com.verint.services.km.dao.BaseDAOImpl;
+import com.verint.services.km.model.MigratableReferenceId;;
 
 /**
  * @author eraygorodetskiy
@@ -36,18 +37,18 @@ public class ISETDAOImpl extends BaseDAOImpl implements ISETDAO{
 	}
 	
 	@Override
-	public String getISETResponse(String refName, String objType, String objID) throws SQLException {
+	public Set<MigratableReferenceId> getISETResponse(String refName, String objType, String objID) throws SQLException {
 		LOGGER.info("Entering getISETResponse()");
-		//ISETRequest 
-		
+		Set<MigratableReferenceId> migratableReferenceIdSet = new HashSet<MigratableReferenceId>();
+		MigratableReferenceId migratableReferenceIdObj;
+		// Get the connection and statement
 		final Connection connection = ConnectionPool.getConnection();
 		PreparedStatement stmt = null;
 		
-		String migratableReference = "";
-		
+		// Execute query
 		try {
 			final String query = "SELECT MIGRATABLE_REFERENCE"
-					+ "FROM UHG_MigRefID2RefName"
+					+ " FROM UHG_MigRefID2RefName"
 					+ " WHERE (REFERENCE_NAME = "+refName
 					+ " AND OBJECT_TYPE = "+objType+")"
 					+ " OR (IQ_OBJECT_ID = "+objID
@@ -55,7 +56,14 @@ public class ISETDAOImpl extends BaseDAOImpl implements ISETDAO{
 			stmt = connection.prepareStatement(query);
 			final ResultSet rs = stmt.executeQuery();
 			
-			migratableReference = rs.getString("MIGRATABLE_REFERENCE");
+			// loop through all records
+			while (rs != null && rs.next()){
+				String migRefId = rs.getString("MIGRATABLE_REFERENCE");
+				migratableReferenceIdObj = new MigratableReferenceId();
+				migratableReferenceIdObj.setMigratableReferenceId(migRefId);
+				migratableReferenceIdSet.add(migratableReferenceIdObj);
+			}
+			rs.close();
 		} catch (SQLException sqle) {
 			LOGGER.error("SQLException", sqle);
 			throw sqle;
@@ -65,9 +73,9 @@ public class ISETDAOImpl extends BaseDAOImpl implements ISETDAO{
 			if (connection != null)
 				connection.close();
 		}
-		LOGGER.debug("getISETResponse: " + migratableReference);
+		LOGGER.debug("getISETResponse: " + migratableReferenceIdSet);
 		LOGGER.info("Exiting getISETResponse()");
-		return migratableReference;
+		return migratableReferenceIdSet;
 		
 	}
 	
