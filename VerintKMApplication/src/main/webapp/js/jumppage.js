@@ -4,12 +4,16 @@
 $(document).ready(function() {
 	var params = $.fn.getAllParametersString();
 	
+	$.fn.getIsetResponse("REFERENCE_NAME","OBJECT_TYPE","IQ_OBJECT_ID");
+	
 	$.fn.parsingURLVariables(params);
 });
 
 	$.fn.parsingURLVariables = function( params) {
 		//splits up the parameters
 		var variablesAndValues = params.split("&");
+		
+		
 		
 		//creates a blank current variable
 		var currentVariable = "";
@@ -29,6 +33,14 @@ $(document).ready(function() {
 		//to call the respective services
 		$.fn.callingRespectiveService( variablesWithValues);
 	}
+	
+	// Get all the iset return from the hopefully working service
+	$.fn.getIsetResponse = function(refName, objType, objId) {
+		
+		var url = contentServiceName + 'km/iset/migref?refName='+refName+'&objType='+objType+'&objID='+objId;
+		$.fn.serviceCall('GET', '', url, 15000, function(data) {
+			//$.fn.parseTags(data);
+		});
 	
 	$.fn.callingRespectiveService = function( variables) {
 		
@@ -98,4 +110,6 @@ $(document).ready(function() {
 			}
 		}
 	}
+	}
+	
 	

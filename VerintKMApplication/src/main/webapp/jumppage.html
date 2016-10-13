@@ -12,10 +12,24 @@
 	<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
 	<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.js"></script>
 	<script type='text/javascript' src="js/jumppage.js"></script>
-<!-- <script type="text/javascript" src="js/basicauth.js"></script> -->
-<!-- <script type="text/javascript" src="js/samlv2.js"></script> -->
+	<script type="text/javascript" src="js/basicauth.js"></script>
+<!-- 	<script type="text/javascript" src="js/samlv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
-<!-- <script type='text/javascript' src="js/login.js"></script> -->
+	<script type='text/javascript' src="js/login.js"></script>
+
+	<script type="text/javascript">
+		var contentServiceName = '/contentservices/';
+		var decisionTreeUrl = 'https://demo.kana.com/enterprise/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet/';
+		var historyPushEnabled = false;
+		var defaultTitle = 'Verint Content Widget';
+		
+		// Check if authenticated
+		$.fn.isUserAuthenticated();
+
+		// Setup cookie to store the initial URL
+		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
+		document.cookie = 'savedurl=' + 'content_container.html%3F' + urlToSend + '; path=/';
+	</script>
 </head>
 <body style="position: relative; overflow-y: auto; margin: 0px; background-color: rgb(0,0,0);">
 	<div id="overlay-back" class="overlay_back" style="margin: auto; margin-top: 26%; margin-left: 45%;">
