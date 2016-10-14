@@ -76,8 +76,9 @@ public class StatelessCSRFFilter extends OncePerRequestFilter {
 		}
 		log.info("Exiting doFilterInternal()");
 		filterChain.doFilter(request, response);
+		log.info("Exiting filterChain.doFilter");
 		HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(response);
-
+		log.info("Exiting filterChain.doFilter");
 	}
 
 	/**
