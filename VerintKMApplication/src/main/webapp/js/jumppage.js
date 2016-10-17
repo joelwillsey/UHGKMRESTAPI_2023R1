@@ -4,8 +4,6 @@
 $(document).ready(function() {
 	var params = $.fn.getAllParametersString();
 	
-	$.fn.getIsetResponse("REFERENCE_NAME","OBJECT_TYPE","IQ_OBJECT_ID");
-	
 	$.fn.parsingURLVariables(params);
 });
 
@@ -41,7 +39,9 @@ $(document).ready(function() {
 		
 		var url = contentServiceName + 'km/iset/migref?refName='+refName+'&objType='+objType+'&objID='+objId;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
-			migratableReferenceId = data.migratableReferenceId[0].migratableReferenceId;
+			console.log(data.migratableReferenceId["0"].migratableReferenceId);
+			migratableReferenceId = data.migratableReferenceId["0"].migratableReferenceId;
+			console.log(data.migratableReferenceId["0"].migratableReferenceId);
 		});
 		return migratableReferenceId;
 	}
@@ -58,7 +58,7 @@ $(document).ready(function() {
 			case "Search":
 				var Search = variables[3];
 				//run a search on UHG and a keyword test
-				var url = "http://localhost:8090/searchservices/search_container.html?tags=" + UHG + "&search=\""+report+"\"";
+				var url = searchServiceName + "search_container.html?tags=" + UHG + "&query="+Search;
 				window.location.replace(url);
 				break;
 			case "report":
@@ -66,8 +66,10 @@ $(document).ready(function() {
 					var report = variables[3].substring(2, variables[3].length-1);
 
 					//run a search for problem object on UHG and Problem GUID
-					var migratableReferenceId = $.fn.getIsetResponse("","Solution",report);
-					var url = contentServiceName + 'content_container.html? id='+migratableReferenceId;
+					jQuery.ajaxSetup({async:false});
+					var migratableReferenceId = $.fn.getIsetResponse("","SOLUTION",report);
+					jQuery.ajaxSetup({async:true});
+					var url = contentServiceName + 'content_container.html?id='+migratableReferenceId;
 					window.location.replace(url);
 					break;
 					
@@ -75,8 +77,10 @@ $(document).ready(function() {
 					var report = variables[3].substring(2, variables[3].length-1);
 					
 					//run a search for problem object on UHG and Problem RefID
-					var migratableReferenceId = $.fn.getIsetResponse(report,"Solution","");
-					var url = contentServiceName + 'content_container.html? id='+migratableReferenceId;
+					jQuery.ajaxSetup({async:false});
+					var migratableReferenceId = $.fn.getIsetResponse(report,"SOLUTION","");
+					jQuery.ajaxSetup({async:true});
+					var url = contentServiceName + 'content_container.html?id='+migratableReferenceId;
 					window.location.replace(url);
 					break;
 					
@@ -91,8 +95,10 @@ $(document).ready(function() {
 					var report = variables[3].substring(2, variables[3].length-1);
 					
 					//run a search for decision tree on UHG and Dtree GUID
-					var migratableReferenceId = $.fn.getIsetResponse("","Document",report);
-					var url = contentServiceName + 'content_container.html? id=' + migratableReferenceId;
+					jQuery.ajaxSetup({async:false});
+					var migratableReferenceId = $.fn.getIsetResponse("","DOCUMENT",report);
+					jQuery.ajaxSetup({async:true});
+					var url = contentServiceName + 'content_container.html?id=' + migratableReferenceId;
 					window.location.replace(url);
 					break;
 
@@ -100,8 +106,10 @@ $(document).ready(function() {
 					var report = variables[3].substring(2, variables[3].length-1);
 					
 					//run a search for decision tree on UHG and Dtree RefID
-					var migratableReferenceId = $.fn.getIsetResponse(report,"Document","");
-					var url = contentServiceName + 'content_container.html? id=' + migratableReferenceId;
+					jQuery.ajaxSetup({async:false});
+					var migratableReferenceId = $.fn.getIsetResponse(report,"DOCUMENT","");
+					jQuery.ajaxSetup({async:true});
+					var url = contentServiceName + 'content_container.html?id=' + migratableReferenceId;
 					window.location.replace(url);
 					break;
 					
@@ -109,7 +117,7 @@ $(document).ready(function() {
 					var report = variables[3].substring(2, variables[3].length-1);
 					
 					//run a search for decision tree on UHG and Migratable Reference
-					var url = contentServiceName + 'content_container.html? id=' + report;
+					var url = contentServiceName + 'content_container.html?id=' + report;
 					window.location.replace(url);
 					break;
 					
@@ -120,8 +128,10 @@ $(document).ready(function() {
 					var report = variables[3].substring(2, variables[3].length-1);
 					
 					//run a search for content on UHG and Case GUID
-					var migratableReferenceId = $.fn.getIsetResponse("","Case",report);
-					var url = contentServiceName + 'content_container.html? id=' + migratableReferenceId;
+					jQuery.ajaxSetup({async:false});
+					var migratableReferenceId = $.fn.getIsetResponse("","CASE",report);
+					jQuery.ajaxSetup({async:true});
+					var url = contentServiceName + 'content_container.html?id=' + migratableReferenceId;
 					window.location.replace(url);
 					break;
 					
@@ -129,8 +139,10 @@ $(document).ready(function() {
 					var report = variables[3].substring(2, variables[3].length-1);
 					
 					//run a search for content on UHG and Case RefID
-					var migratableReferenceId = $.fn.getIsetResponse(report,"Case","");
-					var url = contentServiceName + 'content_container.html? id=' + migratableReferenceId;
+					jQuery.ajaxSetup({async:false});
+					var migratableReferenceId = $.fn.getIsetResponse(report,"CASE","");
+					jQuery.ajaxSetup({async:true});
+					var url = contentServiceName + 'content_container.html?id=' + migratableReferenceId;
 					window.location.replace(url);
 					break;
 					
@@ -138,7 +150,7 @@ $(document).ready(function() {
 					var report = variables[3].substring(2, variables[3].length-1);
 					
 					//run a search for content on UHG and Migratable Reference
-					var url = contentServiceName + 'content_container.html? id=' + report;
+					var url = contentServiceName + 'content_container.html?id=' + report;
 					window.location.replace(url);
 					break;
 					
@@ -150,7 +162,7 @@ $(document).ready(function() {
 				var contentFaq = reportSplit[1];
 				
 				//apply filter to result list with UHG, content, and contentFAQ
-				var url = searchServiceName + "searchservices/search_container.html?tags=" + UHG + "&contentType="+content+"&search="+contentFaq+"\"";
+				var url = searchServiceName + "searchservices/search_container.html?tags=" + UHG + "&categories="+content+"&query="+contentFaq+"\"";
 				window.location.replace(url);
 				break;
 				
