@@ -166,6 +166,7 @@ public class SearchService extends BaseService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public SearchResponse getFeaturedContent(@QueryParam("page") BigInteger page,
     		@QueryParam("size") BigInteger size,
+    		@QueryParam("tags") String tags,
     		@Context HttpServletRequest httpRequest) throws AppException {
 		LOGGER.info("Entering getFeaturedContent()");
 		SearchResponse searchResponse = null;
@@ -181,6 +182,7 @@ public class SearchService extends BaseService {
 			final SearchRequest searchRequest = new SearchRequest();
 			searchRequest.setPage(page);
 			searchRequest.setSize(size);
+			searchRequest.setTags(tags);
 			searchRequest.setUsername(credentials[0]);
 			searchRequest.setPassword(credentials[1]);
 	

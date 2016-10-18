@@ -76,7 +76,8 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('alert');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
-    	$.fn.search('', page, size, '', 'content_knowledgealert', '', '', function(data) {
+    	var kTagsParameterStrings = $.fn.getParameterByName('tags');
+    	$.fn.search('', page, size, kTagsParameterStrings, 'content_knowledgealert', '', '', function(data) {
     		$.fn.sendToResults('Knowledge Alert', data);
     	});
 	});
@@ -94,7 +95,8 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('featured');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
-    	$.fn.featured(page, size);
+    	var kTagsParameterStrings = $.fn.getParameterByName('tags');
+    	$.fn.featured(page, size, kTagsParameterStrings);
 	});
 
 	// New or Changed Button button
@@ -189,8 +191,8 @@ $(document).ready(function() {
 	}
 
 	// Featured Content Service
-	$.fn.featured = function(page, size) {
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size, 15000, function(data) {
+	$.fn.featured = function(page, size, tags) {
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, 15000, function(data) {
 			$.fn.sendToResults('Featured Content', data);
 		});
 	}
@@ -203,7 +205,7 @@ $(document).ready(function() {
 	}
 
 	// Bookmark function
-	$.fn.bookmark = function(page, size) {
+	$.fn.bookmark = function(page, size, tags) {
 		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size, 15000, function(data) {
 			$.fn.sendToResults('My Bookmarks', data);
 		});
@@ -339,6 +341,7 @@ $(document).ready(function() {
             });
             self.element.bind("dpui:runRefresh", function(e, data) {
                 log("Refreshing " + data);
+                
             	// Refresh by the type
                 if (typeof data != 'undefined' && data != null && data != '') {
                 	if (data === 'Knowledge Alert')
@@ -348,7 +351,9 @@ $(document).ready(function() {
                 	if (data === 'My Bookmarks')
                 		$.fn.bookmark(page, size);
                 	if (data === 'Featured Content')
-                		$.fn.featured(page, size);
+                		//pulls in kbase tags from url
+                		var kTagsParameterStrings = $.fn.getParameterByName('tags');
+                		$.fn.featured(page, size, kTagsParameterStrings);
                 	if (data === 'Top Content')
                 		$.fn.newOrChanged(page, size, "");
                 }

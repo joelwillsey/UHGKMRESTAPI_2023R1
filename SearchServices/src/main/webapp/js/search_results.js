@@ -435,7 +435,7 @@ $(document).ready(function() {
 	// returns true if less then the date agreed on, otherwise returns false
 	$.fn.isContentNewOrChanged = function(currentDate, tagData){
 		//CURRENTLY SET TO 3 DAYS; CHANGE HERE TO CHANGE THE TIME
-		var newOrChangedTime = 60*60*24*3; // time in seconds (seconds*minutes*hours*days)
+		var newOrChangedTime = 60*60*24*7; // time in seconds (seconds*minutes*hours*days)
 		
 		// Returns false if the service doesn't return a lastModifiedDate (e.g. the bookmark search)
 		if(currentDate == ""){
