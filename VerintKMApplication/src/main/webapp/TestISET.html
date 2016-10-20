@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>ISET Test</title>
+<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
+<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.js"></script>
+<script type='text/javascript' src="js/TestISET.js"></script>
+<style>
+</style>
+<script>
+$(document).ready(function() {
+	$('#Search').click(function(){
+		// similar behavior as clicking on a link
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&Search=email";
+		window.location.replace(url);
+	});
+	
+	$('#problemid').click(function(){
+		// similar behavior as clicking on a link
+		var pID = $('input[name="objectID"]:checked').val();
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=p{" + pID + "}";
+		window.location.replace(url);
+	});
+	$('#problemrefname').click(function(){
+		// similar behavior as clicking on a link
+		var pID = $('input[name="referenceName"]:checked').val();
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=p[" + pID + "]";
+		window.location.replace(url);
+	});
+	
+	$('#dtreeid').click(function(){
+		// similar behavior as clicking on a link
+		var pID = $('input[name="objectID"]:checked').val();
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=d{" + pID + "}";
+		window.location.replace(url);
+	});
+	$('#dtreerefname').click(function(){
+		// similar behavior as clicking on a link
+		var pID = $('input[name="referenceName"]:checked').val();
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=d[" + pID + "]";
+		window.location.replace(url);
+	});
+	
+	$('#contentid').click(function(){
+		// similar behavior as clicking on a link
+		var pID = $('input[name="objectID"]:checked').val();
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&view()=r{" + pID + "}";
+		window.location.replace(url);
+	});
+	$('#contentrefname').click(function(){
+		// similar behavior as clicking on a link
+		var pID = $('input[name="referenceName"]:checked').val();
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&view()=r[" + pID + "]";
+		window.location.replace(url);
+	});
+	
+	$('#filter').click(function(){
+		// similar behavior as clicking on a link
+		var pID = $('input[name="referenceName"]:checked').val();
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&Report=a[content_article]:email";
+		window.location.replace(url);
+	});
+	
+	$('#tagname').click(function(){
+		// similar behavior as clicking on a link
+		var pID = $('input[name="referenceName"]:checked').val();
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=p(topic_5ecbb9ae-a7ec-42ac-b)";
+		window.location.replace(url);
+	});
+	
+	$('#content').click(function(){
+		// similar behavior as clicking on a link
+		var pID = $('input[name="referenceName"]:checked').val();
+		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&view()=r(130d28f5-8c36-4706-9914-fc5ca3630ba1)";
+		window.location.replace(url);
+	});
+});
+</script>
+
+</head>
+<body>
+
+<h2>Reference Name</h2>
+<div id="refName">
+	<input type="radio" name="referenceName" value="Ref1">Ref1<br>
+	<input type="radio" name="referenceName" value="Ref2">Ref2<br>
+	<input type="radio" name="referenceName" value="Ref3">Ref3<br>
+	<input type="radio" name="referenceName" value="Ref4">Ref4<br>
+	<input type="radio" name="referenceName" value="Ref5">Ref5<br>
+	<input type="radio" name="referenceName" value="Ref6">Ref6
+</div>
+<h2>Object ID</h2>
+<div id="objectID">
+	<input type="radio" name="objectID" value="1001600">1001600<br>
+	<input type="radio" name="objectID" value="1001681">1001681<br>
+	<input type="radio" name="objectID" value="1001780">1001780<br>
+	<input type="radio" name="objectID" value="1001833">1001833<br>
+	<input type="radio" name="objectID" value="1001902">1001902<br>
+	<input type="radio" name="objectID" value="1002040">1002040
+</div>
+
+<h2>Buttons to call URL</h2>
+<div>
+	<h4>Runs a search where the kbase tag is Tricare and the search string is Email</h4>
+	<input type="button" value="Launch a Search of keywords" id="Search"/><br>
+	<br>
+	<h4>Will only work with Reference Names Ref2 & Ref5 and and the 2nd and 5th object ids</h4>
+	<input type="button" value="Launch a Problem Object by ID" id="problemid"/><br>
+	<br>
+	<input type="button" value="Launch a Problem Object by Reference Name" id="problemrefname"/><br>
+	<br>
+	<h4>Will only work with numbers 3 and 6</h4>
+	<input type="button" value="Launch a Decision Tree by ID" id="dtreeid"/><br>
+	<br>
+	<input type="button" value="Launch a Decision Tree by Reference Name" id="dtreerefname"/><br>
+	<br>
+	<h4>Will only work with numbers 1 and 4</h4>
+	<input type="button" value="View content by ID" id="contentid"/><br>
+	<br>
+	<input type="button" value="View content by Reference Name" id="contentrefname"/><br>
+	<br>
+	<h4>Adds a content type filter to a search(tricare kbase, content article filter, search for email)</h4>
+	<input type="button" value="Apply Filter to Results list" id="filter"/><br>
+	<br>
+	<h4>Launches a kbase tag with a topics tag(tricare and documents)</h4>
+	<input type="button" value="Launch an ISET Topic by EMKM TagName" id="tagname"/><br>
+	<br>
+	<h4>Also "View content by KEKM MigratableReference" takes migratable reference id and launches content</h4>
+	<input type="button" value="Launch a Decision Tree by EMKM MigratableReference" id="content"/><br>
+	<br>
+</div>
+</body>
+</html>

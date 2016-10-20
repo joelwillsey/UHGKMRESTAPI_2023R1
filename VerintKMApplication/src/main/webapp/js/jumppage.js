@@ -1,6 +1,8 @@
 /**
  * 
  */
+var searchServiceName = "/searchservices/";
+var contentServiceName = "/contentservices/";
 $(document).ready(function() {
 	var params = $.fn.getAllParametersString();
 	
@@ -87,7 +89,7 @@ $(document).ready(function() {
 				}else if(variables[3].substring(0,2) == "p("){
 					var report = variables[3].substring(2, variables[3].length-1);
 					
-					var url = searchServiceName + "searchservices/search_container.html?tags=" + UHG + ","+report+"\"";
+					var url = searchServiceName + "search_container.html?tags=" + UHG + ","+report;
 					window.location.replace(url);
 					break;
 					
@@ -162,7 +164,7 @@ $(document).ready(function() {
 				var contentFaq = reportSplit[1];
 				
 				//apply filter to result list with UHG, content, and contentFAQ
-				var url = searchServiceName + "searchservices/search_container.html?tags=" + UHG + "&categories="+content+"&query="+contentFaq+"\"";
+				var url = searchServiceName + "search_container.html?tags=" + UHG + "&categories="+content+"&query="+contentFaq;
 				window.location.replace(url);
 				break;
 				
