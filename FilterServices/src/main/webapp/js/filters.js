@@ -191,6 +191,11 @@ $(document).ready(function() {
 
 	// kbase Input popup
 	$('#kbase-selection').click( function() {
+		//close all of the other popups
+		$('#cntntType-tags').hide();
+		$('#product-tags').hide();
+		$('#region-tags').hide();
+		
 			$.fn.showPopup('#kbase-tags', '#ul-kbase-tags'); //we'll pass in the popup number to our showPopup() function to show which popup we want
 			$(document).click(function(e) {
 			    	var eTarget = $(e.target);
@@ -202,16 +207,16 @@ $(document).ready(function() {
 			    	$('#kbase-tags').hide();
 			    	$(document).unbind( "click" );
 			});
-	})
-	.focusout( function() {
-		if ($(this).has(document.activeElement).length == 0){
-			$('#kbase-tags').hide();
-		}
 	});
 	
 
 	// cntntType Input popup
 	$('#cntntType-selection').click( function() {
+		//close all of the other popups
+		$('#kbase-tags').hide();
+		$('#product-tags').hide();
+		$('#region-tags').hide();
+		
 		$.fn.showPopup('#cntntType-tags', '#ul-cntntType-tags'); //we'll pass in the popup number to our showPopup() function to show which popup we want
 		
 		//sorts the list alphabetically
@@ -232,6 +237,11 @@ $(document).ready(function() {
 	
 	// Product Input popup
 	$('#product-selection').click( function() {
+		//close all of the other popups
+		$('#kbase-tags').hide();
+		$('#cntntType-tags').hide();
+		$('#region-tags').hide();
+		
 		$.fn.showPopup('#product-tags', '#ul-prodct-tags'); //we'll pass in the popup number to our showPopup() function to show which popup we want
 		
 		//sorts the list alphabetically
@@ -252,6 +262,11 @@ $(document).ready(function() {
 
 	// Region Input popup
 	$('#region-selection').click( function() {
+		//close all of the other popups
+		$('#kbase-tags').hide();
+		$('#cntntType-tags').hide();
+		$('#product-tags').hide();
+		
 		$.fn.showPopup('#region-tags', '#ul-region-tags');
 		
 		//sorts the list alphabetically
