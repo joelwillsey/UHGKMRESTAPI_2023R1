@@ -137,13 +137,13 @@ $(document).ready(function() {
 		window.open (contentServiceName + 'content_container.html?dt=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
 	}
 
-	// Bookmark function
-//   var bookmarkFunction = function() {
-//		$('#mobile-content-bookmark').addClass('bookmarked');
-//		$('#content-bookmark').addClass('bookmarked');
-//   	$.fn.addBookmark(contentId);
-//    	$(".content_header_right_bookmark_action").off('click');
-//    }
+	 //Bookmark function
+   var bookmarkFunction = function() {
+		$('#mobile-content-bookmark').addClass('bookmarked');
+		$('#content-bookmark').addClass('bookmarked');
+		$.fn.addBookmark(contentId);
+    	$(".content_header_right_bookmark_action").off('click');
+    }
     
 	// Setup skip links
     $.fn.setupLinks = function(data) {

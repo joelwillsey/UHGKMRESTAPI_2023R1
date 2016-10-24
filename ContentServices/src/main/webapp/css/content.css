@@ -152,6 +152,20 @@ button {
 				.content_header_right_bookmark a.bookmarked {
 					background: #ffffff url(../images/sciboodleBookmarkWhite36x36.png) no-repeat scroll center center;
 				}
+		.content_header_right_copy{
+			display: inline-block;
+			line-height: 20px;
+			vertical-align: middle;
+			width: 26px;
+		}
+			.content_header_right_copy a {
+				background: transparent url(../images/iconCopyToComment.png) no-repeat scroll center center;
+				display: inline-block;
+				height: 24px;
+				line-height: 20px;
+				vertical-align: middle;
+				width: 24px;
+			}
 		.content_header_right_exit {
 			display: inline-block;
 		    font-family: Xuicons;

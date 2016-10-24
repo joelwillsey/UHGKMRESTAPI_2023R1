@@ -45,14 +45,24 @@ public class ISETDAOImpl extends BaseDAOImpl implements ISETDAO{
 		final Connection connection = ConnectionPool.getConnection();
 		PreparedStatement stmt = null;
 		
+		if(refName == null || refName.length() == 0){
+			refName = "NULL";
+		}
+		if(objType == null || objType.length() == 0){
+			objType = "NULL";
+		}
+		if(objID == null || objID.length() == 0){
+			objID = "NULL";
+		}
+		
 		// Execute query
 		try {
 			final String query = "SELECT MIGRATABLE_REFERENCE"
 					+ " FROM UHG_MigRefID2RefName"
-					+ " WHERE (REFERENCE_NAME = "+refName
-					+ " AND OBJECT_TYPE = "+objType+")"
-					+ " OR (IQ_OBJECT_ID = "+objID
-					+ " AND OBJECT_TYPE = "+objType+")";
+					+ " WHERE (REFERENCE_NAME = '"+refName +"'"
+					+ " AND OBJECT_TYPE = '"+objType+"')"
+					+ " OR (IQ_OBJECT_ID = '"+objID +"'"
+					+ " AND OBJECT_TYPE = '"+objType+"')";
 			stmt = connection.prepareStatement(query);
 			final ResultSet rs = stmt.executeQuery();
 			
