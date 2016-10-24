@@ -125,6 +125,13 @@
 		<section class="search">
 			<div id="search-wrapper" class="search_wrapper">
 				<div class="search_box">
+					<script>
+						onload = function (){
+							var e = document.getElementById('search-text');
+							//e.oninput = myHandler;
+							//e.onpropertychange = e.oninput;
+						};
+					</script>
 					<input id="search-text" class="search_text" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
 					<button id="search-button" class="search_button"></button>
 				</div>
@@ -598,6 +605,9 @@
 						<div class="content_header_right_featured"></div>
 						<div class="content_header_right_bookmark">
 							<a id="content-bookmark" class="content_header_right_bookmark_action" href="javascript:void(0);" tabindex="3" title="Bookmark"></a>
+						</div>
+						<div class="content_header_right_copy">
+							<a id="copy-content" class="content_header_right_copy_action" href="javascript:void(0);" title="Copy to Comment"></a>
 						</div>
 						<div class="content_header_right_exit">
 							<a id="exit-button" href="javascript:void(0);" tabindex="4" title="Exit"><i class="icon ion-close"></i></a>
