@@ -512,7 +512,9 @@ button {
 				text-decoration: underline;
 				vertical-align: middle;
 				white-space: normal;
-				width: 90%;
+			}
+			.sr_lr_link {
+			display: inline-flex;
 			}
 		.content_body_field_resuable_link {
 			display: inline-block;

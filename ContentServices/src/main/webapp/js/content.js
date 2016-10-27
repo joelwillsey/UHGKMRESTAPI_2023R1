@@ -325,9 +325,12 @@ $(document).ready(function() {
 					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.publicSectionContent[p].id + '\');">');
 				}
 				contentBody.push('      <div class="content_body_field_resuable_content_icon ' + data.publicSectionContent[p].type + '">&nbsp;</div>');
-				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.publicSectionContent[p].title + '</div>');
+				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.publicSectionContent[p].title);
+				contentBody.push('			<a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.publicSectionContent[p].id + '\');"><img src="images/ReadLaterGray16x16.png"></a>');
+				contentBody.push(		'</div>');
 				contentBody.push('    </a>');
 				contentBody.push('  </div>');
+				
 				contentBody.push('  <div class="content_body_field_resuable_link">');
 				if (data.publicSectionContent[p].type == 'pageSet') {
 					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.publicSectionContent[p].id + '\');">');
@@ -481,6 +484,7 @@ $(document).ready(function() {
 					contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.contentEntries[i].type + '">&nbsp;</div>');
 					contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.contentEntries[i].title + '</div>');
 					contentBody.push('      </a>');
+					contentBody.push('		<div class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.relatedContent.contentEntries[i].id + '\');"><img src="images/ReadLaterGray16x16.png"></div>');
 					contentBody.push('    </div>');
 					contentBody.push('  </div>');
 				}
