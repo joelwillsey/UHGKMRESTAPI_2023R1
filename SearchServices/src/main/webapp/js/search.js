@@ -4,6 +4,7 @@ var contentTypeTags = '';
 var filterTags = '';
 var publishedid = '';
 
+
 $(document).ready(function() {
 
 	// Toggle the search cloud
@@ -87,7 +88,8 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('bookmark');
     	$('.dpui-widget').trigger('dpui:showManageButton');
-    	$.fn.bookmark(page, size);
+    	var kTagsParameterStrings = $.fn.getParameterByName('tags').split(",");
+    	$.fn.bookmark(page, size, kTagsParameterStrings[1]);
 	});
 
     // Featured Content button
@@ -95,8 +97,9 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('featured');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
-    	var kTagsParameterStrings = $.fn.getParameterByName('tags');
-    	$.fn.featured(page, size, kTagsParameterStrings);
+    	var kTagsParameterStrings = $.fn.getParameterByName('tags').split(",");
+    	
+    	$.fn.featured(page, size, kTagsParameterStrings[1]);
 	});
 
 	// New or Changed Button button
@@ -193,7 +196,22 @@ $(document).ready(function() {
 	// Featured Content Service
 	$.fn.featured = function(page, size, tags) {
 		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, 15000, function(data) {
-			$.fn.sendToResults('Featured Content', data);
+			
+			//super janky filter to make up for the fact that the soap call hasnt been fixed
+			var newData = jQuery.extend(true, {}, data);
+			newData.knowledgeGroupUnits = [];
+			newData.numberOfResults = 0;
+			
+			for (var i = 0; i < data.knowledgeGroupUnits.length; ++i){
+				for (var j = 0; j < data.knowledgeGroupUnits[i].knowledgeUnits["0"].tags.length; ++j){
+					if (data.knowledgeGroupUnits[i].knowledgeUnits["0"].tags[j].systemTagName == tags){
+						newData.knowledgeGroupUnits.push(data.knowledgeGroupUnits[i]);
+						++newData.numberOfResults;
+					}
+				}				
+			}
+			
+			$.fn.sendToResults('Featured Content', newData);
 		});
 	}
 
@@ -206,7 +224,7 @@ $(document).ready(function() {
 
 	// Bookmark function
 	$.fn.bookmark = function(page, size, tags) {
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size, 15000, function(data) {
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, 15000, function(data) {
 			$.fn.sendToResults('My Bookmarks', data);
 		});
 	}
