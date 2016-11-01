@@ -173,7 +173,14 @@
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j</artifactId>
 			<version>1.6.2</version>
-		</dependency>		
+		</dependency>	
+		
+		<!-- GSON Java -->
+		<dependency>
+    		<groupId>com.google.code.gson</groupId>
+    		<artifactId>gson</artifactId>
+    		<version>2.7</version>
+		</dependency>	
 	</dependencies>
 	<build>
 		<plugins>
