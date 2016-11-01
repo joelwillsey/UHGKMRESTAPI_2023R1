@@ -175,11 +175,13 @@ $(document).ready(function() {
 
 	// Catch enter key; call the search service
 	$(document).keydown( function(event) {
-		if (event.which === 13) {
-			$.fn.toggleMenu($('#tab-search-button'));
-	    	$.fn.search($('#search-text').val(), page, size, '', '', '', '', function(data) {
-	    		$.fn.sendToResults('Search', data);
-	    	});
+		if (event.which === 13){
+			if (!$liSelected.hasClass('selected')) {
+				$.fn.toggleMenu($('#tab-search-button'));
+		    	$.fn.search($('#search-text').val(), page, size, '', '', '', '', function(data) {
+		    		$.fn.sendToResults('Search', data);
+		    	});
+			}
 		}
 	});
 
@@ -480,7 +482,7 @@ $(document).ready(function() {
 			}else{
 				$liSelected = $("#autoSuggest").children('li').last().addClass('selected');
 			}
-			
+			return false;
 		}else if (e.which === 40){
 			// Down arrow detected.
 			if($liSelected){
@@ -495,12 +497,14 @@ $(document).ready(function() {
 			}else{
 				$liSelected = $("#autoSuggest").children('li').first().addClass('selected');
 			}
-			
+			return false;
 		}else if(e.which === 13){
-			$liSelected.trigger("click");
+			if ($liSelected){
+				$liSelected.trigger("click");
+			}
 		}else{
 
-			// Quick and easy delay function so that this doesn't pop up right away, will likely more it out of this variable.
+			// Quick and easy delay function so that this doesn't pop up right away.
 			var delay = (function(){
 				  var timer = 0;
 				  return function(callback, ms){
