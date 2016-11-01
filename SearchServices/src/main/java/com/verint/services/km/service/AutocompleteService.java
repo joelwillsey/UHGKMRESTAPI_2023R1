@@ -10,23 +10,22 @@ import javax.ws.rs.core.MediaType;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.verint.services.km.errorhandling.AppErrorCodes;
-import com.verint.services.km.errorhandling.AppErrorMessage;
-import com.verint.services.km.errorhandling.AppException;
-import com.verint.services.km.model.MigratableReferenceId;
 import com.verint.services.km.model.AutoSuggestResponse;
-
-//import com.fasterxml.jackson.core.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @Path("/autocomplete")
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -49,17 +48,18 @@ public class AutocompleteService extends BaseService{
 	public static void main(String[] args){
 	}
 	
+	// Services the auto suggest capabilities of the search bar.
 	@Path("/suggest")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@GET
 	public AutoSuggestResponse getAutoSuggestResponse(@Context HttpServletRequest hrrpRequest,
-			@QueryParam("text") String suggestText) {
+			@QueryParam("text") String suggestText) throws UnsupportedEncodingException {
 		LOGGER.info("Entering getAutoSuggestResponse()");
 		AutoSuggestResponse autoSuggestResponse = new AutoSuggestResponse();
 		
 		// Creating the URL to the SOLR Auto Suggest service
 		String uri = "http://localhost:8983/solr/KM/suggest?spellcheck.dictionary=AD_en&spellcheck.build=true&q=";
-		String fullUri = uri + suggestText;
+		String fullUri = uri + java.net.URLEncoder.encode(suggestText, "UTF-8");
 		LOGGER.info("Autosuggest suggestion url: "+ fullUri);
 		
 		// Declaring tools to pull in the JSON file provided by SOLR
@@ -80,6 +80,7 @@ public class AutocompleteService extends BaseService{
 						Charset.defaultCharset());
 				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 				
+				
 				if (bufferedReader != null) {
 					int characterPointer;
 					while ((characterPointer = bufferedReader.read()) != -1) {
@@ -88,15 +89,43 @@ public class AutocompleteService extends BaseService{
 					bufferedReader.close();
 				}
 			}
-			
+			// Closes the stream to the url.
 			inputStreamReader.close();
 			
+			// Bunches and bunches of GSON parsing to get the wanted data.
+			JsonElement jsonElement = new JsonParser().parse(stringBuilder.toString());
+			JsonObject jsonObject = jsonElement.getAsJsonObject();
+			JsonObject spellcheck = jsonObject.getAsJsonObject("spellcheck");
+			JsonArray suggestions = spellcheck.getAsJsonArray("suggestions");
+			JsonArray collations = spellcheck.getAsJsonArray("collations");
+			
+			// Runs a check to see if the size of suggestions is 0, if it's not it populates it, else it returns the default.
+			if( suggestions.size() != 0){
+				JsonElement elementsObject = suggestions.get(1);
+				JsonObject elements = elementsObject.getAsJsonObject();
+				
+				// Populates the response object.
+				int numFound = elements.get("numFound").getAsInt();
+				int startOffset = elements.get("startOffset").getAsInt();
+				int endOffset = elements.get("endOffset").getAsInt();
+				
+				Set<String> suggestionSet = new HashSet<String>();
+				
+				for (int i = 1; i < collations.size() && i < 10; i+=2){
+					JsonElement collation = collations.get(i);
+					JsonObject collationSet = collation.getAsJsonObject();
+					suggestionSet.add(collationSet.get("collationQuery").getAsString());
+				}
+				
+				autoSuggestResponse.setNumFound(numFound);
+				autoSuggestResponse.setStartOffset(startOffset);
+				autoSuggestResponse.setEndOffset(endOffset);
+				autoSuggestResponse.setSuggestion(suggestionSet);
+			}
+			
 		} catch (Exception e) {
-			throw new RuntimeException("Exception while calling URL" + fullUri, e);
+			throw new RuntimeException("Exception while calling URL " + fullUri, e);
 		}
-		
-		
-		LOGGER.info("\nOutput: \n" + stringBuilder.toString());
 		LOGGER.info("Exiting getAutoSuggestResponse()");
 		return autoSuggestResponse;
 	}
