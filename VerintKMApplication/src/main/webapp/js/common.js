@@ -103,6 +103,48 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 	}).responseJSON;
 }
 
+//Service call function with no spinner
+$.fn.serviceCallNoSpin = function(type, data, url, timeout, successCallback) {
+	// Call the search service
+	$.ajax({
+		type : type,
+		contentType : 'application/json',
+		data : data,
+		url : url,
+		dataType : 'json',
+		timeout : timeout,
+		beforeSend : function(jqXHR, settings) {
+			$.fn.setupHeader(jqXHR);
+		},
+		success : function(data, textStatus, jqXHR) {
+			// Send response headers
+			$.fn.interrogateResponse(jqXHR.getAllResponseHeaders());
+			successCallback(data);
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			$.fn.disableSpinner();
+			$.fn.handleError(jqXHR, textStatus, errorThrown);
+		},
+		statusCode : {
+			// Authentication error code
+			401 : function(jqXHR, textStatus, errorThrown) {
+				$.fn.disableSpinner();
+				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+			},
+			// Authorization error code
+			403 : function(jqXHR, textStatus, errorThrown) {
+				$.fn.disableSpinner();
+				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+			},
+			// Not found error code
+			404 : function(jqXHR, textStatus, errorThrown) {
+				$.fn.disableSpinner();
+				$.fn.handleError(jqXHR, textStatus, errorThrown);
+			}
+		},
+	}).then(function(data) {
+	}).responseJSON;
+}
 // Dynamically create a class
 $.fn.createClass = function(name, rules) {
 	var style = document.createElement('style');

@@ -125,14 +125,11 @@
 		<section class="search">
 			<div id="search-wrapper" class="search_wrapper">
 				<div class="search_box">
-					<script>
-						onload = function (){
-							var e = document.getElementById('search-text');
-							//e.oninput = myHandler;
-							//e.onpropertychange = e.oninput;
-						};
-					</script>
-					<input id="search-text" class="search_text" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
+					<div class="dropdown">
+						<input id="search-text" class="search_text" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
+						<ul id="autoSuggest" class="auto-suggest-content">
+						</ul>
+					</div>
 					<button id="search-button" class="search_button"></button>
 				</div>
 			</div>
