@@ -316,6 +316,7 @@ h4 {
 		    padding: 2px 15px;
 		    text-decoration: none;
 		    display: block;
+		    cursor: pointer;
 		}
 		.dropdown li.selected {background-color: #0099cc;}
 .show {display:block;}
