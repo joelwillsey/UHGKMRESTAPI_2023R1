@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
   <definitions
       name="NewOrChangedV1Service"
-      targetNamespace="http://localhost:80/NewOrChangedV1Service.wsdl"
+      targetNamespace="http://model.services.contactcentre.kana.com/NewOrChangedV1Service.wsdl"
       xmlns="http://schemas.xmlsoap.org/wsdl/"
       xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-      xmlns:tns="http://localhost:80/NewOrChangedV1Service.wsdl"
+      xmlns:tns="http://model.services.contactcentre.kana.com/NewOrChangedV1Service.wsdl"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!-- Created by Verint on Mon Aug 29 16:28:30 CDT 2016. See http://www.kana.com for more details. -->
+<!-- Created by Verint on Wed Nov 02 09:53:49 CDT 2016. See http://www.kana.com for more details. -->
     <types>
       <xsd:schema
           elementFormDefault="unqualified"
-          targetNamespace="http://localhost:80/NewOrChangedV1Service.wsdl">
+          targetNamespace="http://model.services.contactcentre.kana.com/NewOrChangedV1Service.wsdl">
         <xsd:complexType
             name="KnowledgeGroupUnit">
           <xsd:sequence>
@@ -262,11 +262,6 @@
             <xsd:element
                 maxOccurs="1"
                 minOccurs="1"
-                name="maxNumberOfNewOrChanged"
-                type="xsd:integer" />
-            <xsd:element
-                maxOccurs="1"
-                minOccurs="1"
                 name="password"
                 type="xsd:string" />
             <xsd:element
@@ -284,6 +279,21 @@
                 minOccurs="1"
                 name="kbase_tags"
                 type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfUnitsPerGroup"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="paginationStartIndex"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfGroupResults"
+                type="xsd:integer" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
@@ -294,6 +304,21 @@
                 minOccurs="1"
                 name="response"
                 type="tns:KnowledgeResultSet" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfGroupResults"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="paginationStartIndex"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfUnitsPerGroup"
+                type="xsd:integer" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:element
