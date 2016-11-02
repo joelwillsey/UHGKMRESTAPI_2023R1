@@ -10,8 +10,6 @@ package com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl;
 public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializable {
     private java.lang.String locale;
 
-    private java.math.BigInteger maxNumberOfNewOrChanged;
-
     private java.lang.String password;
 
     private java.lang.String username;
@@ -20,22 +18,32 @@ public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializa
 
     private java.lang.String kbase_tags;
 
+    private java.math.BigInteger maxNumberOfUnitsPerGroup;
+
+    private java.math.BigInteger paginationStartIndex;
+
+    private java.math.BigInteger maxNumberOfGroupResults;
+
     public GetNewOrChangedContentRequestBodyType() {
     }
 
     public GetNewOrChangedContentRequestBodyType(
            java.lang.String locale,
-           java.math.BigInteger maxNumberOfNewOrChanged,
            java.lang.String password,
            java.lang.String username,
            java.lang.String applicationID,
-           java.lang.String kbase_tags) {
+           java.lang.String kbase_tags,
+           java.math.BigInteger maxNumberOfUnitsPerGroup,
+           java.math.BigInteger paginationStartIndex,
+           java.math.BigInteger maxNumberOfGroupResults) {
            this.locale = locale;
-           this.maxNumberOfNewOrChanged = maxNumberOfNewOrChanged;
            this.password = password;
            this.username = username;
            this.applicationID = applicationID;
            this.kbase_tags = kbase_tags;
+           this.maxNumberOfUnitsPerGroup = maxNumberOfUnitsPerGroup;
+           this.paginationStartIndex = paginationStartIndex;
+           this.maxNumberOfGroupResults = maxNumberOfGroupResults;
     }
 
 
@@ -56,26 +64,6 @@ public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializa
      */
     public void setLocale(java.lang.String locale) {
         this.locale = locale;
-    }
-
-
-    /**
-     * Gets the maxNumberOfNewOrChanged value for this GetNewOrChangedContentRequestBodyType.
-     * 
-     * @return maxNumberOfNewOrChanged
-     */
-    public java.math.BigInteger getMaxNumberOfNewOrChanged() {
-        return maxNumberOfNewOrChanged;
-    }
-
-
-    /**
-     * Sets the maxNumberOfNewOrChanged value for this GetNewOrChangedContentRequestBodyType.
-     * 
-     * @param maxNumberOfNewOrChanged
-     */
-    public void setMaxNumberOfNewOrChanged(java.math.BigInteger maxNumberOfNewOrChanged) {
-        this.maxNumberOfNewOrChanged = maxNumberOfNewOrChanged;
     }
 
 
@@ -158,6 +146,66 @@ public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializa
         this.kbase_tags = kbase_tags;
     }
 
+
+    /**
+     * Gets the maxNumberOfUnitsPerGroup value for this GetNewOrChangedContentRequestBodyType.
+     * 
+     * @return maxNumberOfUnitsPerGroup
+     */
+    public java.math.BigInteger getMaxNumberOfUnitsPerGroup() {
+        return maxNumberOfUnitsPerGroup;
+    }
+
+
+    /**
+     * Sets the maxNumberOfUnitsPerGroup value for this GetNewOrChangedContentRequestBodyType.
+     * 
+     * @param maxNumberOfUnitsPerGroup
+     */
+    public void setMaxNumberOfUnitsPerGroup(java.math.BigInteger maxNumberOfUnitsPerGroup) {
+        this.maxNumberOfUnitsPerGroup = maxNumberOfUnitsPerGroup;
+    }
+
+
+    /**
+     * Gets the paginationStartIndex value for this GetNewOrChangedContentRequestBodyType.
+     * 
+     * @return paginationStartIndex
+     */
+    public java.math.BigInteger getPaginationStartIndex() {
+        return paginationStartIndex;
+    }
+
+
+    /**
+     * Sets the paginationStartIndex value for this GetNewOrChangedContentRequestBodyType.
+     * 
+     * @param paginationStartIndex
+     */
+    public void setPaginationStartIndex(java.math.BigInteger paginationStartIndex) {
+        this.paginationStartIndex = paginationStartIndex;
+    }
+
+
+    /**
+     * Gets the maxNumberOfGroupResults value for this GetNewOrChangedContentRequestBodyType.
+     * 
+     * @return maxNumberOfGroupResults
+     */
+    public java.math.BigInteger getMaxNumberOfGroupResults() {
+        return maxNumberOfGroupResults;
+    }
+
+
+    /**
+     * Sets the maxNumberOfGroupResults value for this GetNewOrChangedContentRequestBodyType.
+     * 
+     * @param maxNumberOfGroupResults
+     */
+    public void setMaxNumberOfGroupResults(java.math.BigInteger maxNumberOfGroupResults) {
+        this.maxNumberOfGroupResults = maxNumberOfGroupResults;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof GetNewOrChangedContentRequestBodyType)) return false;
@@ -173,9 +221,6 @@ public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializa
             ((this.locale==null && other.getLocale()==null) || 
              (this.locale!=null &&
               this.locale.equals(other.getLocale()))) &&
-            ((this.maxNumberOfNewOrChanged==null && other.getMaxNumberOfNewOrChanged()==null) || 
-             (this.maxNumberOfNewOrChanged!=null &&
-              this.maxNumberOfNewOrChanged.equals(other.getMaxNumberOfNewOrChanged()))) &&
             ((this.password==null && other.getPassword()==null) || 
              (this.password!=null &&
               this.password.equals(other.getPassword()))) &&
@@ -187,7 +232,16 @@ public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializa
               this.applicationID.equals(other.getApplicationID()))) &&
             ((this.kbase_tags==null && other.getKbase_tags()==null) || 
              (this.kbase_tags!=null &&
-              this.kbase_tags.equals(other.getKbase_tags())));
+              this.kbase_tags.equals(other.getKbase_tags()))) &&
+            ((this.maxNumberOfUnitsPerGroup==null && other.getMaxNumberOfUnitsPerGroup()==null) || 
+             (this.maxNumberOfUnitsPerGroup!=null &&
+              this.maxNumberOfUnitsPerGroup.equals(other.getMaxNumberOfUnitsPerGroup()))) &&
+            ((this.paginationStartIndex==null && other.getPaginationStartIndex()==null) || 
+             (this.paginationStartIndex!=null &&
+              this.paginationStartIndex.equals(other.getPaginationStartIndex()))) &&
+            ((this.maxNumberOfGroupResults==null && other.getMaxNumberOfGroupResults()==null) || 
+             (this.maxNumberOfGroupResults!=null &&
+              this.maxNumberOfGroupResults.equals(other.getMaxNumberOfGroupResults())));
         __equalsCalc = null;
         return _equals;
     }
@@ -202,9 +256,6 @@ public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializa
         if (getLocale() != null) {
             _hashCode += getLocale().hashCode();
         }
-        if (getMaxNumberOfNewOrChanged() != null) {
-            _hashCode += getMaxNumberOfNewOrChanged().hashCode();
-        }
         if (getPassword() != null) {
             _hashCode += getPassword().hashCode();
         }
@@ -216,6 +267,15 @@ public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializa
         }
         if (getKbase_tags() != null) {
             _hashCode += getKbase_tags().hashCode();
+        }
+        if (getMaxNumberOfUnitsPerGroup() != null) {
+            _hashCode += getMaxNumberOfUnitsPerGroup().hashCode();
+        }
+        if (getPaginationStartIndex() != null) {
+            _hashCode += getPaginationStartIndex().hashCode();
+        }
+        if (getMaxNumberOfGroupResults() != null) {
+            _hashCode += getMaxNumberOfGroupResults().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -231,12 +291,6 @@ public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializa
         elemField.setFieldName("locale");
         elemField.setXmlName(new javax.xml.namespace.QName("", "locale"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("maxNumberOfNewOrChanged");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "maxNumberOfNewOrChanged"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
@@ -261,6 +315,24 @@ public class GetNewOrChangedContentRequestBodyType  implements java.io.Serializa
         elemField.setFieldName("kbase_tags");
         elemField.setXmlName(new javax.xml.namespace.QName("", "kbase_tags"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("maxNumberOfUnitsPerGroup");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "maxNumberOfUnitsPerGroup"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("paginationStartIndex");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "paginationStartIndex"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("maxNumberOfGroupResults");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "maxNumberOfGroupResults"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

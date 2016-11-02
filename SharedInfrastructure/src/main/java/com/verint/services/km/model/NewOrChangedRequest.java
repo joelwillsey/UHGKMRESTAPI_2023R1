@@ -35,6 +35,14 @@ public class NewOrChangedRequest  implements Serializable{
 	@XmlElement(nillable=true)
     private String kbase_tags = "";
 	
+	@XmlElement(nillable=true)
+    private BigInteger maxNumberOfUnitsPerGroup = new BigInteger("0");
+	
+	@XmlElement(nillable=true)
+    private BigInteger paginationStartIndex = new BigInteger("0");
+
+	@XmlElement(nillable=true)
+    private BigInteger maxNumberOfGroupResults = new BigInteger("0");
 	/**
 	 * Constructor
 	 */
@@ -126,6 +134,30 @@ public class NewOrChangedRequest  implements Serializable{
 		this.kbase_tags = kbase_tags;
 	}
 	
+	public BigInteger getMaxNumberOfUnitsPerGroup() {
+		return maxNumberOfUnitsPerGroup;
+	}
+
+	public void setMaxNumberOfUnitsPerGroup(BigInteger maxNumberOfUnitsPerGroup) {
+		this.maxNumberOfUnitsPerGroup = maxNumberOfUnitsPerGroup;
+	}
+
+	public BigInteger getPaginationStartIndex() {
+		return paginationStartIndex;
+	}
+
+	public void setPaginationStartIndex(BigInteger paginationStartIndex) {
+		this.paginationStartIndex = paginationStartIndex;
+	}
+
+	public BigInteger getMaxNumberOfGroupResults() {
+		return maxNumberOfGroupResults;
+	}
+
+	public void setMaxNumberOfGroupResults(BigInteger maxNumberOfGroupResults) {
+		this.maxNumberOfGroupResults = maxNumberOfGroupResults;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

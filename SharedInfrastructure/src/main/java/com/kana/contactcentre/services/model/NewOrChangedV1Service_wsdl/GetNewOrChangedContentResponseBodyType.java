@@ -10,12 +10,24 @@ package com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl;
 public class GetNewOrChangedContentResponseBodyType  implements java.io.Serializable {
     private com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.KnowledgeResultSet response;
 
+    private java.math.BigInteger maxNumberOfGroupResults;
+
+    private java.math.BigInteger paginationStartIndex;
+
+    private java.math.BigInteger maxNumberOfUnitsPerGroup;
+
     public GetNewOrChangedContentResponseBodyType() {
     }
 
     public GetNewOrChangedContentResponseBodyType(
-           com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.KnowledgeResultSet response) {
+           com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.KnowledgeResultSet response,
+           java.math.BigInteger maxNumberOfGroupResults,
+           java.math.BigInteger paginationStartIndex,
+           java.math.BigInteger maxNumberOfUnitsPerGroup) {
            this.response = response;
+           this.maxNumberOfGroupResults = maxNumberOfGroupResults;
+           this.paginationStartIndex = paginationStartIndex;
+           this.maxNumberOfUnitsPerGroup = maxNumberOfUnitsPerGroup;
     }
 
 
@@ -38,6 +50,66 @@ public class GetNewOrChangedContentResponseBodyType  implements java.io.Serializ
         this.response = response;
     }
 
+
+    /**
+     * Gets the maxNumberOfGroupResults value for this GetNewOrChangedContentResponseBodyType.
+     * 
+     * @return maxNumberOfGroupResults
+     */
+    public java.math.BigInteger getMaxNumberOfGroupResults() {
+        return maxNumberOfGroupResults;
+    }
+
+
+    /**
+     * Sets the maxNumberOfGroupResults value for this GetNewOrChangedContentResponseBodyType.
+     * 
+     * @param maxNumberOfGroupResults
+     */
+    public void setMaxNumberOfGroupResults(java.math.BigInteger maxNumberOfGroupResults) {
+        this.maxNumberOfGroupResults = maxNumberOfGroupResults;
+    }
+
+
+    /**
+     * Gets the paginationStartIndex value for this GetNewOrChangedContentResponseBodyType.
+     * 
+     * @return paginationStartIndex
+     */
+    public java.math.BigInteger getPaginationStartIndex() {
+        return paginationStartIndex;
+    }
+
+
+    /**
+     * Sets the paginationStartIndex value for this GetNewOrChangedContentResponseBodyType.
+     * 
+     * @param paginationStartIndex
+     */
+    public void setPaginationStartIndex(java.math.BigInteger paginationStartIndex) {
+        this.paginationStartIndex = paginationStartIndex;
+    }
+
+
+    /**
+     * Gets the maxNumberOfUnitsPerGroup value for this GetNewOrChangedContentResponseBodyType.
+     * 
+     * @return maxNumberOfUnitsPerGroup
+     */
+    public java.math.BigInteger getMaxNumberOfUnitsPerGroup() {
+        return maxNumberOfUnitsPerGroup;
+    }
+
+
+    /**
+     * Sets the maxNumberOfUnitsPerGroup value for this GetNewOrChangedContentResponseBodyType.
+     * 
+     * @param maxNumberOfUnitsPerGroup
+     */
+    public void setMaxNumberOfUnitsPerGroup(java.math.BigInteger maxNumberOfUnitsPerGroup) {
+        this.maxNumberOfUnitsPerGroup = maxNumberOfUnitsPerGroup;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof GetNewOrChangedContentResponseBodyType)) return false;
@@ -52,7 +124,16 @@ public class GetNewOrChangedContentResponseBodyType  implements java.io.Serializ
         _equals = true && 
             ((this.response==null && other.getResponse()==null) || 
              (this.response!=null &&
-              this.response.equals(other.getResponse())));
+              this.response.equals(other.getResponse()))) &&
+            ((this.maxNumberOfGroupResults==null && other.getMaxNumberOfGroupResults()==null) || 
+             (this.maxNumberOfGroupResults!=null &&
+              this.maxNumberOfGroupResults.equals(other.getMaxNumberOfGroupResults()))) &&
+            ((this.paginationStartIndex==null && other.getPaginationStartIndex()==null) || 
+             (this.paginationStartIndex!=null &&
+              this.paginationStartIndex.equals(other.getPaginationStartIndex()))) &&
+            ((this.maxNumberOfUnitsPerGroup==null && other.getMaxNumberOfUnitsPerGroup()==null) || 
+             (this.maxNumberOfUnitsPerGroup!=null &&
+              this.maxNumberOfUnitsPerGroup.equals(other.getMaxNumberOfUnitsPerGroup())));
         __equalsCalc = null;
         return _equals;
     }
@@ -66,6 +147,15 @@ public class GetNewOrChangedContentResponseBodyType  implements java.io.Serializ
         int _hashCode = 1;
         if (getResponse() != null) {
             _hashCode += getResponse().hashCode();
+        }
+        if (getMaxNumberOfGroupResults() != null) {
+            _hashCode += getMaxNumberOfGroupResults().hashCode();
+        }
+        if (getPaginationStartIndex() != null) {
+            _hashCode += getPaginationStartIndex().hashCode();
+        }
+        if (getMaxNumberOfUnitsPerGroup() != null) {
+            _hashCode += getMaxNumberOfUnitsPerGroup().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -81,6 +171,24 @@ public class GetNewOrChangedContentResponseBodyType  implements java.io.Serializ
         elemField.setFieldName("response");
         elemField.setXmlName(new javax.xml.namespace.QName("", "response"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/NewOrChangedV1Service.wsdl", "KnowledgeResultSet"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("maxNumberOfGroupResults");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "maxNumberOfGroupResults"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("paginationStartIndex");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "paginationStartIndex"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("maxNumberOfUnitsPerGroup");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "maxNumberOfUnitsPerGroup"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
