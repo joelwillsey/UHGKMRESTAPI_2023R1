@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -69,7 +68,8 @@ public class NewOrChangedService extends BaseService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public NewOrChangedResponse newOrChangedSearch(@QueryParam("locale") String locale,
-			@QueryParam("maxNumberOfNewOrChanged") BigInteger maxNumberOfNewOrChanged,
+			@QueryParam("page") BigInteger page,
+			@QueryParam("size") BigInteger size,
 			@QueryParam("applicationID") String applicationID,
 			@QueryParam("kbase_tags") String kbase_tags,
 			@Context HttpServletRequest httpRequest) throws AppException {
@@ -79,7 +79,8 @@ public class NewOrChangedService extends BaseService {
 		
 		try {
 			LOGGER.debug("locale: "+locale);
-			LOGGER.debug("maxNumberOfNewOrChanged: "+maxNumberOfNewOrChanged);
+			LOGGER.debug("Page: "+page);
+			LOGGER.debug("Size: "+size);
 			LOGGER.debug("applicationID: "+applicationID);
 			LOGGER.debug("kbase_tags: "+kbase_tags);
 			
@@ -100,11 +101,13 @@ public class NewOrChangedService extends BaseService {
 			// Create the new or changed request
 			final NewOrChangedRequest newOrChangedRequest = new NewOrChangedRequest();
 			newOrChangedRequest.setLocale(locale);
-			newOrChangedRequest.setMaxNumberOfNewOrChanged(maxNumberOfNewOrChanged);
 			newOrChangedRequest.setUsername(credentials[0]);
 			newOrChangedRequest.setPassword(credentials[1]);
 			newOrChangedRequest.setApplicationID(applicationID);
 			newOrChangedRequest.setKBaseTags(kbase_tags);
+			newOrChangedRequest.setPaginationStartIndex(page);
+			newOrChangedRequest.setMaxNumberOfGroupResults(size);
+			newOrChangedRequest.setMaxNumberOfUnitsPerGroup(size);
 			
 			LOGGER.debug("NewOrChangedRequest: " +newOrChangedRequest);
 			
@@ -113,6 +116,16 @@ public class NewOrChangedService extends BaseService {
 			if (newOrChangedResponse == null){
 				newOrChangedResponse = new NewOrChangedResponse();
 			}
+			
+			newOrChangedResponse.setPage(newOrChangedRequest.getPaginationStartIndex());
+			newOrChangedResponse.setSize(newOrChangedRequest.getMaxNumberOfUnitsPerGroup());
+			
+			Double totalPages = new Double(0);
+			if (newOrChangedResponse.getNumberOfResults() != null && newOrChangedRequest.getMaxNumberOfUnitsPerGroup() != null) {
+				totalPages = Math.ceil(newOrChangedResponse.getNumberOfResults().doubleValue()/newOrChangedRequest.getMaxNumberOfUnitsPerGroup().doubleValue());
+				newOrChangedResponse.setTotalPages(totalPages.intValue());
+			}
+			
 			
 		}catch (AppException ae) {
 			LOGGER.error("AppException in search()", ae);

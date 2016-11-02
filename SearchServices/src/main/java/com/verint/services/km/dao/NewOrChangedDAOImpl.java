@@ -1,9 +1,7 @@
 package com.verint.services.km.dao;
 
-import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -16,8 +14,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.GetNewOrChangedContentRequestBodyType;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.GetNewOrChangedContentResponseBodyType;
-import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.KnowledgeResultSet;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.KnowledgeGroupUnit;
+import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.KnowledgeResultSet;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.KnowledgeUnit;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.RatingInformation;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.ReplacedTerm;
@@ -74,11 +72,12 @@ public class NewOrChangedDAOImpl extends BaseDAOImpl implements NewOrChangedDAO{
 		// Setup the request object to the SOAP call
 		final GetNewOrChangedContentRequestBodyType request = new GetNewOrChangedContentRequestBodyType();
 		request.setLocale(Locale);
-		request.setMaxNumberOfNewOrChanged(newOrChangedRequest.getMaxNumberOfNewOrChanged());
 		request.setPassword(newOrChangedRequest.getPassword());
 		request.setUsername(newOrChangedRequest.getUsername());
 		request.setApplicationID(AppID);
 		request.setKbase_tags(newOrChangedRequest.getKBaseTags());
+		request.setMaxNumberOfGroupResults(newOrChangedRequest.getMaxNumberOfGroupResults());
+		request.setMaxNumberOfUnitsPerGroup(newOrChangedRequest.getMaxNumberOfUnitsPerGroup());
 		
 		// Call the service
 		final GetNewOrChangedContentResponseBodyType response = NewOrChangedPortType.getNewOrChangedContent(request);
