@@ -6,7 +6,6 @@ var publishedid = '';
 // List item global variable for the autosuggest feature.
 var $liSelected;
 
-
 $(document).ready(function() {
 
 	// Toggle the search cloud
@@ -235,6 +234,9 @@ $(document).ready(function() {
 
 	// Search function
 	$.fn.search = function(search_text, page, size, tags, categories, sort, publishedid, callBack) {
+		// Deals with the '&' character that messes things up
+		search_text = search_text.replace("&", "and");
+		
 		if (typeof search_text === 'undefined' || search_text === null || search_text ==='') {
 			search_text = '';
 		}
@@ -461,7 +463,6 @@ $(document).ready(function() {
   
     /*
     ** AutoSuggest SOLR features and methods.
-    **
     */
     
     // Auto suggest features and listeners.
@@ -519,7 +520,7 @@ $(document).ready(function() {
 				// Pulls in the last word in the search, and passes to the search.
 				var words =  $("#search-text").val();
 				//.split(' ');
-				var searchText = words.trim();
+				var searchText = words.trim().toLowerCase();
 				//[words.length - 1];
 				
 				// Checks that the length of the term is more than 2 letters, making it easier to identify. 
@@ -560,5 +561,5 @@ $(document).ready(function() {
 		var string = encodeURI(selectedText);
 		$("#search-text").val(decodeURI(selectedText));
 		$("#autoSuggest").hide();
-	}
+	}	
 });
