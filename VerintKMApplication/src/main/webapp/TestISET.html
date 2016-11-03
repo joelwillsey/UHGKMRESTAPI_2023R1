@@ -11,67 +11,79 @@
 $(document).ready(function() {
 	$('#Search').click(function(){
 		// similar behavior as clicking on a link
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&Search=email";
+		var kb = $("#kbaseTagEntry").val();
+		var query = $("#queryEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&Search="+query;
 		window.location.replace(url);
 	});
 	
 	$('#problemid').click(function(){
 		// similar behavior as clicking on a link
-		var pID = $('input[name="objectID"]:checked').val();
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=p{" + pID + "}";
+		var kb = $("#kbaseTagEntry").val();
+		var pID = $("#objIDEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&report=p{" + pID + "}";
 		window.location.replace(url);
 	});
 	$('#problemrefname').click(function(){
 		// similar behavior as clicking on a link
-		var pID = $('input[name="referenceName"]:checked').val();
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=p[" + pID + "]";
+		var kb = $("#kbaseTagEntry").val();
+		var refName = $("#refNameEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&report=p[" + refName + "]";
 		window.location.replace(url);
 	});
 	
 	$('#dtreeid').click(function(){
 		// similar behavior as clicking on a link
-		var pID = $('input[name="objectID"]:checked').val();
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=d{" + pID + "}";
+		var kb = $("#kbaseTagEntry").val();
+		var pID = $("#objIDEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&report=d{" + pID + "}";
 		window.location.replace(url);
 	});
 	$('#dtreerefname').click(function(){
 		// similar behavior as clicking on a link
-		var pID = $('input[name="referenceName"]:checked').val();
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=d[" + pID + "]";
+		var kb = $("#kbaseTagEntry").val();
+		var refName = $("#refNameEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&report=d[" + refName + "]";
 		window.location.replace(url);
 	});
 	
 	$('#contentid').click(function(){
 		// similar behavior as clicking on a link
-		var pID = $('input[name="objectID"]:checked').val();
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&view()=r{" + pID + "}";
+		var kb = $("#kbaseTagEntry").val();
+		var pID = $("#objIDEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&view()=r{" + pID + "}";
 		window.location.replace(url);
 	});
 	$('#contentrefname').click(function(){
 		// similar behavior as clicking on a link
-		var pID = $('input[name="referenceName"]:checked').val();
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&view()=r[" + pID + "]";
+		var kb = $("#kbaseTagEntry").val();
+		var refName = $("#refNameEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&view()=r[" + refName + "]";
 		window.location.replace(url);
 	});
 	
 	$('#filter').click(function(){
 		// similar behavior as clicking on a link
-		var pID = $('input[name="referenceName"]:checked').val();
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&Report=a[content_article]:email";
+		var kb = $("#kbaseTagEntry").val();
+		var cntnt = $("#cntntTypeEntry").val();
+		var query = $("#queryEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&Report=a["+cntnt+"]:"+query;
 		window.location.replace(url);
 	});
 	
 	$('#tagname').click(function(){
 		// similar behavior as clicking on a link
-		var pID = $('input[name="referenceName"]:checked').val();
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&report=p(topic_5ecbb9ae-a7ec-42ac-b)";
+		var kb = $("#kbaseTagEntry").val();
+		var topic = $("#topicsTagEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&report=p("+topic+")";
 		window.location.replace(url);
 	});
 	
 	$('#content').click(function(){
 		// similar behavior as clicking on a link
-		var pID = $('input[name="referenceName"]:checked').val();
-		var url = "/verintkm/jumppage.html?create=kb:kbase_tricare&view()=r(130d28f5-8c36-4706-9914-fc5ca3630ba1)";
+		var kb = $("#kbaseTagEntry").val();
+		var migRefID = $("#migRefIDEntry").val();
+		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&view()=r("+migRefID+")";
 		window.location.replace(url);
 	});
 });
@@ -80,49 +92,56 @@ $(document).ready(function() {
 </head>
 <body>
 
-<h2>Reference Name</h2>
-<div id="refName">
-	<input type="radio" name="referenceName" value="Ref1">Ref1<br>
-	<input type="radio" name="referenceName" value="Ref2">Ref2<br>
-	<input type="radio" name="referenceName" value="Ref3">Ref3<br>
-	<input type="radio" name="referenceName" value="Ref4">Ref4<br>
-	<input type="radio" name="referenceName" value="Ref5">Ref5<br>
-	<input type="radio" name="referenceName" value="Ref6">Ref6
-</div>
-<h2>Object ID</h2>
-<div id="objectID">
-	<input type="radio" name="objectID" value="1001600">1001600<br>
-	<input type="radio" name="objectID" value="1001681">1001681<br>
-	<input type="radio" name="objectID" value="1001780">1001780<br>
-	<input type="radio" name="objectID" value="1001833">1001833<br>
-	<input type="radio" name="objectID" value="1001902">1001902<br>
-	<input type="radio" name="objectID" value="1002040">1002040
+<div>
+<h4>Reference Name</h4>
+	<input type="text" id="refNameEntry"><br>
+
+<h4>Object ID</h4>
+	<input type="text" id="objIDEntry"><br>
+
+<h4>K-Base Tag</h4>
+	<input type="text" id="kbaseTagEntry"><br>
+	
+<h4>Additional Tags</h4>
+	<input type="text" id="moreTagEntry"><br>
+
+<h4>Topics Tags</h4>
+	<input type="text" id="topicsTagEntry"><br>
+	
+<h4>Content Type</h4>
+	<input type="text" id="cntntTypeEntry"><br>
+
+<h4>Migratable Ref ID</h4>
+	<input type="text" id="migRefIDEntry"><br>
+
+<h4>Search Query</h4>
+	<input type="text" id="queryEntry"><br>
 </div>
 
 <h2>Buttons to call URL</h2>
 <div>
-	<h4>Runs a search where the kbase tag is Tricare and the search string is Email</h4>
+	<h4>Runs a search with the kbase tag and the search string</h4>
 	<input type="button" value="Launch a Search of keywords" id="Search"/><br>
 	<br>
-	<h4>Will only work with Reference Names Ref2 & Ref5 and and the 2nd and 5th object ids</h4>
+	<h4>Runs a search by problem object</h4>
 	<input type="button" value="Launch a Problem Object by ID" id="problemid"/><br>
 	<br>
 	<input type="button" value="Launch a Problem Object by Reference Name" id="problemrefname"/><br>
 	<br>
-	<h4>Will only work with numbers 3 and 6</h4>
+	<h4>Runs a search by decision tree object</h4>
 	<input type="button" value="Launch a Decision Tree by ID" id="dtreeid"/><br>
 	<br>
 	<input type="button" value="Launch a Decision Tree by Reference Name" id="dtreerefname"/><br>
 	<br>
-	<h4>Will only work with numbers 1 and 4</h4>
+	<h4>Runs a search by content object</h4>
 	<input type="button" value="View content by ID" id="contentid"/><br>
 	<br>
 	<input type="button" value="View content by Reference Name" id="contentrefname"/><br>
 	<br>
-	<h4>Adds a content type filter to a search(tricare kbase, content article filter, search for email)</h4>
+	<h4>Adds a content type filter to a search(kbase, content type filter, search query)</h4>
 	<input type="button" value="Apply Filter to Results list" id="filter"/><br>
 	<br>
-	<h4>Launches a kbase tag with a topics tag(tricare and documents)</h4>
+	<h4>Launches a kbase tag with a topics tag</h4>
 	<input type="button" value="Launch an ISET Topic by EMKM TagName" id="tagname"/><br>
 	<br>
 	<h4>Also "View content by KEKM MigratableReference" takes migratable reference id and launches content</h4>
