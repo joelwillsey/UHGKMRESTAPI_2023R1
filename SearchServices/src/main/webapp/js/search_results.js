@@ -626,8 +626,9 @@ $(document).ready(function() {
 	// Method added to drop the autosuggest pop up when we click off of it. 
 	$(document).click(function() {
 		$("#autoSuggest").hide();
-		$liSelected.removeClass('selected');
-		
+		if ($liSelected != undefined){
+			$liSelected.removeClass('selected');
+		}
 	});
 	
 	// Method called when we select an auto suggestion to change the text in our search text field.
@@ -639,8 +640,10 @@ $(document).ready(function() {
 	
 	$(".auto-suggest-content").on({	
 		mouseenter: function () {
-			$liSelected.removeClass('selected');
-			$liSelected = $(this);
+			if ($liSelected != undefined){
+				$liSelected.removeClass('selected');
+				$liSelected = $(this);
+			}
 			$(this).addClass("selected");
 		},
 		mouseleave: function () {
