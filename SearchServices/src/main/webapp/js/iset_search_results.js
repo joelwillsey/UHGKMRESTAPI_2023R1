@@ -237,7 +237,7 @@ $(document).ready(function() {
 	// Setup results links
 	$.fn.setupResultsLinks = function(data, results) {
 		results.push('<article>');
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {
@@ -259,9 +259,9 @@ $(document).ready(function() {
 		results.push('  </a>');
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
-			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchDTContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+			//results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchDTContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
 		} else {
-			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+			//results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
 		}
 		results.push('</article>');
 		return results;
