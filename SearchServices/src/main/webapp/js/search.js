@@ -196,6 +196,7 @@ $(document).ready(function() {
 
 	// Featured Content Service
 	$.fn.featured = function(page, size, tags) {
+		jQuery.ajaxSetup({async:false});
 		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, 15000, function(data) {
 			
 			//super janky filter to make up for the fact that the soap call hasnt been fixed
@@ -214,20 +215,25 @@ $(document).ready(function() {
 			
 			$.fn.sendToResults('Featured Content', newData);
 		});
+		jQuery.ajaxSetup({async:true});
 	}
 
 	// New or Changed Service
 	$.fn.newOrChanged = function(page, size, kbase) {
+		jQuery.ajaxSetup({async:false});
         $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, 15000, function(data) {
         	$.fn.sendToResults('New or Changed', data);
         });
+        jQuery.ajaxSetup({async:true});
 	}
 
 	// Bookmark function
 	$.fn.bookmark = function(page, size, tags) {
+		jQuery.ajaxSetup({async:false});
 		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, 15000, function(data) {
 			$.fn.sendToResults('My Bookmarks', data);
 		});
+		jQuery.ajaxSetup({async:true});
 	}
 
 	// Search function
@@ -300,7 +306,9 @@ $(document).ready(function() {
 			tags = "search_showinsearch,"+tags;
 		}
 		
+		jQuery.ajaxSetup({async:false});
 		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, 15000, callBack);
+		jQuery.ajaxSetup({async:true});
 	}
 
 	// Inter-widget communication
