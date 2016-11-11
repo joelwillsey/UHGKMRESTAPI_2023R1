@@ -9,12 +9,17 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -57,8 +62,26 @@ public class AutocompleteService extends BaseService{
 		LOGGER.info("Entering getAutoSuggestResponse()");
 		AutoSuggestResponse autoSuggestResponse = new AutoSuggestResponse();
 		
+		// Declaring the URI as empty to pull in the property from the properties file.
+		String uri = "";
+		try {
+			File file = new File("\\app_2\\verint\\projects\\uhgiq\\restapi\\kmservices\\connectionPool.properties");
+			FileInputStream fileInput = new FileInputStream(file);
+			Properties properties = new Properties();
+			properties.load(fileInput);
+			fileInput.close();
+			
+			uri = properties.getProperty("connection.autosuggestURI");
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// Creating the URL to the SOLR Auto Suggest service
-		String uri = "http://localhost:8983/solr/KM/suggest?spellcheck.dictionary=AD_en&spellcheck.build=true&q=";
+		//String uri = "http://localhost:8983/solr/KM/suggest?spellcheck.dictionary=AD_en&spellcheck.build=true&q=";
 		String fullUri = uri + java.net.URLEncoder.encode(suggestText, "UTF-8");
 		LOGGER.info("Autosuggest suggestion url: "+ fullUri);
 		
