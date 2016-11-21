@@ -27,6 +27,15 @@ public interface BookmarksDAO {
 	
 	/**
 	 * 
+	 * @param manageBookmarkRequest
+	 * @return
+	 * @throws RemoteException
+	 * @throws AppException
+	 */
+	public ManageBookmarkResponse removeBookmark(ManageBookmarkRequest manageBookmarkRequest) throws RemoteException, AppException;
+	
+	/**
+	 * 
 	 * @param contentRequest
 	 * @return
 	 * @throws RemoteException

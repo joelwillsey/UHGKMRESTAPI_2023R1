@@ -89,6 +89,47 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see com.verint.services.km.dao.BookmarksDAO#addBookmark(com.verint.services.km.model.ManageBookmarkRequest)
+	 */
+	@Override
+	public ManageBookmarkResponse removeBookmark(ManageBookmarkRequest manageBookmarkRequest) throws RemoteException, AppException {
+		LOGGER.info("Entering addBookmark()");
+		LOGGER.debug("ManageBookmarkRequest: " + manageBookmarkRequest);
+		final ManageBookmarkResponse manageBookmarkResponse = new ManageBookmarkResponse();
+		
+		// Setup the service request
+		final ManageBookmarkRequestBodyType request = new ManageBookmarkRequestBodyType();
+		request.setApplicationID(AppID);
+		request.setLocaleName(Locale);
+		request.setContentId(manageBookmarkRequest.getContentId());
+		request.setUserName(manageBookmarkRequest.getUsername());
+		request.setPassword(manageBookmarkRequest.getPassword());
+		request.setUserAction("REMOVE");
+
+		// Make the service call
+		final ManageBookmarkResponseBodyType response = KMBookmarkServicePortType.manageBookmark(request);
+		LOGGER.debug("ManageBookmarkResponseBodyType: " + response);
+		if (response != null && response.getErrorList() != null) {
+			final ErrorMessage[] errors = response.getErrorList();
+			// Loop through the errors
+			for (int x = 0; (errors != null) && (x < errors.length); x++) {
+				ErrorList errorList = new ErrorList();
+				errorList.setCode(errors[x].getCode());
+				errorList.setMessage(errors[x].getMessage());
+				manageBookmarkResponse.addErrorList(errorList);
+			}
+		} else {
+			// We have a problem with the service
+			throw new AppException(500, AppErrorCodes.ADD_BOOKMARK_ERROR,
+					AppErrorMessage.ADD_BOOKMARK_ERROR);
+		}
+		LOGGER.debug("ManageBookmarkResponse: " + manageBookmarkResponse);
+		LOGGER.info("Exiting addBookmark()");
+		return manageBookmarkResponse;
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.verint.services.km.dao.BookmarksDAO#isContentBookmarked(com.verint.services.km.model.ContentRequest)
 	 */
 	public boolean isContentBookmarked(ContentRequest contentRequest) throws RemoteException, AppException {
@@ -117,4 +158,6 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 		}
 		return isBookmarked;
 	}
+
+	
 }
