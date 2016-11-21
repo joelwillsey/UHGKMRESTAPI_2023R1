@@ -120,7 +120,14 @@ $(document).ready(function() {
 		$('#background').addClass('background_on');
 		$('#popup').addClass('popup_on');
 	});
-
+	
+	$('#content-bookmark-header').on('click', function(){		
+			$.fn.bookmarkFunction();
+			if($('#tab-bookmarks-button').hasClass('sel')){
+				$('#tab-bookmarks-button').click();
+			}
+	})
+	
 	// Get the parameter by name
 	$.fn.getParameterByName = function(name) {
 	    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
@@ -138,11 +145,19 @@ $(document).ready(function() {
 	}
 
 	 //Bookmark function
-   var bookmarkFunction = function() {
-		$('#mobile-content-bookmark').addClass('bookmarked');
-		$('#content-bookmark').addClass('bookmarked');
-		$.fn.addBookmark(contentId);
-    	$(".content_header_right_bookmark_action").off('click');
+   $.fn.bookmarkFunction = function() {
+	   
+	   if($('#content-bookmark').hasClass('bookmarked') || $('#mobile-content-bookmark').hasClass('bookmarked')){
+		   $('#mobile-content-bookmark').removeClass('bookmarked');
+		   $('#content-bookmark').removeClass('bookmarked');
+		   $.fn.addBookmark(contentId, false);
+		   $(".content_header_right_bookmark_action").off('click');
+	   } else {
+		   $('#mobile-content-bookmark').addClass('bookmarked');
+		   $('#content-bookmark').addClass('bookmarked');
+		   $.fn.addBookmark(contentId, true);
+		   $(".content_header_right_bookmark_action").off('click');   
+	   }
     }
     
 	// Setup skip links
@@ -712,15 +727,23 @@ $(document).ready(function() {
 
     // Add bookmark
 	$.fn.addBookmark = function(id, enable) {
-		var dataPackage = '{"contentId":"' + id + '","userAction":"REMOVE"}';
+		var dataPackage = '';
 		
 		if (enable) {
 			dataPackage = '{"contentId":"' + id + '","userAction":"ADD"}';
-		}
-
-		$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/addbookmark', 15000, function(data) {
+			jQuery.ajaxSetup({async:false});
+			$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/bookmarkservice/addbookmark', 15000, function(data) {
 				// Do nothing for now...
-		});
+			});
+			jQuery.ajaxSetup({async:true});
+		} else {
+			dataPackage = '{"contentId":"' + id + '","userAction":"REMOVE"}';
+			jQuery.ajaxSetup({async:false});
+			$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/bookmarkservice/removebookmark', 15000, function(data) {
+				// Do nothing for now...
+			});
+			jQuery.ajaxSetup({async:true});
+		}
 	}
 
 	// Retrieve content
@@ -737,9 +760,9 @@ $(document).ready(function() {
 	    	if ($.fn.isIE() === 9) {
 	    		 // IE9 code
 	    		log('IE9 Detected');
-				history.pushState(stateObj, "newPage", query);
+				//history.pushState(stateObj, "newPage", query);
 			} else {
-				history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
+				//history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
 			}
 		}
 		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id, 20000, function(data) {
@@ -762,9 +785,9 @@ $(document).ready(function() {
 	    	if ($.fn.isIE() === 9) {
 	    		 // IE9 code
 	    		log('IE9 Detected');
-				history.pushState(stateObj, "newPage", query);
+				//history.pushState(stateObj, "newPage", query);
 			} else {
-				history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
+				//history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
 			}
 		}
 
