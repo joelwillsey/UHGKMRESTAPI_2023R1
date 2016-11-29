@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kana.contactcentre.services.model.SearchV1Service_wsdl.SharedTextSearchResponseBodyType;
 import com.verint.services.km.dbcp.ConnectionPool;
 import com.verint.services.km.model.CrossTag;
 import com.verint.services.km.model.CrossTagResponse;
@@ -94,7 +97,11 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 				stmt.setString(1, sourcetag[s]);
 				stmt.setString(2, currentTagSet);
 				// Execute query
+				Instant start = Instant.now();
 				final ResultSet rs = stmt.executeQuery();
+				Instant end = Instant.now();
+				LOGGER.debug("CrossTags - getTagSetConfigurations duration: " + Duration.between(start, end).toMillis() + "ms");
+
 				
 				
 				// loop through all records
