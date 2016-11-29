@@ -4,6 +4,8 @@
 package com.verint.services.km.service;
 
 import java.math.BigInteger;
+import java.time.Duration;
+import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -19,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kana.contactcentre.services.model.SearchV1Service_wsdl.SharedTextSearchResponseBodyType;
 import com.verint.services.km.dao.SearchDAO;
 import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
@@ -125,7 +128,11 @@ public class SearchService extends BaseService {
 			LOGGER.debug("SearchRequest: " + searchRequest);
 
 			// Do the search and get the response back
+			Instant start = Instant.now();
 			searchResponse = searchDAO.searchQuery(searchRequest);
+			Instant end = Instant.now();
+			LOGGER.debug("SearchService - search() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 			if (searchResponse != null) {
 				searchResponse.setPage(searchRequest.getPage());
 				searchResponse.setSize(searchRequest.getSize());
@@ -187,7 +194,10 @@ public class SearchService extends BaseService {
 			searchRequest.setPassword(credentials[1]);
 	
 			// Do the search and get the response back
+			Instant start = Instant.now();
 			searchResponse = searchDAO.searchFeatured(searchRequest);
+			Instant end = Instant.now();
+			LOGGER.debug("SearchService - getFeaturedContent() duration: " + Duration.between(start, end).toMillis() + "ms");
 			if (searchResponse != null) {
 				searchResponse.setPage(searchRequest.getPage());
 				searchResponse.setSize(searchRequest.getSize());
@@ -246,7 +256,10 @@ public class SearchService extends BaseService {
 			searchRequest.setPassword(credentials[1]);
 	
 			// Do the search and get the response back
+			Instant start = Instant.now();
 			searchResponse = searchDAO.searchTopContent(searchRequest);
+			Instant end = Instant.now();
+			LOGGER.debug("SearchService - getTopContent() duration: " + Duration.between(start, end).toMillis() + "ms");
 			if (searchResponse != null) {
 				searchResponse.setPage(searchRequest.getPage());
 				searchResponse.setSize(searchRequest.getSize());
@@ -304,7 +317,11 @@ public class SearchService extends BaseService {
 			searchRequest.setPassword(credentials[1]);
 	
 			// Do the search and get the response back
+			Instant start = Instant.now();
 			searchResponse = searchDAO.searchBookmarks(searchRequest);
+			Instant end = Instant.now();
+			LOGGER.debug("SearchService - getBookmarks() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 			if (searchResponse != null) {
 				searchResponse.setPage(searchRequest.getPage());
 				searchResponse.setSize(searchRequest.getSize());

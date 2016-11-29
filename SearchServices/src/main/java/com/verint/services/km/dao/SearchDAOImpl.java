@@ -12,6 +12,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.time.Instant;
+import java.time.Duration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,7 +116,10 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		request.setControlData(controlData);
 
 		// Call the search
+		Instant start = Instant.now();
 		final SharedTextSearchResponseBodyType response = SearchPortType.sharedTextSearch(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - searchQuery() duration: " + Duration.between(start, end).toMillis() + "ms");
 		if (response != null && response.getResponse() != null) {
 			// Valid response
 			final KnowledgeResultSet resultSet = response.getResponse();
@@ -160,7 +165,10 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		request.setControlData(controlData);
 
 		// Do the search and get results
+		Instant start = Instant.now();
 		final GetFeaturedContentResponseBodyType response = SearchPortType.getFeaturedContent(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - searchFeatured() duration: " + Duration.between(start, end).toMillis() + "ms");		
 		if (response != null && response.getResponse() != null) {
 			searchResponse = populateResponse(response.getResponse(), searchResponse);
 		} else {
@@ -192,7 +200,10 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		request.setFromDate("");
 
 		// Do the search and get results
+		Instant start = Instant.now();
 		final GetTopContentResponseBodyType response = SearchPortType.getTopContent(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - searchTopContent() duration: " + Duration.between(start, end).toMillis() + "ms");
 		if (response != null && response.getResponse() != null) {
 			searchResponse = populateResponse(response.getResponse(), searchResponse);
 		} else {
@@ -233,7 +244,10 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		request.setPublishedDate(sdt);
 
 		// Call the search
+		Instant start = Instant.now();
 		final SharedTextSearchResponseBodyType response = SearchPortType.sharedTextSearch(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - searchSuggestions() duration: " + Duration.between(start, end).toMillis() + "ms");
 		if (response != null && response.getResponse() != null) {
 			// Valid response
 			final KnowledgeResultSet resultSet = response.getResponse();
@@ -267,7 +281,11 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		request.setSortOrder("");
 		
 		final List<com.verint.services.km.model.KnowledgeGroupUnit> knowledgeGroupUnits = new ArrayList<com.verint.services.km.model.KnowledgeGroupUnit>();
+		Instant start = Instant.now();
 		final ListAllBookmarksResponseBodyType response = KMBookmarkServicePortType.listAllBookmarks(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - searchBookmarks() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 		// Check for valid response
 		if (response != null && response.getContentList() != null) {
 			final BookmarkedContent[] content = response.getContentList();
