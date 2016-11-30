@@ -4,11 +4,14 @@
 package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.Instant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.GetNewOrChangedContentResponseBodyType;
 import com.kana.contactcentre.services.model.RequestAnswerV1Service_wsdl.RequestAnswerRequestBodyType;
 import com.kana.contactcentre.services.model.RequestAnswerV1Service_wsdl.RequestAnswerResponseBodyType;
 import com.verint.services.km.errorhandling.AppException;
@@ -56,7 +59,11 @@ public class RequestAnswerDAOImpl extends BaseDAOImpl implements RequestAnswerDA
 		request.setSelectedFilter(requestAnswer.getSelectedFilter());
 
 		// Call the service
+		Instant start = Instant.now();
 		final RequestAnswerResponseBodyType response = RequestAnswerPortType.requestAnswer(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - suggestContent() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 		LOGGER.debug("RequestAnswerResponseBodyType: " + response);
 		LOGGER.info("Exiting suggestContent()");
 	}

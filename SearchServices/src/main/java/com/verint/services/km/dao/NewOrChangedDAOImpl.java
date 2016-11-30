@@ -1,6 +1,8 @@
 package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.GetNewOrChangedContentRequestBodyType;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.GetNewOrChangedContentResponseBodyType;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.KnowledgeGroupUnit;
@@ -80,7 +83,11 @@ public class NewOrChangedDAOImpl extends BaseDAOImpl implements NewOrChangedDAO{
 		request.setMaxNumberOfUnitsPerGroup(newOrChangedRequest.getMaxNumberOfUnitsPerGroup());
 		
 		// Call the service
+		Instant start = Instant.now();
 		final GetNewOrChangedContentResponseBodyType response = NewOrChangedPortType.getNewOrChangedContent(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - newOrChangedQuery() duration: " + Duration.between(start, end).toMillis() + "ms");
+		
 		if (response != null && response.getResponse() != null) {
 			// Valid response
 			final KnowledgeResultSet resultSet = response.getResponse();
