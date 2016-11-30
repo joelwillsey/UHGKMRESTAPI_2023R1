@@ -729,6 +729,7 @@ $(document).ready(function() {
 	$.fn.addBookmark = function(id, enable) {
 		var dataPackage = '';
 		
+		jQuery.ajaxSetup({async:false});
 		if (enable) {
 			dataPackage = '{"contentId":"' + id + '","userAction":"ADD"}';
 			$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/bookmarkservice/addbookmark', 15000, function(data) {
@@ -740,6 +741,7 @@ $(document).ready(function() {
 				// Do nothing for now...
 			});
 		}
+		jQuery.ajaxSetup({async:true});
 	}
 
 	// Retrieve content
