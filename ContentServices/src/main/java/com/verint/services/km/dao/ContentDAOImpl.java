@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
@@ -118,7 +120,10 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		request.setPassword(contentRequest.getPassword());
 
 		// Get the content details
+		Instant start = Instant.now();
 		final GetContentDetailsResponseBodyType response = ContentPortType.getContentDetails(request);
+		Instant end = Instant.now();
+		LOGGER.debug("Content Details - getContentDetails duration: " + Duration.between(start, end).toMillis() + "ms");
 		LOGGER.debug("response: " + response);
 
 		// Get the response information

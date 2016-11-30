@@ -124,7 +124,7 @@ $(document).ready(function() {
 	$('#content-bookmark-header').on('click', function(){		
 			$.fn.bookmarkFunction();
 			if($('#tab-bookmarks-button').hasClass('sel')){
-				$('#tab-bookmarks-button').click();
+				$('#tab-bookmarks-button').click().delay(1500);
 			}
 	})
 	
@@ -731,18 +731,14 @@ $(document).ready(function() {
 		
 		if (enable) {
 			dataPackage = '{"contentId":"' + id + '","userAction":"ADD"}';
-			jQuery.ajaxSetup({async:false});
 			$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/bookmarkservice/addbookmark', 15000, function(data) {
 				// Do nothing for now...
 			});
-			jQuery.ajaxSetup({async:true});
 		} else {
 			dataPackage = '{"contentId":"' + id + '","userAction":"REMOVE"}';
-			jQuery.ajaxSetup({async:false});
 			$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/bookmarkservice/removebookmark', 15000, function(data) {
 				// Do nothing for now...
 			});
-			jQuery.ajaxSetup({async:true});
 		}
 	}
 
