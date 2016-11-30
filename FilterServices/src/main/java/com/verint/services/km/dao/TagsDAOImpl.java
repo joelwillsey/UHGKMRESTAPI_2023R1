@@ -4,6 +4,8 @@
 package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginUserResponseBodyType;
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.GetAllTagSetRequestBodyType;
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.GetAllTagSetResponseBodyType;
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.GetTagSetRequestBodyType;
@@ -71,7 +74,11 @@ public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 			request.setPassword(password);
 			request.setUsername(username);
 			
+			Instant start = Instant.now();
 			final GetAllTagSetResponseBodyType response = TagPortType.getAllTagSet(request);
+			Instant end = Instant.now();
+			LOGGER.debug("SOAP Request->Response - getAllTagSets() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 			LOGGER.debug("GetAllTagSetResponseBodyType: " + response);
 			TagDescriptor[] tagDescriptors = response.getTagDescriptors();
 			
