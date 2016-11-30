@@ -4,11 +4,14 @@
 package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.Instant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.BookmarkedContent;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ErrorMessage;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ListAllBookmarksRequestBodyType;
@@ -66,7 +69,11 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 		request.setUserAction("ADD");
 
 		// Make the service call
+		Instant start = Instant.now();
 		final ManageBookmarkResponseBodyType response = KMBookmarkServicePortType.manageBookmark(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - addBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
+		
 		LOGGER.debug("ManageBookmarkResponseBodyType: " + response);
 		if (response != null && response.getErrorList() != null) {
 			final ErrorMessage[] errors = response.getErrorList();
@@ -107,7 +114,11 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 		request.setUserAction("REMOVE");
 
 		// Make the service call
+		Instant start = Instant.now();
 		final ManageBookmarkResponseBodyType response = KMBookmarkServicePortType.manageBookmark(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - removeBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
+		
 		LOGGER.debug("ManageBookmarkResponseBodyType: " + response);
 		if (response != null && response.getErrorList() != null) {
 			final ErrorMessage[] errors = response.getErrorList();
@@ -142,7 +153,11 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 		bookmarkRequest.setSortOrder("");
 
 		// Check for a match
+		Instant start = Instant.now();
 		final ListAllBookmarksResponseBodyType bookmarkResponse = KMBookmarkServicePortType.listAllBookmarks(bookmarkRequest);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - isContentBookmarked() duration: " + Duration.between(start, end).toMillis() + "ms");
+		
 		if (bookmarkResponse != null && bookmarkResponse.getContentList() != null) {
 			final BookmarkedContent[] content = bookmarkResponse.getContentList();
 			for (int x = 0; (content != null) && (x < content.length); x++) {

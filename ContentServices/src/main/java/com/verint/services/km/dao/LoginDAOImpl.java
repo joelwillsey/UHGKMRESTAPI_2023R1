@@ -4,11 +4,14 @@
 package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.Instant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType;
 import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginUserRequestBodyType;
 import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginUserResponseBodyType;
 import com.verint.services.km.errorhandling.AppErrorCodes;
@@ -52,7 +55,11 @@ public class LoginDAOImpl extends BaseDAOImpl implements LoginDAO {
 		body.setUsername(request.getUsername());
 		body.setPassword(request.getPassword());
 
+		Instant start = Instant.now();
 		final LoginUserResponseBodyType responseBody = LoginPortType.loginUser(body);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - login() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 		if (responseBody != null && responseBody.getLoginResponse() != null) {
 			com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginResponse lResponse = responseBody.getLoginResponse();
 			response.setUsername(request.getUsername());

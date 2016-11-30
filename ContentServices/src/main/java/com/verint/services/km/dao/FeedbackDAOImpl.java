@@ -4,11 +4,14 @@
 package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.Instant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType;
 import com.kana.contactcentre.services.model.FeedbackV1Service_wsdl.FeedbackRequestBodyType;
 import com.kana.contactcentre.services.model.FeedbackV1Service_wsdl.FeedbackResponseBodyType;
 import com.verint.services.km.errorhandling.AppErrorCodes;
@@ -65,7 +68,11 @@ public class FeedbackDAOImpl extends BaseDAOImpl implements FeedbackDAO {
 		request.setPassword(feedbackRequest.getPassword());
 
 		// Call the service
+		Instant start = Instant.now();
 		final FeedbackResponseBodyType response = FeedbackPortType.feedback(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SOAP Request->Response - feedback() duration: " + Duration.between(start, end).toMillis() + "ms");
+		
 		LOGGER.debug("FeedbackResponseBodyType: " + response);
 		if (response != null && response.getReturnResponse() != null) {
 			feedbackResponse.setFeedbackCode(response.getReturnResponse().getFeedbackCode());

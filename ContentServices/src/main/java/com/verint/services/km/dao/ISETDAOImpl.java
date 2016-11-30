@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -64,7 +66,12 @@ public class ISETDAOImpl extends BaseDAOImpl implements ISETDAO{
 					+ " OR (IQ_OBJECT_ID = '"+objID +"'"
 					+ " AND OBJECT_TYPE = '"+objType+"')";
 			stmt = connection.prepareStatement(query);
+			
+			Instant start = Instant.now();
 			final ResultSet rs = stmt.executeQuery();
+			Instant end = Instant.now();
+			LOGGER.debug("SQL Execution - getISETResponse() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 			
 			// loop through all records
 			while (rs != null && rs.next()){
