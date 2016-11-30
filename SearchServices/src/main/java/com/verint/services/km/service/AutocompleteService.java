@@ -65,7 +65,8 @@ public class AutocompleteService extends BaseService{
 		// Declaring the URI as empty to pull in the property from the properties file.
 		String uri = "";
 		try {
-			File file = new File("\\app_2\\verint\\projects\\uhgiq\\restapi\\kmservices\\connectionPool.properties");
+			File file = new File("/app_2/verint/projects/uhgiq/restapi/kmservices/connectionPool.properties");
+			LOGGER.info(file.toString());
 			FileInputStream fileInput = new FileInputStream(file);
 			Properties properties = new Properties();
 			properties.load(fileInput);

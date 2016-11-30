@@ -98,6 +98,7 @@ $(document).ready(function() {
 			"contentId" : contentId,
 			"contentType" : contentType
 		}
+		var sPageURL = decodeURIComponent(window.location.search.substring(1));
 		$('.dpui-widget').trigger("dpui:viewContent", packagedData);
 	}
 	$.fn.viewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {

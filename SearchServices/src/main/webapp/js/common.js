@@ -66,6 +66,7 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 		contentType : 'application/json',
 		data : data,
 		url : url,
+		async: false,
 		dataType : 'json',
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
@@ -111,6 +112,7 @@ $.fn.serviceCallNoSpin = function(type, data, url, timeout, successCallback) {
 		contentType : 'application/json',
 		data : data,
 		url : url,
+		async: false,
 		dataType : 'json',
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
