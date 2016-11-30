@@ -119,7 +119,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		Instant start = Instant.now();
 		final SharedTextSearchResponseBodyType response = SearchPortType.sharedTextSearch(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - searchQuery() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("Service Call Performance("+searchRequest.getUsername()+") - searchQuery() duration: " + Duration.between(start, end).toMillis() + "ms");
 		if (response != null && response.getResponse() != null) {
 			// Valid response
 			final KnowledgeResultSet resultSet = response.getResponse();
@@ -203,7 +203,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		Instant start = Instant.now();
 		final GetTopContentResponseBodyType response = SearchPortType.getTopContent(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - searchTopContent() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("Service Call Performance("+searchRequest.getUsername()+") - searchTopContent() duration: " + Duration.between(start, end).toMillis() + "ms");
 		if (response != null && response.getResponse() != null) {
 			searchResponse = populateResponse(response.getResponse(), searchResponse);
 		} else {
@@ -247,7 +247,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		Instant start = Instant.now();
 		final SharedTextSearchResponseBodyType response = SearchPortType.sharedTextSearch(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - searchSuggestions() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("Service Call Performance("+searchRequest.getUsername()+") - searchSuggestions() duration: " + Duration.between(start, end).toMillis() + "ms");
 		if (response != null && response.getResponse() != null) {
 			// Valid response
 			final KnowledgeResultSet resultSet = response.getResponse();
@@ -284,7 +284,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		Instant start = Instant.now();
 		final ListAllBookmarksResponseBodyType response = KMBookmarkServicePortType.listAllBookmarks(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - searchBookmarks() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("Service Call Performance("+searchRequest.getUsername()+") - searchBookmarks() duration: " + Duration.between(start, end).toMillis() + "ms");
 
 		// Check for valid response
 		if (response != null && response.getContentList() != null) {

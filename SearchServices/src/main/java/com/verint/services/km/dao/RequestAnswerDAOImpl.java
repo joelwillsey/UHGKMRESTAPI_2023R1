@@ -62,7 +62,7 @@ public class RequestAnswerDAOImpl extends BaseDAOImpl implements RequestAnswerDA
 		Instant start = Instant.now();
 		final RequestAnswerResponseBodyType response = RequestAnswerPortType.requestAnswer(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - suggestContent() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("Service Call Performance("+requestAnswer.getUsername()+") - suggestContent() duration: " + Duration.between(start, end).toMillis() + "ms");
 
 		LOGGER.debug("RequestAnswerResponseBodyType: " + response);
 		LOGGER.info("Exiting suggestContent()");

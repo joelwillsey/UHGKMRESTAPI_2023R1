@@ -4,6 +4,8 @@
 package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.Instant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,7 +135,11 @@ public class BookmarkDAOImpl extends BaseDAOImpl implements BookmarkDAO {
 		request.setUserAction(action);
 
 		// Call the service
+		Instant start = Instant.now();
 		final ManageBookmarkResponseBodyType response = KMBookmarkServicePortType.manageBookmark(request);
+		Instant end = Instant.now();
+		LOGGER.debug("Service Call Performance("+bookmarkRequest.getUsername()+") - manageBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 		if (response != null && response.getErrorList() != null) {
 			final ErrorMessage[] errors = response.getErrorList();			
 			// Loop through errors if any
@@ -176,7 +182,11 @@ public class BookmarkDAOImpl extends BaseDAOImpl implements BookmarkDAO {
 		request.setReorderDirection(direction);
 
 		// Call the service
+		Instant start = Instant.now();
 		final ReorderBookmarksResponseBodyType response = KMBookmarkServicePortType.reorderBookmarks(request);
+		Instant end = Instant.now();
+		LOGGER.debug("Service Call Performance("+bookmarkRequest.getUsername()+") - manageBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 		if (response != null && response.getErrorList() != null) {
 			final ErrorMessage[] errors = response.getErrorList();			
 			// Loop through errors if any

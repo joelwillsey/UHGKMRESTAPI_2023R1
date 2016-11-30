@@ -86,7 +86,7 @@ public class NewOrChangedDAOImpl extends BaseDAOImpl implements NewOrChangedDAO{
 		Instant start = Instant.now();
 		final GetNewOrChangedContentResponseBodyType response = NewOrChangedPortType.getNewOrChangedContent(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - newOrChangedQuery() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("Service Call Performance("+newOrChangedRequest.getUsername()+") - newOrChangedQuery() duration: " + Duration.between(start, end).toMillis() + "ms");
 		
 		if (response != null && response.getResponse() != null) {
 			// Valid response
