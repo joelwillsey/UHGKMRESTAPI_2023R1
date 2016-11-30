@@ -596,7 +596,8 @@ $(document).ready(function() {
 	}
 
 	// Function to manage filter clicks
-	$.fn.tagClick = function(type, element) {
+	$.fn.tagClick = function(type, element) {	
+		$.fn.setupSpinner();
 		log('TagClick: ' + element);
 		var buildLi = '<li id="' + element +'" class="search-choice" title="' + $('#' + element).text() + '" rel="' + $('#' + element).attr('rel') + '">';
 		buildLi += '<span>' + $('#' + element).text() + '</span>';
@@ -614,8 +615,6 @@ $(document).ready(function() {
 		$('#' + element + '-input').width('102px');
 		$('#' + element + '-input').attr('value', '');
 		
-		jQuery.ajaxSetup({async:false});
-		
 		if (type == "kbase"){
 			//calling the crosstags to update
 			$.fn.getCrossTag(element,'topic','cntntType','region','product');
@@ -625,10 +624,6 @@ $(document).ready(function() {
 		
 		// Send inter-widget communication
 		$.fn.widgetCommunication();
-		jQuery.ajaxSetup({async:true});
-		
-		//adding a click to the apply button to update results page, until I can come up with a better idea
-		$("#fs-apply-button").click()
 	}
 
 	// Remove Tag
@@ -675,11 +670,6 @@ $(document).ready(function() {
 						}
 						
 					})
-		}else {
-			
-			// Send inter-widget communication
-			$.fn.widgetCommunication();
-			
 		}
 	}
 
