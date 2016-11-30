@@ -105,7 +105,7 @@ public class TeamKBaseTagsDAOImpl extends BaseDAOImpl implements TeamKBaseTagsDA
 			Instant start = Instant.now();
 			final ResultSet rs = stmt.executeQuery();
 			Instant end = Instant.now();
-			LOGGER.debug("SQL Execution - getAllTeamKBaseTags() duration: " + Duration.between(start, end).toMillis() + "ms");
+			LOGGER.debug("Service Call Performance("+username+") - getAllTeamKBaseTags() duration: " + Duration.between(start, end).toMillis() + "ms");
 
 
 			// loop through all records

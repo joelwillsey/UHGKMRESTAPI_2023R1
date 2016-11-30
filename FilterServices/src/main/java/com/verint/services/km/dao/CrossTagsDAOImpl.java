@@ -100,7 +100,7 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 				Instant start = Instant.now();
 				final ResultSet rs = stmt.executeQuery();
 				Instant end = Instant.now();
-				LOGGER.debug("SQL Execution - getTagSetConfigurations() duration: " + Duration.between(start, end).toMillis() + "ms");
+				LOGGER.debug("Service Call Performance("+username+") - getTagSetConfigurations() duration: " + Duration.between(start, end).toMillis() + "ms");
 
 				
 				

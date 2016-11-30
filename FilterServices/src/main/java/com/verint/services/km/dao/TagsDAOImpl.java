@@ -77,7 +77,7 @@ public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 			Instant start = Instant.now();
 			final GetAllTagSetResponseBodyType response = TagPortType.getAllTagSet(request);
 			Instant end = Instant.now();
-			LOGGER.debug("SOAP Request->Response - getAllTagSets() duration: " + Duration.between(start, end).toMillis() + "ms");
+			LOGGER.debug("Service Call Performance("+username+") - getAllTagSets() duration: " + Duration.between(start, end).toMillis() + "ms");
 
 			LOGGER.debug("GetAllTagSetResponseBodyType: " + response);
 			TagDescriptor[] tagDescriptors = response.getTagDescriptors();
@@ -122,8 +122,11 @@ public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 			request.setUsername(username);
 			request.setTagSetName(tagset);
 			
+			Instant start = Instant.now();
 			final GetTagSetResponseBodyType response = TagPortType.getTagSet(request);
 			LOGGER.debug("GetTagSetResponseBodyType: " + response);
+			Instant end = Instant.now();
+			LOGGER.debug("Service Call Performance("+username+") - getAllTagSets() duration: " + Duration.between(start, end).toMillis() + "ms");
 			TagDescriptor[] tagDescriptors = response.getTagDescriptors();
 
 			// Check for valid TagSets
@@ -171,8 +174,11 @@ public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 				request.setUsername(username);
 				request.setTagSetName(tagsets[i]);
 				
+				Instant start = Instant.now();
 				final GetTagSetResponseBodyType response = TagPortType.getTagSet(request);
 				LOGGER.debug("GetTagSetResponseBodyType: " + response);
+				Instant end = Instant.now();
+				LOGGER.debug("Service Call Performance("+username+") - getAllTagSets() duration: " + Duration.between(start, end).toMillis() + "ms");
 				TagDescriptor[] tagDescriptors = response.getTagDescriptors();
 				List<Tag> tags = new ArrayList<Tag>();
 				
