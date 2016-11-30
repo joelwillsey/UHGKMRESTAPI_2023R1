@@ -72,7 +72,7 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 		Instant start = Instant.now();
 		final ManageBookmarkResponseBodyType response = KMBookmarkServicePortType.manageBookmark(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - addBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("Service Call Performance(" + manageBookmarkRequest.getUsername() + ") - addBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
 		
 		LOGGER.debug("ManageBookmarkResponseBodyType: " + response);
 		if (response != null && response.getErrorList() != null) {
@@ -117,7 +117,7 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 		Instant start = Instant.now();
 		final ManageBookmarkResponseBodyType response = KMBookmarkServicePortType.manageBookmark(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - removeBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("Service Call Performance(" + manageBookmarkRequest.getUsername() + ") - removeBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
 		
 		LOGGER.debug("ManageBookmarkResponseBodyType: " + response);
 		if (response != null && response.getErrorList() != null) {

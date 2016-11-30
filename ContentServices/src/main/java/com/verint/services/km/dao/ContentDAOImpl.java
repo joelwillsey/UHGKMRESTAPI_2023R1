@@ -123,7 +123,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		Instant start = Instant.now();
 		final GetContentDetailsResponseBodyType response = ContentPortType.getContentDetails(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - getContentDetails() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("Service Call Performance(" + contentRequest.getUsername() + ") - getContentDetails() duration: " + Duration.between(start, end).toMillis() + "ms");
 		LOGGER.debug("response: " + response);
 
 		// Get the response information
