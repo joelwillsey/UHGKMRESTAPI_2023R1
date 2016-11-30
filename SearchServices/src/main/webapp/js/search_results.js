@@ -57,6 +57,7 @@ $(document).ready(function() {
 	// Refresh button
 	$('#sr-hns-refresh').on('click', function(event) {
     	$('.dpui-widget').trigger('dpui:runRefresh', $('.sr_label').text());
+    	$('#tab-featured-button').click();
 	});
 	
 	// Sort by date link
