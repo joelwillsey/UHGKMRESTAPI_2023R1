@@ -56,8 +56,18 @@ $(document).ready(function() {
 
 	// Refresh button
 	$('#sr-hns-refresh').on('click', function(event) {
-    	$('.dpui-widget').trigger('dpui:runRefresh', $('.sr_label').text());
-    	$('#tab-featured-button').click();
+    	if($('#tab-alert-button').hasClass('sel')){
+    		$('#tab-alert-button').click();
+    	}
+    	else if ($('#tab-bookmarks-button').hasClass('sel')){
+    		$('#tab-bookmarks-button').click();
+    	}
+    	else if ($('#tab-featured-button').hasClass('sel')){
+    		$('#tab-featured-button').click();
+    	} 
+    	else if ($('#tab-new-changed-button').hasClass('sel')){
+    		$('#tab-new-changed-button').click();
+    	}
 	});
 	
 	// Sort by date link
