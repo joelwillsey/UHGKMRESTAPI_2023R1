@@ -71,7 +71,7 @@ public class FeedbackDAOImpl extends BaseDAOImpl implements FeedbackDAO {
 		Instant start = Instant.now();
 		final FeedbackResponseBodyType response = FeedbackPortType.feedback(request);
 		Instant end = Instant.now();
-		LOGGER.debug("Service Call Performance("+feedbackRequest.getUsername()+") - feedback() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+feedbackRequest.getUsername()+") - feedback() duration: " + Duration.between(start, end).toMillis() + "ms");
 		
 		LOGGER.debug("FeedbackResponseBodyType: " + response);
 		if (response != null && response.getReturnResponse() != null) {
