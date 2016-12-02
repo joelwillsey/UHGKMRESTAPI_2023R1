@@ -14,6 +14,9 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 	<listener>
+		<listener-class>com.verint.services.km.service.ManifestVars</listener-class>
+	</listener>
+	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<context-param>
