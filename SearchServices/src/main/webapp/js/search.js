@@ -173,11 +173,11 @@ $(document).ready(function() {
 	// Catch enter key; call the search service
 	$(document).keydown( function(event) {
 		if (event.which === 13){
-			if (!$liSelected.hasClass('selected')) {
-				$.fn.toggleMenu($('#tab-search-button'));
-		    	$.fn.search($('#search-text').val(), page, size, '', '', '', '', function(data) {
-		    		$.fn.sendToResults('Search', data);
-		    	});
+			if ($liSelected == undefined || !$liSelected.hasClass('selected')) {
+					$.fn.toggleMenu($('#tab-search-button'));
+			    	$.fn.search($('#search-text').val(), page, size, '', '', '', '', function(data) {
+			    		$.fn.sendToResults('Search', data);
+			    	});
 			}
 		}
 	});
