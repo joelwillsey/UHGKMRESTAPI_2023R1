@@ -623,7 +623,7 @@ $(document).ready(function() {
 		}
 		
 		// Send inter-widget communication
-		$.fn.widgetCommunication();
+		$.fn.widgetCommunication(true);
 	}
 
 	// Remove Tag
@@ -704,10 +704,15 @@ $(document).ready(function() {
 	}
 
 	// Send tags, content types and run a search
-	$.fn.widgetCommunication = function() {
+	$.fn.widgetCommunication = function(runSearch) {
 		$(".dpui-widget").trigger("dpui:setupTags", $.fn.getAllTags());
 		$(".dpui-widget").trigger("dpui:setupContentTypeTags", $.fn.getSelectedContentTags());
-		$(".dpui-widget").trigger("dpui:runSearch");
+		if(runSearch) {
+			$(".dpui-widget").trigger("dpui:blankSearch");
+		} else {
+			$(".dpui-widget").trigger("dpui:runSearch");
+		}
+		
 	}
 
 	// Parse the Tags
