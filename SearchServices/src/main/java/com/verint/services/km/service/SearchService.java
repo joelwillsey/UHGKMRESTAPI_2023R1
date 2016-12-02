@@ -346,4 +346,16 @@ public class SearchService extends BaseService {
 		LOGGER.info("Exiting getBookmarks()");
 		return searchResponse;
 	}
+	
+	@GET
+	@Path("/blankResponse")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public SearchResponse blankResponse() {
+		LOGGER.info("Entering blankResponse()");
+		SearchResponse searchResponse = new SearchResponse();
+		LOGGER.debug("SearchResponse: " + searchResponse);
+		LOGGER.info("Exiting blankResponse()");
+		return searchResponse;
+	}
+
 }

@@ -59,4 +59,5 @@ public interface SearchDAO {
 	 * @throws AppException
 	 */
 	public SearchResponse searchBookmarks(SearchRequest searchRequest) throws RemoteException, AppException;
+	
 }

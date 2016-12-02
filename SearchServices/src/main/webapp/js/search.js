@@ -355,6 +355,12 @@ $(document).ready(function() {
                 	});
                 }
             });
+	        self.element.bind("dpui:blankSearch", function(e) {
+	            log("blankSearch");
+            	$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/blankResponse' , 15000, function(data) {
+            		$.fn.sendToResults('Search', data);
+            	})
+            });
 	        self.element.bind("dpui:runSearch", function(e, data) {
                 log("runSearch");
                 log(data);
