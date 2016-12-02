@@ -57,7 +57,7 @@ public class LoginDAOImpl extends BaseDAOImpl implements LoginDAO {
 		Instant start = Instant.now();
 		final LoginUserResponseBodyType responseBody = LoginPortType.loginUser(body);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - login() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + body.getUsername() + ") - login() duration: " + Duration.between(start, end).toMillis() + "ms");
 
 		if (responseBody != null && responseBody.getLoginResponse() != null) {
 			com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginResponse lResponse = responseBody.getLoginResponse();
