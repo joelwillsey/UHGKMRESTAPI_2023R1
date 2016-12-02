@@ -21,6 +21,9 @@ public class ManageBookmarkRequest implements Serializable {
 
 	@XmlElement
 	private String contentId;
+	
+	@XmlElement(nillable=true)
+	private String userAction = "";
 
 	@XmlElement(nillable=true)
 	private String username = "";
@@ -48,6 +51,22 @@ public class ManageBookmarkRequest implements Serializable {
 	 */
 	public void setContentId(String contentId) {
 		this.contentId = contentId;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getUserAction() {
+		return userAction;
+	}
+
+	/**
+	 * 
+	 * @param userAction
+	 */
+	public void setUserAction(String userAction) {
+		this.userAction = userAction;
 	}
 
 	/**
@@ -83,7 +102,7 @@ public class ManageBookmarkRequest implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "ManageBookmarkRequest [contentId=" + contentId + ", username=" + username + ", password=" + password
+		return "ManageBookmarkRequest [contentId=" + contentId + ", userAction=" + userAction + ", username=" + username + ", password=" + password
 				+ "]";
 	}
 }
