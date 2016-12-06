@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OnEntryProcedure [] >
+  <OnEntryProcedure
+      designNotes="Undefined"
+      eventProcedure="false"
+      isTPL="false"
+      language="EcmaScript"
+      name="onEntry"
+      nested="false"
+      version="3.13.4">
+    <ReferenceParameters />
+    <ProcedureLocals>
+      <ObjectField
+          designNotes=""
+          name="tempContent">
+        <TypeDefinitionReference
+            name="Content"
+            nested="false" />
+      </ObjectField>
+      <StringField
+          designNotes=""
+          length="0"
+          name="contentID" />
+      <ObjectField
+          designNotes=""
+          name="statusList">
+        <TypeDefinitionReference
+            name="GTList"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="contentIdBean">
+        <TypeDefinitionReference
+            name="ContentIdBean"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="contentIdBeanList">
+        <TypeDefinitionReference
+            name="ContentIdBeanList"
+            nested="false" />
+      </ObjectField>
+      <StringField
+          designNotes=""
+          length="0"
+          name="locale" />
+      <ObjectField
+          designNotes=""
+          name="dynamicContentList">
+        <TypeDefinitionReference
+            name="DynamicContentList"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="dynamicContent">
+        <TypeDefinitionReference
+            name="EIDynamicContent"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="pageSetContent">
+        <TypeDefinitionReference
+            name="PageSetContent"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="psct">
+        <TypeDefinitionReference
+            name="PageSetContentType"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="ps">
+        <TypeDefinitionReference
+            name="EIPageSet"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="psvel">
+        <TypeDefinitionReference
+            name="PageSetVirtualEnvironmentList"
+            nested="false" />
+      </ObjectField>
+      <IntegerField
+          designNotes=""
+          name="i" />
+      <ObjectField
+          designNotes=""
+          name="ipsve">
+        <TypeDefinitionReference
+            name="IPageSetVirtualEnvironment"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="contextEntry">
+        <TypeDefinitionReference
+            name="ContextEntry"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="cce">
+        <TypeDefinitionReference
+            name="ContentComponentEntry"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="tempContentType">
+        <TypeDefinitionReference
+            name="EIContentType"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="entitlementManager">
+        <TypeDefinitionReference
+            name="EIEntitlementManager"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="params">
+        <TypeDefinitionReference
+            name="GTList"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="agentED">
+        <TypeDefinitionReference
+            name="EntityDefinition"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="implicitTagManager">
+        <TypeDefinitionReference
+            name="EIImplicitTagManager"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="agent">
+        <TypeDefinitionReference
+            name="EIAgent"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="knowledgeUnit">
+        <TypeDefinitionReference
+            name="IKnowledgeUnit"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="knowledgeQuery">
+        <TypeDefinitionReference
+            name="EIKnowledgeQuery"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="knowledgeContext">
+        <TypeDefinitionReference
+            name="EIKnowledgeContext"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="searchTrigger">
+        <TypeDefinitionReference
+            name="EISearchTrigger"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="queryField">
+        <TypeDefinitionReference
+            name="IQueryField"
+            nested="false" />
+      </ObjectField>
+      <StringField
+          designNotes=""
+          length="0"
+          name="contentId" />
+      <ObjectField
+          designNotes=""
+          name="clause">
+        <TypeDefinitionReference
+            name="IClause"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="resultList">
+        <TypeDefinitionReference
+            name="IList"
+            nested="false" />
+      </ObjectField>
+      <StringField
+          designNotes=""
+          length="0"
+          name="tempId" />
+      <IntegerField
+          designNotes=""
+          name="index" />
+      <StringField
+          designNotes=""
+          length="0"
+          name="tempString" />
+      <ObjectField
+          designNotes=""
+          name="group">
+        <TypeDefinitionReference
+            name="IKnowledgeGroupUnit"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="groupUnit">
+        <TypeDefinitionReference
+            name="IKnowledgeGroupUnit"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="knowledgeUnitList">
+        <TypeDefinitionReference
+            name="IKnowledgeUnitList"
+            nested="false" />
+      </ObjectField>
+      <FloatField
+          designNotes=""
+          name="versionId" />
+      <ObjectField
+          designNotes=""
+          name="ku">
+        <TypeDefinitionReference
+            name="IKnowledgeUnit"
+            nested="false" />
+      </ObjectField>
+      <FloatField
+          designNotes=""
+          name="maxVersion" />
+      <FloatField
+          designNotes=""
+          name="version" />
+      <ObjectField
+          designNotes=""
+          name="contentEntity">
+        <TypeDefinitionReference
+            name="IEntity"
+            nested="false" />
+      </ObjectField>
+      <ObjectField
+          designNotes=""
+          name="virtualEnvironment">
+        <TypeDefinitionReference
+            name="EIVirtualEnvironment"
+            nested="false" />
+      </ObjectField>
+      <StringField
+          designNotes=""
+          length="0"
+          name="virtualEnvName" />
+    </ProcedureLocals>
+    <Verbatim
+        fieldName="text">
+<![CDATA[// Get the content
+this.context = new EIContext();
+EIApplication.getInstance().setName("AD");
+
+contentID = GTSystem.getInitialParameterValue("dtreeid");
+
+// contentID = "Contact Us--1";
+locale = "en-GB";
+versionId = 1.0;
+
+groupUnit = EIKnowledgeContext.getKnowledgeGroup(contentID, this.context);
+if (groupUnit) {
+    knowledgeUnitList = groupUnit.getKnowledgeUnits();
+
+    if (versionId) {
+        for (var i = 0; i < knowledgeUnitList.size(); i++) {
+            ku = knowledgeUnitList.get(i);
+            if (ku.getVersion() == versionId) {
+                knowledgeUnit = ku;
+                break;
+            }
+        }
+    } else {
+        maxVersion = -1.0;
+        for (var i = 0; i < knowledgeUnitList.size(); i++) {
+            ku = knowledgeUnitList.get(i);
+            version = parseFloat(ku.getVersion());
+            if(ku.getWorkflowState() == IContentFieldDefinition.PUBLISHED_FIELD_NAME){
+                if (version > maxVersion) {
+                    knowledgeUnit = ku;
+                    maxVersion = version;
+                }
+            }
+        }
+    }
+
+    if (knowledgeUnit) {
+        this.content = EIContent.convertFromKnowledgeGroupUnit(groupUnit, knowledgeUnit);
+        this.context.addWithName(this.content, "contentEntity");
+        this.content.markAsViewed();
+    }
+}
+
+this.context.addObjectWithName(knowledgeUnit, "content");
+tempContentType = EIContentType.loadBySystemName(this.content.getContentType().getSystemName());
+contentEntity = content.getContentEntity();
+
+    EIUser.setCurrentUser(EIUser.getUser("kmagent"));
+    user = EIUser.getCurrentUser();
+
+    if (user) {
+        user.entityDefinition = EVAFactory.getEntityDefinitionByName(EIUser.ENTITY_DEFINITION_NAME);
+        this.context.addWithName(user, EIUser.ENTITY_DEFINITION_NAME);
+
+            contextEntry = new ContextEntry();
+            contextEntry.entity = user.getVirtualEnvironment();
+            this.context.addContextEntryWithName(contextEntry, EIVirtualEnvironment.ENTITY_DEFINITION_NAME, false);
+
+        params = new GTList();
+        params.add(this.user.id.getId());
+
+        agentED = EVAFactory.getEntityDefinitionByName(EIAgent.ENTITY_DEFINITION_NAME);
+        agent = EVAFactory.invokeStaticProcedure(agentED, "getAgentFromUserID", params);
+
+        if (agent) {
+            agent.userRef = this.user; //alias this with the user already loaded
+
+            // setCurrentAgent is a static call to EIAgent!
+            params = new GTList();
+            params.add(agent);
+            EVAFactory.invokeStaticProcedure(agentED, "setCurrentAgent", params);
+            agent.entityDefinition = EVAFactory.getEntityDefinitionByName(EIAgent.ENTITY_DEFINITION_NAME);
+            this.context.addWithName(agent,EIAgent.ENTITY_DEFINITION_NAME);
+        }
+    }
+    entitlementManager = EVAFactory.createInstance(EVAFactory.getEntityDefinitionByName(EIEntitlementManager.ENTITY_DEFINITION_NAME), new GTList());
+    entitlementManager.entityDefinition = EVAFactory.getEntityDefinitionByName(EIEntitlementManager.ENTITY_DEFINITION_NAME);
+    this.context.addWithName(entitlementManager, EIEntitlementManager.ENTITY_DEFINITION_NAME);
+
+    implicitTagManager = new EIImplicitTagManager();
+    this.context.addWithName(implicitTagManager, EIImplicitTagManager.ENTITY_DEFINITION_NAME);
+
+if (contentEntity) {
+    this.entityDefinition = contentEntity.getEntityDefinition();
+    if (EIPageSet.ENTITY_DEFINITION_NAME == entityDefinition.name) {
+        this.pageSet = contentEntity;
+    } else if (EIPageSetContent.ENTITY_DEFINITION_NAME == entityDefinition.name) {
+        pageSetContent = contentEntity;
+        this.pageSet = pageSetContent.getPageSet();
+    }
+}
+
+this.entityDefinition =  tempContentType.getEntityDefinition();
+this.pageSetEngine = this.pageSet.getBreadcrumb().createPageSetEngine();
+
+//urlParameters.put(IViewContentActions.PARAMETER_CONTENT_ID, contentID);
+//parameterMap.put("urlParameters", urlParameters);
+//parameterMap.put("fragmentAction", IViewContentActions.VIEW_CONTENT);
+//parameterMap.put("pageSetEngine", pageSetEngine);
+
+// Add page set virtual environment to context as it is used by the page set engine
+virtualEnvName = Globals.get("AWPS_PAGESET_VIRTUAL_ENV", "Production");
+virtualEnvironment = EIVirtualEnvironment.getVirtualEnvironmentByName(virtualEnvName);
+this.context.addWithName(virtualEnvironment, EIVirtualEnvironment.ENTITY_DEFINITION_NAME);
+
+if(!this.pageSetEngine)
+{
+    if(this.pageSet.getBreadcrumb()){
+        this.pageSetEngine = this.pageSet.getBreadcrumb().createPageSetEngine();
+    }
+}
+
+this.entity = this.content.getContentType()
+
+//this.content = tempContent;
+//this.contentType = tempContentType;
+this.contentType = this.content.getContentType();
+]]>
+    </Verbatim>
+  </OnEntryProcedure>
