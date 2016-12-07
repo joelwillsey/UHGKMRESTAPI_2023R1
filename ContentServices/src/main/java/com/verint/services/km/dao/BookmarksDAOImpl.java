@@ -156,7 +156,7 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 		Instant start = Instant.now();
 		final ListAllBookmarksResponseBodyType bookmarkResponse = KMBookmarkServicePortType.listAllBookmarks(bookmarkRequest);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - isContentBookmarked() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE - isContentBookmarked() duration: " + Duration.between(start, end).toMillis() + "ms");
 		
 		if (bookmarkResponse != null && bookmarkResponse.getContentList() != null) {
 			final BookmarkedContent[] content = bookmarkResponse.getContentList();
