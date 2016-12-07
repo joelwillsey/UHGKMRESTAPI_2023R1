@@ -59,7 +59,7 @@ public class BaseDAOImpl  {
 	protected static RequestAnswerV1PortType RequestAnswerPortType;
 	protected static FeedbackV1PortType FeedbackPortType;
 	protected static LoginV1PortType LoginPortType;
-	protected static int SOAP_TIMEOUT = 20;
+	protected static int SOAP_TIMEOUT = 40;
 
 	static {
 		try {
