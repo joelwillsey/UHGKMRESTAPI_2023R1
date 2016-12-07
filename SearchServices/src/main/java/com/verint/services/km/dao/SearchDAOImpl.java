@@ -168,7 +168,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		Instant start = Instant.now();
 		final GetFeaturedContentResponseBodyType response = SearchPortType.getFeaturedContent(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SOAP Request->Response - searchFeatured() duration: " + Duration.between(start, end).toMillis() + "ms");		
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE - searchFeatured() duration: " + Duration.between(start, end).toMillis() + "ms");		
 		if (response != null && response.getResponse() != null) {
 			searchResponse = populateResponse(response.getResponse(), searchResponse);
 		} else {
