@@ -75,7 +75,7 @@ public class ContentService extends BaseService {
     		@Context HttpServletRequest httpRequest) {
 		LOGGER.info("Entering content()");
 		LOGGER.debug("contentid: " + contentid);
-		LOG.error("contentid: " + contentid);
+		//LOG.error("contentid: " + contentid);
 		ContentResponse contentResponse = null;
 		try {
 			// Check for a valid request

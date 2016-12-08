@@ -31,7 +31,7 @@
 			function(index) {
 				var div = $(this);
 				if (div.hasClass('bookmark_item_selected')) {
-					$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + div.attr('id'), 15000, $.fn.manageCallback);
+					$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + div.attr('id'), SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback);
 					div.remove();
 				}
 			}
@@ -44,7 +44,7 @@
 			function(index) {
 				var div = $(this);
 				if (div.hasClass('bookmark_item_selected')) {
-					$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/reorderup?contentid=' + div.attr('id'), 15000, $.fn.manageCallback);
+					$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/reorderup?contentid=' + div.attr('id'), SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback);
 				}
 			}
 		);
@@ -56,7 +56,7 @@
 			function(index) {
 				var div = $(this);
 				if (div.hasClass('bookmark_item_selected')) {
-					$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/reorderdown?contentid=' + div.attr('id'), 15000, $.fn.manageCallback);
+					$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/reorderdown?contentid=' + div.attr('id'), SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback);
 				}
 			}
 		);
@@ -147,7 +147,7 @@
 
 	// Get all the bookmarks for user
 	$.fn.getBookmarks = function(callBack) {
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + 1 + '&size=' + 100, 15000, callBack);
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + 1 + '&size=' + 100, SEARCH_SERVICE_TIMEOUT, callBack);
 		$('#bookmark-button-up').removeClass('bookmark_button_active');
 		$('#bookmark-button-down').removeClass('bookmark_button_active');
 		$('#bookmark-button-up').attr('disabled', 'disabled');

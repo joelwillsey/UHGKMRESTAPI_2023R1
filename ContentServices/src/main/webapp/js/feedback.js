@@ -93,6 +93,6 @@ $(document).ready(function() {
 
 	// Post submit feedback
 	$.fn.submitFeedback = function(postObject, callBack) {
-		$.fn.serviceCall('POST', postObject, contentServiceName + 'km/feedback/', 15000, callBack);
+		$.fn.serviceCall('POST', postObject, contentServiceName + 'km/feedback/', FEEDBACK_SERVICE_TIMEOUT, callBack);
 	}
 });

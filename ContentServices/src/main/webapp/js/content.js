@@ -720,7 +720,7 @@ $(document).ready(function() {
     // Rate content
 	$.fn.rateContent = function(id, rating) {
 		var dataPackage = '{"contentId":"' + id + '", "rating":' + rating + '}';
-		$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/rate', 15000, function(data) {
+		$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/rate', FEEDBACK_SERVICE_TIMEOUT, function(data) {
 			// Do nothing for now...
 		});
 	}
@@ -732,12 +732,12 @@ $(document).ready(function() {
 		jQuery.ajaxSetup({async:false});
 		if (enable) {
 			dataPackage = '{"contentId":"' + id + '","userAction":"ADD"}';
-			$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/bookmarkservice/addbookmark', 15000, function(data) {
+			$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/bookmarkservice/addbookmark', BOOKMARK_SERVICE_TIMEOUT, function(data) {
 				// Do nothing for now...
 			});
 		} else {
 			dataPackage = '{"contentId":"' + id + '","userAction":"REMOVE"}';
-			$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/bookmarkservice/removebookmark', 15000, function(data) {
+			$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/bookmarkservice/removebookmark', BOOKMARK_SERVICE_TIMEOUT, function(data) {
 				// Do nothing for now...
 			});
 		}
@@ -763,7 +763,7 @@ $(document).ready(function() {
 				//history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
 			}
 		}
-		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id, 20000, function(data) {
+		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id, CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get content ID: ' + data);
 		    if (typeof data != 'undefined' && data != null && data != '') {
 		    	$.fn.setupContent(data);
@@ -785,7 +785,7 @@ $(document).ready(function() {
 	    		log('IE9 Detected');
 				//history.pushState(stateObj, "newPage", query);
 			} else {
-				//history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
+				history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
 			}
 		}
 

@@ -60,6 +60,15 @@ public class BaseDAOImpl  {
 	protected static FeedbackV1PortType FeedbackPortType;
 	protected static LoginV1PortType LoginPortType;
 	protected static int SOAP_TIMEOUT = 40;
+	protected static int SOAP_LOGIN_TIMEOUT = 20;
+	protected static int SOAP_FEEDBACK_TIMEOUT = 20;
+	protected static int SOAP_REQUEST_ANSWER_TIMEOUT = 20;
+	protected static int SOAP_TAG_TIMEOUT = 20;
+	protected static int SOAP_CONTENT_TIMEOUT = 40;
+	protected static int SOAP_NEW_OR_CHANGED_TIMEOUT = 20;
+	protected static int SOAP_BOOKMARK_TIMEOUT = 20;
+	protected static int SOAP_SEARCH_TIMEOUT = 40;
+	
 
 	static {
 		try {
@@ -90,49 +99,49 @@ public class BaseDAOImpl  {
 			final SearchV1ServiceLocator searchServiceLocator = new SearchV1ServiceLocator();
 			SearchPortType = searchServiceLocator.getSearchV1Port(new URL(SearchV1Port_address));
 			SearchV1BindingStub searchBinding = (SearchV1BindingStub) SearchPortType;
-			searchBinding.setTimeout(SOAP_TIMEOUT * 1000);
+			searchBinding.setTimeout(SOAP_SEARCH_TIMEOUT * 1000);
 			
 			// Bookmark Service
 			final KMBookmarkServiceV1ServiceLocator bookmarkServiceLocator = new KMBookmarkServiceV1ServiceLocator();
 			KMBookmarkServicePortType = bookmarkServiceLocator.getKMBookmarkServiceV1Port(new URL(BookmarkV1Port_address));
 			KMBookmarkServiceV1BindingStub bookmarkBinding = (KMBookmarkServiceV1BindingStub) KMBookmarkServicePortType;
-			bookmarkBinding.setTimeout(SOAP_TIMEOUT * 1000);
+			bookmarkBinding.setTimeout(SOAP_BOOKMARK_TIMEOUT * 1000);
 			
 			// New or Changed Service
 			final NewOrChangedV1ServiceLocator newOrChangedServiceLocator = new NewOrChangedV1ServiceLocator();
 			NewOrChangedPortType = newOrChangedServiceLocator.getNewOrChangedV1Port(new URL(NewOrChangedV1Port_address));
 			NewOrChangedV1BindingStub newOrChangedBinding = (NewOrChangedV1BindingStub) NewOrChangedPortType;
-			newOrChangedBinding.setTimeout(SOAP_TIMEOUT * 1000);
+			newOrChangedBinding.setTimeout(SOAP_NEW_OR_CHANGED_TIMEOUT * 1000);
 			
 			// Content Service
 			final ContentV1ServiceLocator contentServiceLocator = new ContentV1ServiceLocator(); 
 			ContentPortType = contentServiceLocator.getContentV1Port(new URL(ContentV1Port_address));
 			ContentV1BindingStub contentBinding = (ContentV1BindingStub) ContentPortType;
-			contentBinding.setTimeout(SOAP_TIMEOUT * 1000);
+			contentBinding.setTimeout(SOAP_CONTENT_TIMEOUT * 1000);
 
 			// Tag Service
 			final TagV1ServiceLocator tagServiceLocator = new TagV1ServiceLocator(); 
 			TagPortType = tagServiceLocator.getTagV1Port(new URL(TagV1Port_address));
 			TagV1BindingStub tagBinding = (TagV1BindingStub) TagPortType;
-			tagBinding.setTimeout(SOAP_TIMEOUT * 1000);
+			tagBinding.setTimeout(SOAP_TAG_TIMEOUT * 1000);
 			
 			// RequestAnswer Service
 			final RequestAnswerV1ServiceLocator requestAnswerServiceLocator = new RequestAnswerV1ServiceLocator();
 			RequestAnswerPortType = requestAnswerServiceLocator.getRequestAnswerV1Port(new URL(RequestAnswerV1Port_address));
 			RequestAnswerV1BindingStub requestAnswerBinding = (RequestAnswerV1BindingStub) RequestAnswerPortType;
-			requestAnswerBinding.setTimeout(SOAP_TIMEOUT * 1000);
+			requestAnswerBinding.setTimeout(SOAP_REQUEST_ANSWER_TIMEOUT * 1000);
 			
 			// Feedback Service
 			final FeedbackV1ServiceLocator feedbackServiceLocator = new FeedbackV1ServiceLocator();
 			FeedbackPortType = feedbackServiceLocator.getFeedbackV1Port(new URL(FeedbackV1Port_address));
 			FeedbackV1BindingStub feedbackBinding = (FeedbackV1BindingStub) FeedbackPortType;
-			feedbackBinding.setTimeout(SOAP_TIMEOUT * 1000);
+			feedbackBinding.setTimeout(SOAP_FEEDBACK_TIMEOUT * 1000);
 
 			// Login Service
 			final LoginV1ServiceLocator loginServiceLocator = new LoginV1ServiceLocator();
 			LoginPortType = loginServiceLocator.getLoginV1Port(new URL(LoginV1Port_address));
 			LoginV1BindingStub loginBinding = (LoginV1BindingStub) LoginPortType;
-			loginBinding.setTimeout(SOAP_TIMEOUT * 1000);
+			loginBinding.setTimeout(SOAP_LOGIN_TIMEOUT * 1000);
 
 		} catch (FileNotFoundException fnfe) {
 			LOGGER.error("FileNotFoundException", fnfe);

@@ -22,7 +22,7 @@ $(document).ready(function() {
 		}
 		// Call the service
 		var dataPackage = '{"username":"' + username + '", "password":"' + password + '"}';
-		$.fn.serviceCall('POST', dataPackage, 'km/login', 15000, function(data) {
+		$.fn.serviceCall('POST', dataPackage, 'km/login', LOGIN_SERVICE_TIMEOUT, function(data) {
 			// Check for a valid result code
 			if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 1) {
 				var username = $('#username').val();

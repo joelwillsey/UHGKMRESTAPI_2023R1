@@ -197,7 +197,7 @@ $(document).ready(function() {
 	// Featured Content Service
 	$.fn.featured = function(page, size, tags) {
 		jQuery.ajaxSetup({async:false});
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, 15000, function(data) {
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
 			
 			//super janky filter to make up for the fact that the soap call hasnt been fixed
 			var newData = jQuery.extend(true, {}, data);
@@ -221,7 +221,7 @@ $(document).ready(function() {
 	// New or Changed Service
 	$.fn.newOrChanged = function(page, size, kbase) {
 		jQuery.ajaxSetup({async:false});
-        $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, 15000, function(data) {
+        $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, SEARCH_SERVICE_TIMEOUT, function(data) {
         	$.fn.sendToResults('New or Changed', data);
         });
         jQuery.ajaxSetup({async:true});
@@ -230,7 +230,7 @@ $(document).ready(function() {
 	// Bookmark function
 	$.fn.bookmark = function(page, size, tags) {
 		jQuery.ajaxSetup({async:false});
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, 15000, function(data) {
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
 			$.fn.sendToResults('My Bookmarks', data);
 		});
 		jQuery.ajaxSetup({async:true});
@@ -307,7 +307,7 @@ $(document).ready(function() {
 		}
 		
 		jQuery.ajaxSetup({async:false});
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, 15000, callBack);
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
 		jQuery.ajaxSetup({async:true});
 	}
 
@@ -357,7 +357,7 @@ $(document).ready(function() {
             });
 	        self.element.bind("dpui:blankSearch", function(e) {
 	            log("blankSearch");
-            	$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/blankResponse' , 15000, function(data) {
+            	$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/blankResponse' , SEARCH_SERVICE_TIMEOUT, function(data) {
             		$.fn.sendToResults('Search', data);
             	})
             });

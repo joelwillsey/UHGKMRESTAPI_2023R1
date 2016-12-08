@@ -199,7 +199,7 @@ $(document).ready(function() {
 
 	// Featured Content Service
 	$.fn.featured = function(page, size, tags) {
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, 15000, function(data) {
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
 			
 			//super janky filter to make up for the fact that the soap call hasnt been fixed
 			var newData = jQuery.extend(true, {}, data);
@@ -221,14 +221,14 @@ $(document).ready(function() {
 
 	// New or Changed Service
 	$.fn.newOrChanged = function(page, size, kbase) {
-        $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, 15000, function(data) {
+        $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, SEARCH_SERVICE_TIMEOUT, function(data) {
         	$.fn.sendToResults('New or Changed', data);
         });
 	}
 
 	// Bookmark function
 	$.fn.bookmark = function(page, size, tags) {
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, 15000, function(data) {
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
 			$.fn.sendToResults('My Bookmarks', data);
 		});
 	}
@@ -300,7 +300,7 @@ $(document).ready(function() {
 			tags = "search_showinsearch,"+tags;
 		}
 		
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, 15000, callBack);
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
 	}
 
 	// Inter-widget communication
@@ -526,7 +526,7 @@ $(document).ready(function() {
 				if( searchText.length >= 2){
 					
 					// Call on the autocomplete auto suggest service, that brings back the top 3 words to auto suggest.
-					$.fn.serviceCallNoSpin('GET', '', searchServiceName + 'km/autocomplete/suggest?text=' + searchText , 15000, function(data) {
+					$.fn.serviceCallNoSpin('GET', '', searchServiceName + 'km/autocomplete/suggest?text=' + searchText , SEARCH_SERVICE_TIMEOUT, function(data) {
 						var finalURL = "";
 						
 						// Populate the new html that will be a part of this popup.

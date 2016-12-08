@@ -609,7 +609,7 @@ $(document).ready(function() {
 				if( searchText.length >= 2){
 					
 					// Call on the autocomplete auto suggest service, that brings back the top 3 words to auto suggest.
-					$.fn.serviceCallNoSpin('GET', '', searchServiceName + 'km/autocomplete/suggest?text=' + searchText , 15000, function(data) {
+					$.fn.serviceCallNoSpin('GET', '', searchServiceName + 'km/autocomplete/suggest?text=' + searchText , SEARCH_SERVICE_TIMEOUT, function(data) {
 						var finalURL = "";
 						
 						// Populate the new html that will be a part of this popup.
