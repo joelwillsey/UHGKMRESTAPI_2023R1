@@ -236,6 +236,9 @@ button{
 			.sr_lr_icon_content_segment, .sr_lr_icon_KnowledgeSegmentED {
 				background: transparent url(../images/iconKnowledgeSegment.png) no-repeat scroll center center;
 			}
+			.sr_lr_icon_content_remotedocument, .sr_lr_icon_KnowledgeRemoteDocumentED {
+				background: transparent url(../images/iconKnowledgeRemoteDocument.png) no-repeat scroll center center;
+			}
 			.sr_lr_title {
 				color: #0099cc;
 				display: inline-block;
