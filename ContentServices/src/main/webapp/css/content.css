@@ -95,6 +95,9 @@ button {
 			.content_header_left_icon_content_segment {
 				background: transparent url(../images/iconKnowledgeSegment.png) no-repeat scroll center center;
 			}
+			.content_header_left_icon_content_remotedocument {
+				background: transparent url(../images/iconKnowledgeRemoteDocument.png) no-repeat scroll center center;
+			}
 		.content_header_left_title {
 			display: inline-block;
 			font-family: 'Lato',sans-serif;
@@ -699,6 +702,9 @@ button {
 				}
 				.content_header_mobile_top_left_content_segment {
 					background: transparent url(../images/iconKnowledgeSegment.png) no-repeat scroll center center;
+				}
+				.content_header_mobile_top_left_content_remotedocument {
+					background: transparent url(../images/iconKnowledgeRemoteDocument.png) no-repeat scroll center center;
 				}
 				.content_header_mobile_top_left img { 
 					margin-bottom: 0px; 
