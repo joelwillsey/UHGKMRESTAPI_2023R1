@@ -238,6 +238,13 @@ $(document).ready(function() {
 
 	// Search function
 	$.fn.search = function(search_text, page, size, tags, categories, sort, publishedid, callBack) {
+		$.fn.populateURL(search_text, page, size, tags, categories, sort, publishedid, callBack);
+		jQuery.ajaxSetup({async:false});
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
+		jQuery.ajaxSetup({async:true});
+	}
+	
+	$.fn.populateURL = function(search_text, page, size, tags, categories, sort, publishedid, callBack) {
 		// Deals with the '&' character that messes things up
 		search_text = search_text.replace("&", "and");
 		
@@ -305,10 +312,7 @@ $(document).ready(function() {
 		if (tags.substring(0,20) != "search_showinsearch,"){
 			tags = "search_showinsearch,"+tags;
 		}
-		
-		jQuery.ajaxSetup({async:false});
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
-		jQuery.ajaxSetup({async:true});
+
 	}
 
 	// Inter-widget communication
@@ -355,11 +359,12 @@ $(document).ready(function() {
                 	});
                 }
             });
-	        self.element.bind("dpui:blankSearch", function(e) {
+	        self.element.bind("dpui:blankSearch", function(e, data) {
 	            log("blankSearch");
             	$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/blankResponse' , SEARCH_SERVICE_TIMEOUT, function(data) {
             		$.fn.sendToResults('Search', data);
             	})
+            	$.fn.populateURL("", page, size, filterTags, contentTypeTags, '', publishedid);
             });
 	        self.element.bind("dpui:runSearch", function(e, data) {
                 log("runSearch");
