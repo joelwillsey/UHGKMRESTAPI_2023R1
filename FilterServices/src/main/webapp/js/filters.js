@@ -624,6 +624,8 @@ $(document).ready(function() {
 		
 		// Send inter-widget communication
 		$.fn.widgetCommunication(true);
+		
+		$.fn.manageTheme();
 	}
 
 	// Remove Tag
@@ -956,6 +958,24 @@ $(document).ready(function() {
 			return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase())
 		})
 		$.each(listitems, function(idx, itm) {myList.append(itm); });
+	}
+	
+	// manages the themes for various kbase tags, basically just switches around the css sheets in the verintkm html
+	$.fn.manageTheme = function(){
+		var current = $.fn.getParameterByName('tags');
+		
+		if ( current != 'undefined'){
+			var currentArray = current.split(",");
+			if ( $.inArray("kbase_tricare", currentArray) != -1 ){
+				 document.getElementById('knowledgeCentralTheme').disabled = false;
+				 document.getElementById('defaultTheme').disabled = true;
+			}
+			else 
+			{
+				document.getElementById('knowledgeCentralTheme').disabled = true;
+				 document.getElementById('defaultTheme').disabled = false;
+			}
+		}
 	}
 	
 
