@@ -1,0 +1,76 @@
+@CHARSET "ISO-8859-1";
+
+#widgetHeader-logo{
+	background-image: url(../images/KnowledgeCentral.png);
+	background-repeat: no-repeat;
+	height: 45px; 
+	width: 522px; 
+	display: block; 
+	width: 100%; 
+	overflow: none; 
+	background-color: #666666
+}
+				.fs_dt_info {
+									display: inline-block;
+									font: 11px 'OpenSans',Arial,sans-serif;
+									height: auto !important;
+									padding-top: 3px;
+									padding-bottom: 3px;
+									position: relative;
+									width: 100%;			
+				}
+			.fs_data_info {
+							display: inline-block;
+						    font: 11px "OpenSans",Arial,sans-serif;
+						    height: auto !important;
+						    padding-bottom: 3px;
+						    padding-top: 3px;
+						    position: relative;
+						    width: 100%;
+			}
+						.fs_di_tagset_label_info {
+												 	color: #222222;
+												    font-family: OpenSans,Arial,sans-serif;
+												    font-size: 11px;
+												    font-stretch: normal;
+												    font-style: normal;
+												    font-variant: normal;
+												    font-weight: normal;
+												    line-height: 18px;
+												    padding-bottom: 3px;
+												    padding-top: 3px;
+						}
+					.fs_di_content_category_label, fs_di_content_category_info {
+											display: block;
+											font: 11px "OpenSans",Arial,sans-serif;
+											padding-bottom: 5px;
+					}
+					.fs_di_content_id_label {
+											display: block;
+											font: 11px "OpenSans",Arial,sans-serif;
+											height: 18px;
+											line-height: 18px;
+											padding-bottom: 3px;
+					    					padding-top: 3px;
+					}
+					.fs_dt button, .fs_dt button {
+											background-color: #eee;
+										    background-image: linear-gradient(to bottom, #fff 1%, #dfdfdf 100%);
+										    border: 1px solid #888;
+										    border-radius: 3px;
+										    color: #222;
+										    cursor: pointer;
+										    background-repeat: no-repeat;
+										    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(39, 41, 43, 0.15) inset;
+										    box-sizing: border-box;
+										    font-family: "OpenSans",Arial,sans-serif;
+										    font-size: 11px;
+											height: 24px;
+						    				line-height: 22px;
+										    padding: 0 6px !important;
+										    text-align: center;
+										    white-space: nowrap;
+										    width: auto;
+										    -moz-user-select: none;
+										    transition: opacity 0.1s ease 0s, background-color 0.1s ease 0s, color 0.1s ease 0s, box-shadow 0.1s ease 0s, background 0.1s ease 0s;
+					}
