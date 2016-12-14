@@ -777,7 +777,7 @@ $(document).ready(function() {
 		// Changes the browser URL to use the parameters so users can save searches and/or bookmark them
 		if (history.pushState && typeof historyPushEnabled != 'undefined' && historyPushEnabled) {
 	    	var millis = new Date().getTime();
-			var query = '?dt=' + id;
+			var query = '?dtreeid=' + id;
 	    	var stateObj = { path: query };
 			// IE9 has an issue with history; Don't know if IE
 	    	if ($.fn.isIE() === 9) {
@@ -855,7 +855,7 @@ $(document).ready(function() {
 	} 
 
 	// Check to see if a decision tree is being launched
-	var dt = $.fn.getParameterByName('dt');
+	var dt = $.fn.getParameterByName('dtreeid');
 	if (typeof dt != 'undefined' && dt != null && dt != 'null' && dt != '') {
 		log(dt);
 		externalLink = true;

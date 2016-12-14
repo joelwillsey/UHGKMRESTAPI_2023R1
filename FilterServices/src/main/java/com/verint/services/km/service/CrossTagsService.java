@@ -59,21 +59,21 @@ public class CrossTagsService extends BaseService {
 
 	/**
 	 * 
-	 * @param sourcetags
+	 * @param sourcetag
 	 * @param targettagset
 	 * @param httpRequest
 	 * @return
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public CrossTagResponse getCrossTags(@QueryParam("sourcetags") String sourcetags,
+    public CrossTagResponse getCrossTags(@QueryParam("sourcetag") String sourcetag,
     		@QueryParam("targettagset") String targettagset,
     		@QueryParam("targettagset1") String targettagset1,
     		@QueryParam("targettagset2") String targettagset2,
     		@QueryParam("targettagset3") String targettagset3,
     		@Context HttpServletRequest httpRequest) {
 		LOGGER.info("Entering getCrossTags()");
-		LOGGER.debug("sourcetags: " + sourcetags);
+		LOGGER.debug("sourcetag: " + sourcetag);
 		LOGGER.debug("targettagset: " + targettagset);
 		LOGGER.debug("targettagset1: " + targettagset1);
 		LOGGER.debug("targettagset2: " + targettagset2);
@@ -86,12 +86,12 @@ public class CrossTagsService extends BaseService {
 			LOGGER.debug("Username: " + credentials[0]);
 			LOGGER.debug("Password: " + credentials[1]);
 
-			if (sourcetags == null || sourcetags.length() == 0 ||
+			if (sourcetag == null || sourcetag.length() == 0 ||
 				targettagset == null || targettagset.length() == 0) {
 				throw new AppException(500, AppErrorCodes.CROSS_TAGS_ERROR,  
 						AppErrorMessage.CROSS_TAGS_ERROR);			
 			} else {
-				final StringTokenizer st2 = new StringTokenizer(sourcetags, ",");
+				final StringTokenizer st2 = new StringTokenizer(sourcetag, ",");
 				if (st2 != null && st2.countTokens() > 0) {
 					String[] stags = new String[st2.countTokens()];
 					int x = 0;

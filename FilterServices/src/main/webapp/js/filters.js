@@ -799,6 +799,7 @@ $(document).ready(function() {
 
     // populates the cross tags according to source tag and 4 target tags
 	$.fn.getCrossTag = function( source, target, target1, target2, target3) {
+		jQuery.ajaxSetup({async:false});
 		//topic tag would be populated first, since this could have several appended to it
 		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
@@ -808,8 +809,9 @@ $(document).ready(function() {
 		//populates the rest
 		var url = filtersServiceName + 'km/crosstags?sourcetag='+ source +'&targettagset='+ target1 +'&targettagset1='+ target2 +'&targettagset2='+ target3;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
-			$.fn.populateCrossTags(data);
+			$.fn.populateCrossTags(data);			
 		});
+		jQuery.ajaxSetup({async:true});
 	}
 	
 	$.fn.populateCrossTags = function(data) {
@@ -964,17 +966,24 @@ $(document).ready(function() {
 	$.fn.manageTheme = function(){
 		var current = $.fn.getParameterByName('tags');
 		
-		if ( current != 'undefined'){
+		if ( current != 'undefined' && current != null){			
 			var currentArray = current.split(",");
 			if ( $.inArray("kbase_tricare", currentArray) != -1 ){
+				 document.getElementById('knowledgeCentralTheme').disabled = false;
+				 document.getElementById('defaultTheme').disabled = true;
+			}
+			else if ( $.inArray("kbase_uhcglobal", currentArray) != -1 ){
 				 document.getElementById('knowledgeCentralTheme').disabled = false;
 				 document.getElementById('defaultTheme').disabled = true;
 			}
 			else 
 			{
 				document.getElementById('knowledgeCentralTheme').disabled = true;
-				 document.getElementById('defaultTheme').disabled = false;
+				document.getElementById('defaultTheme').disabled = false;
 			}
+		} else {
+			document.getElementById('knowledgeCentralTheme').disabled = true;
+			document.getElementById('defaultTheme').disabled = false;
 		}
 	}
 	

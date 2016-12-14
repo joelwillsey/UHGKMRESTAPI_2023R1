@@ -124,7 +124,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="VerintContentServices" path="/contentservices" reloadable="true" source="org.eclipse.jst.jee.server:VerintContentServices"/><Context docBase="VerintSearchServices" path="/searchservices" reloadable="true" source="org.eclipse.jst.jee.server:VerintSearchServices"/><Context docBase="VerintKMApplication" path="/verintkm" reloadable="true" source="org.eclipse.jst.jee.server:VerintKMApplication"/><Context docBase="StaticContent" path="/StaticContent" reloadable="true" source="org.eclipse.jst.jee.server:StaticContent"/><Context docBase="VerintFilterServices" path="/filterservices" reloadable="true" source="org.eclipse.jst.jee.server:VerintFilterServices"/></Host>
+      <Context docBase="VerintContentServices" path="/contentservices" reloadable="true" source="org.eclipse.jst.jee.server:VerintContentServices"/><Context docBase="VerintSearchServices" path="/searchservices" reloadable="true" source="org.eclipse.jst.jee.server:VerintSearchServices"/><Context docBase="VerintKMApplication" path="/verintkm" reloadable="true" source="org.eclipse.jst.jee.server:VerintKMApplication"/><Context docBase="StaticContent" path="/fileStorage" reloadable="true" source="org.eclipse.jst.jee.server:StaticContent"/><Context docBase="VerintFilterServices" path="/filterservices" reloadable="true" source="org.eclipse.jst.jee.server:VerintFilterServices"/></Host>
     </Engine>
   </Service>
 </Server>
