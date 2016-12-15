@@ -388,6 +388,9 @@ button {
 		.custom_field {
 			box-shadow: inset 6px 0 0 #a2a2a2;
 		}
+		.urlinformation_field {
+			box-shadow: inset 6px 0 0 #cd5c5c;
+		}
 		.attachment_field {
 			box-shadow: inset 6px 0 0 #a2a2a2;
 		}
@@ -420,7 +423,12 @@ button {
 			.content_body_field_label label.custom {
 				color: #232221;
 				padding-right: 18px;
-			}			
+			}	
+			.content_body_field_label label.urlinformation {
+				background: transparent url(../images/iconURLInformation.png) no-repeat scroll center right;
+				color: #cd5c5c;
+				padding-right: 18px;
+			}		
 			.content_body_field_label label.attachment {
 				background: transparent url(../images/iconAttachment.png) no-repeat scroll center right;
 				color: #232221;
@@ -481,6 +489,9 @@ button {
 			}
 			.KnowledgeUploadED {
 				background: transparent url(../images/iconKnowledgeUploadedDocument.png) no-repeat scroll center center;
+			}
+			.KnowledgeRemoteDocumentED {
+				background: transparent url(../images/iconKnowledgeRemoteDocument.png) no-repeat scroll center center;
 			}
 			.Unstructured {
 				background: transparent url(../images/iconKnowledgeWeblink.png) no-repeat scroll center center;

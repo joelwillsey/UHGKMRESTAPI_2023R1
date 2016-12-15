@@ -160,6 +160,11 @@ $(document).ready(function() {
 	   }
     }
     
+   //Launch Remote Documents in new window
+   $.fn.launchRemoteDocuments = function(data) {
+		window.open (data);
+	}
+   
 	// Setup skip links
     $.fn.setupLinks = function(data) {
     	var links = [];
@@ -188,6 +193,11 @@ $(document).ready(function() {
 			links.push('<li><a class="content_skipto_links_field" href="#content-private">Private Answer</a></li>');
 			links.push('<div class="content_skipto_links_divider">|</div>');
 		}
+		// URL Information - Remote Documents
+		if (typeof data.customFields != 'undefined' && data.customFields != null && data.customFields.length > 0 && data.contentCategory == "content_remotedocument") {				
+					links.push('<li><a class="content_skipto_links_field" href="#content-' + "URLInformation" + '">' + "URL Information" + '</a></li>');
+					links.push('<div class="content_skipto_links_divider">|</div>');			
+		}
 		// TagSets
 		if (typeof data.tagSets != 'undefined' && data.tagSets.length > 0) {
 			links.push('<li><a class="content_skipto_links_field" href="#content-tags">Tags</a></li>');
@@ -203,8 +213,17 @@ $(document).ready(function() {
 		// CustomFields
 		if (typeof data.customFields != 'undefined' && data.customFields != null && data.customFields.length > 0) {
 			for (var x = 0; x < data.customFields.length; x++) {
-				links.push('<li><a class="content_skipto_links_field" href="#content-' + data.customFields[x].name + '">' + data.customFields[x].name + '</a></li>');
-				links.push('<div class="content_skipto_links_divider">|</div>');
+				//Supress the remote document custom fields, they are special cases
+				if (!(data.contentCategory == "content_remotedocument" && data.customFields[x].name == "url") &&
+						!(data.contentCategory == "content_remotedocument" && data.customFields[x].name == "urlDescription") &&
+						!(data.contentCategory == "content_remotedocument" && data.customFields[x].name == "file")){
+					if (data.customFields[x].name == "keywords"){
+					links.push('<li><a class="content_skipto_links_field" href="#content-' + data.customFields[x].name + '">' + "Watchwords" + '</a></li>');
+					} else {
+						links.push('<li><a class="content_skipto_links_field" href="#content-' + data.customFields[x].name + '">' + data.customFields[x].name + '</a></li>');
+					}
+					links.push('<div class="content_skipto_links_divider">|</div>');
+				}
 			}
 		}
 		// Attachments
@@ -270,6 +289,9 @@ $(document).ready(function() {
 
         // Setup Private Answer
     	contentBody = $.fn.setupPrivateAnswer(data, contentBody);
+    	
+    	// Setup Remote Document Fields
+    	contentBody = $.fn.setupCustomFieldsRemoteDocuments(data, contentBody);
 
     	// Setup Tags
     	contentBody = $.fn.setupTags(data, contentBody);
@@ -532,19 +554,66 @@ $(document).ready(function() {
 				 data.customFields.length > 0)
 		{
 			for (var i = 0; i < data.customFields.length; i++) {
-				contentBody.push('<section id="content-' + data.customFields[i].name + '" class="content_body_field custom_field">');
-				contentBody.push('  <div class="content_body_field_label">');
-				contentBody.push('    <label class="custom">' + data.customFields[i].name + '</label>');
-				contentBody.push('  </div>');
-				contentBody.push('  <div class="content_body_field_custom_data">');
-				contentBody.push(data.customFields[i].data);
-				contentBody.push('  </div>');
-				contentBody.push('</section>');
+				//need to exclude the "url", "urlDescription" and file fields for content_remotedocument as they are handled in setupCustomFieldsRemoteDocuments
+				if (!(data.contentCategory == "content_remotedocument" && data.customFields[i].name == "url") &&
+						!(data.contentCategory == "content_remotedocument" && data.customFields[i].name == "urlDescription") &&
+						!(data.contentCategory == "content_remotedocument" && data.customFields[i].name == "file")){
+					contentBody.push('<section id="content-' + data.customFields[i].name + '" class="content_body_field custom_field">');
+					contentBody.push('  <div class="content_body_field_label">');
+					if (data.customFields[i].name == "keywords"){
+						contentBody.push('    <label class="custom">' + "Watchwords" + '</label>');
+						}	else {						
+								contentBody.push('    <label class="custom">' + data.customFields[i].name + '</label>');
+								}			
+					contentBody.push('  </div>');
+					contentBody.push('  <div class="content_body_field_custom_data">');
+					contentBody.push(data.customFields[i].data);
+					contentBody.push('  </div>');
+					contentBody.push('</section>');
+					}
 			}
 		}
 		return contentBody;
     }
 
+	// Setup Custom Fields for RemoteDocuments
+    $.fn.setupCustomFieldsRemoteDocuments = function(data, contentBody) {
+		if (typeof data.customFields != 'undefined' && 
+				data.customFields != null && 
+				 data.customFields.length > 0 && data.contentCategory == "content_remotedocument")
+		{
+			contentBody.push('<section id="content-' + "URLInformation" + '" class="content_body_field urlinformation_field">');
+			contentBody.push('  <div class="content_body_field_label">');
+			contentBody.push('    <label class="urlinformation">' + "URL Information" + '</label>');
+			contentBody.push('  </div>');
+			contentBody.push('  <div class="content_body_field_custom_data">');
+			for (var i = 0; i < data.customFields.length; i++) {
+				if (data.customFields[i].name == "url"){
+					if (data.customFields[i].data != null){
+						var urlArray = data.customFields[i].data.split("||");
+						//Check for EM URL format Title||URL
+						if (typeof urlArray != 'undefined' && urlArray.length == 2){
+							if (urlArray[0].length > 0){
+							contentBody.push("URL: " + '<a target="_blank" href=' + urlArray[0] + '>' +  urlArray[1] + '</a><br><br>');
+							} else {
+								//No title just use URL as title
+								contentBody.push("URL: " + '<a target="_blank" href=' + urlArray[1] + '>' +  urlArray[1] + '</a><br><br>');
+							}
+						} else {
+							contentBody.push("URL: " + '<a target="_blank" href=' + data.customFields[i].data + '>' + data.customFields[i].data + '</a><br><br>');
+						}
+					}
+				}
+				if (data.customFields[i].name == "urlDescription"){
+					contentBody.push("URL Description: " + data.customFields[i].data + '<br>');
+				}
+			}
+			contentBody.push('  </div>');
+			contentBody.push('</section>');
+		}
+		return contentBody;
+    }
+    
 	// Setup Attachments
     $.fn.setupAttachments = function(data, contentBody) {
 		if (typeof data.attachments != 'undefined' && 
