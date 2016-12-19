@@ -7,7 +7,7 @@
       language="EcmaScript"
       name="onEntry"
       nested="false"
-      version="3.13.4">
+      version="4.1.0">
     <ReferenceParameters />
     <ProcedureLocals>
       <ObjectField
@@ -283,8 +283,8 @@ EIApplication.getInstance().setName("AD");
 contentID = GTSystem.getInitialParameterValue("dtreeid");
 
 // contentID = "Contact Us--1";
-locale = "en-GB";
-versionId = 1.0;
+//locale = "en-GB";
+//versionId = 1.0;
 
 groupUnit = EIKnowledgeContext.getKnowledgeGroup(contentID, this.context);
 if (groupUnit) {
@@ -393,6 +393,9 @@ this.entity = this.content.getContentType()
 //this.content = tempContent;
 //this.contentType = tempContentType;
 this.contentType = this.content.getContentType();
+
+
+this.verb = this.contentType.getEntityDefinition().getVerb("showContent");
 ]]>
     </Verbatim>
   </OnEntryProcedure>

@@ -7,7 +7,7 @@
       language="EcmaScript"
       name="onEntry"
       nested="false"
-      version="3.13.4">
+      version="4.1.0">
     <ReferenceParameters />
     <ProcedureLocals>
       <StringField

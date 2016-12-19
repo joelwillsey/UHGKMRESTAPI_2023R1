@@ -213,7 +213,7 @@
         nested="false"
         pointOfNoReturn="false"
         transactionBehaviour="TX_NOT_SUPPORTED"
-        version="3.13.2"
+        version="4.1.0"
         waitOnChildren="false">
       <InstanceFields>
         <ObjectField
@@ -292,6 +292,11 @@
           name=""
           x="624"
           y="112" />
+      <ThisNode
+          displayName=""
+          name="fieldStore0"
+          x="256"
+          y="240" />
       <VerbRunner
           displayName="runPageSet"
           executeAsAsynchronous="false"
@@ -308,11 +313,6 @@
             nested="false"
             verbName="runPageSet" />
       </VerbRunner>
-      <ThisNode
-          displayName=""
-          name="fieldStore0"
-          x="256"
-          y="240" />
       <Transition
           isExceptionTransition="false"
           name="transition0">
