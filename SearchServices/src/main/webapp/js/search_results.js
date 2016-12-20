@@ -95,6 +95,11 @@ $(document).ready(function() {
 	$.fn.pageSelected = function(data) {
 		log(data);
     	var packagedData = [];
+    	
+    	if (sortBy == undefined) {
+    		sortBy = "";
+    	}
+    	
     	packagedData = {
     			"page": data,
     			"sort": sortBy
