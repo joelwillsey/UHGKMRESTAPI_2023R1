@@ -2,7 +2,7 @@
 
 html { }
 div { display: block; }
-ol, ul { list-style: none; margin: 0; list-style-type: decimal;}
+ol, ul { list-style: none; margin: 0;}
 ul li { margin: 0; padding: 0;}
 h1 { margin-bottom: 10px; color: #111111;}	
 a, img { outline: none; border:none; color: #000;}
