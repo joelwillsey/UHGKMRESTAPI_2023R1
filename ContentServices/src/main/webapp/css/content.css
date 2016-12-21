@@ -26,6 +26,10 @@ button {
     cursor: pointer;
 }
 
+.content_area_on {
+	display: block;
+}
+
 .content_container {
 	border: 1px solid #c7c7c7;
 	display: none;
@@ -446,7 +450,10 @@ button {
 				}
 				.content_body_field_data a:hover {
 					text-decoration: underline;
-				}			
+				}	
+			.content_body_field_data ol, ul{
+				 list-style-type: decimal;
+			}		
 		.content_body_field_resuable_related_content {
 			display: inline-block;
 			line-height: 60px;
