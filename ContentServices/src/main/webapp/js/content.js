@@ -158,9 +158,9 @@ $(document).ready(function() {
     }
    
    // Opens remote document on load
-   $('#remote-document-link').load(function(){
+   if ($('#remote-document-link') != undefined) {
 	   $('#remote-document-link').find('a').trigger('click');
-   });
+   }
     
    //Launch Remote Documents in new window
    $.fn.launchRemoteDocuments = function(data) {
