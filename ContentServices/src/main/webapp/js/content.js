@@ -145,20 +145,22 @@ $(document).ready(function() {
 	}
 
 	 //Bookmark function
-   $.fn.bookmarkFunction = function() {
-	   
+   $.fn.bookmarkFunction = function() {	   
 	   if($('#content-bookmark').hasClass('bookmarked') || $('#mobile-content-bookmark').hasClass('bookmarked')){
 		   $('#mobile-content-bookmark').removeClass('bookmarked');
 		   $('#content-bookmark').removeClass('bookmarked');
 		   $.fn.addBookmark(contentId, false);
-		   $(".content_header_right_bookmark_action").off('click');
 	   } else {
 		   $('#mobile-content-bookmark').addClass('bookmarked');
 		   $('#content-bookmark').addClass('bookmarked');
-		   $.fn.addBookmark(contentId, true);
-		   $(".content_header_right_bookmark_action").off('click');   
+		   $.fn.addBookmark(contentId, true);  
 	   }
     }
+   
+   // Opens remote document on load
+   $('#remote-document-link').load(function(){
+	   $('#remote-document-link').find('a').trigger('click');
+   });
     
    //Launch Remote Documents in new window
    $.fn.launchRemoteDocuments = function(data) {
@@ -195,7 +197,7 @@ $(document).ready(function() {
 		}
 		// URL Information - Remote Documents
 		if (typeof data.customFields != 'undefined' && data.customFields != null && data.customFields.length > 0 && data.contentCategory == "content_remotedocument") {				
-					links.push('<li><a class="content_skipto_links_field" href="#content-' + "URLInformation" + '">' + "URL Information" + '</a></li>');
+					links.push('<li><a id="remote-document-link" class="content_skipto_links_field" href="#content-' + "URLInformation" + '">' + "URL Information" + '</a></li>');
 					links.push('<div class="content_skipto_links_divider">|</div>');			
 		}
 		// TagSets
