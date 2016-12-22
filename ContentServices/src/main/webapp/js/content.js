@@ -197,7 +197,7 @@ $(document).ready(function() {
 		}
 		// URL Information - Remote Documents
 		if (typeof data.customFields != 'undefined' && data.customFields != null && data.customFields.length > 0 && data.contentCategory == "content_remotedocument") {				
-					links.push('<li><a id="remote-document-link" class="content_skipto_links_field" href="#content-' + "URLInformation" + '">' + "URL Information" + '</a></li>');
+					links.push('<li><a class="content_skipto_links_field" href="#content-' + "URLInformation" + '">' + "URL Information" + '</a></li>');
 					links.push('<div class="content_skipto_links_divider">|</div>');			
 		}
 		// TagSets
@@ -596,13 +596,13 @@ $(document).ready(function() {
 						//Check for EM URL format Title||URL
 						if (typeof urlArray != 'undefined' && urlArray.length == 2){
 							if (urlArray[0].length > 0){
-							contentBody.push("URL: " + '<a target="_blank" href=' + urlArray[0] + '>' +  urlArray[1] + '</a><br><br>');
+							contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + urlArray[0] + '>' +  urlArray[1] + '</a><br><br>');
 							} else {
 								//No title just use URL as title
-								contentBody.push("URL: " + '<a target="_blank" href=' + urlArray[1] + '>' +  urlArray[1] + '</a><br><br>');
+								contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + urlArray[1] + '>' +  urlArray[1] + '</a><br><br>');
 							}
 						} else {
-							contentBody.push("URL: " + '<a target="_blank" href=' + data.customFields[i].data + '>' + data.customFields[i].data + '</a><br><br>');
+							contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + data.customFields[i].data + '>' + data.customFields[i].data + '</a><br><br>');
 						}
 					}
 				}
