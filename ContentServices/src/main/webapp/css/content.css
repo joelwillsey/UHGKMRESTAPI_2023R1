@@ -451,8 +451,11 @@ button {
 				.content_body_field_data a:hover {
 					text-decoration: underline;
 				}	
-			.content_body_field_data ol, ul{
+			.content_body_field_data ol{
 				 list-style-type: decimal;
+			}
+			.content_body_field_data ul{
+				 list-style-type: disc;
 			}		
 		.content_body_field_resuable_related_content {
 			display: inline-block;
