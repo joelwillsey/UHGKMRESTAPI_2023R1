@@ -96,6 +96,9 @@ button {
 					.fs_dt_info_filters {
 						height: auto;
 					}
+						.ul_all_tags {
+       						list-style-type: none;
+      					}
 				.fs_di_tagset {
 					display: block;
 					padding-top: 3px;
