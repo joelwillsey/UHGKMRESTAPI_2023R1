@@ -156,11 +156,6 @@ $(document).ready(function() {
 		   $.fn.addBookmark(contentId, true);  
 	   }
     }
-   
-   // Opens remote document on load
-   if ($('#remote-document-link') != undefined) {
-	   $('#remote-document-link').find('a').trigger('click');
-   }
     
    //Launch Remote Documents in new window
    $.fn.launchRemoteDocuments = function(data) {
@@ -596,13 +591,16 @@ $(document).ready(function() {
 						//Check for EM URL format Title||URL
 						if (typeof urlArray != 'undefined' && urlArray.length == 2){
 							if (urlArray[0].length > 0){
-							contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + urlArray[0] + '>' +  urlArray[1] + '</a><br><br>');
+							contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + urlArray[1] + '>' +  urlArray[0] + '</a><br><br>');
+							window.open(urlArray[1]);
 							} else {
 								//No title just use URL as title
 								contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + urlArray[1] + '>' +  urlArray[1] + '</a><br><br>');
+								window.open(urlArray[1]);
 							}
 						} else {
 							contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + data.customFields[i].data + '>' + data.customFields[i].data + '</a><br><br>');
+							window.open(data.customFields[i].data);
 						}
 					}
 				}
@@ -786,6 +784,8 @@ $(document).ready(function() {
 
     	// Resize the window if necessary
     	$.fn.setupContentWidget();
+    	
+    	$.fn.autoOpenRemoteDoc();
     }
 
     // Rate content
@@ -951,4 +951,5 @@ $(document).ready(function() {
     	};
 		$.fn.retrieveExternalContent(packagedData);
 	}
+
 });
