@@ -965,14 +965,20 @@ $(document).ready(function() {
 	// manages the themes for various kbase tags, basically just switches around the css sheets in the verintkm html
 	$.fn.manageTheme = function(){
 		var current = $.fn.getParameterByName('tags');
+		var url = "/verintkm/km/property/read?address=/app_2/verint/projects/uhgiq/restapi/kmservices/connectionpool.properties&property=restapi.alternativebranding";
+		var configList = "";
+		
+		jQuery.ajaxSetup({async:false});
+		$.fn.serviceCall('GET', '', url, 15000, function(data) {
+			configList = data.propertiesString;
+		});
+		jQuery.ajaxSetup({async:true});
 		
 		if ( current != 'undefined' && current != null){			
 			var currentArray = current.split(",");
-			if ( $.inArray("kbase_tricare", currentArray) != -1 ){
-				 document.getElementById('knowledgeCentralTheme').disabled = false;
-				 document.getElementById('defaultTheme').disabled = true;
-			}
-			else if ( $.inArray("kbase_uhcglobal", currentArray) != -1 ){
+			var configArray = configList.split(",");
+			
+			if ($.fn.hasCommonElement(currentArray,configArray) ){
 				 document.getElementById('knowledgeCentralTheme').disabled = false;
 				 document.getElementById('defaultTheme').disabled = true;
 			}
@@ -985,6 +991,23 @@ $(document).ready(function() {
 			document.getElementById('knowledgeCentralTheme').disabled = true;
 			document.getElementById('defaultTheme').disabled = false;
 		}
+	}
+	
+	// Array has common elements helper function
+	$.fn.hasCommonElement = function(arr1,arr2){
+		var bExists = false;
+		$.each(arr2, function(index, value){
+			
+			if($.inArray(value,arr1)!=-1){
+				console.log(value);
+				bExists = true;
+			}
+			
+			if(bExists){
+				return false;
+			}
+		});
+		return bExists;
 	}
 	
 
