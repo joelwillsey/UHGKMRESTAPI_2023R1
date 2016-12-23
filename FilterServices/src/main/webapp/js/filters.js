@@ -970,7 +970,8 @@ $(document).ready(function() {
 		
 		jQuery.ajaxSetup({async:false});
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
-			configList = data.propertiesString;
+			//configList = data.propertiesString;
+			configList = "kbase_dentalvision,kbase_ecsolt,kbase_ecs,kbase_prime,kbase_uhcbs,kbase_eienrollmentbilling,kbase_csenrollmentbilling,kbase_mrenrollmentbilling,kbase_mrclaimappeals,kbase_eiproduceroperations,kbase_providerdata,kbase_provideroperations,kbase_uhcwest,kbase_customerimp,kbase_csconsumerservice,kbase_csclaims,kbase_eiclaims,kbase_eiclaimappeals,kbase_eispecialtyops,kbase_eiconsumerservice,kbase_eiempire,kbase_railroad,kbase_uhcglobal,kbase_mrproviderservice,kbase_eirv,kbase_eiproviderservice,kbase_einhp,kbase_einaa,kbase_mrconsumerservice,kbase_mrtelesales,kbase_mrproducerhelpdesk,kbase_test,kbase_tricare,kbase_tricaremedmgmt";
 		});
 		jQuery.ajaxSetup({async:true});
 		
@@ -999,8 +1000,10 @@ $(document).ready(function() {
 		$.each(arr2, function(index, value){
 			
 			if($.inArray(value,arr1)!=-1){
-				console.log(value);
-				bExists = true;
+				if (value != ""){
+					console.log(value);
+					bExists = true;
+				}
 			}
 			
 			if(bExists){
