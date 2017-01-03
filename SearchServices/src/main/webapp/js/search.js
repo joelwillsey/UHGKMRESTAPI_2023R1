@@ -66,9 +66,7 @@ $(document).ready(function() {
 		$.fn.toggleMenu($('#tab-search-button'));
 		$.fn.toggleSearch('search');
 		$('.dpui-widget').trigger('dpui:hideManageButton');
-    	$.fn.search($('#search-text').val(), page, size, '', '', '', '', function(data) {
-    		$.fn.sendToResults('Search', data);
-    	});
+		$(".dpui-widget").trigger("dpui:runSearch");
 	});
 
 	// Alert button
