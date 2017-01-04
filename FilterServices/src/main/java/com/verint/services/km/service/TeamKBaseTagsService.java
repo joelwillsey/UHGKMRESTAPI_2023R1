@@ -2,7 +2,9 @@ package com.verint.services.km.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -68,11 +70,14 @@ public class TeamKBaseTagsService extends BaseService {
 			LOGGER.debug("Password: " + credentials[1]);
 	
 			// Get all the cross tag combinations
-			Set<Tag> kBaseTagSet = teamKBaseTagsDAO.getAllTeamKBaseTags(credentials[0], credentials[1]);
-			for(Tag kbaseTag : kBaseTagSet) {
+			LinkedHashSet<Tag> kBaseTagSet = teamKBaseTagsDAO.getAllTeamKBaseTags(credentials[0], credentials[1]);
+			List<Tag> tagList = new ArrayList<Tag>(kBaseTagSet);
+			tagList.sort((Tag o1, Tag o2) -> o1.getSystemTagDisplayName().compareTo(o2.getSystemTagDisplayName()));
+
+			for(Tag kbaseTag : tagList) {
 				teamKBaseTagsResponse.addTags(kbaseTag);
 			}
-			teamKBaseTagsResponse.setTags(kBaseTagSet);
+			teamKBaseTagsResponse.setTags(new LinkedHashSet<>(tagList));
 		} catch (SQLException sqle) {
 			LOGGER.error("SQLException in getKBaseTags()", sqle);
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  

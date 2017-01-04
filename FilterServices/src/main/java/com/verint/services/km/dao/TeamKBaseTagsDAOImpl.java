@@ -6,8 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +42,9 @@ public class TeamKBaseTagsDAOImpl extends BaseDAOImpl implements TeamKBaseTagsDA
 
 	
 	@Override
-	public Set<Tag> getAllTeamKBaseTags(String username, String password) throws SQLException {
+	public LinkedHashSet<Tag> getAllTeamKBaseTags(String username, String password) throws SQLException {
 		LOGGER.info("Entering getAllTeamKBaseTags()");
-		Set<Tag> kBaseTagSet = new HashSet<Tag>();
+		LinkedHashSet<Tag> kBaseTagSet = new LinkedHashSet<Tag>();
 		Tag tagObj;
 		// Get the connection and statement
 		final Connection connection = ConnectionPool.getConnection();
