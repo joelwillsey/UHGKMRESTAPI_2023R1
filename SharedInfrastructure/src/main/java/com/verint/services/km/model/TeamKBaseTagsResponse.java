@@ -1,7 +1,7 @@
 package com.verint.services.km.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,7 +16,7 @@ public class TeamKBaseTagsResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
-	private Set<Tag> tags = new HashSet<Tag>();
+	private LinkedHashSet<Tag> tags = new LinkedHashSet<Tag>();
 
 	/**
 	 * Constructor 
@@ -35,7 +35,7 @@ public class TeamKBaseTagsResponse implements Serializable {
 	/**
 	 * @param tag the tag to set
 	 */
-	public void setTags(Set<Tag> tags) {
+	public void setTags(LinkedHashSet<Tag> tags) {
 		this.tags = tags;
 	}
 
