@@ -84,8 +84,9 @@ public class RequestAnswerService extends BaseService {
 			requestAnswerRequest.setSelectedFilter(request.getSelectedFilter());
 			requestAnswerRequest.setUsername(credentials[0]);
 			requestAnswerRequest.setPassword(credentials[1]);
+			requestAnswerRequest.setLocale("en-US");
 			LOGGER.debug("RequestAnswerRequest: " + requestAnswerRequest);
-
+			
 			// Suggest Content
 			requestAnswerDAO.suggestContent(requestAnswerRequest);
 		} catch (AppException ae) {

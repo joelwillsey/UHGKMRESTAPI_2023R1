@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.GetNewOrChangedContentResponseBodyType;
 import com.kana.contactcentre.services.model.RequestAnswerV1Service_wsdl.RequestAnswerRequestBodyType;
 import com.kana.contactcentre.services.model.RequestAnswerV1Service_wsdl.RequestAnswerResponseBodyType;
 import com.verint.services.km.errorhandling.AppException;
