@@ -141,15 +141,23 @@ $(document).ready(function() {
     	var kTagsParameterStrings = $.fn.getParameterByName('tags').split(",");
     	$.fn.bookmark(page, size, kTagsParameterStrings[1]);
 	});
-
+    
     // Featured Content button
 	$('#tab-featured-button').on('click', function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('featured');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
-    	var kTagsParameterStrings = $.fn.getParameterByName('tags').split(",");
+    	var kTagsParameterStrings = $.fn.getAllTags().split(',');
+    	kTagsParameterStrings = kTagsParameterStrings.filter(function (tags) {
+    		  return tags != "";
+    	});
+    	$.each(kTagsParameterStrings, function(i, val) {
+    	    if(val.indexOf('kbase_') >=0 ) {
+    	    	kTagsParameterStrings = val;
+    	    }
+    	});
     	
-    	$.fn.featured(page, size, kTagsParameterStrings[1]);
+    	$.fn.featured(page, size, kTagsParameterStrings);
 	});
 
 	// New or Changed Button button

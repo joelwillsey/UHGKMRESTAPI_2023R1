@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kana.contactcentre.services.model.SearchV1Service_wsdl.SharedTextSearchResponseBodyType;
 import com.verint.services.km.dao.SearchDAO;
 import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
