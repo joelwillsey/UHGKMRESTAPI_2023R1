@@ -69,6 +69,59 @@ $(document).ready(function() {
 		$(".dpui-widget").trigger("dpui:runSearch");
 	});
 
+	$('#search-button').focusin(function() {
+		$('#typeahead-container').removeClass('result');
+		$('#typeahead-container').removeClass('backdrop');
+	});
+
+	// Method added to drop the autosuggest pop up when we click off of it.
+	$.typeahead({
+	    input: '.search_text',
+	    minLength: 1,
+	    order: "asc",
+	    dynamic: true,
+	    delay: 200,
+	    backdrop: {
+	        "background-color": "#fff"
+	    },
+	    source: {
+	        "suggestion": {
+	            display: "suggestion",
+	            data: [{
+	                "suggestion": ""
+	            }],
+	            ajax: function (query) {
+	                return {
+	                    type: "GET",
+	                    contentType : 'application/json',
+	                    url: "/searchservices/km/autocomplete/suggest",
+	                    dataType : 'json',
+	                    path: "suggestion",
+	            		beforeSend : function(jqXHR, settings) {
+	            			$.fn.setupHeader(jqXHR);
+	            		},
+	                    data: {
+	                        text: "{{query}}"
+	                    },
+	                    callback: {
+	                        done: function (data) {
+	                        	log(data);
+	                            return data;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    },
+	    callback: {
+	        onClick: function (node, a, item, event) {
+	            // You can do a simple window.location of the item.href
+//	            alert(JSON.stringify(item));
+	        }
+	    },
+	    debug: true
+	});
+
 	// Alert button
     $('#tab-alert-button').on('click', function() {
     	$.fn.toggleMenu(this);
@@ -171,10 +224,8 @@ $(document).ready(function() {
 	// Catch enter key; call the search service
 	$(document).keydown( function(event) {
 		if (event.which === 13){
-			if ($liSelected == undefined || !$liSelected.hasClass('selected')) {
-					$.fn.toggleMenu($('#tab-search-button'));
-					$(".dpui-widget").trigger("dpui:runSearch");
-			}
+			$.fn.toggleMenu($('#tab-search-button'));
+			$(".dpui-widget").trigger("dpui:runSearch");
 		}
 	});
 
@@ -192,8 +243,7 @@ $(document).ready(function() {
 
 	// Featured Content Service
 	$.fn.featured = function(page, size, tags) {
-		jQuery.ajaxSetup({async:false});
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
+		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
 			
 			//super janky filter to make up for the fact that the soap call hasnt been fixed
 			var newData = jQuery.extend(true, {}, data);
@@ -211,41 +261,34 @@ $(document).ready(function() {
 			
 			$.fn.sendToResults('Featured Content', newData);
 		});
-		jQuery.ajaxSetup({async:true});
 	}
 
 	// New or Changed Service
 	$.fn.newOrChanged = function(page, size, kbase) {
-		jQuery.ajaxSetup({async:false});
-        $.fn.serviceCall('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, SEARCH_SERVICE_TIMEOUT, function(data) {
+        $.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, SEARCH_SERVICE_TIMEOUT, function(data) {
         	$.fn.sendToResults('New or Changed', data);
         });
-        jQuery.ajaxSetup({async:true});
 	}
 
 	// Bookmark function
 	$.fn.bookmark = function(page, size, tags) {
-		jQuery.ajaxSetup({async:false});
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
+		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
 			$.fn.sendToResults('My Bookmarks', data);
 		});
-		jQuery.ajaxSetup({async:true});
 	}
 
 	// Search function
 	$.fn.search = function(search_text, page, size, tags, categories, sort, publishedid, callBack) {
 		$.fn.populateURL(search_text, page, size, tags, categories, sort, publishedid, callBack);
-		jQuery.ajaxSetup({async:false});
-		$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
-		jQuery.ajaxSetup({async:true});
+		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
 	}
 	
 	$.fn.populateURL = function(search_text, page, size, tags, categories, sort, publishedid, callBack) {
-		// Deals with the '&' character that messes things up
-		search_text = search_text.replace("&", "and");
-		
 		if (typeof search_text === 'undefined' || search_text === null || search_text ==='') {
 			search_text = '';
+		} else {
+			// Deals with the '&' character that messes things up
+			search_text = search_text.replace("&", "and");			
 		}
 		if (typeof tags != 'undefined' && tags != null && tags != '') {
 				tags = tags;
@@ -350,6 +393,8 @@ $(document).ready(function() {
                 		$.fn.sendToResults('Search', data);
                 	});
                 } else {
+                	search_text = '*';
+                	$('#search-text').val(search_text);
                 	$.fn.search(search_text, page, size, filterTags, contentTypeTags, '', publishedid, function(data) {
                 		$.fn.sendToResults('Search', data);
                 	});

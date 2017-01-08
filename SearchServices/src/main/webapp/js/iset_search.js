@@ -74,6 +74,59 @@ $(document).ready(function() {
     	});
 	});
 
+	$('#search-button').focusin(function() {
+		$('#typeahead-container').removeClass('result');
+		$('#typeahead-container').removeClass('backdrop');
+	});
+
+	// Method added to drop the autosuggest pop up when we click off of it.
+	$.typeahead({
+	    input: '.search_text',
+	    minLength: 1,
+	    order: "asc",
+	    dynamic: true,
+	    delay: 200,
+	    backdrop: {
+	        "background-color": "#fff"
+	    },
+	    source: {
+	        "suggestion": {
+	            display: "suggestion",
+	            data: [{
+	                "suggestion": ""
+	            }],
+	            ajax: function (query) {
+	                return {
+	                    type: "GET",
+	                    contentType : 'application/json',
+	                    url: "/searchservices/km/autocomplete/suggest",
+	                    dataType : 'json',
+	                    path: "suggestion",
+	            		beforeSend : function(jqXHR, settings) {
+	            			$.fn.setupHeader(jqXHR);
+	            		},
+	                    data: {
+	                        text: "{{query}}"
+	                    },
+	                    callback: {
+	                        done: function (data) {
+	                        	log(data);
+	                            return data;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    },
+	    callback: {
+	        onClick: function (node, a, item, event) {
+	            // You can do a simple window.location of the item.href
+//	            alert(JSON.stringify(item));
+	        }
+	    },
+	    debug: true
+	});
+
 	// Alert button
     $('#tab-alert-button').on('click', function() {
     	$.fn.toggleMenu(this);

@@ -1,8 +1,6 @@
 var pageSelected;
 var sortBy;
 var query;
-//List item global variable for the autosuggest feature.
-var $liSelected;
 
 $(document).ready(function() {
 
@@ -529,127 +527,6 @@ $(document).ready(function() {
 	        $.widget.prototype.destroy.apply(this, arguments);
 	    },
 	});
-	
-	  
-    /*
-    ** AutoSuggest SOLR features and methods.
-    */
-	
-	 // Auto suggest features and listeners.
-	$("#search-text").on('keyup', function(e){
-		
-		// Added a key listener for the up or down buttons. Otherwise types out the wording.
-		if (e.which === 38){
-			// Up arrow detected.
-			if($liSelected){
-				$liSelected.removeClass('selected');
-				var $previousLi = $liSelected.prev();
-				
-				if($previousLi.length) {
-					$liSelected = $previousLi.addClass('selected');
-				}else{
-					$liSelected = $("#autoSuggest").children('li').last().addClass('selected');
-				}
-			}else{
-				$liSelected = $("#autoSuggest").children('li').last().addClass('selected');
-			}
-			return false;
-		}else if (e.which === 40){
-			// Down arrow detected.
-			if($liSelected){
-				$liSelected.removeClass('selected');
-				var $nextLi = $liSelected.next();
-				
-				if($nextLi.length) {
-					$liSelected = $nextLi.addClass('selected');
-				}else{
-					$liSelected = $("#autoSuggest").children('li').first().addClass('selected');
-				}
-			}else{
-				$liSelected = $("#autoSuggest").children('li').first().addClass('selected');
-			}
-			return false;
-		}else if(e.which === 13){
-			if ($liSelected){
-				$liSelected.trigger("click");
-			}
-		}else{
-
-			// Quick and easy delay function so that this doesn't pop up right away.
-			var delay = (function(){
-				  var timer = 0;
-				  return function(callback, ms){
-				    clearTimeout (timer);
-				    timer = setTimeout(callback, ms);
-				  };
-				})();
-			
-			// Calls half second delay between the key up trigger, in order to not interupt people typing.
-			delay(function(){
-				
-				// Pulls in the last word in the search, and passes to the search.
-				var words =  $("#search-text").val();
-				//.split(' ');
-				var searchText = words.trim().toLowerCase();
-				//[words.length - 1];
-				
-				// Checks that the length of the term is more than 2 letters, making it easier to identify. 
-				if( searchText.length >= 2){
-					
-					// Call on the autocomplete auto suggest service, that brings back the top 3 words to auto suggest.
-					$.fn.serviceCallNoSpin('GET', '', searchServiceName + 'km/autocomplete/suggest?text=' + searchText , SEARCH_SERVICE_TIMEOUT, function(data) {
-						var finalURL = "";
-						
-						// Populate the new html that will be a part of this popup.
-						for(var i = 0; i < data.suggestion.length; ++i){
-								var autoSuggestHTML = "<li id=\"autoSuggestItem"+i+"\" onclick=$.fn.suggestedTextSelected(\'" + encodeURI(data.suggestion[i]) + "\');>"+ data.suggestion[i] +"</li>";
-								finalURL += autoSuggestHTML +"\n";
-						}
-						
-						// Takes the newly created list of <a> tags and populates the html with them.
-						$("#autoSuggest").html(finalURL);
-					});
-					
-					// Displays or hides the popup.
-					$("#autoSuggest").show();
-				} else {
-					$("#autoSuggest").hide();
-				}
-			},500);
-		}
-	});
-	
-	$("#autoSuggest li").hover(function(){
-		var test = "";
-	});
-	
-	// Method added to drop the autosuggest pop up when we click off of it. 
-	$(document).click(function() {
-		$("#autoSuggest").hide();
-		if ($liSelected != undefined){
-			$liSelected.removeClass('selected');
-		}
-	});
-	
-	// Method called when we select an auto suggestion to change the text in our search text field.
-	$.fn.suggestedTextSelected = function(selectedText ) {
-		var string = encodeURI(selectedText);
-		$("#search-text").val(decodeURI(selectedText));
-		$("#autoSuggest").hide();
-	}
-	
-	$(".auto-suggest-content").on({	
-		mouseenter: function () {
-			if ($liSelected != undefined){
-				$liSelected.removeClass('selected');
-				$liSelected = $(this);
-			}
-			$(this).addClass("selected");
-		},
-		mouseleave: function () {
-			$(this).removeClass("selected");
-		}
-	}, 'li');
 
 	// Send out a "ping" to other widgets
 	$.ui.ajaxStatus({}, $("<div></div>").appendTo("body"));

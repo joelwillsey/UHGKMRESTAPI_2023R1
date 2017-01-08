@@ -2,11 +2,10 @@
 
 html { }
 div { display: block; }
-ol, ul { list-style: none; margin: 0;}
+ol, ul { margin: 0;}
 ul li { margin: 0; padding: 0;}
 h1 { margin-bottom: 10px; color: #111111;}	
 a, img { outline: none; border:none; color: #000;}
-p { margin: 0 0 10px; line-height: 1.4em; font-size: 1.2em;}
 img { display: block; margin-bottom: 10px;}
 aside { font-style: italic; font-size: 0.9em;}
 article, aside, details, figcaption, figure,
@@ -40,12 +39,7 @@ h4 {
 				display: none;
 			}
 		.search_box {
-		    border: 1px solid #a2a2a2;
-		    border-radius: 3px;
-		    display: block;
-		    height: auto;
-		    position: relative;
-		    width: auto;
+			padding-bottom: 5px;
 		}
 			.search_text {
     			background-color: transparent;
@@ -55,7 +49,6 @@ h4 {
     			color: #232221;
 			    cursor: auto;
 		    	font-size: 12px;
-			    height: auto !important;
     			line-height: normal;
 			    margin: 0;
     			min-height: 14px;
@@ -229,10 +222,12 @@ h4 {
 	border: none;
 	padding: 0px;
 }
+	.search_box {
+		padding-left: 5px;
+		padding-right: 5px;
+	}
 	.search_box button {
-		line-height: 30px;
-		padding: 21px 0px;
-		width: 60px;
+		padding-left: 5px;
 	}
 	.search a.search_menu_toggle {
 	   	border: 1px solid #c7c7c7;

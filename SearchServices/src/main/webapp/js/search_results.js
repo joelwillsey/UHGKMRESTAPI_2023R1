@@ -1,8 +1,6 @@
 var pageSelected;
 var sortBy;
 var query;
-//List item global variable for the autosuggest feature.
-var $liSelected;
 
 $(document).ready(function() {
 
@@ -139,7 +137,7 @@ $(document).ready(function() {
 		window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchDTContent = function(data) {
-		window.open (contentServiceName + 'content_container.html?dt=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
+		window.open (contentServiceName + 'content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchViewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
 		var passedUrl = 'contentId=' + encodeURIComponent(contentId) + '&url=' + encodeURIComponent(url) + '&isFeatured=' + isFeatured + '&averageRating=' + averageRating;
@@ -255,7 +253,12 @@ $(document).ready(function() {
 	// Setup results links
 	$.fn.setupResultsLinks = function(data, results) {
 		results.push('<article>');
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		// Check for a decision tree or not
+		if (data.contentType === 'pageSet') {
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		} else {
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		}
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {
@@ -332,7 +335,7 @@ $(document).ready(function() {
 					results.push('		</a>');
 					results.push('	  </div>');
 					results.push('	  <div style="padding: 18px 6px 12px;">');
-					if (typeof data.suggestedQueries[i].knowledgeGroupUnits != 'undefined' && data.suggestedQueries[i].knowledgeGroupUnits != null && data.suggestedQueries[i].knowledgeGroupUnits.length > 0) {
+					if (data != null && data.suggestedQueries[i] != null && typeof data.suggestedQueries[i].knowledgeGroupUnits != 'undefined' && data.suggestedQueries[i].knowledgeGroupUnits != null && data.suggestedQueries[i].knowledgeGroupUnits.length > 0) {
 						// Loop through the results
 						for (var i=0;(data.suggestedQueries[i].knowledgeGroupUnits != null) && (i < data.suggestedQueries[i].knowledgeGroupUnits.length); i++) {
 							if (data.suggestedQueries[i].knowledgeGroupUnits[i].knowledgeUnits != null && data.suggestedQueries[i].knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
@@ -547,127 +550,6 @@ $(document).ready(function() {
 	        $.widget.prototype.destroy.apply(this, arguments);
 	    },
 	});
-	
-	  
-    /*
-    ** AutoSuggest SOLR features and methods.
-    */
-	
-	 // Auto suggest features and listeners.
-	$("#search-text").on('keyup', function(e){
-		
-		// Added a key listener for the up or down buttons. Otherwise types out the wording.
-		if (e.which === 38){
-			// Up arrow detected.
-			if($liSelected){
-				$liSelected.removeClass('selected');
-				var $previousLi = $liSelected.prev();
-				
-				if($previousLi.length) {
-					$liSelected = $previousLi.addClass('selected');
-				}else{
-					$liSelected = $("#autoSuggest").children('li').last().addClass('selected');
-				}
-			}else{
-				$liSelected = $("#autoSuggest").children('li').last().addClass('selected');
-			}
-			return false;
-		}else if (e.which === 40){
-			// Down arrow detected.
-			if($liSelected){
-				$liSelected.removeClass('selected');
-				var $nextLi = $liSelected.next();
-				
-				if($nextLi.length) {
-					$liSelected = $nextLi.addClass('selected');
-				}else{
-					$liSelected = $("#autoSuggest").children('li').first().addClass('selected');
-				}
-			}else{
-				$liSelected = $("#autoSuggest").children('li').first().addClass('selected');
-			}
-			return false;
-		}else if(e.which === 13){
-			if ($liSelected){
-				$liSelected.trigger("click");
-			}
-		}else{
-
-			// Quick and easy delay function so that this doesn't pop up right away.
-			var delay = (function(){
-				  var timer = 0;
-				  return function(callback, ms){
-				    clearTimeout (timer);
-				    timer = setTimeout(callback, ms);
-				  };
-				})();
-			
-			// Calls half second delay between the key up trigger, in order to not interupt people typing.
-			delay(function(){
-				
-				// Pulls in the last word in the search, and passes to the search.
-				var words =  $("#search-text").val();
-				//.split(' ');
-				var searchText = words.trim().toLowerCase();
-				//[words.length - 1];
-				
-				// Checks that the length of the term is more than 2 letters, making it easier to identify. 
-				if( searchText.length >= 2){
-					
-					// Call on the autocomplete auto suggest service, that brings back the top 3 words to auto suggest.
-					$.fn.serviceCallNoSpin('GET', '', searchServiceName + 'km/autocomplete/suggest?text=' + searchText , SEARCH_SERVICE_TIMEOUT, function(data) {
-						var finalURL = "";
-						
-						// Populate the new html that will be a part of this popup.
-						for(var i = 0; i < data.suggestion.length; ++i){
-								var autoSuggestHTML = "<li id=\"autoSuggestItem"+i+"\" onclick=$.fn.suggestedTextSelected(\'" + encodeURI(data.suggestion[i]) + "\');>"+ data.suggestion[i] +"</li>";
-								finalURL += autoSuggestHTML +"\n";
-						}
-						
-						// Takes the newly created list of <a> tags and populates the html with them.
-						$("#autoSuggest").html(finalURL);
-					});
-					
-					// Displays or hides the popup.
-					$("#autoSuggest").show();
-				} else {
-					$("#autoSuggest").hide();
-				}
-			},2000);
-		}
-	});
-	
-	$("#autoSuggest li").hover(function(){
-		var test = "";
-	});
-	
-	// Method added to drop the autosuggest pop up when we click off of it. 
-	$(document).click(function() {
-		$("#autoSuggest").hide();
-		if ($liSelected != undefined){
-			$liSelected.removeClass('selected');
-		}
-	});
-	
-	// Method called when we select an auto suggestion to change the text in our search text field.
-	$.fn.suggestedTextSelected = function(selectedText ) {
-		var string = encodeURI(selectedText);
-		$("#search-text").val(decodeURI(selectedText));
-		$("#autoSuggest").hide();
-	}
-	
-	$(".auto-suggest-content").on({	
-		mouseenter: function () {
-			if ($liSelected != undefined){
-				$liSelected.removeClass('selected');
-				$liSelected = $(this);
-			}
-			$(this).addClass("selected");
-		},
-		mouseleave: function () {
-			$(this).removeClass("selected");
-		}
-	}, 'li');
 
 	// Send out a "ping" to other widgets
 	$.ui.ajaxStatus({}, $("<div></div>").appendTo("body"));
