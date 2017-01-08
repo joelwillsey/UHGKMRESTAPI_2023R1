@@ -116,6 +116,7 @@ $(document).ready(function() {
 		}
 		var sPageURL = decodeURIComponent(window.location.search.substring(1));
 		$('.dpui-widget').trigger("dpui:viewContent", packagedData);
+		//$.fn.autoOpenRemoteDoc();
 	}
 	$.fn.viewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
     	var packagedData = [];
