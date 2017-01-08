@@ -23,7 +23,7 @@ $(document).ready(function() {
 						postObject.push('{"contentId":"' + contentId + '"'); 
 						postObject.push(',"comment":"' + $('#feedback-comment').val() + '"');
 						postObject.push(',"notification":"' + notification + '"');
-						postObject.push(',"locale":"' + 'en-GB' + '"');
+						postObject.push(',"locale":"' + 'en-US' + '"');
 						postObject.push(',"feedbackCodeID":' + feedbackCode);
 						postObject.push(',"rating":' + rating);
 						postObject.push(',"viewID":"' + viewID + '"');
@@ -40,12 +40,12 @@ $(document).ready(function() {
 					postObject.push('{"contentId":"' + contentId + '"'); 
 					postObject.push(',"comment":"' + $('#feedback-comment').val() + '"');
 					postObject.push(',"notification":"' + notification + '"');
-					postObject.push(',"locale":"' + 'en-GB' + '"');
+					postObject.push(',"locale":"' + 'en-US' + '"');
 					postObject.push(',"feedbackCodeID":' + feedbackCode);
 					postObject.push(',"rating":' + rating);
 					postObject.push(',"viewID":"' + viewID + '"');
 					postObject.push(',"email":"' + '' + '"');
-					postObject.push(',"name":"' + name + '"}');
+					postObject.push(',"name":"' + '' + '"}');
 				$.fn.submitFeedback(postObject.join('\n'), $.fn.feedbackCallback);
 				postObject.length = 0; // Clear the array
 			}
