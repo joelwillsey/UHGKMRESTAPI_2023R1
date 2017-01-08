@@ -3,7 +3,6 @@
 <head>
 	<title>Verint Knowledge</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="viewport" content="width=device-width, minimumscale=1.0, maximum-scale=1.0" />
 	<link media="screen" type="text/css" href="css/ionicons.min.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/jquery-ui/11.4.1/jquery-ui.min.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/common.css" rel="stylesheet"/>
@@ -13,6 +12,7 @@
 	<link media="screen" type="text/css" href="/searchservices/css/search_results.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/searchservices/css/request_answer.css" rel="stylesheet" />
 	<link media="screen" type="text/css" href="/searchservices/css/manage_bookmarks.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="/searchservices/css/jquery.typeahead.css" rel="stylesheet"/>	
 	<link media="screen" type="text/css" href="/filterservices/css/filters.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/filterservices/css/add_filter.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/contentservices/css/responsive-tables.css" rel="stylesheet"/>
@@ -39,9 +39,9 @@
 		var CONTENT_SERVICE_TIMEOUT = 41000;
 		var NEW_OR_CHANGED_SERVICE_TIMEOUT = 21000;
 		var BOOKMARK_SERVICE_TIMEOUT = 21000;
-		var SEARCH_SERVICE_TIMEOUT = 41000;
-		//var decisionTreeUrl = 'http://localhost:8280/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
-		var decisionTreeUrl = 'http://apsrd3274:8180/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
+		var SEARCH_SERVICE_TIMEOUT = 120000;
+		var decisionTreeUrl = 'http://localhost:8280/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
+		//var decisionTreeUrl = 'http://apsrd3274:8180/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
 		var historyPushEnabled = true;
 		var defaultTitle = 'Verint Knowledge Management';
 
@@ -69,6 +69,7 @@
 	<script type='text/javascript' src="/searchservices/js/search_results.js"></script>
 	<script type='text/javascript' src="/searchservices/js/request_answer.js"></script>
 	<script type='text/javascript' src="/searchservices/js/manage_bookmarks.js"></script>
+	<script type='text/javascript' src="/searchservices/js/jquery.typeahead.js"></script>
 	<script type='text/javascript' src="/filterservices/js/browse_widget.js"></script>
 	<script type='text/javascript' src="/filterservices/js/filters.js"></script>
 	<script type='text/javascript' src="/filterservices/js/add_filter.js"></script>
@@ -134,14 +135,20 @@
 <!-- Begin Search Widget -->
 	<section class="search_container">
 		<section class="search">
-			<div id="search-wrapper" class="search_wrapper">
+			<div id="search-wrapper" class="">
 				<div class="search_box">
-					<div class="dropdown">
-						<input id="search-text" class="search_text" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
-						<ul id="autoSuggest" class="auto-suggest-content">
-						</ul>
-					</div>
-					<button id="search-button" class="search_button"></button>
+    				<div id="typeahead-container" class="typeahead__container">
+        				<div class="typeahead__field">
+            				<span class="typeahead__query">
+            					<input id="search-text" class="search_text" autocomplete="off" type="search" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
+            				</span>
+				            <span class="typeahead__button">
+				            	<button id="search-button" class="" tabindex="2" type="submit">
+				            		<i class="typeahead__search-icon"></i>
+				            	</button>
+				            </span> 
+        				</div>
+    				</div>
 				</div>
 			</div>
 			<nav id="search-menu" class="search_menu">
@@ -1019,7 +1026,14 @@
 	// Help button
 	$('#widget-help').on('click', function () {
 		window.open('http://www.verint.com/', '_blank');
-	})
+	});
+
+	// On any click remove typeahead
+	$('body').click(function() {
+		log('body.click()')
+		$('#typeahead-container').removeClass('result');
+		$('#typeahead-container').removeClass('backdrop');
+	});
 
 </script>
 </html>

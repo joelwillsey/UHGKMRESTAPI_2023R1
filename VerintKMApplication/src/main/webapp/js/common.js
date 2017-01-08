@@ -22,13 +22,28 @@ $.fn.errorButtonFunc = function() {
 
 // Show the spinner
 $.fn.setupSpinner = function() {
+	log('setupSpinner');
 	$('#background').addClass('background_on');
 	$('#overlay-back').addClass('overlay_back_on');
+//	if (typeof document.getElementById("overlay-back") != 'undefined' && document.getElementById("overlay-back") != null) {
+//		document.getElementById("overlay-back").style.display = "block";
+//	}
+//	if (typeof document.getElementById("background") != 'undefined' && document.getElementById("background") != null) {
+//		document.getElementById("background").style.display = "block";
+//	}
 }
+
 // Disable spinner
 $.fn.disableSpinner = function() {
+	log('disableSpinner');
 	$('#background').removeClass('background_on');
 	$('#overlay-back').removeClass('overlay_back_on');
+//	if (typeof document.getElementById("overlay-back") != 'undefined' && document.getElementById("overlay-back") != null) {
+//		document.getElementById("overlay-back").style.display = "none";
+//	}
+//	if (typeof document.getElementById("background") != 'undefined' && document.getElementById("background") != null) {
+//		document.getElementById("background").style.display = "none";
+//	}
 }
 
 // Handle the error(s) in a uniform way
@@ -69,6 +84,7 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 		dataType : 'json',
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
+			log('beforeSend');
 			$.fn.setupHeader(jqXHR);
 			$.fn.setupSpinner();
 		},
@@ -101,6 +117,59 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 	}).then(function(data) {
 		$.fn.disableSpinner();
 	}).responseJSON;
+}
+
+//Service call function
+$.fn.serviceCallAsyncFalse = function(type, data, url, timeout, successCallback) {
+	$.fn.setupSpinner();
+	// enable this when posting to server
+    setTimeout(function () { 
+    	// Call the search service
+    	$.ajax({
+    		async: false,
+    		type : type,
+    		contentType : 'application/json',
+    		data : data,
+    		url : url,
+    		dataType : 'json',
+    		timeout : timeout,
+    		beforeSend : function(jqXHR, settings) {
+    			log('beforeSend');
+    			$.fn.setupHeader(jqXHR);
+    		},
+    		success : function(data, textStatus, jqXHR) {
+    			// Send response headers
+    			$.fn.interrogateResponse(jqXHR.getAllResponseHeaders());
+    			successCallback(data);
+    			$.fn.disableSpinner();
+    		},
+    	    complete: function () {
+    	    	$.fn.disableSpinner();
+    	    },    
+    		error : function(jqXHR, textStatus, errorThrown) {
+    			$.fn.handleError(jqXHR, textStatus, errorThrown);
+    			$.fn.disableSpinner();
+    		},
+    		statusCode : {
+    			// Authentication error code
+    			401 : function(jqXHR, textStatus, errorThrown) {
+    				$.fn.disableSpinner();
+    				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+    			},
+    			// Authorization error code
+    			403 : function(jqXHR, textStatus, errorThrown) {
+    				$.fn.disableSpinner();
+    				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+    			},
+    			// Not found error code
+    			404 : function(jqXHR, textStatus, errorThrown) {
+    				$.fn.disableSpinner();
+    				$.fn.handleError(jqXHR, textStatus, errorThrown);
+    			}
+    		},
+    	}).then(function(data) {
+    	}).responseJSON;
+    }, 500);
 }
 
 //Service call function with no spinner
