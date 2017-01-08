@@ -2,7 +2,6 @@
 
 html { }
 a { outline: none; border:none; color: #000;}
-p { margin: 0 0 10px; line-height: 1.4em; font-size: 1.2em;}
 img { display: block; margin-bottom: 10px;}
 aside { font-style: italic; font-size: 0.9em;}
 h4 {
@@ -108,9 +107,8 @@ button {
 			font-weight: 400;
 			font-size: 18px;
 			line-height: 19px;
-			padding-left: 5px;
 			vertical-align: middle;
-			width: 70%;
+			width: 82%;
 		}
 	.content_header_middle {
 		display: inline-block;
@@ -439,23 +437,38 @@ button {
 				padding-right: 18px;
 			}
 		.content_body_field_data {
+			font-family: "OpenSans",Arial,sans-serif;
+			line-height: normal;
+			white-space: normal;
+			visibility: visible;
 		}
+			.content_body_field_data p {
+				overflow-wrap: break-word;
+				margin: 0px;
+			}
 			.content_body_field_data a {
 				text-decoration: none;
 				display: inline-flex;
+			}			
+			.content_body_field_data strong {
+			    color: #000;
+			    font-weight: bold;
 			}
+				.GTFormParagraghListSelect {
+    				cursor: pointer;
+				}
 				.content_body_field_data a:link, .content_body_field_data a:visited {
-    				color: #2f5b88;
-    				text-decoration: none;
+    				color: #0099cc;
+    				text-decoration: underline;
 				}
 				.content_body_field_data a:hover {
 					text-decoration: underline;
 				}	
-			.content_body_field_data ol{
-				 list-style-type: decimal;
+			.content_body_field_data ol {
+				 /* list-style-type: decimal; */
 			}
 			.content_body_field_data ul{
-				 list-style-type: disc;
+				 /* list-style-type: disc; */
 			}		
 		.content_body_field_resuable_related_content {
 			display: inline-block;
@@ -554,7 +567,7 @@ button {
 				}
 
 	a.content_body_form_paragraph:link, a.content_body_form_paragraph:visited {
-    	color: #09c;
+    	color: #0099cc;
     	cursor: pointer;
 	}
 	.content_body_field_tags {
@@ -661,6 +674,26 @@ button {
 		display: inline-block;
 	}
 /* End Content Body Fields */
+
+
+.fitParent, .GTFill {
+    white-space: normal;
+}
+.richTextViewer {
+    line-height: normal;
+}
+table {
+    border-collapse: collapse;
+}
+*::-moz-placeholder {
+    font-size: 12px;
+    font-style: italic;
+    line-height: 17px;
+    text-indent: 4px;
+}
+*::-moz-placeholder {
+    color: #a2a2a2;
+}
 
 /* Media Queries */
 @media screen and (min-width: 1025px) {
