@@ -13,6 +13,8 @@
 		var jsonDate = JSON.stringify(searchDate);
 		var expectation = $('#request-answer-expectation').val();
 		if(!keyword) keyword = " ";
+		$('#request-answer-query').val('');
+		$('#request-answer-expectation').val('');
 		if (expectation === '') {
 			$.fn.throwError('Fields cannot be empty.');
 		} else {
@@ -27,6 +29,8 @@
 
 	// Cancel button
 	$.fn.requestAnswerCancel = function() {
+		$('#request-answer-query').val('');
+		$('#request-answer-expectation').val('');
 		$('#request-answer-widget').html($('#popup').html());
 		$('#background').removeClass('background_on');
 		$('#popup').removeClass('popup_on');
