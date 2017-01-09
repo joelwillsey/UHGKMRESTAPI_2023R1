@@ -195,6 +195,11 @@ $(document).ready(function() {
 					links.push('<li><a class="content_skipto_links_field" href="#content-' + "URLInformation" + '">' + "URL Information" + '</a></li>');
 					links.push('<div class="content_skipto_links_divider">|</div>');			
 		}
+		// URL Information - Remote Documents
+		if (typeof data.customFields != 'undefined' && data.customFields != null && data.customFields.length > 0 && data.contentCategory == "content_uploadeddocument") {				
+					links.push('<li><a class="content_skipto_links_field" href="#content-' + "File Information" + '">' + "File Information" + '</a></li>');
+					links.push('<div class="content_skipto_links_divider">|</div>');			
+		}
 		// TagSets
 		if (typeof data.tagSets != 'undefined' && data.tagSets.length > 0) {
 			links.push('<li><a class="content_skipto_links_field" href="#content-tags">Tags</a></li>');
@@ -213,10 +218,15 @@ $(document).ready(function() {
 				//Supress the remote document custom fields, they are special cases
 				if (!(data.contentCategory == "content_remotedocument" && data.customFields[x].name == "url") &&
 						!(data.contentCategory == "content_remotedocument" && data.customFields[x].name == "urlDescription") &&
-						!(data.contentCategory == "content_remotedocument" && data.customFields[x].name == "file")){
+						!(data.contentCategory == "content_remotedocument" && data.customFields[x].name == "file") &&
+						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "file") &&
+						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "fileDescription") &&
+						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "File Information")){
 					if (data.customFields[x].name == "keywords"){
 					links.push('<li><a class="content_skipto_links_field" href="#content-' + data.customFields[x].name + '">' + "Watchwords" + '</a></li>');
-					} else {
+					} else if (data.customFields[x].name == "referenceName") {
+						links.push('<li><a class="content_skipto_links_field" href="#content-' + data.customFields[x].name + '">' + "Reference Name" + '</a></li>');
+					}else {					
 						links.push('<li><a class="content_skipto_links_field" href="#content-' + data.customFields[x].name + '">' + data.customFields[x].name + '</a></li>');
 					}
 					links.push('<div class="content_skipto_links_divider">|</div>');
@@ -289,6 +299,9 @@ $(document).ready(function() {
     	
     	// Setup Remote Document Fields
     	contentBody = $.fn.setupCustomFieldsRemoteDocuments(data, contentBody);
+    	
+    	// Setup Uploaded Document Fields
+    	contentBody = $.fn.setupCustomFieldsUploadedDocuments(data, contentBody);
 
     	// Setup Tags
     	contentBody = $.fn.setupTags(data, contentBody);
@@ -554,12 +567,17 @@ $(document).ready(function() {
 				//need to exclude the "url", "urlDescription" and file fields for content_remotedocument as they are handled in setupCustomFieldsRemoteDocuments
 				if (!(data.contentCategory == "content_remotedocument" && data.customFields[i].name == "url") &&
 						!(data.contentCategory == "content_remotedocument" && data.customFields[i].name == "urlDescription") &&
-						!(data.contentCategory == "content_remotedocument" && data.customFields[i].name == "file")){
+						!(data.contentCategory == "content_remotedocument" && data.customFields[i].name == "file") &&
+						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "file") &&
+						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "fileDescription") &&
+						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "File Information")){
 					contentBody.push('<section id="content-' + data.customFields[i].name + '" class="content_body_field custom_field">');
 					contentBody.push('  <div class="content_body_field_label">');
 					if (data.customFields[i].name == "keywords"){
 						contentBody.push('    <label class="custom">' + "Watchwords" + '</label>');
-						}	else {						
+						} else if (data.customFields[i].name == "referenceName"){
+						contentBody.push('    <label class="custom">' + "Reference Name" + '</label>');
+						} else {						
 								contentBody.push('    <label class="custom">' + data.customFields[i].name + '</label>');
 								}			
 					contentBody.push('  </div>');
@@ -610,6 +628,33 @@ $(document).ready(function() {
 			}
 			contentBody.push('  </div>');
 			contentBody.push('</section>');
+		}
+		return contentBody;
+    }
+    
+    $.fn.setupCustomFieldsUploadedDocuments = function(data, contentBody) {
+		if (typeof data.customFields != 'undefined' && 
+				data.customFields != null && 
+				 data.customFields.length > 0 && 
+				 data.contentCategory == "content_uploadeddocument")
+		{
+			for (var i = 0; i < data.customFields.length; i++) {
+				//need to exclude the "url", "urlDescription" and file fields for content_remotedocument as they are handled in setupCustomFieldsRemoteDocuments
+				if (data.customFields[i].name == "File Information") {
+					contentBody.push('<section id="content-' + data.customFields[i].name + '" class="content_body_field custom_field">');
+					contentBody.push('  <div class="content_body_field_label">');
+					if (data.customFields[i].name == "keywords"){
+						contentBody.push('    <label class="custom">' + "Watchwords" + '</label>');
+						}	else {						
+								contentBody.push('    <label class="custom">' + data.customFields[i].name + '</label>');
+								}			
+					contentBody.push('  </div>');
+					contentBody.push('  <div class="content_body_field_custom_data">');
+					contentBody.push(data.customFields[i].data);
+					contentBody.push('  </div>');
+					contentBody.push('</section>');
+					}
+			}
 		}
 		return contentBody;
     }
