@@ -866,7 +866,7 @@ $(document).ready(function() {
 		// This is a Decision Tree
     	// Show the content
 		$.fn.setupContentWidget(); // Some bug w/ browsers where I need to call this
-		var inlineHtml = '<iframe src="' + decisionTreeUrl + query + '" style="width: 100%; height: 100%;"/>';
+		var inlineHtml = '<iframe src="' + decisionTreeUrl + query + '" style="width: 1030px; height: 850px;"/>';
 		$('#content-decision-tree').css('display', 'block');
 		$('#content-decision-tree').css('width', '100%');
 		$('#content-decision-tree').css('height', '100%');
