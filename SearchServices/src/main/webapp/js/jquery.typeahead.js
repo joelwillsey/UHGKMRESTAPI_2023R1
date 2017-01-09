@@ -43,7 +43,7 @@
      */
     var _options = {
         input: null,
-        minLength: 2,           // Modified feature, now accepts 0 to search on focus
+        minLength: 1,           // Modified feature, now accepts 0 to search on focus
         maxItem: 8,             // Modified feature, now accepts 0 as "Infinity" meaning all the results will be displayed
         dynamic: false,
         delay: 300,
@@ -715,7 +715,8 @@
             if (!this.helper.isEmpty(this.xhr)) {
                 for (var i in this.xhr) {
                     if (!this.xhr.hasOwnProperty(i)) continue;
-                    this.xhr[i].abort();
+                    console.log('abort being called');
+                    //this.xhr[i].abort();
                 }
                 this.xhr = {};
             }
@@ -2001,7 +2002,7 @@
             if (!this.backdrop.container) {
                 this.backdrop.css = $.extend(
                     {
-                        "opacity": 0.6,
+                        "opacity": 0.0,
                         "filter": 'alpha(opacity=60)',
                         "position": 'fixed',
                         "top": 0,
@@ -2013,6 +2014,7 @@
                     },
                     this.options.backdrop
                 );
+
 
                 this.backdrop.container = $("<div/>", {
                     "class": this.options.selector.backdrop,
@@ -2933,11 +2935,12 @@
             }
 
             if (console.group !== undefined || console.table !== undefined) {
-                console.groupCollapsed('--- jQuery Typeahead Debug ---');
-                console.table(this.table);
-                console.groupEnd();
+            	if (typeof scope != 'undefined' && scope.options.debug) {
+	                console.groupCollapsed('--- jQuery Typeahead Debug ---');
+	                console.table(this.table);
+	                console.groupEnd();
+            	}
             }
-
             this.table = {};
 
         }
