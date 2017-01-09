@@ -12,6 +12,7 @@
 		var searchDate = new Date();
 		var jsonDate = JSON.stringify(searchDate);
 		var expectation = $('#request-answer-expectation').val();
+		keyword = $('#request-answer-query').val();
 		if(!keyword) keyword = " ";
 		$('#request-answer-query').val('');
 		$('#request-answer-expectation').val('');
