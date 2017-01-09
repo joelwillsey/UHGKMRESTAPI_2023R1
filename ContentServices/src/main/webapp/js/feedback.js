@@ -17,7 +17,7 @@ $(document).ready(function() {
 				var name = $('#feedback-name-input').val();
 				var email = $('#feedback-email-input').val();
 				if ((typeof name != 'undefined' && name != null && name != '') &&
-					(typeof email != 'undefined' && email != null && email != '' && email.contains('@')))
+					(typeof email != 'undefined' && email != null && email != '' && email.includes('@')))
 				{
 					var postObject = [];
 						postObject.push('{"contentId":"' + contentId + '"'); 
