@@ -155,7 +155,10 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			contentResponse.setRawBody(contentDetails.getBody());
 
 			// Parse the XML from the Body
-			if ("KnowledgeUploadED".equals(contentDetails.getContentType())) {				
+			if ("KnowledgeUploadED".equals(contentDetails.getContentType())) {
+				// Parse the body
+				parseBody(contentResponse, contentDetails.getBody());
+
 	    		final CustomField customField = new CustomField();
 	    		customField.setName("File Information");
 	    		String body = contentDetails.getBody();
