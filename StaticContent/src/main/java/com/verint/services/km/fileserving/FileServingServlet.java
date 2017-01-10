@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
@@ -70,7 +71,8 @@ public class FileServingServlet extends HttpServlet {
 			String uri = request.getRequestURI();
 			final String contextPath = request.getContextPath();
 			uri = uri.replaceFirst(contextPath, "");
-			final String fileName = FileLocation + uri;
+			String uriDecoded = URLDecoder.decode(uri, "UTF-8");
+			final String fileName = FileLocation + uriDecoded;
 			LOGGER.debug("URI: " + uri);
 			LOGGER.debug("FileName: " + fileName);
 			final File file = new File(fileName);
