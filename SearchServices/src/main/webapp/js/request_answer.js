@@ -118,7 +118,7 @@
 		if(selectedFilter === '') {
 			selectedFilter = $.fn.getAllParameters().tags;
 		}
-		$('#request-answer-query').val(keyword);
+		keyword = $('#request-answer-query').val();
 	}
 
 	// Post suggested content
