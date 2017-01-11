@@ -1373,7 +1373,7 @@ $(document)
 								+ "kbase_mrenrollmentbilling,kbase_mrclaimappeals,kbase_eiproduceroperations,kbase_providerdata,kbase_provideroperations,"
 								+ "kbase_uhcwest,kbase_customerimp,kbase_csconsumerservice,kbase_csclaims,kbase_eiclaims,kbase_eiclaimappeals,kbase_eispecialtyops,"
 								+ "kbase_eiconsumerservice,kbase_eiempire,kbase_railroad,kbase_uhcglobal,kbase_mrproviderservice,kbase_eirv,kbase_eiproviderservice,"
-								+ "kbase_einhp,kbase_einaa,kbase_mrconsumerservice,kbase_mrtelesales,kbase_mrproducerhelpdesk,kbase_test,kbase_tricare,kbase_tricaremedmgmt";
+								+ "kbase_einhp,kbase_einaa,kbase_mrcustomerservice,kbase_mrtelesales,kbase_mrproducerhelpdesk,kbase_test,kbase_tricare,kbase_tricaremedmgmt";
 
 						if (current != 'undefined' && current != null) {
 							var currentArray = current.split(",");
