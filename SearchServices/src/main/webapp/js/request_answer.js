@@ -34,13 +34,13 @@
 		var categoryList = $.fn.getAllParameters().categories.split(',');
 		if(tagList) {
 			tagList = tagList.filter(function(tags) {
-			    if(tags != "" && tags.includes('_'))
+			    if(tags != "" && tags.indexOf('_') != -1)
 			        return tags;
 			});
 		}
 		if(categoryList) {
 			categoryList = categoryList.filter(function(category) {
-			    if(category != "" && category.includes('_'))
+			    if(category != "" && category.indexOf('_') != -1)
 			        return category;
 			});
 		}
@@ -58,13 +58,13 @@
 		if(tagList && tagList.length > 0) {
 			var kbaseTags = [], productTags = [], regionTags = [];
 			tagList.forEach(function(tag) {
-				if(tag.includes('kbase_')) {
+				if(tag.indexOf('kbase_') != -1) {
 					kbaseTags.push(tag);
 				}
-				else if(tag.includes('product_')) {
+				else if(tag.indexOf('product_') != -1) {
 					productTags.push(tag);
 				}
-				else if(tag.includes('region_')) {
+				else if(tag.indexOf('region_') != -1) {
 					regionTags.push(tag);
 				}
 			});
