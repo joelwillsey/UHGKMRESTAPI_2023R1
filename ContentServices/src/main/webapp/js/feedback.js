@@ -17,7 +17,7 @@ $(document).ready(function() {
 				var name = $('#feedback-name-input').val();
 				var email = $('#feedback-email-input').val();
 				if ((typeof name != 'undefined' && name != null && name != '') &&
-					(typeof email != 'undefined' && email != null && email != '' && email.includes('@')))
+					(typeof email != 'undefined' && email != null && email != '' && email.indexOf('@') != -1))
 				{
 					var postObject = [];
 						postObject.push('{"contentId":"' + contentId + '"'); 
@@ -29,6 +29,9 @@ $(document).ready(function() {
 						postObject.push(',"viewID":"' + viewID + '"');
 						postObject.push(',"email":"' + email + '"');
 						postObject.push(',"name":"' + name + '"}');
+						$('#feedback-comment').val('');
+						$('#feedback_name_input').val('');
+						$('#feedback-email-input').val('');
 						$.fn.submitFeedback(postObject.join('\n'), $.fn.feedbackCallback);
 						postObject.length = 0; // Clear the array					
 				} else {
@@ -46,6 +49,9 @@ $(document).ready(function() {
 					postObject.push(',"viewID":"' + viewID + '"');
 					postObject.push(',"email":"' + '' + '"');
 					postObject.push(',"name":"' + '' + '"}');
+					$('#feedback-comment').val('');
+					$('#feedback_name_input').val('');
+					$('#feedback-email-input').val('');
 				$.fn.submitFeedback(postObject.join('\n'), $.fn.feedbackCallback);
 				postObject.length = 0; // Clear the array
 			}
@@ -54,6 +60,9 @@ $(document).ready(function() {
 
 	// Cancel button
 	$.fn.feedbackCancel = function() {
+		$('#feedback-comment').val('');
+		$('#feedback_name_input').val('');
+		$('#feedback-email-input').val('');
 		$('#feedback-widget').html($('#popup').html());
 		$('#background').removeClass('background_on');
 		$('#popup').removeClass('popup_on');
@@ -87,8 +96,8 @@ $(document).ready(function() {
 	// Feedback callback
 	$.fn.feedbackCallback = function(data) {
 		$('#feedback-widget').html($('#popup').html());
-		$('#popup-background').css('display', 'none');
-		$('#popup').css('display', 'none');
+		$('#background').removeClass('background_on');
+		$('#popup').removeClass('popup_on');
 	}
 
 	// Post submit feedback
