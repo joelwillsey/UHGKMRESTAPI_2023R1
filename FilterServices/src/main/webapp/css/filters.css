@@ -155,7 +155,7 @@ button {
 								}
 					.fs_di_tagset_wrapper {
 						display: block;
-						overflow-x: auto;
+ 						/* overflow-x: auto; */
 					}
 						.fs_di_tagset_wrapper > nav > ul > li {
 	    					margin-left: 0;
