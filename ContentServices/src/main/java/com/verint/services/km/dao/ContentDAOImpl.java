@@ -254,6 +254,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		if (bodyData != null && bodyData.length() > 0) {
 			bodyData = bodyData.replace("></br>", "/>");
 			bodyData = updateAHref(bodyData);
+			bodyData = updateAHrefMalformed(bodyData);
 			bodyData = updateImg(bodyData);
 			final ElementParser ep = new ElementParser();
 			bodyData = ep.parseInlineContent(bodyData);
@@ -336,7 +337,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			if (aherfEnd != -1){				
 				//we found the end of the ahref
 				String hrefSource = body.substring(ahrefStart, aherfEnd + "\"".length());
-				LOGGER.info("--- Found href attribute: " + hrefSource);
+				LOGGER.debug("--- Found href attribute: " + hrefSource);
 				int gtxResource = 0;
 				gtxResource = hrefSource.indexOf("?gtxResource=");	
 				String newAhref = "";
@@ -345,7 +346,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 					//we found a gtxResource Link, need to change the link
 					newAhref = ExternalUrl + hrefSource.substring(gtxResource + "?gtxResource=".length());
 					newAhref = newAhref.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
-					LOGGER.info("--- Transformed href attribute from " + hrefSource + " to " + newAhref);
+					LOGGER.debug("--- Transformed href attribute from " + hrefSource + " to " + newAhref);
 					finalBody = finalBody + newAhref + body.substring(aherfEnd + "\"".length());
 				} 
 			}else{
@@ -354,7 +355,72 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			ahrefStart = body.indexOf(" href=\"", searchIndex);
 		}		
 		LOGGER.info("finalBody: " + finalBody);
-		LOGGER.info("existing updateAHref()");
+		LOGGER.info("exiting updateAHref()");
+		return finalBody;
+	}
+	
+	private String updateAHrefMalformed(String body) {
+		//This is really stupid put the content call is returning a link like this
+		//<a href='null?gtxResource=/KM/files/uploaded/PNP_UHCG Shared Savings v1_UHG_en-US.doc&gtxResourceFileName=/KM/files/uploaded/PNP_UHCG Shared Savings v1_UHG.doc&mode=download'>/KM/files/uploaded/PNP_UHCG Shared Savings v1_UHG.doc</a>
+		//So now I have to handle this malformed link and fix it :(
+		
+		LOGGER.info("Entering updateAHrefMalformed()");
+		String finalBody = body;
+		int searchIndex = 0;
+		int finalbodyIndex = 0;
+		//Find the first href="
+		int ahrefStart = body.indexOf("<a href='null");
+		int finalBodyahrefStart = body.indexOf("<a href='null");;
+		while (ahrefStart != -1) {			
+			searchIndex = ahrefStart + "<a href='null".length();
+			int aherfEnd = body.indexOf("</a>", ahrefStart + "<a href='null".length());
+			if (aherfEnd != -1){				
+				//we found the end of the ahref
+				String hrefSource = body.substring(ahrefStart, aherfEnd + "</a>".length());
+				LOGGER.debug("--- Found malformed href attribute: " + hrefSource);
+				int gtxResource = 0;
+				gtxResource = hrefSource.indexOf("?gtxResource=");	
+				String newAhref = "";
+				if (gtxResource != -1) {
+					finalBody = finalBody.substring(0, finalBodyahrefStart);
+					//LOGGER.debug("finalBody Front: [" + finalBody + "]");
+					//we found a gtxResource Link, need to change the link
+					newAhref = "<a href=\"" + ExternalUrl + hrefSource.substring(gtxResource + "?gtxResource=".length());
+					newAhref = newAhref.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
+					newAhref = newAhref.replaceFirst("&mode=download", "?mode=download");
+					newAhref = newAhref.replaceFirst("'>", "\">");
+					//Now lets fix the title
+					int startOfFileName = newAhref.indexOf("?gtxResourceFileName=") + "?gtxResourceFileName=".length();
+					if (startOfFileName != -1){
+						int endOfFileName = newAhref.indexOf("?mode=download", startOfFileName);
+						if (endOfFileName != -1){
+							String filePath = newAhref.substring(startOfFileName, endOfFileName);
+							LOGGER.debug("filePath: " + filePath);
+							int lastSlash = filePath.lastIndexOf('/');
+							if (lastSlash != -1){
+								if (lastSlash + 1 <= filePath.length()){
+									String fileName = filePath.substring(lastSlash + 1);
+									LOGGER.debug("fileName: " + fileName);
+									newAhref = newAhref.replaceAll(filePath, fileName);
+								}
+							}
+						}
+					}
+					LOGGER.debug("--- Transformed malformed href attribute from " + hrefSource + " to " + newAhref);
+					//This is the index of where the finalbody is complete
+					finalbodyIndex = finalBody.length()-1 + newAhref.length();
+					finalBody = finalBody + newAhref + body.substring(aherfEnd + "</a>".length());
+					//LOGGER.debug("Body: [" + body.substring(aherfEnd + "</a>".length()) + "]");
+					//LOGGER.debug("finalBody: " + finalBody);
+				} 
+			}else{
+				LOGGER.error("Parse error on search for href string, unable to find the </a> after  href='null, started search at index " + ahrefStart);
+			}			
+			ahrefStart = body.indexOf("<a href='null", searchIndex);
+			finalBodyahrefStart = finalBody.indexOf("<a href='null", finalbodyIndex);
+		}		
+		LOGGER.info("finalBody: " + finalBody);
+		LOGGER.info("exiting updateAHrefMalformed()");
 		return finalBody;
 	}
 	/**
