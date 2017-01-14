@@ -1082,10 +1082,15 @@ $(document)
 							self.element.bind("dpui:resultData", function(e,
 									data) {
 								log(data);
+						    	// put the scrool bar back to the top
+						    	$('#f_wrapper').scrollTop(0);
 							});
 							self.element.bind("dpui:searchTerm", function(e,
 									data) {
 								log(data);
+						    	// put the scrool bar back to the top
+						    	$('#f_wrapper').scrollTop(0);
+
 								$.fn.addToSearchCloud('search_term', data);
 							});
 						},
@@ -1105,6 +1110,10 @@ $(document)
 						jQuery.ajaxSetup({
 							async : false
 						});
+						
+				    	// put the scrool bar back to the top
+				    	$('#f_wrapper').scrollTop(0);
+						
 						// topic tag would be populated first, since this could
 						// have several appended to it
 						var url = filtersServiceName
@@ -1242,6 +1251,10 @@ $(document)
 						var url = filtersServiceName
 								+ 'km/tags/gettagsfortagsets?tagsets='
 								+ tagSets;
+						
+				    	// put the scrool bar back to the top
+				    	$('#f_wrapper').scrollTop(0);
+
 						$.fn.serviceCall('GET', '', url, 15000, function(data) {
 							$.fn.parseTags(data);
 						});
@@ -1249,6 +1262,10 @@ $(document)
 					// get all the kbase tags
 					$.fn.getKBaseTags = function() {
 						var url = filtersServiceName + 'km/kbasetags';
+						
+				    	// put the scrool bar back to the top
+				    	$('#f_wrapper').scrollTop(0);
+
 						$.fn.serviceCall('GET', '', url, 15000, function(data) {
 							$.fn.populateKBaseTags(data);
 						});
