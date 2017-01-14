@@ -695,18 +695,23 @@ table {
     color: #a2a2a2;
 }
 
+.content_header_mobile {
+	display: none;
+}
+
 /* Media Queries */
 @media screen and (min-width: 1025px) {
 	.content_header_mobile {
-		display: none;
+/*		display: none; */
 	}
 }
 
+/*
 @media screen and (max-width: 1024px) {
 .content_container {
 	border: none;
     height: 100%;
-    overflow-y: hidden;
+    overflow-y: auto;
 	position: relative;
 }	
 	.content_header_right {
@@ -855,7 +860,7 @@ table {
 			.content_body_author_info_right_rating_display_ratingBar {				
 				    background-image: url(../images/sciboodleRatingBar75x45.png);
 				    background-position: left top;
-/*				    background: rgba(0, 0, 0, 0) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAQAAADEWIV3AAAB30lEQVR4AbXTMUgbYRyG8S+ahg6WW8VQOjgoKDi4OrRdEqGjXYRmdXV5nMUMARcXBYcu6mhBpIgiFro4OFhKHUvRSSQgFGJJS2vevlOg5CzGL8dvefNfHsjdBd0B4zkvCOnUhf9HtnmXdWSI3/xhKNvIIrLFLCOPuER26ZVZ5DUy88os8hFRN3llE2EMWc1kY9lE1hC3PLNbr7UMIjyhgdgl2K5Xw5eYCAWKTFKmwgLLbHHAJ+rISgQr4U3d1wO2WGaBCmUmKVK4f2QFpfpKjmA5L6Va6eLvYp4WwmhywQl7vKXGS4KZV82XPU64oIkwWsx3+UyY4SeyKjkFM9LkqCJrMvOAB88U18g2KNwZKbCB7JqpB75djHKO7JAkNZJwiOyc0YhXmEFOkX2m2BEp+io7ZTDyO2GAfWTHHZFjZPsMEP8xkqeB2OyIbCIa5PGOjwwjm+uIzCEb7k2kgmzcy3hlAWMc2ZveRNYR3+nzesoOsh2vQJ+vYr03kTP8eMkDP5CZF+R9FV+Ij5DQQrzHKYxtE8aZr6JFEh8po7ZvTBNs2kttpfjIEsL4RZXHBDOvqi/CWIqPfEB2xIj3v0Z8lR1FRujnhitmvY1Os1xxQ39cZIJVkvavNAmrTEREsvQXRO90ooO6d+QAAAAASUVORK5CYII=") repeat-x scroll left top; */
+				    background: rgba(0, 0, 0, 0) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAQAAADEWIV3AAAB30lEQVR4AbXTMUgbYRyG8S+ahg6WW8VQOjgoKDi4OrRdEqGjXYRmdXV5nMUMARcXBYcu6mhBpIgiFro4OFhKHUvRSSQgFGJJS2vevlOg5CzGL8dvefNfHsjdBd0B4zkvCOnUhf9HtnmXdWSI3/xhKNvIIrLFLCOPuER26ZVZ5DUy88os8hFRN3llE2EMWc1kY9lE1hC3PLNbr7UMIjyhgdgl2K5Xw5eYCAWKTFKmwgLLbHHAJ+rISgQr4U3d1wO2WGaBCmUmKVK4f2QFpfpKjmA5L6Va6eLvYp4WwmhywQl7vKXGS4KZV82XPU64oIkwWsx3+UyY4SeyKjkFM9LkqCJrMvOAB88U18g2KNwZKbCB7JqpB75djHKO7JAkNZJwiOyc0YhXmEFOkX2m2BEp+io7ZTDyO2GAfWTHHZFjZPsMEP8xkqeB2OyIbCIa5PGOjwwjm+uIzCEb7k2kgmzcy3hlAWMc2ZveRNYR3+nzesoOsh2vQJ+vYr03kTP8eMkDP5CZF+R9FV+Ij5DQQrzHKYxtE8aZr6JFEh8po7ZvTBNs2kttpfjIEsL4RZXHBDOvqi/CWIqPfEB2xIj3v0Z8lR1FRujnhitmvY1Os1xxQ39cZIJVkvavNAmrTEREsvQXRO90ooO6d+QAAAAASUVORK5CYII=") repeat-x scroll left top;
 				    height: 15px!important;
 				    left: 0;
 				    top: 0;
@@ -940,3 +945,4 @@ table {
 		display: none;
 	}
 }
+*/

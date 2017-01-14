@@ -320,13 +320,6 @@ $(document).ready(function() {
         $(function(){
             $('.content_body_field_data').replaceWith($(data.publicBody));
         });
-    	$.getScript("http://localhost:8080/fileStorage/SpryTabbedPanels.js", function( data, textStatus, jqxhr ) {
-    		  console.log( data ); // Data returned
-    		  console.log( textStatus ); // Success
-    		  console.log( jqxhr.status ); // 200
-    		  console.log( "Load was performed." );
-    		  eval(data);
-    	});
     	contentBody.length = 0;
 
 		// Is this bookmarked content?
