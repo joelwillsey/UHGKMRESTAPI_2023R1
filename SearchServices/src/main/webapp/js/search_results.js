@@ -292,7 +292,7 @@ $(document).ready(function() {
 	$.fn.setupResultsListing = function(data) {
 		var results = [];
 		// First check if we have suggested content
-		if (typeof data.suggestedQueries != 'undefined' && data.suggestedQueries != null && data.suggestedQueries.length > 0) {
+		if (typeof data != 'undefined' && data != null && typeof data.suggestedQueries != 'undefined' && data.suggestedQueries != null && data.suggestedQueries.length > 0) {
 			// Check for 0 results
 			if (data.numberOfResults === 0) {
 				$('.sr_numbers_showing').html('Showing 0 of 0 results');
@@ -335,18 +335,19 @@ $(document).ready(function() {
 					results.push('		</a>');
 					results.push('	  </div>');
 					results.push('	  <div style="padding: 18px 6px 12px;">');
-					if (data != null && data.suggestedQueries[i] != null && typeof data.suggestedQueries[i].knowledgeGroupUnits != 'undefined' && data.suggestedQueries[i].knowledgeGroupUnits != null && data.suggestedQueries[i].knowledgeGroupUnits.length > 0) {
+					if (typeof data != 'undefined' && data != null && typeof data.suggestedQueries != 'undefined' && typeof data.suggestedQueries[i] != 'undefined' && data.suggestedQueries[i] != null && typeof data.suggestedQueries[i].knowledgeGroupUnits != 'undefined' && data.suggestedQueries[i].knowledgeGroupUnits != null && data.suggestedQueries[i].knowledgeGroupUnits.length > 0) {
 						// Loop through the results
-						for (var i=0;(data.suggestedQueries[i].knowledgeGroupUnits != null) && (i < data.suggestedQueries[i].knowledgeGroupUnits.length); i++) {
-							if (data.suggestedQueries[i].knowledgeGroupUnits[i].knowledgeUnits != null && data.suggestedQueries[i].knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
-								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[i], results);
+						for (var p = 0; (data.suggestedQueries[i].knowledgeGroupUnits != null) && (p < data.suggestedQueries[i].knowledgeGroupUnits.length); p++) {
+							if (data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits != null && 
+								data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits.length > 1) {
+								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
 							} else {
 								// Do we have spidered content to setup?
 								if (data.suggestedQueries[i].knowledgeGroupUnits[i].contentType === 'Unstructured') {
-									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[i], results);
+									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
 								} else {
 									// "regular" content
-									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[i], results);
+									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
 								}
 							}
 						}
