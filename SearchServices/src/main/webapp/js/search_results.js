@@ -98,6 +98,9 @@ $(document).ready(function() {
     		sortBy = "";
     	}
     	
+    	// put the scrool bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
     	packagedData = {
     			"page": data,
     			"sort": sortBy
@@ -112,6 +115,9 @@ $(document).ready(function() {
 			"contentId" : contentId,
 			"contentType" : contentType
 		}
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
 		var sPageURL = decodeURIComponent(window.location.search.substring(1));
 		$('.dpui-widget').trigger("dpui:viewContent", packagedData);
 		//$.fn.autoOpenRemoteDoc();
@@ -129,17 +135,29 @@ $(document).ready(function() {
     			"tags": tags,
     			"bookmarked": false
     	}
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
 		$('.dpui-widget').trigger("dpui:viewExternalContent", packagedData);
 	}
 
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
 		window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchDTContent = function(data) {
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
 		window.open (contentServiceName + 'content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchViewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
 		var passedUrl = 'contentId=' + encodeURIComponent(contentId) + '&url=' + encodeURIComponent(url) + '&isFeatured=' + isFeatured + '&averageRating=' + averageRating;
 		passedUrl += '&numRatings=' + numRatings + '&title=' + encodeURIComponent(title) + '&publishedDate=' + encodeURIComponent(publishedDate) + '&tags=' + encodeURIComponent(tags);
 		window.open (contentServiceName + 'content_container.html?'+ passedUrl, contentId + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1030,height=750');
@@ -542,6 +560,9 @@ $(document).ready(function() {
             	}
             	pageSelected = data.data.page;
             	query = data.query;
+
+		    	// put the scroll bar back to the top
+            	$('#sr-listing').scrollTop(0);
 
             	// Display the results
             	$.fn.displayResults(data.data);
