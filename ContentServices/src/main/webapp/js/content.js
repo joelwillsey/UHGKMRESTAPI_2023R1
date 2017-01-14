@@ -317,9 +317,19 @@ $(document).ready(function() {
 
     	// Setup the content body
     	$('.content_body_fields').html(contentBody.join('\n'));
+        $(function(){
+            $('.content_body_field_data').replaceWith($(data.publicBody));
+        });
+    	$.getScript("http://localhost:8080/fileStorage/SpryTabbedPanels.js", function( data, textStatus, jqxhr ) {
+    		  console.log( data ); // Data returned
+    		  console.log( textStatus ); // Success
+    		  console.log( jqxhr.status ); // 200
+    		  console.log( "Load was performed." );
+    		  eval(data);
+    	});
     	contentBody.length = 0;
 
-		    	// Is this bookmarked content?
+		// Is this bookmarked content?
     	if (data.bookmarked) {
     		$('#mobile-content-bookmark').addClass('bookmarked');
     		$('#content-bookmark').addClass('bookmarked');
@@ -969,7 +979,8 @@ $(document).ready(function() {
 	// Check to see if an id was passed in
 	var cId = $.fn.getParameterByName('id');
 	if (typeof cId != 'undefined' && cId != null && cId != 'null' && cId != '') {
-		log(cId);
+		log('ContentID: ' + cId);
+		contentId = cId;
 		externalLink = true;
 		$.fn.retrieveContent(cId);
 	} 
@@ -983,9 +994,9 @@ $(document).ready(function() {
 	} 
 
 	// Get external content if necessary
-	var contentId = $.fn.getParameterByName('contentId');
-	if (typeof contentId != 'undefined' && contentId != null && contentId != 'null' && contentId != '') {
-		log(contentId);
+	var tmpcontentId = $.fn.getParameterByName('contentId');
+	if (typeof tmpcontentId != 'undefined' && tmpcontentId != null && tmpcontentId != 'null' && tmpcontentId != '') {
+		log(tmpcontentId);
 		externalLink = true;
     	packagedData = {
     			"contentId": $.fn.getParameterByName('contentId'),
