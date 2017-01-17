@@ -9,9 +9,6 @@ h4 {
     font-weight: 400;
     margin: 0;
 }
-p a {
-	color: #0099cc;
-}
 button {
     display: block;
     width: auto;
@@ -37,6 +34,7 @@ button {
 	position: relative;
 }
 	.content_container_on {
+		color: #000000;
 		display: block;
 	}
 	.content_loader {
@@ -372,6 +370,7 @@ button {
 }
 	.content_body_field {
 	    border: 0;
+	    color: #000000;
 	    margin-bottom: 6px;
 	    padding: 6px 6px 6px 12px;
 	}
@@ -437,6 +436,7 @@ button {
 				padding-right: 18px;
 			}
 		.content_body_field_data {
+		 	color: #000;
 			font-family: "OpenSans",Arial,sans-serif;
 			line-height: normal;
 			white-space: normal;

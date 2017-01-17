@@ -350,6 +350,9 @@ $(document).ready(function() {
         // NOTE: this is done for bookmarking purposes
         document.title = data.title;
 
+        // Scroll back to top
+        $('.content_container').scrollTop(0);
+        
     	// Resize the window if necessary
     	$.fn.setupContentWidget();
     }
