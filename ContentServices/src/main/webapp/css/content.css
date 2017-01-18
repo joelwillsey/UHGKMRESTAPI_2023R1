@@ -364,14 +364,13 @@ button {
 
 /* Begin Content Body Fields */
 .content_body_fields {
-	height: 100%;
-	overflow-y: auto;
-	width: 100%;
+	overflow: auto;
 }
 	.content_body_field {
 	    border: 0;
 	    color: #000000;
 	    margin-bottom: 6px;
+	    overflow: auto;
 	    padding: 6px 6px 6px 12px;
 	}
 		.public_field {
