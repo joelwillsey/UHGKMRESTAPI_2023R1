@@ -59,13 +59,28 @@ public class ISETDAOImpl extends BaseDAOImpl implements ISETDAO{
 		
 		// Execute query
 		try {
-			final String query = "SELECT MIGRATABLE_REFERENCE"
+			final String query = "SELECT MIGRATABLE_REF_ID"
 					+ " FROM UHG_MigRefID2RefName"
 					+ " WHERE (REFERENCE_NAME = '"+refName +"'"
 					+ " AND OBJECT_TYPE = '"+objType+"')"
 					+ " OR (IQ_OBJECT_ID = '"+objID +"'"
 					+ " AND OBJECT_TYPE = '"+objType+"')";
+			
 			stmt = connection.prepareStatement(query);
+			
+			if(objType.toLowerCase().equals("all")){
+				
+				final String queryAll = "SELECT MIGRATABLE_REF_ID"
+						+ " FROM UHG_MigRefID2RefName"
+						+ " WHERE REFERENCE_NAME = '"+refName +"'";
+				
+				LOGGER.debug("ISET SQL: " + queryAll);
+				
+				stmt = connection.prepareStatement(queryAll);
+			} else {
+				LOGGER.debug("ISET SQL: " + query);
+			}
+
 			
 			Instant start = Instant.now();
 			final ResultSet rs = stmt.executeQuery();
@@ -75,7 +90,7 @@ public class ISETDAOImpl extends BaseDAOImpl implements ISETDAO{
 			
 			// loop through all records
 			while (rs != null && rs.next()){
-				String migRefId = rs.getString("MIGRATABLE_REFERENCE");
+				String migRefId = rs.getString("MIGRATABLE_REF_ID");
 				migratableReferenceIdObj = new MigratableReferenceId();
 				migratableReferenceIdObj.setMigratableReferenceId(migRefId);
 				migratableReferenceIdSet.add(migratableReferenceIdObj);

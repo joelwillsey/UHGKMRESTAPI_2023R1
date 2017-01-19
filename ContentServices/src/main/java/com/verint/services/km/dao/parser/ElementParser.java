@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,14 +53,31 @@ public class ElementParser {
 	public boolean parseBody(String bodyContent, ContentResponse response) {
 		LOGGER.info("Entering parseBody()");
 		LOGGER.debug("bodyContent: " + bodyContent);
+		
+		
 		bodyContent = bodyContent.replaceAll("<!\\[CDATA\\[", "");
 		bodyContent = bodyContent.replaceAll("]]>", "");
-		LOGGER.debug("bodyContent2: " + bodyContent);
+		
+		//Begin PSeifert - Fix for TinyMCE changes "<![CDATA[" to  "<!--[CDATA[" and "]]>" to "]]-->"
+		bodyContent = bodyContent.replaceAll("<!--\\[CDATA\\[", "");
+		bodyContent = bodyContent.replaceAll("]]-->", "");
+		// END PSeifert
+		
+
 
 // BEGIN JGM - Fix for UHG specific content
-		bodyContent = bodyContent.replaceAll("#startscript#>", "<script>");
-		bodyContent = bodyContent.replaceAll("#endscript#", "</script>");
+		//just put in <script so it can allow attributes so I expect to see #startscript#>
+		//bodyContent = bodyContent.replaceAll("#startscript#>", "<script>");
+		//bodyContent = bodyContent.replaceAll("#startscript#&gt;", "<script>");
+		//bodyContent = bodyContent.replaceAll("#startscript#", "<script>");
+		//bodyContent = bodyContent.replaceAll("#stopscript#", "</script>");
+		//bodyContent = bodyContent.replaceAll("#endscript#", "</script>");
+		
+		//allows < & > to be embbeded in CDATA  as {{&lt;}} or {{&gt;}}
+		bodyContent = bodyContent.replaceAll("\\{\\{&lt;\\}\\}", "<");
+		bodyContent = bodyContent.replaceAll("\\{\\{&gt;\\}\\}", ">");
 // END JGM
+		LOGGER.debug("bodyContent2: " + bodyContent);
 		
 		ParserInfo parserInfo = parseData(bodyContent, "publicBody");
 		String publicBody = parseInlineContent(parserInfo.getElementData());
@@ -503,8 +521,10 @@ public class ElementParser {
 						// String version = info.getElementData();
 					}
 					String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a></div>";
-					String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>";
-					//String newUrl = "<div class = \"sr_embedded_content\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>" + openNewUrlInWindow;
+					//The below line should be uncommented if you do not want the pop out icon
+					//String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>";
+					//The below lines adds the pop-out icon to embedded links
+					String newUrl = "<div class = \"sr_embedded_content\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>" + openNewUrlInWindow;
 					data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("</" + element + ">").length());
 				}
 			}
@@ -553,7 +573,9 @@ public class ElementParser {
 							int tempIndex = tokens[0].indexOf("ContentED.");
 							String id = tokens[0].substring(tempIndex + "ContentED.".length());
 							String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a></div>";
+							//The below line should be uncommented if you do not want the pop out icon
 							//String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>";
+							//The below lines adds the pop-out icon to embedded links
 							String newUrl = "<div class = \"sr_listing_result\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>" + openNewUrlInWindow;
 							LOGGER.debug("newUrl: " + newUrl);
 							data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("--]]").length());

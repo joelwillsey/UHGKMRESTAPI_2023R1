@@ -318,7 +318,8 @@ $(document).ready(function() {
     	// Setup the content body
     	$('.content_body_fields').html(contentBody.join('\n'));
         $(function(){
-            $('.content_body_field_data').replaceWith($(data.publicBody));
+        	//This line was causing the public field to overwrite private field
+           // $('.content_body_field_data').replaceWith($(data.publicBody));
         });
     	contentBody.length = 0;
 
