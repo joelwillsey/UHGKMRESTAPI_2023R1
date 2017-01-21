@@ -543,20 +543,40 @@ $(document).ready(function() {
 					contentBody.push('  </div>');
 				}
 			}
+			
+			if (data.relatedContent && data.relatedContent.externalContents &&	data.relatedContent.externalContents.length > 0) {    			
+				for (var i = 0; i < data.relatedContent.externalContents.length; i++) {
+					if(data.relatedContent.externalContents[i].url) {
+						contentBody.push('  <div class="content_body_field_related_data">');
+						contentBody.push('    <div class="content_body_field_resuable_content">');
+						//we dont need to have a check on the content entries in order to post external content related content
+						//and it actually breaks a lot of the time if we do
+						contentBody.push('      <a target="_blank" href="' + window.location.origin + "/fileStorage" + data.relatedContent.externalContents[i].url +  '">');
+						contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.externalContents[i].type + '">&nbsp;</div>');
+						contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.externalContents[i].name + '</div>');
+						contentBody.push('      </a>');
+						contentBody.push('    </div>');
+						contentBody.push('  </div>');
+					}
+				}
+			}
+			
 			if (data.relatedContent.externalContents != 'undefined' && 
 					data.relatedContent.externalContents != null &&
 					data.relatedContent.externalContents.length > 0) {    			
 				for (var i = 0; i < data.relatedContent.externalContents.length; i++) {
-					contentBody.push('  <div class="content_body_field_related_data">');
-					contentBody.push('    <div class="content_body_field_resuable_content">');
-					//we dont need to have a check on the content entries in order to post external content related content
-					//and it actually breaks a lot of the time if we do
-					contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.relatedContent.externalContents[i].url +  '\');">');
-					contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.externalContents[i].type + '">&nbsp;</div>');
-					contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.externalContents[i].name + '</div>');
-					contentBody.push('      </a>');
-					contentBody.push('    </div>');
-					contentBody.push('  </div>');
+					if(data.relatedContent.externalContents[i].id) {
+						contentBody.push('  <div class="content_body_field_related_data">');
+						contentBody.push('    <div class="content_body_field_resuable_content">');
+						//we dont need to have a check on the content entries in order to post external content related content
+						//and it actually breaks a lot of the time if we do
+						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.relatedContent.externalContents[i].id +  '\');">');
+						contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.externalContents[i].type + '">&nbsp;</div>');
+						contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.externalContents[i].name + '</div>');
+						contentBody.push('      </a>');
+						contentBody.push('    </div>');
+						contentBody.push('  </div>');
+					}
 				}
 			}
 			contentBody.push('</section>');
