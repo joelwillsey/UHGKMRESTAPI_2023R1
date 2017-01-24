@@ -213,24 +213,44 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 				// Parse the body
 				parseBody(contentResponse, contentDetails.getBody());
 			}
-
+			
+			
+			//Add the javascript(s) includes at the most bottom of the content html to help with load times so I place it the bottom
+			//most section of the render.  Probably makes no difference :)
+			String includeJSFile = "\n <script type=\"text\\javascript\" src=\"" + ExternalUrl + "/VEM_showHideDiv.js\" ></script>";
+			
+			if (contentResponse.getPrivateAnswer().length() > 0) {
+				contentResponse.setPrivateAnswer(contentResponse.getPrivateAnswer() + includeJSFile);
+				LOGGER.debug("Added to end of Private Answer: " + includeJSFile);
+			} else if (contentResponse.getPrivateBody().length() > 0){
+				contentResponse.setPrivateBody(contentResponse.getPrivateBody() + includeJSFile);
+				LOGGER.debug("Added to end of PrivateBody: " + includeJSFile);
+			} else if (contentResponse.getPublicAnswer().length() > 0){
+				contentResponse.setPublicAnswer(contentResponse.getPublicAnswer() + includeJSFile);
+				LOGGER.debug("Added to end of PublicAnswer: " + includeJSFile);
+			} else if (contentResponse.getPublicBody().length() > 0){
+				contentResponse.setPublicBody(contentResponse.getPublicBody() + includeJSFile);
+				LOGGER.debug("Added to end of PublicBody: " + includeJSFile);
+			}
+			
 			// Setup Public Body
 			contentResponse.setPublicBody(parseBodyData(contentResponse.getPublicBody()));
 			// Setup Public Answer
-			contentResponse.setPublicAnswer(parseBodyData(contentResponse.getPublicAnswer()));
+			contentResponse.setPublicAnswer(parseBodyData(contentResponse.getPublicAnswer()));			
 			// Setup Private Body
 			contentResponse.setPrivateBody(parseBodyData(contentResponse.getPrivateBody()));
 			// Get Private Answer
 			contentResponse.setPrivateAnswer(parseBodyData(contentResponse.getPrivateAnswer()));
 			// Fix Dates
 			contentResponse = setupPublishedDate(contentResponse);
-
+			
+			
 			Set<ExternalContent> externalContents = contentResponse.getRelatedContent().getExternalContents();
 			Set<ExternalContent> cleanExternalContent = new HashSet<ExternalContent>();
 
 			for (ExternalContent externalContent : externalContents) {
-				externalContent.setName(updateName(externalContent.getName()));
-				externalContent.setUrl(updateURL(externalContent.getUrl()));
+				externalContent.setName(updateUploadedNameForRelated(externalContent.getName()));
+				externalContent.setUrl(updateUploadedURLForRelated(externalContent.getUrl()));
 				cleanExternalContent.add(externalContent);
 			}
 			contentResponse.getRelatedContent().setExternalContents(cleanExternalContent);
@@ -381,11 +401,11 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		return finalBody;
 	}
 
-	private String updateName(String name) {
+	private String updateUploadedNameForRelated(String name) {
 
 		String newName = name;
 
-		int lastSlash = name.lastIndexOf('\\');
+		int lastSlash = name.lastIndexOf("/");
 		if (lastSlash != -1) {
 			newName = name.substring(lastSlash + 1);
 			LOGGER.debug("fixed Name: " + newName);
@@ -394,10 +414,12 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		return newName;
 	}
 
-	private String updateURL(String url) {
+	private String updateUploadedURLForRelated(String url) {
 		LOGGER.info("Fixing the External URL");
-		String finalURL = url;
-		finalURL = finalURL.substring(finalURL.indexOf("gtxResource=") + 12, finalURL.indexOf("&gtxResourceFileName"));
+		
+		//fix filename
+		String finalURL = url;		
+		finalURL = finalURL.substring(finalURL.indexOf("gtxResource=") + "gtxResource=".length(), finalURL.indexOf("&gtxResourceFileName"));
 
 		return finalURL;
 	}
@@ -553,6 +575,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	private void parseBody(ContentResponse contentResponse, String bodyContent) {
 		LOGGER.info("Entering parseBody()");
 		final ElementParser elementParser = new ElementParser();
+
 		elementParser.parseBody(bodyContent, contentResponse);
 		LOGGER.info("Entering parseBody()");
 	}

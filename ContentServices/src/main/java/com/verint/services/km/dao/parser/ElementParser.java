@@ -67,11 +67,11 @@ public class ElementParser {
 
 // BEGIN JGM - Fix for UHG specific content
 		//just put in <script so it can allow attributes so I expect to see #startscript#>
-		//bodyContent = bodyContent.replaceAll("#startscript#>", "<script>");
+		bodyContent = bodyContent.replaceAll("#startscript#>", "<script>");
 		//bodyContent = bodyContent.replaceAll("#startscript#&gt;", "<script>");
-		//bodyContent = bodyContent.replaceAll("#startscript#", "<script>");
+		bodyContent = bodyContent.replaceAll("#startscript#", "<script>");
 		//bodyContent = bodyContent.replaceAll("#stopscript#", "</script>");
-		//bodyContent = bodyContent.replaceAll("#endscript#", "</script>");
+		bodyContent = bodyContent.replaceAll("#endscript#", "</script>");
 		
 		//allows < & > to be embbeded in CDATA  as {{&lt;}} or {{&gt;}}
 		bodyContent = bodyContent.replaceAll("\\{\\{&lt;\\}\\}", "<");
@@ -503,6 +503,7 @@ public class ElementParser {
 				} else if (beginIndex != -1 && endIndex != -1) {
 					// Ok we have both start and end					
 					String tempData = data.substring(beginIndex + ("<" + element + ">").length(), endIndex);
+					//LOGGER.debug("parseInlineData searching element: '" + element + "' data: "  + tempData);
 					ParserInfo info = parseData(tempData, "title");
 					String title = "";
 					String id = "";
@@ -513,19 +514,23 @@ public class ElementParser {
 					if (info != null && !info.isEmptyElement()) {
 						info = parseData(info.getElementData(), "id");
 						id = info.getElementData();
-						// info = parseData(info.getData(), "locale");
-						// String locale = info.getElementData();
-						// info = parseData(info.getData(), "type");
-						// String type = info.getElementData();
-						// info = parseData(info.getData(), "version");
-						// String version = info.getElementData();
+						 //info = parseData(info.getData(), "locale");
+						 //String locale = info.getElementData();
+						 //info = parseData(info.getData(), "type");
+						 //String type = info.getElementData();
+						 //info = parseData(info.getData(), "version");
+						 //String version = info.getElementData();
 					}
-					String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a></div>";
+					String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a>";
+					//String openNewUrlInWindowWithDiv = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a></div>";
 					//The below line should be uncommented if you do not want the pop out icon
 					//String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>";
 					//The below lines adds the pop-out icon to embedded links
-					String newUrl = "<div class = \"sr_embedded_content\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>" + openNewUrlInWindow;
+					//String newUrlWithDiv = "<div class = \"sr_embedded_content\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>" + openNewUrlInWindow;
+					String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + title + "</a>" + openNewUrlInWindow;
 					data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("</" + element + ">").length());
+					//LOGGER.debug("parseInlineData new url:" +newUrl);
+					
 				}
 			}
 		} else {
@@ -572,11 +577,13 @@ public class ElementParser {
 							// Get rid of ContentED.
 							int tempIndex = tokens[0].indexOf("ContentED.");
 							String id = tokens[0].substring(tempIndex + "ContentED.".length());
-							String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a></div>";
+							String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a>";
+							//String openNewUrlInWindowWithDiv = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + id + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a></div>";
 							//The below line should be uncommented if you do not want the pop out icon
 							//String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>";
 							//The below lines adds the pop-out icon to embedded links
-							String newUrl = "<div class = \"sr_listing_result\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>" + openNewUrlInWindow;
+							//String newUrlWithDiv = "<div class = \"sr_listing_result\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>" + openNewUrlInWindowWithDiv;
+							String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>" + openNewUrlInWindow;
 							LOGGER.debug("newUrl: " + newUrl);
 							data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("--]]").length());
 						} else {
