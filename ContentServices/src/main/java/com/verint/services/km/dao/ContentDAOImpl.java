@@ -419,7 +419,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		
 		//fix filename
 		String finalURL = url;		
-		finalURL = finalURL.substring(finalURL.indexOf("gtxResource=") + "gtxResource=".length(), finalURL.indexOf("&gtxResourceFileName"));
+		finalURL = ExternalUrl + "/" + finalURL.substring(finalURL.indexOf("gtxResource=") + "gtxResource=".length(), finalURL.indexOf("&gtxResourceFileName"));
 
 		return finalURL;
 	}
