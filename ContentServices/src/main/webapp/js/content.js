@@ -552,7 +552,13 @@ $(document).ready(function() {
 						//we dont need to have a check on the content entries in order to post external content related content
 						//and it actually breaks a lot of the time if we do
 						contentBody.push('      <a target="_blank" href="' + data.relatedContent.externalContents[i].url + '">');
+						// Going under the assumption here if it's undefined it's a uploaded doc coming across as just a url
+						if (data.relatedContent.externalContents[i].type && data.relatedContent.externalContents[i].type != 'undefined'){
 						contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.externalContents[i].type + '">&nbsp;</div>');
+						} else { 
+							contentBody.push('        <div class="content_body_field_resuable_content_icon ' + 'KnowledgeUploadED' + '">&nbsp;</div>');
+						}
+						
 						contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.externalContents[i].name + '</div>');
 						contentBody.push('      </a>');
 						contentBody.push('    </div>');
