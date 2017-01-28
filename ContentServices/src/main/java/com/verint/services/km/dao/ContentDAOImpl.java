@@ -208,6 +208,25 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 							contentResponse.addCustomField(customField);
 						}
 					}
+				} else {
+					//there was no file description but there still might be a file so search for it
+					index1 = body.indexOf("<file>");
+					index2 = body.indexOf("</file>");
+					if (index1 != -1 && index2 != -1) {
+						String tempData = body.substring(index1 + "<file>".length(), index2);
+						int index3 = tempData.indexOf("?gtxResource=");
+						if (index3 != -1) {
+							tempData = tempData.substring(index3 + "?gtxResource=".length());
+							LOGGER.debug("tempData: " + tempData);
+							tempData = tempData.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
+							LOGGER.debug("tempData: " + tempData);
+							String data = "<p><iframe src=\"" + ExternalUrl + tempData
+									+ "\" width=\"100%\" height=\"400px\"/></p>";
+							LOGGER.debug("data: " + data);
+							customField.setData(data);
+							contentResponse.addCustomField(customField);
+						}
+					}
 				}
 			} else {
 				// Parse the body

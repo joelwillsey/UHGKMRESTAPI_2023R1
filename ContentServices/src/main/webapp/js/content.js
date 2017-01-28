@@ -704,7 +704,7 @@ $(document).ready(function() {
 			contentBody.push('  </div>');
 			for (var i = 0; i < data.attachments.length; i++) {
 				contentBody.push('  <div class="content_body_field_attachment_content">');
-				contentBody.push('    <a href="' + data.attachments[i].url + '">');
+				contentBody.push('    <a target= "_blank" href="' + data.attachments[i].url + '">');
 				contentBody.push('      <div class="content_body_field_attachment_content_icon">&nbsp;</div>');
 				contentBody.push('      <div class="content_body_field_attachment_content_link">' + data.attachments[i].name + '</div>');
 				contentBody.push('    </a>');
