@@ -39,7 +39,7 @@ public class RequestAnswerRequest implements Serializable {
     private String password;
 
     @XmlElement
-    private String locale;
+    private String locale = "en-US";
     
 	/**
 	 * Constructor
