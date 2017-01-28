@@ -178,6 +178,17 @@ $(document).ready(function() {
 				
 				break;
 			}
+		} else if (variables[0] == "displayByRefName"){
+			// /verintkm/jumppage.html?displayByRefName= + refName 
+			var refName = variables[1];
+
+			//run a search for refName 
+			jQuery.ajaxSetup({async:false});
+			var migratableReferenceId = $.fn.getIsetResponse(refName,"all","");
+			jQuery.ajaxSetup({async:true});
+			var url = contentServiceName + 'iset_content_container.html?id='+migratableReferenceId;
+			window.location.replace(url);
+		
 		}
 	}
 	
