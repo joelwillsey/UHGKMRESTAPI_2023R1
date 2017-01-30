@@ -72,7 +72,9 @@
 			if(kbaseTags.length > 0) {
 				selectedFilter += "kbase::";
 				kbaseTags.forEach(function(tag) {
-				    selectedFilter += document.getElementById(tag).title + ",";
+					if(document.getElementById(tag).title) {
+						selectedFilter += document.getElementById(tag).title + ",";
+					}
 				})
 			}
 			selectedFilter = selectedFilter.substring(0, selectedFilter.length - 1);
@@ -81,7 +83,9 @@
 			if(productTags.length > 0) {
 				selectedFilter += "product::";
 				productTags.forEach(function(tag) {
-				    selectedFilter += document.getElementById(tag).title + ",";
+					if(document.getElementById(tag).title) {
+						selectedFilter += document.getElementById(tag).title + ",";
+					}
 				})
 			}
 			selectedFilter = selectedFilter.substring(0, selectedFilter.length - 1);
@@ -90,7 +94,9 @@
 			if(regionTags.length > 0) {
 				selectedFilter += "region::";
 				regionTags.forEach(function(tag) {
-				    selectedFilter += document.getElementById(tag).title + ",";
+					if(document.getElementById(tag).title) {
+						selectedFilter += document.getElementById(tag).title + ",";
+					}
 				})
 			}
 			selectedFilter = selectedFilter.substring(0, selectedFilter.length - 1);
