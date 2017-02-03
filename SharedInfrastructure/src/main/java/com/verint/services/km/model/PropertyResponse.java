@@ -4,13 +4,18 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 
  * @author ERaygorodetskiy
  *
  */
+@XmlRootElement(name = "PropertyResponse")
+@XmlAccessorType(XmlAccessType.NONE)
 public class PropertyResponse implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -94,6 +99,6 @@ public class PropertyResponse implements Serializable{
 	 */
 	@Override
 	public String toString(){
-		return "Autosuggest [numFound=" + numFound + ", startOffset=" + startOffset + ", endOffset=" + endOffset + ", propertiesString=" + propertiesString + "]";
+		return "PropertyResponse [numFound=" + numFound + " propertiesString=" + propertiesString + "]";
 	}
 }
