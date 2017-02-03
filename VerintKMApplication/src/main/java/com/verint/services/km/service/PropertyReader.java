@@ -42,27 +42,28 @@ public class PropertyReader extends BaseService{
 	@GET
 	public String getPropertyResponse(@Context HttpServletRequest httpRequest,
 			@QueryParam("property") String propertyName){
-		LOGGER.info("Entering getPropertyResponse()");
+		LOGGER.debug("Entering getPropertyResponse()");
 		
 		Properties prop = new Properties();
 		String propertyAddress, value = null;
 		try {
 			
 			if(System.getProperty("os.name").startsWith("Windows")) {
-				propertyAddress = "C:\\app_2\\verint\\projects\\uhgiq\\restapi\\kmservices\\connectionPool.properties";
+				propertyAddress = "C:\\app_2\\verint\\projects\\uhgiq\\restapi\\kmservices\\propertyReader.properties";
 			} else {
-				propertyAddress = "/app_2/verint/projects/uhgiq/restapi/kmservices/connectionPool.properties";
+				propertyAddress = "/app_2/verint/projects/uhgiq/restapi/kmservices/propertyReader.properties";
 			}
 			prop.load(new FileInputStream(propertyAddress));
 			
 			value = prop.getProperty(propertyName);
+			
+			LOGGER.debug("getPropertyResponse: " + propertyName + "=" +  value);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		
-		LOGGER.info("Exiting getPropertyResponse()");
+		LOGGER.debug("Exiting getPropertyResponse()");
 		return value;
 	}
 
