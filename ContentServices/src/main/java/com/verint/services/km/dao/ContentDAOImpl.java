@@ -236,7 +236,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			
 			//Add the javascript(s) includes at the most bottom of the content html to help with load times so I place it the bottom
 			//most section of the render.  Probably makes no difference :)
-			String includeJSFile = "\n <script type=\"text\\javascript\" src=\"" + ExternalUrl + "/VEM_showHideDiv.js\" ></script>";
+			String includeJSFile = "\n <script type=\"text/javascript\" src=\"" + ExternalUrl + "/VEM_showHideDiv.js\" ></script>";
 			
 			if (contentResponse.getPrivateAnswer().length() > 0) {
 				contentResponse.setPrivateAnswer(contentResponse.getPrivateAnswer() + includeJSFile);

@@ -67,11 +67,11 @@ public class ElementParser {
 
 // BEGIN JGM - Fix for UHG specific content
 		//just put in <script so it can allow attributes so I expect to see #startscript#>
-		bodyContent = bodyContent.replaceAll("#startscript#>", "<script>");
+		//bodyContent = bodyContent.replaceAll("#startscript#>", "<script>");
 		//bodyContent = bodyContent.replaceAll("#startscript#&gt;", "<script>");
-		bodyContent = bodyContent.replaceAll("#startscript#", "<script>");
+		//bodyContent = bodyContent.replaceAll("#startscript#", "<script>");
 		//bodyContent = bodyContent.replaceAll("#stopscript#", "</script>");
-		bodyContent = bodyContent.replaceAll("#endscript#", "</script>");
+		//bodyContent = bodyContent.replaceAll("#endscript#", "</script>");
 		
 		//allows < & > to be embbeded in CDATA  as {{&lt;}} or {{&gt;}}
 		bodyContent = bodyContent.replaceAll("\\{\\{&lt;\\}\\}", "<");

@@ -4,6 +4,38 @@ var contentIds= new Array();
 var externalLink = false;
 var contentTitle = '';
 
+//Property Reader Service
+$.fn.getProperty = function(property) {
+	
+	var query = '?property=' +property;
+	var retValue = '';
+		
+	jQuery.ajaxSetup({
+		async : false
+	});
+	// Call the service
+	try {
+		$.fn.serviceCallText('GET', '', verintKmServiceName + 'km/property/read'+ query, 15000, function(data) {
+			 if (typeof data != 'undefined' && data != null && data != '') {			 
+					retValue = data;					
+			    }		
+		});
+	}
+	catch(err) {
+		log('$.fn.serviceCall Exception: ' +err.messagee);
+		}
+	jQuery.ajaxSetup({
+			async : true
+	});
+	
+	if (retValue === 'undefined' || retValue === null || retValue === 'null') {
+		retValue = '';
+	}
+	
+	log(property + ': '  + retValue); 
+	
+	return 	retValue;
+}
 
 $(document).ready(function() {
 
@@ -373,6 +405,7 @@ $(document).ready(function() {
 			contentBody.push('  </div>');
 			for (var p = 0; p < data.publicSectionContent.length; p++) {
 				contentBody.push('  <div class="content_body_field_resuable_content">');
+				//contentBody.push(' <!-- Content Type for publicBody is: ' + data.publicSectionContent[p].type + ' -->');
 				if (data.publicSectionContent[p].type == 'pageSet') {
 					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.publicSectionContent[p].id + '\');">');
 				} else {
@@ -538,9 +571,13 @@ $(document).ready(function() {
 					contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.contentEntries[i].type + '">&nbsp;</div>');
 					contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.contentEntries[i].title + '</div>');
 					contentBody.push('      </a>');
-					contentBody.push('		<div class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.relatedContent.contentEntries[i].id + '\');"><img src="images/ReadLaterGray16x16.png"></div>');
+					if (data.relatedContent.contentEntries[i].type == 'pageSet') {
+						contentBody.push('		<div class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchDTViewContent(\'' + data.relatedContent.contentEntries[i].id + '\');"><img src="images/ReadLaterGray16x16.png"></div>');
+					}else {
+						contentBody.push('		<div class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.relatedContent.contentEntries[i].id + '\');"><img src="images/ReadLaterGray16x16.png"></div>');
+					}
 					contentBody.push('    </div>');
-					contentBody.push('  </div>');
+					contentBody.push('  </div>');					
 				}
 			}
 			
@@ -944,12 +981,24 @@ $(document).ready(function() {
 		// This is a Decision Tree
     	// Show the content
 		$.fn.setupContentWidget(); // Some bug w/ browsers where I need to call this
-		var inlineHtml = '<iframe src="' + decisionTreeUrl + query + '" style="width: 1030px; height: 850px;"/>';
-		$('#content-decision-tree').css('display', 'block');
-		$('#content-decision-tree').css('width', '100%');
-		$('#content-decision-tree').css('height', '100%');
-		log('inlineHtml: ' + inlineHtml);
-		$('#content-decision-tree').html(inlineHtml);		
+		
+		var decisionTreeUrl = $.fn.getProperty('PageSetV1.RestPageSet.Url');
+		
+		
+		if (decisionTreeUrl === 'undefined' || decisionTreeUrl === null || decisionTreeUrl === 'null' || decisionTreeUrl === '') {
+			var errStatus = 'Error retriveing D-Tree confiuration (PageSetV1.RestPageSet.Url), contact administrator'
+				$.fn.handleErrorText(errStatus);
+		} else {
+			
+			//decisionTreeUrl2 = 'http://localhost:8280/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
+			
+			var inlineHtml = '<iframe src="' + decisionTreeUrl + query + '" style="width: 1030px; height: 850px;"/>';
+			$('#content-decision-tree').css('display', 'block');
+			$('#content-decision-tree').css('width', '100%');
+			$('#content-decision-tree').css('height', '100%');
+			log('inlineHtml: ' + inlineHtml);
+			$('#content-decision-tree').html(inlineHtml);
+		}
 	}
 
 	// Setup refresh of content
@@ -1035,4 +1084,7 @@ $(document).ready(function() {
 		$.fn.retrieveExternalContent(packagedData);
 	}
 
+	
+	
 });
+

@@ -58,6 +58,17 @@ $.fn.handleError = function(jqXHR, textStatus, errorThrown) {
 	}
 }
 
+// Handle the error(s) in a uniform way for now service call errors
+$.fn.handleErrorText = function(textStatus) {
+	log('HandleErrorText()');
+	if (typeof textStatus != 'undefined' && textStatus != null) {
+			$('#background').addClass('background_on');
+			$('#error-body').html('Error: ' + textStatus);
+			$('#error-message').addClass('error_message_on');
+	}
+}
+
+
 // Service call function
 $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 	// Call the search service
@@ -68,6 +79,52 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 		url : url,
 		async: false,
 		dataType : 'json',
+		timeout : timeout,
+		beforeSend : function(jqXHR, settings) {
+			$.fn.setupHeader(jqXHR);
+			$.fn.setupSpinner();
+		},
+		success : function(data, textStatus, jqXHR) {
+			// Send response headers
+			$.fn.interrogateResponse(jqXHR.getAllResponseHeaders());
+			successCallback(data);
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			$.fn.disableSpinner();
+			$.fn.handleError(jqXHR, textStatus, errorThrown);
+		},
+		statusCode : {
+			// Authentication error code
+			401 : function(jqXHR, textStatus, errorThrown) {
+				$.fn.disableSpinner();
+				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+			},
+			// Authorization error code
+			403 : function(jqXHR, textStatus, errorThrown) {
+				$.fn.disableSpinner();
+				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+			},
+			// Not found error code
+			404 : function(jqXHR, textStatus, errorThrown) {
+				$.fn.disableSpinner();
+				$.fn.handleError(jqXHR, textStatus, errorThrown);
+			}
+		},
+	}).then(function(data) {
+		$.fn.disableSpinner();
+	}).responseJSON;
+}
+
+//Service call function
+$.fn.serviceCallText = function(type, data, url, timeout, successCallback) {
+	// Call the search service
+	$.ajax({
+		type : type,
+		contentType : 'application/json',
+		data : data,
+		url : url,
+		async: false,
+		dataType : 'text',
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
 			$.fn.setupHeader(jqXHR);
@@ -245,3 +302,4 @@ function transformToAssocArray(prmstr) {
 	}
 	return params;
 }
+
