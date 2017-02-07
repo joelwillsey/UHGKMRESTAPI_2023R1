@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ import com.verint.services.km.model.CustomField;
 import com.verint.services.km.model.ExternalContent;
 import com.verint.services.km.model.Translated;
 import com.verint.services.km.util.PropertyUtil;
-
+import com.verint.services.km.util.ConfigInfo;;
 /**
  * @author jmiller
  *
@@ -67,6 +68,10 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			System.exit(1);
 		}
 	}
+	
+
+
+	
 
 	/**
 	 * 
@@ -490,8 +495,11 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 							if (lastSlash != -1) {
 								if (lastSlash + 1 <= filePath.length()) {
 									String fileName = filePath.substring(lastSlash + 1);
+									//need this to handle the windows /  ie. /fileStorage/KM/uploaded\EM_15.1_FP1_Release_Pack.pdf
+									int lastForwardSlash = fileName.lastIndexOf("\\");
+									fileName = fileName.substring(lastForwardSlash + 1);
 									LOGGER.debug("fileName: " + fileName);
-									newAhref = newAhref.replaceAll(filePath, fileName);
+									newAhref = newAhref.replaceAll(Pattern.quote(filePath), fileName);
 								}
 							}
 						}
