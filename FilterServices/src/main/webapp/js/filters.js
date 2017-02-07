@@ -76,23 +76,15 @@ $(document)
 							});
 
 					// Product/Region Reset button
-					$('#fs-reset-button')
-							.on(
-									'click',
-									function() {
-										$('#kbase-selection li')
-												.each(
-														function(index) {
-															log(index);
+					$('#fs-reset-button').on('click',function() {
+										$('#kbase-selection li').each(function(index) {
+															log("KBase Index: " + index);
 															var id = $(this)
 																	.attr('id');
-															if (typeof id != 'undefined'
+															/*if (typeof id != 'undefined'
 																	&& id != 'kbase-search-input') {
-																$.fn
-																		.removeTag(
-																				'kbase',
-																				id);
-															}
+																$.fn.removeTag('kbase',id);
+															}*/
 														});
 										$('#cntntType-selection li')
 												.each(
