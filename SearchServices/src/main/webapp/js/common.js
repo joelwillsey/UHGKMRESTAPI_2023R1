@@ -104,6 +104,62 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 	}).responseJSON;
 }
 
+//Service call function
+$.fn.serviceCallAsyncFalse = function(type, data, url, timeout, successCallback) {
+	$.fn.setupSpinner();
+	// enable this when posting to server
+    setTimeout(function () { 
+    	// Call the search service
+    	$.ajax({
+    		async: false,
+    		type : type,
+    		contentType : 'application/json',
+    		data : data,
+    		url : url,
+    		dataType : 'json',
+    		timeout : timeout,
+    		beforeSend : function(jqXHR, settings) {
+    			log('beforeSend');
+    			$.fn.setupHeader(jqXHR);
+    		},
+    		success : function(data, textStatus, jqXHR) {
+    			// Send response headers
+    			$.fn.interrogateResponse(jqXHR.getAllResponseHeaders());
+    			successCallback(data);
+    			$.fn.disableSpinner();
+    		},
+    	    complete: function () {
+    	    	$.fn.disableSpinner();
+    	    },    
+    		error : function(jqXHR, textStatus, errorThrown) {
+    			$.fn.handleError(jqXHR, textStatus, errorThrown);
+    			$.fn.disableSpinner();
+    		},
+    		statusCode : {
+    			// Authentication error code
+    			401 : function(jqXHR, textStatus, errorThrown) {
+    				$.fn.disableSpinner();
+    				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+    			},
+    			// Authorization error code
+    			403 : function(jqXHR, textStatus, errorThrown) {
+    				$.fn.disableSpinner();
+    				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+    			},
+    			// Not found error code
+    			404 : function(jqXHR, textStatus, errorThrown) {
+    				$.fn.disableSpinner();
+    				$.fn.handleError(jqXHR, textStatus, errorThrown);
+    			}
+    		},
+    	}).then(function(data) {
+    	    log('Calling disableSpinner');
+    	    $.fn.disableSpinner();
+    	}).responseJSON;
+    }, 500);
+}
+
+
 //Service call function no spinner
 $.fn.serviceCallNoSpin = function(type, data, url, timeout, successCallback) {
 	// Call the search service
