@@ -3,15 +3,14 @@
  */
 package com.verint.services.km.dao;
 
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.net.URL;
-import java.util.Properties;
+
 
 import javax.xml.rpc.ServiceException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +38,11 @@ import com.kana.contactcentre.services.model.SearchV1Service_wsdl.SearchV1Servic
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagV1BindingStub;
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagV1PortType;
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagV1ServiceLocator;
-import com.verint.services.km.util.PropertyUtil;
+import com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginV2BindingStub;
+import com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginV2PortType;
+import com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginV2ServiceLocator;
+import com.verint.services.km.util.ConfigInfo;
+
 
 /**
  * @author jmiller
@@ -59,6 +62,7 @@ public class BaseDAOImpl  {
 	protected static RequestAnswerV1PortType RequestAnswerPortType;
 	protected static FeedbackV1PortType FeedbackPortType;
 	protected static LoginV1PortType LoginPortType;
+	protected static LoginV2PortType LoginV2PortType;
 	protected static int SOAP_TIMEOUT = 40;
 	protected static int SOAP_LOGIN_TIMEOUT = 20;
 	protected static int SOAP_FEEDBACK_TIMEOUT = 20;
@@ -72,28 +76,25 @@ public class BaseDAOImpl  {
 
 	static {
 		try {
-			String fileLocation = PropertyUtil.getSoapConnectionPath();
-			LOGGER.debug("FileLocation: " + fileLocation);
-
-			// Get the properties
-			final Properties prop = new Properties();
-	        final InputStream in = new FileInputStream(fileLocation);
-	        prop.load(in);
-	        in.close();
+		
+			// Get the properties			
+			ConfigInfo kmConfiguration = new ConfigInfo();
+			LOGGER.debug("ConfigInfo: \n" + kmConfiguration.toString());
+			
+	        final String SearchV1Port_address =  kmConfiguration.getSoapSearchservice();
+	        final String ContentV1Port_address = kmConfiguration.getSoapContentservice();
+	        final String TagV1Port_address = kmConfiguration.getSoapTaggingservice();
+	        final String BookmarkV1Port_address = kmConfiguration.getSoapBookmarkservice();
+	        final String NewOrChangedV1Port_address = kmConfiguration.getSoapNeworchangedservice();
+	        final String RequestAnswerV1Port_address = kmConfiguration.getSoapRequestanswer();
+	        final String FeedbackV1Port_address = kmConfiguration.getSoapFeedback();
+	        final String LoginV1Port_address = kmConfiguration.getSoapLogin();
+	        final String LoginV2Port_address = kmConfiguration.getSoapLoginV2();
 	        
-	        final String SearchV1Port_address = prop.getProperty("soap.searchservice");
-	        final String ContentV1Port_address = prop.getProperty("soap.contentservice");
-	        final String TagV1Port_address = prop.getProperty("soap.taggingservice");
-	        final String BookmarkV1Port_address = prop.getProperty("soap.bookmarkservice");
-	        final String NewOrChangedV1Port_address = prop.getProperty("soap.neworchangedservice");
-	        final String RequestAnswerV1Port_address = prop.getProperty("soap.requestanswer");
-	        final String FeedbackV1Port_address = prop.getProperty("soap.feedback");
-	        final String LoginV1Port_address = prop.getProperty("soap.login");
-	        
-	        AppID = prop.getProperty("soap.appid");
-	        Locale = prop.getProperty("soap.locale");
-	        MaxNumberOfUnitsPerGroup = prop.getProperty("soap.maxnumberofunitspergroup");
-	        SpellCheckEnabled = Boolean.valueOf(prop.getProperty("soap.spellcheckenabled"));
+	        AppID = kmConfiguration.getSoapAppid();
+	        Locale = kmConfiguration.getSoapLocale();
+	        MaxNumberOfUnitsPerGroup = kmConfiguration.getSoapMaxnumberofunitspergroup();
+	        SpellCheckEnabled = Boolean.valueOf(kmConfiguration.getSoapSpellcheckenabled());
 
 	        // Search Service
 			final SearchV1ServiceLocator searchServiceLocator = new SearchV1ServiceLocator();
@@ -142,10 +143,14 @@ public class BaseDAOImpl  {
 			LoginPortType = loginServiceLocator.getLoginV1Port(new URL(LoginV1Port_address));
 			LoginV1BindingStub loginBinding = (LoginV1BindingStub) LoginPortType;
 			loginBinding.setTimeout(SOAP_LOGIN_TIMEOUT * 1000);
+			
+			// LoginV2 Service
+			final LoginV2ServiceLocator loginV2ServiceLocator = new LoginV2ServiceLocator();
+			LoginV2PortType = loginV2ServiceLocator.getLoginV2Port(new URL(LoginV2Port_address));
+			LoginV2BindingStub loginV2Binding = (LoginV2BindingStub) LoginV2PortType;
+			loginBinding.setTimeout(SOAP_LOGIN_TIMEOUT * 1000);
 
-		} catch (FileNotFoundException fnfe) {
-			LOGGER.error("FileNotFoundException", fnfe);
-			System.exit(1);
+		
 		} catch (IOException ioe) {
 			LOGGER.error("IOException", ioe);
 			System.exit(1);

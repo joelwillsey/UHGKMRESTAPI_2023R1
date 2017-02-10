@@ -17,6 +17,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.verint.services.km.util.ConfigInfo;
 import com.verint.services.km.util.PropertyUtil;
 
 /**
@@ -29,32 +30,30 @@ public class ConnectionPool {
 
 	static {
 		String fileLocation = PropertyUtil.getConnectionPoolPath();
-		LOGGER.debug("FileLocation: " + fileLocation);
+		LOGGER.debug("Connection Pool FileLocation: " + fileLocation);
+		
+
 		
 		try {
+			
+			ConfigInfo kmConfiguration = new ConfigInfo();
+			
 			// Get the properties
 			final Properties prop = new Properties();
-	        final InputStream in = new FileInputStream(fileLocation);
-	        LOGGER.debug("After: " + in);
-	        prop.load(in);
+
 	        
 	        // Create the basic data source
 	        LOGGER.debug("Creating the BasicDataSource");
 	        DATASOURCE = new BasicDataSource();
 	        LOGGER.debug("DATASOURCE: " + DATASOURCE);
-	        DATASOURCE.setDriverClassName(prop.getProperty("connection.driverclassname"));
-	        DATASOURCE.setUrl(prop.getProperty("connection.url"));
-	        DATASOURCE.setUsername(prop.getProperty("connection.username"));
-	        DATASOURCE.setPassword(prop.getProperty("connection.password"));
-	        DATASOURCE.setMaxTotal(Integer.valueOf(prop.getProperty("connection.maxtotal")));
-	        DATASOURCE.setMaxIdle(Integer.valueOf(prop.getProperty("connection.maxidle")));
-	        in.close();
-		} catch (FileNotFoundException fnfe) {
-			LOGGER.error("FileNotFoundException", fnfe);
-			System.exit(1);
-		} catch (IOException ioe) {
-			LOGGER.error("IOException", ioe);
-			System.exit(1);
+	        DATASOURCE.setDriverClassName(kmConfiguration.getConnectionDriverclassname());
+	        DATASOURCE.setUrl(kmConfiguration.getConnectionUrl());
+	        DATASOURCE.setUsername(kmConfiguration.getConnectionUsername());
+	        DATASOURCE.setPassword(kmConfiguration.getConnectionPassword());
+	        DATASOURCE.setMaxTotal(Integer.valueOf(kmConfiguration.getConnectionMaxtotal()));
+	        DATASOURCE.setMaxIdle(Integer.valueOf(kmConfiguration.getConnectionMaxidle()));
+
+
 		} catch (Throwable t) {
 			LOGGER.error("Throwable Exception", t);
 		}
