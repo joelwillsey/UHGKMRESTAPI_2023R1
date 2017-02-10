@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.verint.services.km.model.AutoSuggestResponse;
+import com.verint.services.km.util.ConfigInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -65,18 +66,12 @@ public class AutocompleteService extends BaseService{
 		// Declaring the URI as empty to pull in the property from the properties file.
 		String uri = "";
 		try {
-			File file = new File("/app_2/verint/projects/uhgiq/restapi/kmservices/connectionPool.properties");
-			LOGGER.info(file.toString());
-			FileInputStream fileInput = new FileInputStream(file);
-			Properties properties = new Properties();
-			properties.load(fileInput);
-			fileInput.close();
 			
-			uri = properties.getProperty("connection.autosuggestURI");
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e) {
+			ConfigInfo kmConfiguration = new ConfigInfo();
+			uri = kmConfiguration.getsolrAutosuggestURI();
+
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
