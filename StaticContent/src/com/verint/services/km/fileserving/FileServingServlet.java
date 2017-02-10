@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.verint.services.km.util.PropertyUtil;
+import com.verint.services.km.util.ConfigInfo;
+
 
 //@WebServlet("/UploadDownloadFileServlet")
 public class FileServingServlet extends HttpServlet {
@@ -24,18 +25,11 @@ public class FileServingServlet extends HttpServlet {
 
 	static {
 		try {
-			String fileLocation = PropertyUtil.getExternalFilesPath();
-
-			// Get the properties
-			final Properties prop = new Properties();
-			final InputStream in = new FileInputStream(fileLocation);
-			prop.load(in);
-			in.close();
-			FileLocation = prop.getProperty("filelocation");
-		} catch (FileNotFoundException fnfe) {
-			System.exit(1);
-		} catch (IOException ioe) {
-			System.exit(1);
+			
+			ConfigInfo kmConfiguration = new ConfigInfo();
+			LOGGER.debug("ConfigInfo: \n" + kmConfiguration.toString());
+			FileLocation = kmConfiguration.getStaticcontentFilelocation();
+			
 		} catch (Throwable t) {
 			System.exit(1);
 		}

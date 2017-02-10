@@ -2,11 +2,10 @@ package com.verint.services.km.fileserving;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
-import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.verint.services.km.util.PropertyUtil;
+import com.verint.services.km.util.ConfigInfo;
 
 //@WebServlet("/UploadDownloadFileServlet")
 public class FileServingServlet extends HttpServlet {
@@ -27,26 +26,11 @@ public class FileServingServlet extends HttpServlet {
 	private static String FileLocation;
 
 	static {
-		try {
-			String fileLocation = PropertyUtil.getExternalFilesPath();
-			LOGGER.debug("FileLocation: " + fileLocation);
-
-			// Get the properties
-			final Properties prop = new Properties();
-			final InputStream in = new FileInputStream(fileLocation);
-			prop.load(in);
-			in.close();
-			FileLocation = prop.getProperty("filelocation");
-		} catch (FileNotFoundException fnfe) {
-			LOGGER.error("FileNotFoundException in FileServingServlet", fnfe);
-			System.exit(1);
-		} catch (IOException ioe) {
-			LOGGER.error("IOException in FileServingServlet", ioe);
-			System.exit(1);
-		} catch (Throwable t) {
-			LOGGER.error("Throwable in FileServingServlet", t);
-			System.exit(1);
-		}
+		
+		ConfigInfo kmConfiguration = new ConfigInfo();
+		LOGGER.debug("ConfigInfo: \n" + kmConfiguration.toString());
+		FileLocation = kmConfiguration.getStaticcontentFilelocation();
+		
 	}
 
 	/*
