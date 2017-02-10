@@ -35,7 +35,6 @@ import com.verint.services.km.model.ContentResponse;
 import com.verint.services.km.model.CustomField;
 import com.verint.services.km.model.ExternalContent;
 import com.verint.services.km.model.Translated;
-import com.verint.services.km.util.PropertyUtil;
 import com.verint.services.km.util.ConfigInfo;;
 /**
  * @author jmiller
@@ -48,21 +47,12 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 
 	static {
 		try {
-			String fileLocation = PropertyUtil.getExternalFilesPath();
-			LOGGER.debug("FileLocation: " + fileLocation);
+
 
 			// Get the properties
-			final Properties prop = new Properties();
-			final InputStream in = new FileInputStream(fileLocation);
-			prop.load(in);
-			in.close();
-			ExternalUrl = prop.getProperty("serverurl");
-		} catch (FileNotFoundException fnfe) {
-			LOGGER.error("FileNotFoundException", fnfe);
-			System.exit(1);
-		} catch (IOException ioe) {
-			LOGGER.error("IOException", ioe);
-			System.exit(1);
+			ConfigInfo kmConfiguration = new ConfigInfo();
+			ExternalUrl = kmConfiguration.getStaticcontentServerurl();
+
 		} catch (Throwable t) {
 			LOGGER.error("Throwable Exception", t);
 			System.exit(1);
