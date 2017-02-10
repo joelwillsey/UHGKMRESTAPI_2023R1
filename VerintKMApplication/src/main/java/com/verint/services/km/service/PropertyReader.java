@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.verint.services.km.util.ConfigInfo;
+
 @Path("/property")
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Service
@@ -48,11 +50,17 @@ public class PropertyReader extends BaseService{
 		String propertyAddress, value = null;
 		try {
 			
-			if(System.getProperty("os.name").startsWith("Windows")) {
-				propertyAddress = "C:\\app_2\\verint\\projects\\uhgiq\\restapi\\kmservices\\propertyReader.properties";
-			} else {
-				propertyAddress = "/app_2/verint/projects/uhgiq/restapi/kmservices/propertyReader.properties";
-			}
+			ConfigInfo kmConfiguration = new ConfigInfo();
+			//LOGGER.debug("ConfigInfo: \n" + kmConfiguration.toString());
+		
+			//if(System.getProperty("os.name").startsWith("Windows")) {
+			//	propertyAddress = "C:\\app_2\\verint\\projects\\uhgiq\\restapi\\kmservices\\propertyReader.properties";
+			//} else {
+			//	propertyAddress = "/app_2/verint/projects/uhgiq/restapi/kmservices/propertyReader.properties";
+			//}
+			
+			propertyAddress = kmConfiguration.getReaderFile();
+			
 			prop.load(new FileInputStream(propertyAddress));
 			
 			value = prop.getProperty(propertyName);

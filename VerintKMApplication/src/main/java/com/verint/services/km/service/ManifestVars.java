@@ -41,6 +41,7 @@ public class ManifestVars implements ServletContextListener {
      */
     public static String getValue(String name) {
        return sMainManifestAttributes.getValue(name).trim();
+     
     }
 
 }
