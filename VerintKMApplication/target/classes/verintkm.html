@@ -3,14 +3,16 @@
 <head>
 	<title>Verint Knowledge</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="viewport" content="width=device-width, minimumscale=1.0, maximum-scale=1.0" />
 	<link media="screen" type="text/css" href="css/ionicons.min.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/jquery-ui/11.4.1/jquery-ui.min.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/common.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/KnowledgeCentral.css" rel="stylesheet" id="knowledgeCentralTheme"/>
+	<link media="screen" type="text/css" href="css/DefaultTheme.css" rel="stylesheet" id="defaultTheme"/>
 	<link media="screen" type="text/css" href="/searchservices/css/search.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/searchservices/css/search_results.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/searchservices/css/request_answer.css" rel="stylesheet" />
 	<link media="screen" type="text/css" href="/searchservices/css/manage_bookmarks.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="/searchservices/css/jquery.typeahead.css" rel="stylesheet"/>	
 	<link media="screen" type="text/css" href="/filterservices/css/filters.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/filterservices/css/add_filter.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/contentservices/css/responsive-tables.css" rel="stylesheet"/>
@@ -22,18 +24,41 @@
 	<script type='text/javascript' src="js/jquery/1.4.1/jquery.cookie.js"></script>
 	<script type='text/javascript' src='js/respond.min.js'></script>
 	<script type='text/javascript' src='js/history.min.js'></script>
-	<script type="text/javascript" src="js/basicauth.js"></script>
+<!--  	<script type="text/javascript" src="js/basicauth.js"></script> -->
+<!--    <script type="text/javascript" src="js/login.js"></script> -->
+    
+
 <!-- <script type="text/javascript" src="js/samlv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
+	<script type="text/javascript" src="js/siteminder.js"></script> 
 	<script type='text/javascript' > 
+	    
 		var contentServiceName = '/contentservices/';
 		var searchServiceName = '/searchservices/';
 		var filtersServiceName = '/filterservices/';
 		var verintKmServiceName = '/verintkm/';
-		var decisionTreeUrl = 'https://demo.kana.com/enterprise/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet/';
+		var LOGIN_SERVICE_TIMEOUT = 21000;
+		var FEEDBACK_SERVICE_TIMEOUT = 21000;
+		var REQUEST_ANSWER_SERVICE_TIMEOUT = 21000;
+		var TAG_SERVICE_TIMEOUT = 21000;
+		var CONTENT_SERVICE_TIMEOUT = 41000;
+		var NEW_OR_CHANGED_SERVICE_TIMEOUT = 21000;
+		var BOOKMARK_SERVICE_TIMEOUT = 21000;
+		var SEARCH_SERVICE_TIMEOUT = 120000;
+		//var decisionTreeUrl = 'http://localhost:8280/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
+		//var decisionTreeUrl = 'http://apsrd3274:8180/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
+		//var decisionTreeUrl = 'http://apsrt1357:8180/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
 		var historyPushEnabled = true;
+		
+		var postLogin  = "verintkm.html";
+		var LOGIN_SERVICE_TIMEOUT = 21000;
+		
+		// Check if authenticated
+		if (!$.fn.isUserAuthenticated())
+		 $.fn.ssoLoginService();
+	
 		var defaultTitle = 'Verint Knowledge Management';
-
+		
 		// Check for history support
 		if (history.pushState && history.replaceState) {
 			// use the built in support
@@ -48,8 +73,8 @@
 		}
 
 		// Check if authenticated
-		$.fn.isUserAuthenticated();
-		
+		//$.fn.isUserAuthenticated();
+		//$.fn.loginService();
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
 		document.cookie = 'savedurl=' + 'verintkm.html%3F' + urlToSend + '; path=/';
@@ -58,6 +83,7 @@
 	<script type='text/javascript' src="/searchservices/js/search_results.js"></script>
 	<script type='text/javascript' src="/searchservices/js/request_answer.js"></script>
 	<script type='text/javascript' src="/searchservices/js/manage_bookmarks.js"></script>
+	<script type='text/javascript' src="/searchservices/js/jquery.typeahead.js"></script>
 	<script type='text/javascript' src="/filterservices/js/browse_widget.js"></script>
 	<script type='text/javascript' src="/filterservices/js/filters.js"></script>
 	<script type='text/javascript' src="/filterservices/js/add_filter.js"></script>
@@ -107,30 +133,42 @@
 		</div>
 	</div>
 	<section id="widgetHeader" style="position: relative; height: 45px;">
-		<div id="widgetHeader-logo" style="background-image: url(images/brand_uhg.png); background-repeat: no-repeat; height: 45px; width: 522px; display: block; width: 100%; overflow: none; background-color: #666666">
+		<div id="widgetHeader-logo">
 			<div style="float: right; height: 45px; line-height: 45px; text-align: center; ">
+				<button id="widget-help" style="background-image: url(images/iconHelp.png);height: 24px;width: 24px;display: inline-block;vertical-align: middle;line-height: normal;background-color: #666666;"></button>
+				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>
 				<span id="widgetHeader-name" style="display: inline-block; vertical-align: middle; line-height: normal; color: #ffffff"></span>
 				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>
-				<button id="widget-logout" style="background-image: url(images/Logout_btn.png); height: 22px; width: 22px; display: inline-block; vertical-align: middle; line-height: normal; background-color: #666666"></button>
+				<button id="widget-logout" style="background-image: url(images/Logout_btn.png); height: 22px; width: 22px; display: inline-block; margin-right: 5px; vertical-align: middle; line-height: normal; background-color: #666666"></button>
 			</div>
 		</div>
 	</section>
-	<section id= "app-container" style="display: none; height: 100%;">
+	<section id= "app-container" style="display: none;">
 			<section id="search-area" class="search_area">
 				<div id="search-widget" class="search_widget">
 <!-- Begin Search Widget -->
 	<section class="search_container">
 		<section class="search">
-			<div id="search-wrapper" class="search_wrapper">
+			<div id="search-wrapper" class="">
 				<div class="search_box">
-					<input id="search-text" class="search_text" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
-					<button id="search-button" class="search_button"></button>
+    				<div id="typeahead-container" class="typeahead__container">
+        				<div class="typeahead__field">
+            				<span class="typeahead__query">
+            					<input id="search-text" class="search_text" autocomplete="off" type="search" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
+            				</span>
+				            <span class="typeahead__button">
+				            	<button id="search-button" class="" tabindex="2" type="submit">
+				            		<i class="typeahead__search-icon"></i>
+				            	</button>
+				            </span> 
+        				</div>
+    				</div>
 				</div>
 			</div>
 			<nav id="search-menu" class="search_menu">
 				<ul id="search-menu-ul">
 					<!-- DO NOT move these to new lines because it results in a space between the elements on the screen -->
-					<li title="Knowledge Alerts"><a id="tab-alert-button" class="left search_alerts sel" href="javascript:void(0);">&nbsp;</a></li><li title="My Bookmarks"><a id="tab-bookmarks-button" class="search_bookmarks" href="javascript:void(0);">&nbsp;</a></li><li title="Featured Content"><a id="tab-featured-button" class="search_featured" href="javascript:void(0);">&nbsp;</a></li><li title="Top Content"><a id="tab-top-content-button" class="search_top_content" href="javascript:void(0);">&nbsp;</a></li><li title="Search Results"><a id="tab-search-button" class="search_search" href="javascript:void(0);">&nbsp;</a></li><li id='search-tab-menu' title="Menu"><a id="tab-menu-button" class="search_tab_menu" href="javascript:void(0);"><i class="icon ion-navicon-round"></i></a></li>
+					<li title="Knowledge Alerts"><a id="tab-alert-button" class="left search_alerts sel" href="javascript:void(0);">&nbsp;</a></li><li title="My Bookmarks"><a id="tab-bookmarks-button" class="search_bookmarks" href="javascript:void(0);">&nbsp;</a></li><li title="Featured Content"><a id="tab-featured-button" class="search_featured" href="javascript:void(0);">&nbsp;</a></li><li title="New or Changed"><a id="tab-new-changed-button" class="search_new_changed" href="javascript:void(0);">&nbsp;</a></li><li title="Search Results"><a id="tab-search-button" class="search_search" href="javascript:void(0);">&nbsp;</a></li><li id='search-tab-menu' title="Menu"><a id="tab-menu-button" class="search_tab_menu" href="javascript:void(0);"><i class="icon ion-navicon-round"></i></a></li>
 				</ul>
 			</nav>
 <!-- 		<section id="search-cloud-wrapper" class="search_filter_section">
@@ -576,8 +614,8 @@
 					<div class="content_header_mobile_top_left"></div>
 					<div class="content_header_mobile_top_right">
 						<div class="content_header_mobile_top_right_featured"></div>
-						<div class="content_header_mobile_top_right_bookmark">
-							<a id="mobile-content-bookmark" class="content_header_right_bookmark_action" href="javascript:void(0);" tabindex="1" title="Bookmark"></a>
+						<div id="mobile-content-bookmark-header" class="content_header_mobile_top_right_bookmark">
+							<a id="mobile-content-bookmark" class="content_header_right_bookmark_action" tabindex="1" title="Bookmark"></a>
 						</div>
 						<div class="content_header_mobile_top_right_exit">
 							<a id="exit-button-mobile" href="javascript:void(0);" tabindex="2" title="Exit"><i class="icon ion-close"></i></a>
@@ -594,9 +632,12 @@
 					<div class="content_header_left_title"></div>		
 					<div class="content_header_right">
 						<div class="content_header_right_featured"></div>
-						<div class="content_header_right_bookmark">
+						<div id="content-bookmark-header" class="content_header_right_bookmark">
 							<a id="content-bookmark" class="content_header_right_bookmark_action" href="javascript:void(0);" tabindex="3" title="Bookmark"></a>
 						</div>
+<!-- 						<div class="content_header_right_copy"> -->
+<!-- 							<a id="copy-content" class="content_header_right_copy_action" href="javascript:void(0);" title="Copy to Comment"></a> -->
+<!-- 						</div> -->
 						<div class="content_header_right_exit">
 							<a id="exit-button" href="javascript:void(0);" tabindex="4" title="Exit"><i class="icon ion-close"></i></a>
 						</div>
@@ -748,9 +789,8 @@
 				background-color: #ffffff;
 				display: none;
 				float: none;
-				height: 100%;
 				left: 0;
-				overflow-y: hidden;
+				overflow-y: auto;
 				position: absolute;
 				top: 0;
 				width: 100%;
@@ -796,10 +836,7 @@
 		$('#app-container').css('display', 'block');
 	}
 	
-	var agentInfo = $.fn.getCookie('AgentInfo');
-	if (agentInfo != null && agentInfo != '') {
-		$('#widgetHeader-name').html('Hi ' + agentInfo);
-	}
+//was here
 
 	// Search resize
 	$.fn.setupSearchWidget = function() {
@@ -834,6 +871,11 @@
 			}
 	    } else {
 			if ($(window).outerWidth(true) < 1025) {
+				if ($('#content-area').hasClass('content_area_on')) {
+					$('#search-area').addClass('search_area_off');
+				} else {
+					$('#search-area').removeClass('search_area_off');
+				}
 				$('#search-results').removeClass('search_results_resize');
 				$.fn.deleteClass('.search_results_resize');
 				$('#search-results').removeClass('sr_list_resize');
@@ -849,6 +891,7 @@
 				$.fn.deleteClass('.sr_list_resize');
 				$.fn.createClass('.sr_list_resize','height: ' + searchResultsListing + 'px;');
 				$('#sr-listing').addClass('sr_list_resize');
+				$('#search-area').removeClass('search_area_off');
 			}
 	    }
 	}
@@ -878,6 +921,9 @@
 			}
 	    } else {
 			if ($(window).outerWidth(true) < 1025) {
+				if ($('#content-area').hasClass('content_area_on')) {
+					$('#filters-area').addClass('filters_area_off');
+				}
 				$('#filter-container').removeClass('filter_resize');
 				$.fn.deleteClass('.filter_resize');
 				$('#div-topic-tags').insertAfter('#topic-arrow');
@@ -906,6 +952,7 @@
 	
 	// Content resize
 	$.fn.setupContentWidget = function() {
+		$('#content-area').removeClass('content_area_off');
 	    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
 			if ($(window).outerWidth(true) < 1025) {
 				$('#content-container').css('height', '100%');
@@ -927,6 +974,11 @@
 				$('#content-container').addClass('content_container_on');
 			}
 	    }
+	}
+	
+	var agentInfo = $.fn.getCookie('AgentInfo');
+	if (agentInfo != null && agentInfo != '') {
+		$('#widgetHeader-name').html('Hi ' + agentInfo);
 	}
 
 	// Setup the resize as appropriate
@@ -972,18 +1024,33 @@
 
 	// Modify for mobile/tablet view
 	$('.content-header-mobile-top-left-arrow').on('click', function() {
-		$('.content_area').addClass('content_area_off');
+		$('.content_area').removeClass('content_area_on');
 		$('.search_area').removeClass('search_area_off');
 	});
 
 	// Logout button
 	// NOTE: This needs to be improved as the cookie is not actually being deleted
 	$('#widget-logout').on('click', function() {
-		$.cookie('AuthToken', null, { path: '/' });
-		$.cookie('AgentInfo', null, { path: '/' });
-		basicAuth = '';
-		$('#widgetHeader-name').html('');
-		window.document.location = 'login.html';
+		//$.cookie('AuthToken', '', { path: '/' });
+		//$.removeCookie('AgentInfo', null, { path: '/' });
+		//$.removeCookie("AuthToken",  { path: '/' });
+		$.cookie('AuthToken', '', { expires: -1, path: '/'});
+		//$.cookie('AgentInfo', '', { expires: -1, path: '/'});
+		basicAuth = '';		
+		$('#widgetHeader-name').html('');		
+		window.document.location = 'logout.html';
+	});
+	
+	// Help button
+	$('#widget-help').on('click', function () {
+		window.open('http://www.verint.com/', '_blank');
+	});
+
+	// On any click remove typeahead
+	$('body').click(function() {
+		log('body.click()')
+		$('#typeahead-container').removeClass('result');
+		$('#typeahead-container').removeClass('backdrop');
 	});
 
 </script>

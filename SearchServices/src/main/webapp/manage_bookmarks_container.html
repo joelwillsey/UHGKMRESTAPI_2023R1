@@ -30,7 +30,8 @@
 		var defaultTitle = 'Verint Manage Bookmarks Widget';
 
 		// Check if authenticated
-		$.fn.isUserAuthenticated();
+		if (!$.fn.isUserAuthenticated())
+		 $.fn.ssoLoginService();
 
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');

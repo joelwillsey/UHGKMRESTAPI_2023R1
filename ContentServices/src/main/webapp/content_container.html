@@ -11,9 +11,10 @@
 	<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui/11.4.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/respond.min.js"></script>
-	<script type="text/javascript" src="js/basicauth.js"></script>
+	<!-- <script type="text/javascript" src="js/basicauth.js"></script> -->
 <!-- <script type="text/javascript" src="js/samlv2.js"></script> -->
-	<script type="text/javascript" src="js/common.js"></script>
+	<script type='text/javascript' src="js/common.js"></script>
+	<script type='text/javascript' src="js/siteminder.js"></script>
 	<script type="text/javascript" src="js/content.js"></script>
 	<script type="text/javascript">
 		var contentServiceName = '/contentservices/';
@@ -31,7 +32,9 @@
 		var defaultTitle = 'Verint Content Widget';
 		
 		// Check if authenticated
-		$.fn.isUserAuthenticated();
+		// Check if authenticated
+		if (!$.fn.isUserAuthenticated())
+		 $.fn.ssoLoginService();
 
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');

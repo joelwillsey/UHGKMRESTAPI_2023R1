@@ -16,7 +16,7 @@ $.fn.errorButtonFunc = function() {
 
 	// If the user is not authenticated make them login
 	if (!authenticated) {
-		window.document.location = "login.html";
+		//window.document.location = "login.html";
 	}
 }
 
