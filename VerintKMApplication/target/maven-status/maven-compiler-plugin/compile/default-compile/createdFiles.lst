@@ -1,8 +1,0 @@
-com\verint\services\km\service\UserIdentityService.class
-com\verint\services\km\service\PropertyReader.class
-com\verint\services\km\service\ManifestService.class
-com\verint\services\km\service\LoginService.class
-com\verint\services\km\dao\LoginDAOImpl.class
-com\verint\services\km\service\ManifestVars.class
-InstallCert$SavingTrustManager.class
-InstallCert.class
