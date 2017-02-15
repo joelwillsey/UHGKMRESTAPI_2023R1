@@ -115,25 +115,31 @@ $.fn.ssoLoginService = function() {
     var password = "admin12345";
     var firstName = req.getResponseHeader("ssofirstname");
     var lastName = req.getResponseHeader("ssolastname");
-	//var dataPackage = '{"username":"' + ssousername + '", "password":"' + password + '", "firstName":"Joe", "lastName":"Smoo", "vemGroups":"kiqadmin"}';
+   	//var dataPackage = '{"username":"' + ssousername + '", "password":"' + password + '", "firstName":"Joe", "lastName":"Smoo", "vemGroups":"kiqadmin"}';
     var requestURL = "http://" + window.location.host +  "/verintkm/km/login_v2";
 	var dataPackage = '{"username":"' + ssousername + '", "password":"' + password  + '", "firstName":"' + firstName + '", "lastName":"' + lastName + '", "vemGroups":"' + kmgroups + '"}';
-    $.fn.setupToken(ssousername, password);
-    jQuery.ajaxSetup({
-		async : false
-	});    
-    $.fn.serviceCall('POST', dataPackage, "km/login_v2", LOGIN_SERVICE_TIMEOUT, function(data) {
-		// Check for a valid result code
-		if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 1) {
-			var username = $('#username').val();
-            var password= $('#password').val();
-            $.fn.setupUserInfo(data);
 
-            }
-
-		}
-    );
-    jQuery.ajaxSetup({
-		async : true
-	});
-}
+    if (ssousername == null)
+        window.document.location = "login.html";
+        else
+        {
+            $.fn.setupToken(ssousername, password);
+	  		jQuery.ajaxSetup({
+	  			async : false
+	  		});    
+	  		$.fn.serviceCall('POST', dataPackage, "km/login_v2", LOGIN_SERVICE_TIMEOUT, function(data) {
+	  			// Check for a valid result code
+	  			if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 1) {
+	  				var username = $('#username').val();
+	  				var password= $('#password').val();
+	  				$.fn.setupUserInfo(data);
+	
+	  				}
+	
+	  			}
+	  		);
+	  		jQuery.ajaxSetup({
+	  			async : true
+	  		});
+      }
+  }
