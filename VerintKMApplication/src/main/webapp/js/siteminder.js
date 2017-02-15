@@ -119,7 +119,10 @@ $.fn.ssoLoginService = function() {
     var requestURL = "http://" + window.location.host +  "/verintkm/km/login_v2";
 	var dataPackage = '{"username":"' + ssousername + '", "password":"' + password  + '", "firstName":"' + firstName + '", "lastName":"' + lastName + '", "vemGroups":"' + kmgroups + '"}';
     $.fn.setupToken(ssousername, password);
-	$.fn.serviceCallAsyncFalse('POST', dataPackage, "km/login_v2", LOGIN_SERVICE_TIMEOUT, function(data) {	
+    jQuery.ajaxSetup({
+		async : false
+	});    
+    $.fn.serviceCall('POST', dataPackage, "km/login_v2", LOGIN_SERVICE_TIMEOUT, function(data) {
 		// Check for a valid result code
 		if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 1) {
 			var username = $('#username').val();
@@ -129,5 +132,8 @@ $.fn.ssoLoginService = function() {
             }
 
 		}
-  );
+    );
+    jQuery.ajaxSetup({
+		async : true
+	});
 }
