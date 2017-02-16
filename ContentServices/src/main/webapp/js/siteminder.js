@@ -123,15 +123,17 @@ $.fn.ssoLoginService = function() {
         window.document.location = "login.html";
         else
         {
-            $.fn.setupToken(ssousername, password);
 	  		jQuery.ajaxSetup({
 	  			async : false
 	  		});    
 	  		$.fn.serviceCall('POST', dataPackage, "km/login_v2", LOGIN_SERVICE_TIMEOUT, function(data) {
 	  			// Check for a valid result code
 	  			if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 1) {
-	  				var username = $('#username').val();
-	  				var password= $('#password').val();
+	  				//var username = $('#username').val();
+	  				//var password= $('#password').val();
+		            // Setup token
+		            $.fn.setupToken(ssousername, password);
+		            //Setup user info
 	  				$.fn.setupUserInfo(data);
 	
 	  				}
