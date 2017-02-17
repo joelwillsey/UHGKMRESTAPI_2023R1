@@ -34,7 +34,12 @@ else
 
 %>
 <%! String parseKMGroups(String kmGroup) {
-	String[] SSO_GROUPS = { "KIQkiqadmin","KIQACME Agent NCST", "KIQOHCSES Agent", "KIQOAdminCall_Agent","KIQOClinical_Agent", "KIQOProductSupport_Agent", "KIQOPaymentIntegrity_Agent", "KIQORX_Agent", "KIQMedica NAMS" };
+	String[] SSO_GROUPS = {"KIQACME_Agent_Dental_Vision_Call","KIQACME_Agent_Dental_Vision_Claim","KIQACME Agent ECS_OLT",
+			"KIQACME Agent Emp-Broker ECS","KIQACME Agent Emp-Broker Prime","KIQACME Agent Emp-Broker UHCBS","KIQACME Agent EnrollBill",
+			"KIQACME_Agent_MedicaidEligCOB","KIQACME_Agent_Medicare_Processor","KIQACME Agent ProviderData","KIQACME_Agent_ProviderOps",
+			"KIQACME_Agent_UHCWest","KIQACME Client Implementation","KIQACME Medicaid Call Agent","KIQACME Medicaid-Processor",
+			"KIQACME Transaction-Processor","KIQAgent CCP","KIQAgent PPR","KIQACME HealthAdvisor","KIQCustomer Service","KIQEnrollment",
+			"KIQPDP Telesales","KIQProducer HelpDesk","KIQTricare_Agent","KIQTRICAREMedMgmt_Agent","KIQAgent CCP","KIQkiqadmin"};
 		String group = "";
 		if (kmGroup != null) 
 		{
