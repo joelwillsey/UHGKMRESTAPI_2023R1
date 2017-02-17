@@ -47,8 +47,8 @@ public class LoginV2DAOImpl extends BaseDAOImpl implements LoginV2DAO {
 	 */
 	@Override
 	public LoginV2Response login(LoginV2Request request) throws RemoteException, AppException {
-		LOGGER.info("Entering login_v2()");
-		LOGGER.debug("Login_v2Request: " + request);
+		LOGGER.info("Entering loginV2()");
+		LOGGER.debug("LoginV2Request: " + request);
 		final LoginV2Response response = new LoginV2Response();
 
 		final LoginUserRequestBodyType body = new LoginUserRequestBodyType();
@@ -61,7 +61,7 @@ public class LoginV2DAOImpl extends BaseDAOImpl implements LoginV2DAO {
 		Instant start = Instant.now();
 		final LoginUserResponseBodyType responseBody = LoginV2PortType.loginUser(body);
 		Instant end = Instant.now();
-		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + body.getUsername() + ") - login_v2() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + body.getUsername() + ") - loginV2() duration: " + Duration.between(start, end).toMillis() + "ms");
 
 		if (responseBody != null && responseBody.getLoginResponse() != null) {
 			com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginResponse lResponse = responseBody.getLoginResponse();
@@ -82,8 +82,8 @@ public class LoginV2DAOImpl extends BaseDAOImpl implements LoginV2DAO {
 			throw new AppException(500, AppErrorCodes.LOGIN_ERROR,
 					AppErrorMessage.LOGIN_ERROR);
 		}
-		LOGGER.debug("Login_v2Response: " + response);
-		LOGGER.info("Exiting login_v2()");
+		LOGGER.debug("LoginV2Response: " + response);
+		LOGGER.info("Exiting loginV2()");
 		return response;
 	}
 
