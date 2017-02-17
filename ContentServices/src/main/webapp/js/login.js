@@ -23,7 +23,7 @@ $(document).ready(function() {
 		// Call the service
 		//var dataPackage = '{"username":"' + username + '", "password":"' + password + '"}';
 		//$.fn.serviceCall('POST', dataPackage, 'km/login', LOGIN_SERVICE_TIMEOUT, function(data) {
-		var dataPackage = '{"username":"' + username + '", "password":"' + password + '", "firstName":"Joe", "lastName":"Smoo", "vemGroups":"kiqadmin"}';
+		var dataPackage = '{"username":"' + username + '", "password":"' + password + '", "firstName":"", "lastName":"", "vemGroups":""}';
 		$.fn.serviceCall('POST', dataPackage, 'km/login_v2', LOGIN_SERVICE_TIMEOUT, function(data) {
 			// Check for a valid result code
 			if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 1) {
