@@ -1,5 +1,6 @@
 var authToken;
 var authenticated = false;
+var errorMessage;
 
 var debug = true;
 var params = $.fn.getAllParametersString();
@@ -21,24 +22,35 @@ $.fn.interrogateResponse = function(headers) {
 }
 
 // Handle the error specific to Basic Auth
-$.fn.handleAuthError = function(jqXHR, textStatus, errorThrown) {
-	if (typeof jqXHR != 'undefined' && typeof jqXHR.status != 'undefined'
-			&& jqXHR.status === 401) {
+//$.fn.handleAuthError = function(jqXHR, textStatus, errorThrown) {
+//	if (typeof jqXHR != 'undefined' && typeof jqXHR.status != 'undefined'
+//			&& jqXHR.status === 401) {
 		// Authentication error
-		$('#background').addClass('background_on');
-		$('#error-body').html('Error: User is not authenticated');
-		$('#error-message').addClass('error_message_on');
-		authenticated = false;
-	} else if (typeof jqXHR != 'undefined'
-			&& typeof jqXHR.status != 'undefined' && jqXHR.status === 403) {
-		// Authorization error
-		$('#background').addClass('background_on');
-		$('#error-body').html(
-				'Error: User is not authorized to access this service');
-		$('#error-message').addClass('error_message_on');
-		authenticated = false;
-	} else {
-		log('Unexpected auth error');
+	//	$('#background').addClass('background_on');
+	//	$('#error-body').html('Error: User is not authenticated');
+	//	$('#error-message').addClass('error_message_on');
+	//	authenticated = false;
+//	} else if (typeof jqXHR != 'undefined'
+//			&& typeof jqXHR.status != 'undefined' && jqXHR.status === 403) {
+//		// Authorization error
+	//	$('#background').addClass('background_on');
+	//	$('#error-body').html(
+	//			'Error: User is not authorized to access this service');
+	//	$('#error-message').addClass('error_message_on');
+	//	authenticated = false;
+	//} else {
+	//	log('Unexpected auth error');
+	//}
+//}
+
+$.fn.handleAuthError = function(jqXHR, textStatus, errorThrown) {
+	if (typeof jqXHR != 'undefined' && typeof jqXHR.status != 'undefined') {		
+	// Authorization error
+	$('#background').addClass('background_on');
+	$('#error-body').html(
+			'Error: ' + errorMessage);
+	$('#error-message').addClass('error_message_on');
+	authenticated = false;
 	}
 }
 
@@ -131,13 +143,18 @@ $.fn.ssoLoginService = function() {
 	  			if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 1) {
 	  				//var username = $('#username').val();
 	  				//var password= $('#password').val();
+	  				
 		            // Setup token
 		            $.fn.setupToken(ssousername, password);
 		            //Setup user info
 	  				$.fn.setupUserInfo(data);
 	
 	  				}
-	
+	  			else
+	  				{
+	  				   errorMessage = data.message;	  				   
+	  				}
+	  			
 	  			}
 	  		);
 	  		jQuery.ajaxSetup({
