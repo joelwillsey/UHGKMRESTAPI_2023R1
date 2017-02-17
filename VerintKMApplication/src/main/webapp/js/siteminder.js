@@ -112,7 +112,7 @@ $.fn.ssoLoginService = function() {
 	req.send(null);
 	var ssousername = req.getResponseHeader("ssousername");
 	var kmgroups = req.getResponseHeader("kmgroups");
-    var password = "admin12345";
+    var password = "Welcome12345";
     var firstName = req.getResponseHeader("ssofirstname");
     var lastName = req.getResponseHeader("ssolastname");
    	//var dataPackage = '{"username":"' + ssousername + '", "password":"' + password + '", "firstName":"Joe", "lastName":"Smoo", "vemGroups":"kiqadmin"}';
