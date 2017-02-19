@@ -986,7 +986,7 @@ $(document).ready(function() {
 		
 		
 		if (decisionTreeUrl === 'undefined' || decisionTreeUrl === null || decisionTreeUrl === 'null' || decisionTreeUrl === '') {
-			var errStatus = 'Error retriveing D-Tree confiuration (PageSetV1.RestPageSet.Url), contact administrator'
+			var errStatus = 'Error retriveing D-Tree confiuration (PageSetV1.RestPageSet.Url), contact administrator';
 				$.fn.handleErrorText(errStatus);
 		} else {
 			
