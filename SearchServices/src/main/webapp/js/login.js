@@ -45,7 +45,11 @@ $(document).ready(function() {
 		            }
 	            }
 			} else {
-				$('#show-alert').addClass('alert_on');
+				if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 16){
+					$('#show-alert-misconfigured').addClass('alert_on');
+				} else {
+					$('#show-alert').addClass('alert_on');
+				}
 			}
 		});
 	}
