@@ -20,7 +20,7 @@
 		
 		// Check if authenticated
 		 $.fn.determineAuth();
-
+	     $.fn.handleNoSSO;
 	</script>
 </head>
 <body style="position: relative; overflow-y: auto; margin: 0px;">
@@ -45,6 +45,9 @@
 				<div class="clear"></div>
 				<div id="show-alert" class="alert">
 					<div class="message">Username or password incorrect.</div>
+				</div>
+				<div id="show-alert-misconfigured" class="alert">
+					<div class="message">Agent is misconfigured.</div>
 				</div>
 			</div>
 			<div class="footer">

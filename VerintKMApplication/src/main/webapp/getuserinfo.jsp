@@ -18,10 +18,10 @@ String kmGroups = request.getHeader(GROUPS);
 boolean debug = false;
 if (debug) 
 {
-	response.addHeader("ssousername","kmmanager");
-	response.addHeader("ssofirstname", "Steve");
-	response.addHeader("ssolastname", "Rousos");
-	response.addHeader("kmgroups", "KIQkiqadmin");
+	response.addHeader("ssousername","");
+	response.addHeader("ssofirstname", "");
+	response.addHeader("ssolastname", "");
+	response.addHeader("kmgroups", "");
 }
 else
 {
@@ -52,6 +52,6 @@ else
 				}
 			}
 		}
-		if(group=="") return "default";
+		//if(group=="") return "default";
 		return group;
 	}%>

@@ -73,6 +73,16 @@ $.fn.handleError = function(jqXHR, textStatus, errorThrown) {
 	}
 }
 
+//Handle the error(s) in a uniform way for now service call errors
+$.fn.handleErrorText = function(textStatus) {
+	log('HandleErrorText()');
+	if (typeof textStatus != 'undefined' && textStatus != null) {
+			$('#background').addClass('background_on');
+			$('#error-body').html('Error: ' + textStatus);
+			$('#error-message').addClass('error_message_on');
+	}
+}
+
 // Service call function
 $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 	// Call the search service

@@ -131,10 +131,9 @@ $.fn.ssoLoginService = function() {
     var requestURL = "http://" + window.location.host +  "/verintkm/km/login_v2";
 	var dataPackage = '{"username":"' + ssousername + '", "password":"' + password  + '", "firstName":"' + firstName + '", "lastName":"' + lastName + '", "vemGroups":"' + kmgroups + '"}';
 
-    if (ssousername == null)
-        window.document.location = "login.html";
-        else
-        {
+    if (ssousername == null){
+        window.document.location = "login.html";        
+	} else {
 	  		jQuery.ajaxSetup({
 	  			async : false
 	  		});    
@@ -162,3 +161,5 @@ $.fn.ssoLoginService = function() {
 	  		});
       }
   }
+
+
