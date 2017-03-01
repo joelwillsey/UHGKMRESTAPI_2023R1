@@ -2,10 +2,10 @@
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 	<%
-	String USERNAME = "KM_USER";
-	String FIRST_NAME = "KM_FIRSTNAME";
-	String LAST_NAME = "KM_LASTNAME";
-	String GROUPS = "KM_GROUPS";
+	String USERNAME = "USERNAME";
+	String FIRST_NAME = "FIRST_NAME";
+	String LAST_NAME = "LAST_NAME";
+	String GROUPS = "GROUPS";
 	String ssoUserName = request.getHeader(USERNAME);
 	String ssoFirstName = request.getHeader(FIRST_NAME); 
 	String ssoLastName = request.getHeader(LAST_NAME); 

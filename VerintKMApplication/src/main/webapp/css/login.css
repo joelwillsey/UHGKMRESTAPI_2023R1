@@ -98,3 +98,9 @@ input.text {
 .footer {
 	margin-top: 0.5em;
 }
+
+.right {
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+}
