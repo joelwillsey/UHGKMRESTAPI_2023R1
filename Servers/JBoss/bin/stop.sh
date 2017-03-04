@@ -9,7 +9,7 @@ if [[ $# == 0 ]]
 then ## no commands passed
 	echo "
 Usage
-	start.sh environment [environment-name] container [container-name]
+	stop.sh environment [environment-name] container [container-name]
 
 Example
 	start.sh environment dev container dev_rest
@@ -42,16 +42,6 @@ then
 fi
 
 HOSTNAME=$(hostname)
-
-# source properties for this specific container
-SETENV_FILE="${SCRIPTHOME}/../kmservices/config/environment.${ENVIRONMENT}/machine.${HOSTNAME}/container.${CONTAINER}/setenv.sh"
-if [[ -f ${SETENV_FILE} ]]
-then
-	source ${SETENV_FILE}
-else
-	echo "Unable to locate ${SETENV_FILE}, cannot continue"
-	exit 2
-fi
 
 if [[ $(ps -ef | grep java | grep "${CONTAINER}" | awk '{print $2}' | wc -l) > 0 ]]
 then

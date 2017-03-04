@@ -49,12 +49,6 @@ else
 	exit 2
 fi
 
-# create the logging directory
-if [[ ! -d ${LOGS_HOME}/jboss ]]
-then
-  mkdir -p ${LOGS_HOME}/jboss
-fi
-
 # Setting up variables for JBoss
 # at this point we should have valid values for ENVIRONMENT, HOSTNAME, and CONTAINER
 # ... should
@@ -76,6 +70,12 @@ export JAVA_OPTS="-XX:+UseConcMarkSweepGC \
   -Xmx4g \
   -XX:NewSize=1g \
   -XX:MaxNewSize=1g"
+
+# create the logging directory
+if [[ ! -d ${LOGS_HOME}/jboss ]]
+then
+  mkdir -p ${LOGS_HOME}/jboss
+fi
 
 if [[ $(ps -ef | grep java | grep "${CONTAINER}" | awk '{print $2}' | wc -l) > 0 ]]
 then
