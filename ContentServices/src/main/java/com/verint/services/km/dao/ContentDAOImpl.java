@@ -232,19 +232,31 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			//Add the javascript(s) includes at the most bottom of the content html to help with load times so I place it the bottom
 			//most section of the render.  Probably makes no difference :)
 			String includeJSFile = "\n <script type=\"text/javascript\" src=\"" + ExternalUrl + "/VEM_showHideDiv.js\" ></script>";
+			//String includeSpryTabbedPanelsJSFile = "\n <script type=\"text/javascript\" src=\"" + ExternalUrl + "/SpryTabbedPanels.js\" ></script>";
+			//String includeSpryCSS = "\n <link type=\"text/css\" href=\"" + ExternalUrl + "/SpryTabbedPanels.css\" rel=\"stylesheet\" />";
 			
 			if (contentResponse.getPrivateAnswer().length() > 0) {
 				contentResponse.setPrivateAnswer(contentResponse.getPrivateAnswer() + includeJSFile);
+				//contentResponse.setPrivateAnswer(contentResponse.getPrivateAnswer() + includeSpryTabbedPanelsJSFile);
 				LOGGER.debug("Added to end of Private Answer: " + includeJSFile);
+				//LOGGER.debug("Added to end of Private Answer: " + includeSpryTabbedPanelsJSFile);
 			} else if (contentResponse.getPrivateBody().length() > 0){
 				contentResponse.setPrivateBody(contentResponse.getPrivateBody() + includeJSFile);
+				//contentResponse.setPrivateBody(contentResponse.getPrivateBody() + includeSpryTabbedPanelsJSFile);
 				LOGGER.debug("Added to end of PrivateBody: " + includeJSFile);
+				//LOGGER.debug("Added to end of PrivateBody: " + includeSpryTabbedPanelsJSFile);
 			} else if (contentResponse.getPublicAnswer().length() > 0){
 				contentResponse.setPublicAnswer(contentResponse.getPublicAnswer() + includeJSFile);
+				//contentResponse.setPublicAnswer(contentResponse.getPublicAnswer() + includeSpryTabbedPanelsJSFile);
 				LOGGER.debug("Added to end of PublicAnswer: " + includeJSFile);
+				//LOGGER.debug("Added to end of PrivateBody: " + includeSpryTabbedPanelsJSFile);
 			} else if (contentResponse.getPublicBody().length() > 0){
 				contentResponse.setPublicBody(contentResponse.getPublicBody() + includeJSFile);
+				//contentResponse.setPublicBody(contentResponse.getPublicBody() + includeSpryTabbedPanelsJSFile);
+				//contentResponse.setPublicBody(contentResponse.getPublicBody() + includeSpryCSS);
+				
 				LOGGER.debug("Added to end of PublicBody: " + includeJSFile);
+				//LOGGER.debug("Added to end of PublicBody: " + includeSpryTabbedPanelsJSFile);
 			}
 			
 			// Setup Public Body
