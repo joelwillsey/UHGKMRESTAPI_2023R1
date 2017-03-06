@@ -118,7 +118,7 @@ $.fn.ssoLoginService = function() {
 
 	// Call the service
 	//headerData = '{"ssousername":"' + ssousername + '"ssofirstname":"' + ssofirstname + '"ssolastname":"' + ssolastname + '"kbnames":"' + kbnames + '"}';
-	var URL = "http://" + window.location.host +  "/verintkm/getuserinfo.jsp";
+	var URL = window.location.protocol  + "//" + window.location.host +  "/verintkm/getuserinfo.jsp";
 	var req = new XMLHttpRequest();
 	req.open('GET', URL, false);
 	req.send(null);
