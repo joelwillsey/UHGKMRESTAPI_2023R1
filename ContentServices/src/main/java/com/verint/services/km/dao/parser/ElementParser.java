@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,24 +59,15 @@ public class ElementParser {
 		bodyContent = bodyContent.replaceAll("<!\\[CDATA\\[", "");
 		bodyContent = bodyContent.replaceAll("]]>", "");
 		
-		//Begin PSeifert - Fix for TinyMCE changes "<![CDATA[" to  "<!--[CDATA[" and "]]>" to "]]-->"
-		bodyContent = bodyContent.replaceAll("<!--\\[CDATA\\[", "");
-		bodyContent = bodyContent.replaceAll("]]-->", "");
-		// END PSeifert
-		
-
-
 // BEGIN JGM - Fix for UHG specific content
 		//just put in <script so it can allow attributes so I expect to see #startscript#>
-		//bodyContent = bodyContent.replaceAll("#startscript#>", "<script>");
 		//bodyContent = bodyContent.replaceAll("#startscript#&gt;", "<script>");
-		//bodyContent = bodyContent.replaceAll("#startscript#", "<script>");
-		//bodyContent = bodyContent.replaceAll("#stopscript#", "</script>");
+		//bodyContent = bodyContent.replaceAll("#startscript#", "<script");		
 		//bodyContent = bodyContent.replaceAll("#endscript#", "</script>");
+
+		bodyContent = parseScriptPlaceHolders(bodyContent);
+		bodyContent = parseLinkPlaceHolders(bodyContent);
 		
-		//allows < & > to be embbeded in CDATA  as {{&lt;}} or {{&gt;}}
-		bodyContent = bodyContent.replaceAll("\\{\\{&lt;\\}\\}", "<");
-		bodyContent = bodyContent.replaceAll("\\{\\{&gt;\\}\\}", ">");
 // END JGM
 		LOGGER.debug("bodyContent2: " + bodyContent);
 		
@@ -604,5 +596,98 @@ public class ElementParser {
 	 */
 	public String parsePublic(String data) {
 		return null;
+	}
+	
+	
+	//Find script placeholders and convert it to the correct script verbiage
+	public String parseScriptPlaceHolders(String data){
+		//String newData = data;
+		
+		String linkPlaceHolder = "#link#";
+		String startscriptPlaceHolder ="#startscript#";
+		String stopscriptPlaceHolder ="#endscript#";
+		
+		int startSearchIndex = 0;
+		String scriptString = "";
+		
+		int indexStartScript = data.indexOf(startscriptPlaceHolder, startSearchIndex);
+		
+		while (indexStartScript != -1) {
+			
+			// script tag could be self contained i.e #startscript# type="text/javascript" src="http://localhost:8090/fileStorage/lastModified.js">
+			// or have an end tag i.e. #startscript# type="text/javascript">function StartCountdown(){for(var i=1; i{{&lt;}}=3; i++) {alert("Count "+i+" is done!") }}#endscript#
+			// so we need to find the next start to make sure it is not before the end tag
+			int indexEndScript = data.indexOf(stopscriptPlaceHolder, indexStartScript + startscriptPlaceHolder.length());
+			if (indexEndScript != -1){
+				scriptString = data.substring(indexStartScript, indexEndScript + stopscriptPlaceHolder.length());
+				String newScriptString = replaceEscapeChar(scriptString);
+				data = data.replaceAll(Pattern.quote(scriptString), newScriptString);
+				LOGGER.debug("parseScriptPlaceHolders: Replacing script placeholders: \"" + scriptString + "\" with \"" + newScriptString + "\"");				
+			}
+
+			startSearchIndex = 	indexStartScript + startscriptPlaceHolder.length();
+			
+			indexStartScript = data.indexOf(startscriptPlaceHolder, startSearchIndex);			
+		
+		}
+		
+		return data;
+	}
+	
+	//Find link placeholders and convert it to the correct script verbiage
+		public String parseLinkPlaceHolders(String data){
+			//String newData = data;
+			
+
+			String linkPlaceHolder = "#startlink#";
+			//HTML escape charaacter > = &gt;
+			String greaterThanEsc = "&gt;";
+
+			
+			int startSearchIndex = 0;
+			
+			int indexStartLink = data.indexOf(linkPlaceHolder, startSearchIndex);
+			
+			while (indexStartLink != -1) {
+				
+				// link tag #link# media="screen" type="text/css" href="/http://localhost:8090/fileStorage/SpryTabbedPanels.css" rel="stylesheet" &gt;
+				
+				int indexStartLinkClosing = data.indexOf(greaterThanEsc, startSearchIndex);
+				
+				if (indexStartLinkClosing != -1){
+					String linkString = data.substring(indexStartLink, indexStartLinkClosing) + data.substring(indexStartLinkClosing, indexStartLinkClosing + greaterThanEsc.length());
+					String newLinkString = replaceEscapeChar(linkString);
+					data = data.replaceAll(Pattern.quote(linkString), newLinkString);
+					LOGGER.debug("parseLinkPlaceHolders: Replacing Link placeholders: \"" + linkString + "\" with \"" + newLinkString + "\"");
+				}
+				
+				startSearchIndex = 	indexStartLink + linkPlaceHolder.length();
+				
+				indexStartLink = data.indexOf(linkPlaceHolder, startSearchIndex);			
+			
+			}
+		
+			return data;
+		}
+		
+	//PRS replace html escape characters for script with correct characters
+	public String replaceEscapeChar(String data){
+		//HTML Escape characters
+		//& becomes &amp;
+		//< becomes &lt;
+		//> becomes &gt;
+		//In attribute values you must also escape the quote character [spec]:
+		//" becomes &quot;
+		//' becomes &#39;
+		data = data.replaceAll(Pattern.quote("#startscript#"), "<script");
+		data = data.replaceAll(Pattern.quote("#endscript#"), "</script>");
+		data = data.replaceAll(Pattern.quote("#startlink#"), "<link");
+		data = data.replaceAll(Pattern.quote("&amp;"), "&");
+		data = data.replaceAll(Pattern.quote("&lt;"), "<");
+		data = data.replaceAll(Pattern.quote("&gt;"), ">");
+		data = data.replaceAll(Pattern.quote("&quot;"), "\"");
+		data = data.replaceAll(Pattern.quote("&#39;"), "'");
+		
+		return data;
 	}
 }
