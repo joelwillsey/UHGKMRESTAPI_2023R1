@@ -16,6 +16,7 @@
 <!-- 	<script type="text/javascript" src="js/samlv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
 	<script type='text/javascript' src="js/login.js"></script>
+	<script type="text/javascript" src="js/siteminder.js"></script> 
 
 	<script type="text/javascript">
 		var contentServiceName = '/contentservices/';
@@ -23,8 +24,9 @@
 		var defaultTitle = 'Verint Content Widget';
 		
 		// Check if authenticated
-		$.fn.isUserAuthenticated();
-
+		if (!$.fn.isUserAuthenticated())
+		 $.fn.ssoLoginService();
+		
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
 		document.cookie = 'savedurl=' + 'content_container.html%3F' + urlToSend + '; path=/';
