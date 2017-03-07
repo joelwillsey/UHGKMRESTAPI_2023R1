@@ -31,7 +31,8 @@
 <body>
 	<div id="xui-topbar">
 		<h1>Verint Knowledge Management - Single Sign On Headers</h1>
-		<a id="xui-logout" href="<%="http://" + request.getServerName() + ":" + request.getServerPort() + "/verintkm/verintkm.html" %>" class="logout">Log In</a>
+		<%String replaceURl = request.getRequestURL().replace(request.getRequestURL().indexOf("requestheaders.jsp"), request.getRequestURL().length() ,"login.html").toString();  %>
+		<a id="xui-logout" href="<%=request.getProtocol() + "//" + request.getServerName() + ":" + request.getServerPort() + "/verintkm/verintkm.html" %>" class="logout">Log In</a>
 	</div>
 	<div id="xui-main">
 		<div class="xui-lm-columns-12">
