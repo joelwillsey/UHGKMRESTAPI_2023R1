@@ -361,7 +361,7 @@ $(document).ready(function() {
 								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
 							} else {
 								// Do we have spidered content to setup?
-								if (data.suggestedQueries[i].knowledgeGroupUnits[i].contentType === 'Unstructured') {
+								if (data.suggestedQueries[i].knowledgeGroupUnits[p].contentType === 'Unstructured') {
 									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
 								} else {
 									// "regular" content
