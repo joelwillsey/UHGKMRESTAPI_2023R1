@@ -23,13 +23,16 @@
 		var historyPushEnabled = false;
 		var defaultTitle = 'Verint Content Widget';
 		
-		// Check if authenticated
-		if (!$.fn.isUserAuthenticated())
-		 $.fn.ssoLoginService();
+		
 		
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
 		document.cookie = 'savedurl=' + 'content_container.html%3F' + urlToSend + '; path=/';
+		
+		// Check if authenticated
+		if (!$.fn.isUserAuthenticated())
+		 $.fn.ssoLoginService();
+		
 	</script>
 </head>
 <body style="position: relative; overflow-y: auto; margin: 0px; background-color: rgb(0,0,0);">
