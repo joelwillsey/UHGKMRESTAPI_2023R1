@@ -69,12 +69,19 @@ public class ElementParser {
 		bodyContent = parseLinkPlaceHolders(bodyContent);
 		
 // END JGM
+		
+		//Start PRS
+		// parseInlineContent was only happening in public body, moving to here to it effects all sections of content
+		bodyContent= inlineContentEntry(bodyContent);
+		//End PRS
+		
 		LOGGER.debug("bodyContent2: " + bodyContent);
 		
 		ParserInfo parserInfo = parseData(bodyContent, "publicBody");
-		String publicBody = parseInlineContent(parserInfo.getElementData());
-		publicBody = inlineContentEntry(publicBody);
-		response.setPublicBody(publicBody);
+		//String publicBody = parseInlineContent(parserInfo.getElementData());
+		//publicBody = inlineContentEntry(publicBody);
+		//response.setPublicBody(publicBody);
+		response.setPublicBody(parserInfo.getElementData());
 		
 		parserInfo = parseData(parserInfo.getData(), "publicAnswer");
 		response.setPublicAnswer(parserInfo.getElementData());
