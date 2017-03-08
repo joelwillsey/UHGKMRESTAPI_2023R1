@@ -118,13 +118,25 @@ $.fn.ssoLoginService = function() {
 
 	// Call the service
 	//headerData = '{"ssousername":"' + ssousername + '"ssofirstname":"' + ssofirstname + '"ssolastname":"' + ssolastname + '"kbnames":"' + kbnames + '"}';
-	var URL = window.location.protocol  + "//" + window.location.host +  "/verintkm/getuserinfo.jsp";
+	var URL = window.location.protocol  + "//" + window.location.host +  verintKmServiceName + "getuserinfo.jsp"; //default value
+	var contextPath = window.location.pathname;
+
+	if (contextPath.indexOf(verintKmServiceName) > -1){
+		URL = window.location.protocol  + "//" + window.location.host +  verintKmServiceName + "getuserinfo.jsp";
+	} else if (contextPath.indexOf(filtersServiceName) > -1) {
+		URL = window.location.protocol  + "//" + window.location.host +  filtersServiceName + "getuserinfo.jsp";
+	} else if (contextPath.indexOf(searchServiceName) > -1) {
+	URL = window.location.protocol  + "//" + window.location.host +  searchServiceName + "getuserinfo.jsp";
+	} else if (contextPath.indexOf(contentServiceName) > -1) {
+	URL = window.location.protocol  + "//" + window.location.host +  contentServiceName + "getuserinfo.jsp";
+	} 
+	
 	var req = new XMLHttpRequest();
 	req.open('GET', URL, false);
 	req.send(null);
 	var ssousername = req.getResponseHeader("ssousername");
 	var kmgroups = req.getResponseHeader("kmgroups");
-    var password = "Welcome12345";
+    var password = "doesNotMatterForSSO";
     var firstName = req.getResponseHeader("ssofirstname");
     var lastName = req.getResponseHeader("ssolastname");
    	//var dataPackage = '{"username":"' + ssousername + '", "password":"' + password + '", "firstName":"Joe", "lastName":"Smoo", "vemGroups":"kiqadmin"}';
