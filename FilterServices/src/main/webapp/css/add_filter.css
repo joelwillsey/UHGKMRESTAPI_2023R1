@@ -107,10 +107,10 @@
 				    width: auto;
 				}
 					.add_filter_body_find_buttons_clear button:hover, .add_filter_body_find_buttons_find button:hover, .add_filter_footer_right button:hover, .add_filter_footer_left button:hover {
-						border-color: #0099cc;
+						border-color: #003c71;
 					}
 					.add_filter_body_find_buttons_clear button:active, .add_filter_body_find_buttons_find button:active, .add_filter_footer_right button:active, .add_filter_footer_left button:active {
-						color: #0099cc;
+						color: #003c71;
 					}				
 			.add_filter_body_find_buttons_find {
 			 	float: right;

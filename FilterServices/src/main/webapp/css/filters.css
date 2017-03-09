@@ -87,10 +87,10 @@ button {
 						padding-left: 0px;
 					}
 						.fs_dt button:hover, .fs_dt button:hover {
-						    border: 1px solid #0099cc;
+						    border: 1px solid #003c71;
 						}
 						.fs_dt button:active, .fs_dt button:active {
-						    color: #0099cc;
+						    color: #003c71;
 						}
 					.fs_dt_info_filters {
 						height: auto;
@@ -306,7 +306,7 @@ button {
 							padding-left: 0px;
 						}
 	#fs-reset-topic, #fs-cloud-reset {
-	 	color: #0099cc;
+	 	color: #003c71;
 	 	cursor: pointer;
 	 	display: inline-block;
 		text-decoration: underline;
