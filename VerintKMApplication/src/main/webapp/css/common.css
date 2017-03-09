@@ -174,10 +174,10 @@ i {
 			cursor: pointer;
 		}
 		.error_button button:hover {
-			border-color: #0099cc;
+			border-color: #003c71;
 		}
 		.error_button button:active {
-			color: #0099cc;
+			color: #003c71;
 		}
 		.error_underline {
 			text-decoration: underline;
