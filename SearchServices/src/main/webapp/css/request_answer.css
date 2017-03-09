@@ -99,10 +99,10 @@
 			    width: auto;
 			}
 				.request_answer_button button:hover {
-				    border-color: #0099cc;
+				    border-color: #003c71;
 				}
 				.request_answer_button button:active {
-				    color: #0099cc;
+				    color: #003c71;
 				}
 		.request_answer_cancel_info {
 			float: left;

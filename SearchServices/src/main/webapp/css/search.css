@@ -155,7 +155,7 @@ h4 {
 					.search_menu_mobile {
 						display: none;
 						float: right;
-						color: #0099cc;
+						color: #003c71;
 					}
 		.search_filter_section {
 			color: #222;
@@ -197,7 +197,7 @@ h4 {
 					font-family: 'OpenSans',Arial,sans-serif;
 				}
 					.search_filter_data_reset a {
-						color: #0099cc;
+						color: #003c71;
 					}
 				.search_filter_data_info {
 					display: inline-block;
@@ -231,7 +231,7 @@ h4 {
 	}
 	.search a.search_menu_toggle {
 	   	border: 1px solid #c7c7c7;
-    	color: #0099cc;
+    	color: #003c71;
     	display: block;
     	font-size: 1.25em;
     	text-align: left;
@@ -313,5 +313,5 @@ h4 {
 		    display: block;
 		    cursor: pointer;
 		}
-		.dropdown li.selected {background-color: #0099cc;}
+		.dropdown li.selected {background-color: #003c71;}
 .show {display:block;}

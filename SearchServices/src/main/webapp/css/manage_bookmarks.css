@@ -5,7 +5,7 @@
 }
 .bookmark_exit {
 	float: right;
-	color: #0099cc;
+	color: #003c71;
 }
 	.bookmark_exit:hover {
 		cursor: pointer;
@@ -47,7 +47,7 @@
 	}
 	.bookmark_table_header {
 		align-items: center;
-		border-color: #0099cc;
+		border-color: #003c71;
 		border-style: solid; 
 		border-width: 0 1px 1px;
 		box-sizing: border-box;
@@ -57,14 +57,14 @@
 	}
 		.bookmark_table_header_col {
 			border-style: solid; 
-			border-color: #0099cc; 
+			border-color: #003c71; 
 			border-width: 0 1px 0 0;
 			display: inline-block; 
 			padding: 3px 6px 2px; 
 		}
 		.bookmark_table_header_end {
 			border-style: solid; 
-			border-color: #0099cc; 
+			border-color: #003c71; 
 			border-width: 0 0 0 0;
 			display: inline-block; 
 			padding: 3px 6px 2px; 
@@ -119,10 +119,10 @@
 	    width: auto;
 	}
 		.bookmark_action_button:hover {
-		    border-color: #0099cc;
+		    border-color: #003c71;
 		}
 		.bookmark_action_button:hover:active {
-				color: #0099cc;
+				color: #003c71;
 		}
 		.bookmark_action_button_active {
 		  	background-color: #eee;

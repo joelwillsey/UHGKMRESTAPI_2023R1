@@ -58,7 +58,7 @@ button{
 			overflow: hidden;
 		}				
 			.sr_hs_sort a {
-				color: #0099cc;
+				color: #003c71;
 			}
 			.sr_hs_sort a.active {
 				color: #000000;
@@ -71,7 +71,7 @@ button{
 				margin-right: 7px;
 			}
 			.sr_hs_sort_date {
-				color: #0099cc;
+				color: #003c71;
 				display: inline-block;
 				margin-right: 7px;
 			}
@@ -146,10 +146,10 @@ button{
 				display: none;
 			}
 			.sr_hns_right button:hover {
-				border: 1px solid #0099cc;
+				border: 1px solid #003c71;
 			}
 			.sr_hns_right button:active {
-				color: #0099cc;
+				color: #003c71;
 			}
 	.sr_numbers_mobile {
 		display: none;
@@ -239,7 +239,7 @@ button{
 				background: transparent url(../images/iconKnowledgeRemoteDocument.png) no-repeat scroll center center;
 			}
 			.sr_lr_title {
-				color: #0099cc;
+				color: #003c71;
 				display: inline-block;
 				font: 14px/18px "OpenSans",Arial,sans-serif;
 				line-height: 20px;
@@ -302,10 +302,10 @@ button{
 				.sr_lr_didyoumean:hover, .sr_lr_seemore:hover {			
 				    background-color: #eee;
 				    background-image: linear-gradient(to bottom, #fff 1%, #dfdfdf 100%);
-				    border-color: #0099cc;
+				    border-color: #003c71;
 				}
 				.sr_lr_didyoumean:active, .sr_lr_seemore:active {
-					color: #0099cc;			
+					color: #003c71;			
 				}
 			.sr_lr_suggested {
 				padding: 18px 6px 12px;
@@ -319,7 +319,7 @@ button{
 					padding: 5px 12px;
 				}
 					.sr_lr_suggested_results a:link, .sr_lr_suggested_results a:visited {
-						color: #0099cc;
+						color: #003c71;
 					}
 	.sr_pagination {
 		margin-top: 10px;
@@ -351,7 +351,7 @@ button{
 				text-align: center;
 			}
 			.sr_pagination nav ul li a {
-				color: #0099cc;
+				color: #003c71;
 				cursor: pointer;
 				display: inline-block;
 				font-family: 'OpenSans',Arial,sans-serif;
@@ -359,7 +359,7 @@ button{
 				width: 100%;
 			}
 				.sr_pagination nav ul li:hover {
-    				border-color: #0099cc;
+    				border-color: #003c71;
 				}
 				.sr_pagination nav ul li.sel {
 				    border: none;
@@ -389,7 +389,7 @@ button{
     				font-weight: bold;
 				}
 				.sr_pagination nav ul li a.active {
-				    color: #0099cc;
+				    color: #003c71;
 				    cursor: pointer;
 				    height: 100%;
 					font: 13.3333px Arial;
