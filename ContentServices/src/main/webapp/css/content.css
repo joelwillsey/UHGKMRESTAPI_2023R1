@@ -177,7 +177,7 @@ button {
 		    vertical-align: middle;
 		}
 			.content_header_right_exit a {
-			    color: #0099cc;
+			    color: #003c71;
 			    display: block;
 			    height: 16px;
 			    text-decoration: none;
@@ -340,7 +340,7 @@ button {
 				display: inline-block;
 			}
 				.content_skipto_links ul li a {
-					color: #0099cc;
+					color: #003c71;
 					cursor: pointer;
 					display: inline-block;
 					text-decoration: underline;
@@ -356,7 +356,7 @@ button {
 		line-height: 40px;
 	}
 		.content_skipto_refresh a {
-			color: #0099cc;
+			color: #003c71;
 			cursor: pointer;
 			text-decoration: underline;
 		}
@@ -457,7 +457,7 @@ button {
     				cursor: pointer;
 				}
 				.content_body_field_data a:link, .content_body_field_data a:visited {
-    				color: #0099cc;
+    				color: #003c71;
     				text-decoration: underline;
 				}
 				.content_body_field_data a:hover {
@@ -566,7 +566,7 @@ button {
 				}
 
 	a.content_body_form_paragraph:link, a.content_body_form_paragraph:visited {
-    	color: #0099cc;
+    	color: #003c71;
     	cursor: pointer;
 	}
 	.content_body_field_tags {
@@ -724,7 +724,7 @@ table {
 		display: block;
 	}
 		.content_header_mobile_top {
-			color: #0099cc;
+			color: #003c71;
 			line-height: 20px;
 			padding-left: 0px;
 			vertical-align: middle;
@@ -814,7 +814,7 @@ table {
 				    vertical-align: middle;
 				}
 					.content_header_mobile_top_right_exit a {
-					    color: #0099cc;
+					    color: #003c71;
 					    height: 16px;
 					    width: 16px;
 					}
