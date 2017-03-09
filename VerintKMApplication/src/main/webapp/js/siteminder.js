@@ -143,7 +143,7 @@ $.fn.ssoLoginService = function() {
 	var dataPackage = '{"username":"' + ssousername + '", "password":"' + password  + '", "firstName":"' + firstName + '", "lastName":"' + lastName + '", "vemGroups":"' + kmgroups + '"}';
 
     if (ssousername == null){
-        window.document.location = "login.html";        
+        window.document.location = "/verintkm/login.html";        
 	} else {
 	  		jQuery.ajaxSetup({
 	  			async : false

@@ -11,7 +11,7 @@
 	<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui/11.4.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/respond.min.js"></script>
-<!-- 	<script type="text/javascript" src="js/basicauth.js"></script> -->
+ 	<script type="text/javascript" src="js/basicauth.js"></script>
 <!-- <script type="text/javascript" src="js/samlv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
 	<script type='text/javascript' src="js/siteminder.js"></script>
@@ -31,13 +31,17 @@
 		var historyPushEnabled = false;
 		var defaultTitle = 'Verint Content Widget';
 		
+		// Setup cookie to store the initial URL
+		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
+		document.cookie = 'savedurl=' + 'iset_content_container.html%3F' + urlToSend + '; path=/';
+		
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
 		 $.fn.ssoLoginService();
 
 		// Setup cookie to store the initial URL
-		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
-		document.cookie = 'savedurl=' + 'content_container.html%3F' + urlToSend + '; path=/';
+		//var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
+		//document.cookie = 'savedurl=' + 'content_container.html%3F' + urlToSend + '; path=/';
 	</script>
 </head>
 <body>

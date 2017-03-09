@@ -35,15 +35,31 @@ $(document).ready(function() {
 	            
 	            // Setup the user information
 	            $.fn.setupUserInfo(data);
+	            var cookieSavedUrlValue = document.cookie.replace(/(?:(?:^|.*;\s*)savedurl\s*\=\s*([^;]*).*$)|^.*$/, "$1");	          
 
 	            // Check to see where to redirect
-	            if (typeof postLogin != 'undefined' && postLogin != '') {
+	           /* if (typeof postLogin != 'undefined' && postLogin != '') {
 		            if (typeof params != 'undefined' && params != '') {
 		            	window.document.location = postLogin + '?' + params;
 		            } else {
 		            	window.document.location = postLogin;
 		            }
 	            }
+			}*/ 
+	         if (typeof cookieSavedUrlValue != 'undefined' && cookieSavedUrlValue != '') {
+	            	cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3F/g, "?");
+	 	            cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3D/g, "=");
+	            	window.document.location = cookieSavedUrlValue;
+	            } else {
+	            	if (typeof postLogin != 'undefined' && postLogin != '') {
+     		           if (typeof params != 'undefined' && params != '') {
+     		            	window.document.location = postLogin + '?' + params;
+     		            } else {
+     		            	window.document.location = postLogin;
+     		            }
+	     	         }
+	 		        window.document.location = postLogin;
+	 		    }    
 			} else {
 				if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 16){
 					$('#show-alert-misconfigured').addClass('alert_on');

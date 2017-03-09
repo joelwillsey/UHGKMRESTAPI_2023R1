@@ -14,6 +14,7 @@
 <!-- <script type="text/javascript" src="js/samlv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
 	<script type='text/javascript' src="js/request_answer.js"></script>
+		<script type='text/javascript' src="js/siteminder.js"></script>
 	<script type="text/javascript">
 		var contentServiceName = '/contentservices/';
 		var searchServiceName = '/searchservices/';
@@ -31,13 +32,15 @@
 		var historyPushEnabled = false;
 		var defaultTitle = 'Verint Request Answer Widget';
 
-		// Check if authenticated
-		if (!$.fn.isUserAuthenticated())
-		 $.fn.ssoLoginService();
 		
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
 		document.cookie = 'savedurl=' + 'request_answer_container.html%3F' + urlToSend + '; path=/';
+		
+		// Check if authenticated
+		if (!$.fn.isUserAuthenticated())
+		 $.fn.ssoLoginService();
+
 	</script>
 </head>
 <body>

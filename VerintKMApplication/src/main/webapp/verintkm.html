@@ -49,8 +49,11 @@
 		var historyPushEnabled = true;
 		
 		var postLogin  = "verintkm.html";
-		var LOGIN_SERVICE_TIMEOUT = 21000;
 		
+		var LOGIN_SERVICE_TIMEOUT = 21000;
+		// Setup cookie to store the initial URL
+		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
+		document.cookie = 'savedurl=' + 'verintkm.html%3F' + urlToSend + '; path=/';
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
 		 $.fn.ssoLoginService();
@@ -73,9 +76,7 @@
 		// Check if authenticated
 		//$.fn.isUserAuthenticated();
 		//$.fn.loginService();
-		// Setup cookie to store the initial URL
-		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
-		document.cookie = 'savedurl=' + 'verintkm.html%3F' + urlToSend + '; path=/';
+
 	</script>
 	<script type='text/javascript' src="/searchservices/js/search.js"></script>
 	<script type='text/javascript' src="/searchservices/js/search_results.js"></script>

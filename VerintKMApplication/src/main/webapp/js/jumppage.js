@@ -3,11 +3,12 @@
  */
 var searchServiceName = "/searchservices/";
 var contentServiceName = "/contentservices/";
-$(document).ready(function() {
+//$(document).ready(function() {
+$.fn.setUpJump=function() {
 	var params = $.fn.getAllParametersString();
 	
 	$.fn.parsingURLVariables(params);
-});
+};
 
 	$.fn.parsingURLVariables = function( params) {
 		//splits up the parameters
@@ -186,6 +187,7 @@ $(document).ready(function() {
 			jQuery.ajaxSetup({async:false});
 			var migratableReferenceId = $.fn.getIsetResponse(refName,"all","");
 			jQuery.ajaxSetup({async:true});
+		//	document.cookie = 'savedurl=' + 'jumppage.html%3F' + variables[0] + '; path=/';
 			var url = contentServiceName + 'iset_content_container.html?id='+migratableReferenceId;
 			window.location.replace(url);
 		

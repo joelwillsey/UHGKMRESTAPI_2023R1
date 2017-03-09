@@ -31,13 +31,15 @@
 		var historyPushEnabled = false;
 		var defaultTitle = 'Verint Search and Content Widget';
 
+		// Setup cookie to store the initial URL
+		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
+		document.cookie = 'savedurl=' + 'search_content_container.html%3F' + urlToSend + '; path=/';
+		
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
 		 $.fn.ssoLoginService();
 		
-		// Setup cookie to store the initial URL
-		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
-		document.cookie = 'savedurl=' + 'search_content_container.html%3F' + urlToSend + '; path=/';
+
 	</script>
 	<script type='text/javascript' src="js/manage_bookmarks.js"></script>
 	<script type='text/javascript' src="js/request_answer.js"></script>

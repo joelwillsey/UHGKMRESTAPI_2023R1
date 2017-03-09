@@ -19,18 +19,27 @@
 	<script type="text/javascript" src="js/siteminder.js"></script> 
 
 	<script type="text/javascript">
-		var contentServiceName = '/contentservices/';
-		var historyPushEnabled = false;
+    
+	var contentServiceName = '/contentservices/';
+	var searchServiceName = '/searchservices/';
+	var filtersServiceName = '/filterservices/';
+	var verintKmServiceName = '/verintkm/';		
+	var historyPushEnabled = false;
 		var defaultTitle = 'Verint Content Widget';
 		
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
-		document.cookie = 'savedurl=' + 'content_container.html%3F' + urlToSend + '; path=/';
+		document.cookie = 'savedurl=' + 'jumppage.html%3F' + urlToSend + '; path=/';
+		
+		//do not want to call 
+		if ($.fn.isUserAuthenticated())
+			  $.fn.setUpJump();
 		
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
 		 $.fn.ssoLoginService();
 		
+
 	</script>
 </head>
 <body style="position: relative; overflow-y: auto; margin: 0px; background-color: rgb(0,0,0);">

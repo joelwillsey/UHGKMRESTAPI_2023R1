@@ -27,15 +27,17 @@
 
 		var historyPushEnabled = false;
 		var defaultTitle = 'Verint Filters Widget';
+		
+		// Setup cookie to store the initial URL
+		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
+		document.cookie = 'savedurl=' + 'filters_container.html%3F' + urlToSend + '; path=/';
 
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
 		 $.fn.ssoLoginService();
 
 		
-		// Setup cookie to store the initial URL
-		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
-		document.cookie = 'savedurl=' + 'filters_container.html%3F' + urlToSend + '; path=/';
+
 	</script>
 	<script type='text/javascript' src="js/browse_widget.js"></script>
 </head>

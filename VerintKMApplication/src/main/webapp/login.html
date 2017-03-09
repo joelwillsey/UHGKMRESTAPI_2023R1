@@ -15,12 +15,12 @@
 	 <script type='text/javascript' src="js/login.js"></script> 
 		<!--<script type="text/javascript" src="js/siteminder.js"></script> -->
 	<script type='text/javascript'>
-		var postLogin  = "verintkm.html";
+		//var postLogin  = "verintkm.html";
 		var LOGIN_SERVICE_TIMEOUT = 21000;
-		
+		var postLogin = $.fn.getCookie("savedurl");
 		// Check if authenticated
 		 $.fn.determineAuth();
-	     $.fn.handleNoSSO;
+	    // $.fn.handleNoSSO;
 	</script>
 </head>
 <body style="position: relative; overflow-y: auto; margin: 0px;">

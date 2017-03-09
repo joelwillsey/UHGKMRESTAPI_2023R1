@@ -102,7 +102,8 @@ $.fn.determineAuth = function() {
 		// Check for a valid authentication
 		log('AuthToken: ' + authToken);
 		if (typeof authToken != 'undefined' && authToken != '') {
-	//		window.document.location = postLogin + '?' + $.fn.getAllParametersString();
+			window.document.location = postLogin + '?' + $.fn.getAllParametersString();
+			
 		}
 	} else {
 		log('AuthToken is invalid');
