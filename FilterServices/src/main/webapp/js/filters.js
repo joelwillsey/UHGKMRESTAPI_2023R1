@@ -86,17 +86,17 @@ $(document)
 																$.fn.removeTag('kbase',id);
 															}*/
 														});
-										$('#cntntType-selection li')
+										$('#cntnttype-selection li')
 												.each(
 														function(index) {
 															console.log(index);
 															var id = $(this)
 																	.attr('id');
 															if (typeof id != 'undefined'
-																	&& id != 'cntntType-search-input') {
+																	&& id != 'cntnttype-search-input') {
 																$.fn
 																		.removeTag(
-																				'cntntType',
+																				'cntnttype',
 																				id);
 															}
 														});
@@ -192,10 +192,10 @@ $(document)
 						$.fn.addFilter('#div-kbase-tags');
 					});
 
-					// cntntType Add Filter
-					$('#fs-di-tagset-cntntType-add').on('click', function() {
-						filterType = 'cntntType';
-						$.fn.addFilter('#div-cntntType-tags');
+					// cntnttype Add Filter
+					$('#fs-di-tagset-cntnttype-add').on('click', function() {
+						filterType = 'cntnttype';
+						$.fn.addFilter('#div-cntnttype-tags');
 					});
 
 					// Product Add Filter
@@ -236,7 +236,7 @@ $(document)
 							.click(
 									function() {
 										// close all of the other popups
-										$('#cntntType-tags').hide();
+										$('#cntnttype-tags').hide();
 										$('#product-tags').hide();
 										$('#region-tags').hide();
 
@@ -275,8 +275,8 @@ $(document)
 														});
 									});
 
-					// cntntType Input popup
-					$('#cntntType-selection')
+					// cntnttype Input popup
+					$('#cntnttype-selection')
 							.click(
 									function() {
 										// close all of the other popups
@@ -284,8 +284,8 @@ $(document)
 										$('#product-tags').hide();
 										$('#region-tags').hide();
 
-										$.fn.showPopup('#cntntType-tags',
-												'#ul-cntntType-tags'); // we'll
+										$.fn.showPopup('#cntnttype-tags',
+												'#ul-cntnttype-tags'); // we'll
 																		// pass
 																		// in
 																		// the
@@ -303,7 +303,7 @@ $(document)
 																		// want
 
 										// sorts the list alphabetically
-										$.fn.sortList('#ul-cntntType-tags');
+										$.fn.sortList('#ul-cntnttype-tags');
 
 										$(document)
 												.click(
@@ -311,17 +311,17 @@ $(document)
 															var eTarget = $(e.target);
 															var cl = $(e.target)
 																	.closest(
-																			'#ul-cntntType-tags').length
+																			'#ul-cntnttype-tags').length
 															var l = cl.length;
 															if ($(e.target)
 																	.closest(
-																			'#ul-cntntType-tags').length != 0
+																			'#ul-cntnttype-tags').length != 0
 																	|| $(
 																			e.target)
 																			.closest(
-																					'#cntntType-selection').length)
+																					'#cntnttype-selection').length)
 																return false;
-															$('#cntntType-tags')
+															$('#cntnttype-tags')
 																	.hide();
 															$(document).unbind(
 																	"click");
@@ -334,7 +334,7 @@ $(document)
 									function() {
 										// close all of the other popups
 										$('#kbase-tags').hide();
-										$('#cntntType-tags').hide();
+										$('#cntnttype-tags').hide();
 										$('#region-tags').hide();
 
 										$.fn.showPopup('#product-tags',
@@ -382,7 +382,7 @@ $(document)
 									function() {
 										// close all of the other popups
 										$('#kbase-tags').hide();
-										$('#cntntType-tags').hide();
+										$('#cntnttype-tags').hide();
 										$('#product-tags').hide();
 
 										$.fn.showPopup('#region-tags',
@@ -827,7 +827,7 @@ $(document)
 
 						if (type == "kbase") {
 							// calling the crosstags to update
-							$.fn.getCrossTag(element, 'topic', 'cntntType',
+							$.fn.getCrossTag(element, 'topic', 'cntnttype',
 									'region', 'product');
 
 							$.fn.toggleMenu('#tab-search-button.search_search');
@@ -867,8 +867,8 @@ $(document)
 							// select them when there is no kbase tag selected
 							var treeData = "";
 							$('#div-topic-tags').html(treeData);
-							$('#ul-cntntType-tags').html(treeData);
-							$('#div-cntntType-tags').html(treeData);
+							$('#ul-cntnttype-tags').html(treeData);
+							$('#div-cntnttype-tags').html(treeData);
 							$('#ul-region-tags').html(treeData);
 							$('#div-region-tags').html(treeData);
 							$('#ul-product-tags').html(treeData);
@@ -1021,19 +1021,19 @@ $(document)
 														data.tagSets[x].tags,
 														'region', 'region'));
 									}
-								} else if (data.tagSets[x].systemTagName === 'cntntType') {
+								} else if (data.tagSets[x].systemTagName === 'cntnttype') {
 									if (typeof data.tagSets[x].tags != 'undefined'
 											&& data.tagSets[x].tags != null
 											&& data.tagSets[x].tags.length > 0) {
 										var treeData = $.fn.createTreeFilter(
 												data.tagSets[x].tags,
-												'cntntType', 'cntntType');
-										$('#div-cntntType-tags').html(treeData);
-										$('#ul-cntntType-tags').html(
+												'cntnttype', 'cntnttype');
+										$('#div-cntnttype-tags').html(treeData);
+										$('#ul-cntnttype-tags').html(
 												$.fn.setupFilter(
 														data.tagSets[x].tags,
-														'cntntType',
-														'cntntType'));
+														'cntnttype',
+														'cntnttype'));
 									}
 								} else if (data.tagSets[x].systemTagName === 'content') {
 									if (typeof data.tagSets[x].tags != 'undefined'
@@ -1132,7 +1132,7 @@ $(document)
 					$.fn.populateCrossTags = function(data) {
 						// create an array of all of the crosstag types, to
 						// remove later and populate missing ones
-						var crossTagTypes = [ 'cntntType', 'region', 'product' ];
+						var crossTagTypes = [ 'cntnttype', 'region', 'product' ];
 
 						// $('#div-topic-tags').html("");
 						var topicTreeData = "";
@@ -1160,20 +1160,20 @@ $(document)
 								if (index > -1) {
 									crossTagTypes.splice(index, 1);
 								}
-							} else if (currentTargetSet == 'cntntType') {
+							} else if (currentTargetSet == 'cntnttype') {
 								var treeData = $.fn
 										.createTreeFilter(
 												data.crossTags[i].tags,
 												data.crossTags[i].tags["0"].systemTagName,
-												'cntntType', false);
-								$('#div-cntntType-tags').html(treeData);
-								$('#ul-cntntType-tags')
+												'cntnttype', false);
+								$('#div-cntnttype-tags').html(treeData);
+								$('#ul-cntnttype-tags')
 										.html(
 												$.fn
 														.setupFilter(
 																data.crossTags[i].tags,
 																data.crossTags[i].tags["0"].systemTagName,
-																'cntntType'));
+																'cntnttype'));
 
 								// remove the crossTag from the array of all tag
 								// types
