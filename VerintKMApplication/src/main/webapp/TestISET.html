@@ -65,7 +65,7 @@ $(document).ready(function() {
 	$('#filter').click(function(){
 		// similar behavior as clicking on a link
 		var kb = $("#kbaseTagEntry").val();
-		var cntnt = $("#cntntTypeEntry").val();
+		var cntnt = $("#cntnttypeEntry").val();
 		var query = $("#queryEntry").val();
 		var url = "/verintkm/jumppage.html?create=kb:"+kb+"&Report=a["+cntnt+"]:"+query;
 		window.location.replace(url);
@@ -109,7 +109,7 @@ $(document).ready(function() {
 	<input type="text" id="topicsTagEntry"><br>
 	
 <h4>Content Type</h4>
-	<input type="text" id="cntntTypeEntry"><br>
+	<input type="text" id="cntnttypeEntry"><br>
 
 <h4>Migratable Ref ID</h4>
 	<input type="text" id="migRefIDEntry"><br>
