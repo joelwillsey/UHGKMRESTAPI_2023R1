@@ -69,7 +69,9 @@ export JAVA_OPTS="-XX:+UseConcMarkSweepGC \
   -Xms4g \
   -Xmx4g \
   -XX:NewSize=1g \
-  -XX:MaxNewSize=1g"
+  -XX:MaxNewSize=1g \
+  -Dorg.apache.coyote.http11.Http11Protocol.MAX_HEADER_SIZE=65536 \
+  -Dorg.apache.coyote.ajp.MAX_PACKET_SIZE=65536"
 
 # create the logging directory
 if [[ ! -d ${LOGS_HOME}/jboss ]]
