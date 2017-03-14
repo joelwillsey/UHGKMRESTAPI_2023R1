@@ -3,6 +3,9 @@
  */
 package com.verint.services.km.dao.parser;
 
+import java.sql.ResultSet;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -54,7 +57,9 @@ public class ElementParser {
 	public boolean parseBody(String bodyContent, ContentResponse response) {
 		LOGGER.info("Entering parseBody()");
 		LOGGER.debug("bodyContent: " + bodyContent);
-		
+		Instant start = Instant.now();
+
+
 		
 		bodyContent = bodyContent.replaceAll("<!\\[CDATA\\[", "");
 		bodyContent = bodyContent.replaceAll("]]>", "");
@@ -186,6 +191,8 @@ public class ElementParser {
 		final Set<CustomField> hashCustomFields = new LinkedHashSet<CustomField>(customFields);
 		response.setCustomFields(hashCustomFields);
 
+		Instant end = Instant.now();
+		LOGGER.debug("Parsing Execution - elementParser.parseBody() duration: " + Duration.between(start, end).toMillis() + "ms");
 		return true;
 	}
 	
