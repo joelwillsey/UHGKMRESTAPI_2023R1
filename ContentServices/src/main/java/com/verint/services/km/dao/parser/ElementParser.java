@@ -72,19 +72,21 @@ public class ElementParser {
 		
 		//Start PRS
 		// parseInlineContent was only happening in public body, moving to here to it effects all sections of content
-		bodyContent= inlineContentEntry(bodyContent);
+		//bodyContent= inlineContentEntry(bodyContent);
 		//End PRS
 		
 		LOGGER.debug("bodyContent2: " + bodyContent);
 		
 		ParserInfo parserInfo = parseData(bodyContent, "publicBody");
-		//String publicBody = parseInlineContent(parserInfo.getElementData());
-		//publicBody = inlineContentEntry(publicBody);
-		//response.setPublicBody(publicBody);
-		response.setPublicBody(parserInfo.getElementData());
+		String publicBody = parseInlineContent(parserInfo.getElementData());
+		publicBody = inlineContentEntry(publicBody);
+		response.setPublicBody(publicBody);
 		
 		parserInfo = parseData(parserInfo.getData(), "publicAnswer");
-		response.setPublicAnswer(parserInfo.getElementData());
+		String publicAnswer = parseInlineContent(parserInfo.getElementData());
+		publicAnswer = inlineContentEntry(publicAnswer);
+		//response.setPublicAnswer(parserInfo.getElementData());
+		response.setPublicAnswer(publicAnswer);
 
 		parserInfo = parseData(parserInfo.getData(), "publicSectionContent");
 		String publicSectionContent = parserInfo.getElementData();
@@ -99,10 +101,16 @@ public class ElementParser {
 		response.setPublicSegmentContent(hashPublicSegment);
 		
 		parserInfo = parseData(parserInfo.getData(), "privateBody");
-		response.setPrivateBody(parserInfo.getElementData());
+		String privateBody = parseInlineContent(parserInfo.getElementData());
+		privateBody = inlineContentEntry(privateBody);
+		//response.setPrivateAnswer(parserInfo.getElementData());
+		response.setPrivateBody(privateBody);
 
 		parserInfo = parseData(parserInfo.getData(), "privateAnswer");
-		response.setPrivateAnswer(parserInfo.getElementData());
+		String privateAnswer = parseInlineContent(parserInfo.getElementData());
+		privateAnswer = inlineContentEntry(privateAnswer);
+		//response.setPrivateAnswer(parserInfo.getElementData());
+		response.setPrivateAnswer(privateAnswer);
 
 		parserInfo = parseData(parserInfo.getData(), "privateSectionContent");
 		String privateSectionContent = parserInfo.getElementData();
@@ -313,26 +321,34 @@ public class ElementParser {
 			int begin = data.indexOf("<a ");
 			int end = data.indexOf("</a>");
 			LOGGER.debug("begin: " + begin);
-			LOGGER.debug("end: " + end);
+			LOGGER.debug("end: " + end);			
 			if (begin != -1 && end != -1) {
 				int findBeginEnd = data.indexOf("'>");
-				LOGGER.debug("findBeginEnd: " + findBeginEnd);
-				ExternalContent externalContent = new ExternalContent();
-				String name = data.substring(findBeginEnd + "'>".length(), end);
-				externalContent.setName(name);
-				// Get href
-				int beginHref = data.indexOf("href='");
-				LOGGER.debug("beginHref: " + beginHref);
-				if (beginHref != -1) {
-					String tempString = data.substring(beginHref + "href='".length());
-					LOGGER.debug("tempString: " + tempString);
-					int endHref = tempString.indexOf("'>");
-					LOGGER.debug("endHref: " + endHref);
-					if (endHref != -1) {
-						externalContent.setUrl(tempString.substring(0, endHref));
-						externalContents.add(externalContent);
-						data = data.substring(end + 1);
+				if (findBeginEnd != -1){
+					LOGGER.debug("findBeginEnd: " + findBeginEnd);
+					ExternalContent externalContent = new ExternalContent();
+					String name = data.substring(findBeginEnd + "'>".length(), end);
+					externalContent.setName(name);
+					// Get href
+					int beginHref = data.indexOf("href='");
+					LOGGER.debug("beginHref: " + beginHref);
+					if (beginHref != -1) {
+						String tempString = data.substring(beginHref + "href='".length());
+						LOGGER.debug("tempString: " + tempString);
+						int endHref = tempString.indexOf("'>");
+						LOGGER.debug("endHref: " + endHref);
+						if (endHref != -1) {
+							externalContent.setUrl(tempString.substring(0, endHref));
+							externalContents.add(externalContent);
+							data = data.substring(end + 1);
+						}
+					} else {
+						LOGGER.error("Unable to find href=' for start of link. Link Substring: " + data.substring(begin, end));
+						break;
 					}
+				} else {
+					LOGGER.error("Unable to find '\">\" for closing of end tag of <a.  Link Substring: " + data.substring(begin, end));
+					break;
 				}
 			} else {
 				break;
@@ -360,22 +376,26 @@ public class ElementParser {
 			if (begin != -1 && end != -1) {
 				int findBeginEnd = data.indexOf("'>");
 				LOGGER.debug("findBeginEnd: " + findBeginEnd);
-				Attachment attachment = new Attachment();
-				String name = data.substring(findBeginEnd + "'>".length(), end);
-				attachment.setName(name);
-				// Get href
-				int beginHref = data.indexOf("href='");
-				LOGGER.debug("beginHref: " + beginHref);
-				if (beginHref != -1) {
-					String tempString = data.substring(beginHref + "href='".length());
-					LOGGER.debug("tempString: " + tempString);
-					int endHref = tempString.indexOf("'>");
-					LOGGER.debug("endHref: " + endHref);
-					if (endHref != -1) {
-						attachment.setUrl(tempString.substring(0, endHref));
-						attachments.add(attachment);
-						data = data.substring(end + 1);
-					}
+				if (findBeginEnd != -1){
+					Attachment attachment = new Attachment();
+					String name = data.substring(findBeginEnd + "'>".length(), end);
+					attachment.setName(name);
+					// Get href
+					int beginHref = data.indexOf("href=\"");
+					LOGGER.debug("beginHref: " + beginHref);
+					if (beginHref != -1) {
+						String tempString = data.substring(beginHref + "href=\"".length());
+						LOGGER.debug("tempString: " + tempString);
+						int endHref = tempString.indexOf("\">");
+						LOGGER.debug("endHref: " + endHref);
+						if (endHref != -1) {
+							attachment.setUrl(tempString.substring(0, endHref));
+							attachments.add(attachment);
+							data = data.substring(end + 1);
+						}
+					}					
+				}else {
+					LOGGER.error("Unable to find '\">\" for closing of end tag of <a  findBeginEnd: " + findBeginEnd);
 				}
 			} else {
 				break;
@@ -561,6 +581,7 @@ public class ElementParser {
 	 * @return
 	 */
 	public String parseInlineContent(String data) {
+		LOGGER.info("Entering parseInlineContent()");
 		//[[--ContentED.tC7ZxVwafh6P2ZGru9SQP6||1. Overview||KM1000521||Article--]]
 		if (data != null && data.length() > 0) {
 			int beginIndex = data.indexOf("[[--");
@@ -593,6 +614,7 @@ public class ElementParser {
 				beginIndex = data.indexOf("[[--");
 			}
 		}
+		LOGGER.info("Exiting parseInlineContent()");
 		return data;
 	}
 
@@ -608,7 +630,7 @@ public class ElementParser {
 	
 	//Find script placeholders and convert it to the correct script verbiage
 	public String parseScriptPlaceHolders(String data){
-		//String newData = data;
+		LOGGER.info("Entering parseScriptPlaceHolders()");
 		
 		String linkPlaceHolder = "#link#";
 		String startscriptPlaceHolder ="#startscript#";
@@ -637,13 +659,13 @@ public class ElementParser {
 			indexStartScript = data.indexOf(startscriptPlaceHolder, startSearchIndex);			
 		
 		}
-		
+		LOGGER.info("Exiting parseScriptPlaceHolders()");
 		return data;
 	}
 	
 	//Find link placeholders and convert it to the correct script verbiage
 		public String parseLinkPlaceHolders(String data){
-			//String newData = data;
+			LOGGER.info("Entering parseLinkPlaceHolders()");
 			
 
 			String linkPlaceHolder = "#startlink#";
@@ -673,7 +695,7 @@ public class ElementParser {
 				indexStartLink = data.indexOf(linkPlaceHolder, startSearchIndex);			
 			
 			}
-		
+			LOGGER.info("Exiting parseLinkPlaceHolders()");
 			return data;
 		}
 		

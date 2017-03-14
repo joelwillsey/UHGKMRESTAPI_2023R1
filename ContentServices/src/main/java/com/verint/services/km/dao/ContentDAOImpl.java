@@ -275,8 +275,13 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			Set<ExternalContent> cleanExternalContent = new HashSet<ExternalContent>();
 
 			for (ExternalContent externalContent : externalContents) {
-				externalContent.setName(updateUploadedNameForRelated(externalContent.getName()));
-				externalContent.setUrl(updateUploadedURLForRelated(externalContent.getUrl()));
+				LOGGER.debug("externalContent.getName(): " + externalContent.getName());				
+				LOGGER.debug("externalContent.getUrl(): " + externalContent.getUrl());
+				
+				if(externalLinkNeedsFixing(externalContent.getUrl())){
+					externalContent.setName(updateUploadedNameForRelated(externalContent.getName()));
+					externalContent.setUrl(updateUploadedURLForRelated(externalContent.getUrl()));
+				}				
 				cleanExternalContent.add(externalContent);
 			}
 			contentResponse.getRelatedContent().setExternalContents(cleanExternalContent);
@@ -427,6 +432,19 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		return finalBody;
 	}
 
+	boolean externalLinkNeedsFixing(String url){
+	
+		boolean result = false;
+		
+		int beginGtxResource = url.indexOf("gtxResource=");
+		if (beginGtxResource != -1){
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	
 	private String updateUploadedNameForRelated(String name) {
 
 		String newName = name;
@@ -444,8 +462,19 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		LOGGER.info("Fixing the External URL");
 		
 		//fix filename
-		String finalURL = url;		
-		finalURL = ExternalUrl + "/" + finalURL.substring(finalURL.indexOf("gtxResource=") + "gtxResource=".length(), finalURL.indexOf("&gtxResourceFileName"));
+		String finalURL = url;	
+		int beginGtxResource = finalURL.indexOf("gtxResource=");
+		if (beginGtxResource != -1){
+			int beginGtxResourceFileName = finalURL.indexOf("&gtxResourceFileName");
+			if (beginGtxResourceFileName != -1){
+				finalURL = ExternalUrl + "/" + finalURL.substring(finalURL.indexOf("gtxResource=") + "gtxResource=".length(), finalURL.indexOf("&gtxResourceFileName"));
+			} else {
+				LOGGER.debug("Invalid External URL found: " + finalURL);
+			}
+		} else {
+			LOGGER.debug("No External (gtxResources=) URL found, url = " + finalURL);
+		}
+		
 
 		return finalURL;
 	}
