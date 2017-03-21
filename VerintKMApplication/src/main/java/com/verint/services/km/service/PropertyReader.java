@@ -1,6 +1,7 @@
 package com.verint.services.km.service;
 
 import java.io.FileInputStream;
+import java.net.InetAddress;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,14 +60,20 @@ public class PropertyReader extends BaseService{
 			//	propertyAddress = "/app_2/verint/projects/uhgiq/restapi/kmservices/propertyReader.properties";
 			//}
 			
-			propertyAddress = kmConfiguration.getReaderFile();
-			
-			prop.load(new FileInputStream(propertyAddress));
-			
-			value = prop.getProperty(propertyName);
+			if(propertyName == "HOSTNAME"){
+				value = InetAddress.getLocalHost().getHostName();
+
+			} else {
+							
+				propertyAddress = kmConfiguration.getReaderFile();
+				
+				prop.load(new FileInputStream(propertyAddress));
+				
+				value = prop.getProperty(propertyName);
+			}
 			
 			LOGGER.debug("getPropertyResponse: " + propertyName + "=" +  value);
-
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
