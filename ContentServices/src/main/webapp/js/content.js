@@ -980,7 +980,7 @@ $(document).ready(function() {
 
 		// This is a Decision Tree
     	// Show the content
-		$.fn.setupContentWidget(); // Some bug w/ browsers where I need to call this
+	$.fn.setupContentWidget(); // Some bug w/ browsers where I need to call this
 		
 		var decisionTreeUrl = $.fn.getProperty('PageSetV1.RestPageSet.Url');
 		
