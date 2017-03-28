@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -69,13 +70,21 @@ public class ContentService extends BaseService {
 	 * @return
 	 */
 	@GET
-	@Path("/id/{contentid}")
+	@Path("/id/{contentid}{state:(/state/[^/]+?)?}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public ContentResponse content(@PathParam("contentid") String contentid,
+    		@PathParam("state") String state,
     		@Context HttpServletRequest httpRequest) {
 		LOGGER.info("Entering content()");
 		LOGGER.debug("contentid: " + contentid);
-		//LOG.error("contentid: " + contentid);
+		String workflowState = "";
+		if(state.equals("")){
+			LOGGER.debug("Optional parameter state not specified");
+		} else {
+			workflowState = state.split("/")[2];
+			LOGGER.debug("status: "+ workflowState);
+		}
+
 		ContentResponse contentResponse = null;
 		try {
 			// Check for a valid request
@@ -95,15 +104,30 @@ public class ContentService extends BaseService {
 			contentRequest.setContentId(contentid);
 			contentRequest.setUsername(credentials[0]);
 			contentRequest.setPassword(credentials[1]);
+			if(!workflowState.equals("")){
+				contentRequest.setWorkflowState(workflowState);
+			}
 			
 			// Call the service
+			
 			contentResponse = contentDAO.getContent(contentRequest);
+			
 
 			// Check if content is bookmarked
-			contentResponse.setBookmarked(bookmarksDAO.isContentBookmarked(contentRequest));
+			if(workflowState.equals("DRAFT")){
+				//bookmarks do not work on draft state content
+				contentResponse.setBookmarked(false);
+				LOGGER.debug("Content is in a draft state skipping bookmarks and markAsViewed");
+			} else {
+				
+				// Check if content is bookmarked
+				contentResponse.setBookmarked(bookmarksDAO.isContentBookmarked(contentRequest));
+				
+				// Mark content as viewed
+				contentResponse.setViewUUID(searchDAO.markAsViewed(contentid, credentials[0], credentials[1]));
+			}
 			
-			// Mark content as viewed
-			contentResponse.setViewUUID(searchDAO.markAsViewed(contentid, credentials[0], credentials[1]));
+			
 		} catch (AppException ae) {
 			LOGGER.error("AppException in content()", ae);
 			throw ae;

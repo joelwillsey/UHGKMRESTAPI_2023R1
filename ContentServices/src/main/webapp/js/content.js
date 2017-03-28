@@ -4,39 +4,6 @@ var contentIds= new Array();
 var externalLink = false;
 var contentTitle = '';
 
-//Property Reader Service
-$.fn.getProperty = function(property) {
-	
-	var query = '?property=' +property;
-	var retValue = '';
-		
-	jQuery.ajaxSetup({
-		async : false
-	});
-	// Call the service
-	try {
-		$.fn.serviceCallText('GET', '', verintKmServiceName + 'km/property/read'+ query, 15000, function(data) {
-			 if (typeof data != 'undefined' && data != null && data != '') {			 
-					retValue = data;					
-			    }		
-		});
-	}
-	catch(err) {
-		log('$.fn.serviceCall Exception: ' +err.messagee);
-		}
-	jQuery.ajaxSetup({
-			async : true
-	});
-	
-	if (retValue === 'undefined' || retValue === null || retValue === 'null') {
-		retValue = '';
-	}
-	
-	log(property + ': '  + retValue); 
-	
-	return 	retValue;
-}
-
 $(document).ready(function() {
 
     // Setup ratings and rate functions
@@ -957,6 +924,33 @@ $(document).ready(function() {
 		});
 	}
 	
+	$.fn.retrieveDraftContent = function(id) {
+		log('Retrieve Content: ' + id);
+    	var length = contentIds.unshift(id);
+
+		// First check if pushState is supported and if so is it enabled
+		// Changes the browser URL to use the parameters so users can save searches and/or bookmark them
+		if (history.pushState && typeof historyPushEnabled != 'undefined' && historyPushEnabled) {
+	    	var query = '?id=' + id;
+	    	var stateObj = { path: query };
+			// IE9 has an issue with history; Don't know if IE
+	    	if ($.fn.isIE() === 9) {
+	    		 // IE9 code
+	    		log('IE9 Detected');
+				//history.pushState(stateObj, "newPage", query);
+			} else {
+				//history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
+			}
+		}
+		
+		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id + '/state/DRAFT' , CONTENT_SERVICE_TIMEOUT, function(data) {
+			log('Get content ID: ' + data);
+		    if (typeof data != 'undefined' && data != null && data != '') {
+		    	$.fn.setupContent(data);
+		    }
+		});
+	}
+	
 	// Show the decision tree content
 	$.fn.showDTContent = function(id) {
 		log('showDTContent id: ' + id)
@@ -1050,11 +1044,17 @@ $(document).ready(function() {
 
 	// Check to see if an id was passed in
 	var cId = $.fn.getParameterByName('id');
+	var cWorkflowState = $.fn.getParameterByName('workflowstate');
 	if (typeof cId != 'undefined' && cId != null && cId != 'null' && cId != '') {
 		log('ContentID: ' + cId);
 		contentId = cId;
 		externalLink = true;
-		$.fn.retrieveContent(cId);
+		if (typeof cWorkflowState != 'undefined' && cWorkflowState != null && cWorkflowState != 'null' && cWorkflowState != '') {
+			log('Workflow State: ' + cWorkflowState);
+			$.fn.retrieveDraftContent(cId);
+		} else {
+			$.fn.retrieveContent(cId);
+		}
 	} 
 
 	// Check to see if a decision tree is being launched
@@ -1087,4 +1087,37 @@ $(document).ready(function() {
 	
 	
 });
+
+//Property Reader Service
+$.fn.getProperty = function(property) {
+	
+	var query = '?property=' +property;
+	var retValue = '';
+		
+	jQuery.ajaxSetup({
+		async : false
+	});
+	// Call the service
+	try {
+		$.fn.serviceCallText('GET', '', verintKmServiceName + 'km/property/read'+ query, 15000, function(data) {
+			 if (typeof data != 'undefined' && data != null && data != '') {			 
+					retValue = data;					
+			    }		
+		});
+	}
+	catch(err) {
+		log('$.fn.serviceCall Exception: ' +err.messagee);
+		}
+	jQuery.ajaxSetup({
+			async : true
+	});
+	
+	if (retValue === 'undefined' || retValue === null || retValue === 'null') {
+		retValue = '';
+	}
+	
+	log(property + ': '  + retValue); 
+	
+	return 	retValue;
+}
 

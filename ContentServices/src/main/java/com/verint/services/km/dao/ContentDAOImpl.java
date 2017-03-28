@@ -126,15 +126,17 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		LOGGER.info("Entering getContent()");
 		LOGGER.debug("ContentRequest: " + contentRequest);
 		ContentResponse contentResponse = new ContentResponse();
+		
 
+		
 		// Setup the request object to the SOAP call
 		final GetContentDetailsRequestBodyType request = new GetContentDetailsRequestBodyType();
 		request.setApplicationID(AppID);
-		request.setContentID(contentRequest.getContentId());
+		request.setContentID(contentRequest.getContentId());		
 		request.setLocale(Locale);
 		request.setUsername(contentRequest.getUsername());
 		request.setVersion("");
-		request.setWorkflowState("");
+		request.setWorkflowState(contentRequest.getWorkflowState());
 		request.setPassword(contentRequest.getPassword());
 
 		// Get the content details
