@@ -27,6 +27,9 @@ public class ContentRequest implements Serializable {
 
 	@XmlElement(nillable=true)
 	private String password = "";
+	
+	@XmlElement(nillable=true)
+	private String workflowState = "PUBLISHED";
 
 	/**
 	 * Constructor
@@ -76,12 +79,26 @@ public class ContentRequest implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	/**
+	 * @return the password
+	 */
+	public String getWorkflowState() {
+		return workflowState;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setWorkflowState(String workflowState) {
+		this.workflowState = workflowState;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "ContentRequest [contentId=" + contentId + ", username=" + username + ", password=" + password + "]";
+		return "ContentRequest [contentId=" + contentId + ", username=" + username + ", password=" + password + ", workflowState=" + workflowState + "]";
 	}
 }
