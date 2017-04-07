@@ -64,6 +64,28 @@ public class ElementParser {
 		bodyContent = bodyContent.replaceAll("<!\\[CDATA\\[", "");
 		bodyContent = bodyContent.replaceAll("]]>", "");
 		
+		/** This is related to the HFR12 bug fix for uploaded content, it came back as url originally, now
+		 * it comes back as a url and in <upload> elements.  The <upload> elements should be <content> elements
+		 * to match the format of all the other content formats
+		 * <a href='null?gtxResource=/KM/files/uploaded/Sample2_Time1489596147222.htm&gtxResourceFileName=/KM/files/uploaded\Sample2.htm&mode=download'>/KM/files/uploaded\Sample2.htm</a>
+		 * <upload>
+		 *  <entryId>
+		 * 		<id>g9ECFrthkT008uOFxf8Ex5</id>
+		 *		<locale>en-US</locale>
+		 *		<type>KnowledgeUploadED</type>
+		 *		<version>5.0</version>
+		 *	</entryId>
+		 *	<title>Paul's Puri Test</title>
+		 * </upload> 
+		 * 
+		 * We need to remove the <a> </a> element as it is a duplicate of what is contained in <upload> </upload>
+		 * The we replace the <upload> with <content> to make it match the correct format.
+		 * I'll open a ticket on this so they can fix it.
+		**/	
+		bodyContent = removeUploadLinks(bodyContent);
+		bodyContent = bodyContent.replaceAll("<upload>", "<content>");
+		bodyContent = bodyContent.replaceAll("</upload>", "</content>");
+		
 // BEGIN JGM - Fix for UHG specific content
 		//just put in <script so it can allow attributes so I expect to see #startscript#>
 		//bodyContent = bodyContent.replaceAll("#startscript#&gt;", "<script>");
@@ -84,13 +106,12 @@ public class ElementParser {
 		
 		ParserInfo parserInfo = parseData(bodyContent, "publicBody");
 		String publicBody = parseInlineContent(parserInfo.getElementData());
-		publicBody = inlineContentEntry(publicBody);
+		publicBody = inlineContentEntry(publicBody);		
 		response.setPublicBody(publicBody);
 		
 		parserInfo = parseData(parserInfo.getData(), "publicAnswer");
 		String publicAnswer = parseInlineContent(parserInfo.getElementData());
 		publicAnswer = inlineContentEntry(publicAnswer);
-		//response.setPublicAnswer(parserInfo.getElementData());
 		response.setPublicAnswer(publicAnswer);
 
 		parserInfo = parseData(parserInfo.getData(), "publicSectionContent");
@@ -108,13 +129,11 @@ public class ElementParser {
 		parserInfo = parseData(parserInfo.getData(), "privateBody");
 		String privateBody = parseInlineContent(parserInfo.getElementData());
 		privateBody = inlineContentEntry(privateBody);
-		//response.setPrivateAnswer(parserInfo.getElementData());
 		response.setPrivateBody(privateBody);
 
 		parserInfo = parseData(parserInfo.getData(), "privateAnswer");
 		String privateAnswer = parseInlineContent(parserInfo.getElementData());
 		privateAnswer = inlineContentEntry(privateAnswer);
-		//response.setPrivateAnswer(parserInfo.getElementData());
 		response.setPrivateAnswer(privateAnswer);
 
 		parserInfo = parseData(parserInfo.getData(), "privateSectionContent");
@@ -122,7 +141,7 @@ public class ElementParser {
 		List<ContentEntry> privateSectionContents = getContentEntry(privateSectionContent, "private");		
 		final Set<ContentEntry> hashPrivateContent = new LinkedHashSet<ContentEntry>(privateSectionContents);
 		response.setPrivateSectionContent(hashPrivateContent);
-
+		
 		parserInfo = parseData(parserInfo.getData(), "privateSegmentContent");
 		String privateSectionSegment = parserInfo.getElementData();
 		List<ContentEntry> privateSectionSegments = getContentEntry(privateSectionSegment, "private");
@@ -497,6 +516,7 @@ public class ElementParser {
 				info = null;
 			}
 		}
+		
 		return contentEntries;
 	}
 
@@ -518,14 +538,14 @@ public class ElementParser {
 			if (index != -1) {
 				// We have an empty element and return such
 				data = data.substring(0, index) + data.substring(index + emptyElement.length());
-			} else {
+			} else {				
 				final String beginElement = "<" + element + ">";
 				final String endElement = "</" + element + ">";
 				int beginIndex = data.indexOf(beginElement);
 				int endIndex = data.indexOf(endElement);
 				if (beginIndex == -1 || endIndex == -1) {
 					// We don't have proper being/end elements
-					LOGGER.debug("ParserTags do not have proper enpoints " + beginElement + " " + endElement);
+					LOGGER.debug("ParserTags do not have proper endpoints " + beginElement + " " + endElement);
 				} else if (beginIndex != -1 && endIndex != -1) {
 					// Ok we have both start and end					
 					String tempData = data.substring(beginIndex + ("<" + element + ">").length(), endIndex);
@@ -557,6 +577,9 @@ public class ElementParser {
 					data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("</" + element + ">").length());
 					//LOGGER.debug("parseInlineData new url:" +newUrl);
 					
+					
+					
+					
 				}
 			}
 		} else {
@@ -575,12 +598,21 @@ public class ElementParser {
 	public String inlineContentEntry(String data) {
 		String newData = parseInlineData(data, "content");
 		int index = newData.indexOf("<content>");
+		int indexLoopControl = -1;
 		while (index != -1) {
+			indexLoopControl = newData.indexOf("<content>");
 			newData = parseInlineData(newData, "content");
 			index = newData.indexOf("<content>");
+			if(index != -1 && indexLoopControl == index){
+				//entered an infinite loop set index to -1 to exit.  Most likely caused by missing </content> element
+				index = -1;
+				LOGGER.error("inlineContentEntry has entered an infinite loop. Most likely caused by missing </content> element. data: " + data);
+				
+			}
 		}
 		return newData;
 	}
+	
 
 	/**
 	 * 
@@ -723,6 +755,54 @@ public class ElementParser {
 		data = data.replaceAll(Pattern.quote("&gt;"), ">");
 		data = data.replaceAll(Pattern.quote("&quot;"), "\"");
 		data = data.replaceAll(Pattern.quote("&#39;"), "'");
+		
+		return data;
+	}
+	
+	public String removeUploadLinks(String data){
+		/** The file upload content comes across like this
+		 * <a href='null?gtxResource=/KM/files/uploaded/Sample2_Time1489596147222.htm&gtxResourceFileName=/KM/files/uploaded\Sample2.htm&mode=download'>/KM/files/uploaded\Sample2.htm</a>
+		 * <upload>
+		 * <entryId>
+		 * 		<id>g9ECFrthkT008uOFxf8Ex5</id>
+		 *		<locale>en-US</locale>
+		 *		<type>KnowledgeUploadED</type>
+		 *		<version>5.0</version>
+		 *	</entryId>
+		 *	<title>Paul's Puri Test</title>
+		 * </upload> 
+		 * 
+		 * We need to remove the <a> </a> element as it is a duplicate of what is in <upload>
+		**/	
+		LOGGER.debug("Entering removeUploadLinks()");
+		
+		//lets check to see if this content even has any upload links before parsing it
+		if (data.indexOf("<upload>") != -1){
+			int indexOfStartLink = data.indexOf("<a");
+			int indexOfEndLink = -1;
+			while(indexOfStartLink != -1){
+				indexOfEndLink = data.indexOf("</a>", indexOfStartLink);
+				if (indexOfEndLink != -1){
+					//found link check if it has path to KM/files/uploaded
+					String theLink = data.substring(indexOfStartLink, indexOfEndLink + "</a>".length());
+					//LOGGER.debug("Found Link: " + theLink);
+					if( theLink.indexOf("gtxResource=/KM/files/uploaded") != -1 || theLink.indexOf("gtxResource=\\KM\\files\\uploaded") != -1){								
+						//found a link that containing the path to the file uploads, now need to check right after the </a> should be <upload> if it is remove the link
+						//LOGGER.debug("Contains file upload path");
+						if(data.indexOf("<upload>", indexOfEndLink + "</a>".length()) == indexOfEndLink + "</a>".length()){
+							//remove the link
+							data = data.substring(0, indexOfStartLink) + data.substring(indexOfEndLink + "</a>".length());
+							LOGGER.debug("Removed link preceding content type upload: " + theLink);
+						}
+					}	
+					indexOfStartLink = data.indexOf("<a", indexOfEndLink + "</a>".length());
+				} else {
+				indexOfStartLink = -1;
+				}
+			}
+		}
+		
+		LOGGER.debug("Exiting removeUploadLinks()");
 		
 		return data;
 	}

@@ -255,8 +255,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			} else if (contentResponse.getPublicBody().length() > 0){
 				contentResponse.setPublicBody(contentResponse.getPublicBody() + includeJSFile);
 				//contentResponse.setPublicBody(contentResponse.getPublicBody() + includeSpryTabbedPanelsJSFile);
-				//contentResponse.setPublicBody(contentResponse.getPublicBody() + includeSpryCSS);
-				
+				//contentResponse.setPublicBody(contentResponse.getPublicBody() + includeSpryCSS);				
 				LOGGER.debug("Added to end of PublicBody: " + includeJSFile);
 				//LOGGER.debug("Added to end of PublicBody: " + includeSpryTabbedPanelsJSFile);
 			}
@@ -482,7 +481,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	}
 
 	private String updateAHrefMalformed(String body) {
-		// This is really stupid put the content call is returning a link like
+		// This is really stupid but the content call is returning a link like
 		// this
 		// <a href='null?gtxResource=/KM/files/uploaded/PNP_UHCG Shared Savings
 		// v1_UHG_en-US.doc&gtxResourceFileName=/KM/files/uploaded/PNP_UHCG

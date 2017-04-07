@@ -379,20 +379,15 @@ $(document).ready(function() {
 					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.publicSectionContent[p].id + '\');">');
 				}
 				contentBody.push('      <div class="content_body_field_resuable_content_icon ' + data.publicSectionContent[p].type + '">&nbsp;</div>');
-				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.publicSectionContent[p].title);
-				contentBody.push('			<a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.publicSectionContent[p].id + '\');"><img src="images/ReadLaterGray16x16.png"></a>');
-				contentBody.push(		'</div>');
+				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.publicSectionContent[p].title + '</div>');
 				contentBody.push('    </a>');
-				contentBody.push('  </div>');
-				
-				contentBody.push('  <div class="content_body_field_resuable_link">');
 				if (data.publicSectionContent[p].type == 'pageSet') {
-					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.publicSectionContent[p].id + '\');">');
+					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.publicSectionContent[p].id + '\');">');
 				} else {
-					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.publicSectionContent[p].id + '\');">');
+					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.publicSectionContent[p].id + '\');">');
 				}
 				contentBody.push('      <img src="' + contentServiceName + '/images/ReadLaterGray16x16.png"/>');
-				contentBody.push('    </a>');
+				contentBody.push('    </div>');
 				contentBody.push('  </div>');
 			}
 			contentBody.push('</section>');
@@ -439,15 +434,13 @@ $(document).ready(function() {
 				contentBody.push('      <div class="content_body_field_resuable_content_icon ' + data.privateSectionContent[p].type + '">&nbsp;</div>');
 				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.privateSectionContent[p].title + '</div>');
 				contentBody.push('    </a>');
-				contentBody.push('  </div>');
-				contentBody.push('  <div class="content_body_field_resuable_link">');
 				if (data.privateSectionContent[p].type == 'pageSet') {
-					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.privateSectionContent[p].id + '\');">');
+					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.privateSectionContent[p].id + '\');">');
 				} else {
-					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.privateSectionContent[p].id + '\');">');
+					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.privateSectionContent[p].id + '\');">');
 				}
 				contentBody.push('      <img src="' + contentServiceName + '/images/ReadLaterGray16x16.png"/>');
-				contentBody.push('    </a>');
+				contentBody.push('    </div>');
 				contentBody.push('  </div>');
 			}
 			contentBody.push('</section>');
