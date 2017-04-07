@@ -776,6 +776,8 @@ public class ElementParser {
 		**/	
 		LOGGER.debug("Entering removeUploadLinks()");
 		
+		String newData = data;
+		
 		//lets check to see if this content even has any upload links before parsing it
 		if (data.indexOf("<upload>") != -1){
 			int indexOfStartLink = data.indexOf("<a");
@@ -788,11 +790,15 @@ public class ElementParser {
 					//LOGGER.debug("Found Link: " + theLink);
 					if( theLink.indexOf("gtxResource=/KM/files/uploaded") != -1 || theLink.indexOf("gtxResource=\\KM\\files\\uploaded") != -1){								
 						//found a link that containing the path to the file uploads, now need to check right after the </a> should be <upload> if it is remove the link
-						//LOGGER.debug("Contains file upload path");
+						//LOGGER.debug("Passed file upload path check");
 						if(data.indexOf("<upload>", indexOfEndLink + "</a>".length()) == indexOfEndLink + "</a>".length()){
 							//remove the link
-							data = data.substring(0, indexOfStartLink) + data.substring(indexOfEndLink + "</a>".length());
+							int indexOfTheLink = newData.indexOf(theLink);
+							if(indexOfTheLink != -1){
+							newData = newData.substring(0, indexOfTheLink) +  data.substring(indexOfStartLink + theLink.length());
 							LOGGER.debug("Removed link preceding content type upload: " + theLink);
+							//LOGGER.debug("Data: " + newData);
+							}
 						}
 					}	
 					indexOfStartLink = data.indexOf("<a", indexOfEndLink + "</a>".length());
@@ -804,6 +810,6 @@ public class ElementParser {
 		
 		LOGGER.debug("Exiting removeUploadLinks()");
 		
-		return data;
+		return newData;
 	}
 }
