@@ -81,7 +81,7 @@ public class TagsService extends BaseService {
 				tagSetResponse.addTagSets(tagsets[x]);
 			}
 		} catch (Throwable t) {
-			LOGGER.error("Unexpected exception in getCrossTags()", t);
+			LOGGER.error("Unexpected exception in getTagsets()", t);
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
 					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
 		}
@@ -117,7 +117,7 @@ public class TagsService extends BaseService {
 				tagResponse.addTag(tags[x]);
 			}
 		} catch (Throwable t) {
-			LOGGER.error("Unexpected exception in getCrossTags()", t);
+			LOGGER.error("Unexpected exception in getTagset()", t);
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
 					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
 		}
@@ -157,7 +157,7 @@ public class TagsService extends BaseService {
 				// TODO
 			}
 		} catch (Throwable t) {
-			LOGGER.error("Unexpected exception in getCrossTags()", t);
+			LOGGER.error("Unexpected exception in getTagsets()", t);
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
 					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
 		}
