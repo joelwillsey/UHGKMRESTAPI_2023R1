@@ -1255,13 +1255,20 @@ $(document)
 					$.fn.getKBaseTags = function() {
 						var url = filtersServiceName + 'km/kbasetags';
 						
-				    	// put the scrool bar back to the top
+				    	// put the scroll bar back to the top
 				    	$('#f_wrapper').scrollTop(0);
 
+				    	jQuery.ajaxSetup({
+							async : false
+						});
+				    	
 						$.fn.serviceCall('GET', '', url, 15000, function(data) {
 							$.fn.populateKBaseTags(data);
 						});
 
+						jQuery.ajaxSetup({
+							async : true
+						});
 						$.fn.getTagsforTagSets("content");
 					}
 
