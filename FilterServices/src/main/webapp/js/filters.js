@@ -1247,8 +1247,16 @@ $(document)
 				    	// put the scrool bar back to the top
 				    	$('#f_wrapper').scrollTop(0);
 
+				    	jQuery.ajaxSetup({
+							async : false
+						});
+				    	
 						$.fn.serviceCall('GET', '', url, 15000, function(data) {
 							$.fn.parseTags(data);
+						});
+						
+						jQuery.ajaxSetup({
+							async : true
 						});
 					}
 					// get all the kbase tags
@@ -1269,6 +1277,7 @@ $(document)
 						jQuery.ajaxSetup({
 							async : true
 						});
+						
 						$.fn.getTagsforTagSets("content");
 					}
 
