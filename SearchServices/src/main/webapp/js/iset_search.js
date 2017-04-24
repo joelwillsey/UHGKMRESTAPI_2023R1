@@ -132,8 +132,8 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('alert');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
-    	var kTagsParameterStrings = $.fn.getParameterByName('tags');
-    	$.fn.search('', page, size, kTagsParameterStrings, 'content_knowledgealert', '', '', function(data) {
+    	var kTagParameter = $.fn.getParameterKbaseTag();
+    	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
     		$.fn.sendToResults('Knowledge Alert', data);
     	});
 	});

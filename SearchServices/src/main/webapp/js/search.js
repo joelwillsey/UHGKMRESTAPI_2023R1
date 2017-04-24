@@ -127,8 +127,8 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('alert');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
-    	var kTagsParameterStrings = $.fn.getParameterByName('tags');
-    	$.fn.search('', page, size, kTagsParameterStrings, 'content_knowledgealert', '', '', function(data) {
+    	var kTagParameter = $.fn.getParameterKbaseTag();
+    	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
     		$.fn.sendToResults('Knowledge Alert', data);
     	});
 	});
@@ -421,9 +421,22 @@ $(document).ready(function() {
             	})
             	$.fn.populateURL("", page, size, filterTags, contentTypeTags, '', publishedid);
             });
+	        self.element.bind("dpui:alertSearch", function(e, data) {
+	            log("alertSearch");
+	            	$.fn.toggleMenu('#tab-alert-button.left.search_alerts');
+	            	$.fn.toggleSearch('alert');
+	            	$('.dpui-widget').trigger('dpui:hideManageButton');
+	            var kTagParameter = $.fn.getParameterKbaseTag();
+	        	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
+	        		$.fn.sendToResults('Knowledge Alert', data);
+	        	});            	
+            });
 	        self.element.bind("dpui:runSearch", function(e, data) {
                 log("runSearch");
                 log(data);
+                $.fn.toggleMenu('#tab-search-button.search_search');
+                $.fn.toggleSearch('search');
+            	$('.dpui-widget').trigger('dpui:hideManageButton');
                 var search_text = $('#search-text').val();
                 if (typeof data != 'undefined' && data != null) {
                 	$.fn.search(search_text, data.page, size, filterTags, contentTypeTags, data.sort, publishedid, function(data) {
@@ -440,18 +453,19 @@ $(document).ready(function() {
                 
             	// Refresh by the type
                 if (typeof data != 'undefined' && data != null && data != '') {
+                	var kTagParameter = $.fn.getParameterKbaseTag();
                 	if (data === 'Knowledge Alert')
-                		$.fn.search('', page, size, '', 'content_knowledgealert', '', '', function(data) {
+                		log("Knowledge Alert Search");                		
+                		$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
                     		$.fn.sendToResults('Knowledge Alert', data);
                     	});
                 	if (data === 'My Bookmarks')
                 		$.fn.bookmark(page, size);
                 	if (data === 'Featured Content')
                 		//pulls in kbase tags from url
-                		var kTagsParameterStrings = $.fn.getParameterByName('tags');
-                		$.fn.featured(page, size, kTagsParameterStrings);
+                		$.fn.featured(page, size, kTagParameter);
                 	if (data === 'Top Content')
-                		$.fn.newOrChanged(page, size, "");
+                		$.fn.newOrChanged(page, size, kTagParameter);
                 }
             });
             self.element.bind("dpui:updateSearchCloud", function(e, data) {
@@ -525,11 +539,16 @@ $(document).ready(function() {
     // Check if the parameters passed in required a search
     if (!$.fn.checkForContentId()) {
 	    if (!$.fn.checkForUrlSearch()) {
-			// Show the alerts on default of page load
-			log('CALLING KNOWLEDGE ALERT');
-			$.fn.search('', page, size, '', 'content_knowledgealert', '', '', function(data) {
-				$.fn.sendToResults('Knowledge Alert', data);
-			});
+	    	/**  Dont need to do this anymore as alerts have been added to the dpui:alertSearch which runs after a dpui:blankSearch
+			// Show the alerts on default of page load 
+				log('CALLING KNOWLEDGE ALERT');
+				$.fn.toggleMenu($('#tab-alert-button'));
+		    	$.fn.toggleSearch('alert');
+	    		$.fn.search('', page, size, '', 'content_knowledgealert', '', '', function(data) {
+					$.fn.sendToResults('Knowledge Alert', data);
+				});
+	    	}	   
+	    	**/ 	
 	    }
     }
 });
