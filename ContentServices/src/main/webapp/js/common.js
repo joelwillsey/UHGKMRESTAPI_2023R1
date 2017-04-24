@@ -303,3 +303,16 @@ function transformToAssocArray(prmstr) {
 	return params;
 }
 
+//Get the kbase tag from the parameters
+$.fn.getParameterKbaseTag = function() {
+	var kbaseTag ='';
+	var tags = $.fn.getParameterByName('tags').split(',');
+	
+	$.each(tags, function(i, val) {
+		  if(val.indexOf('kbase_') >=0 ) {
+			  kbaseTag = val;
+		  }
+		});
+	
+	return kbaseTag;
+}
