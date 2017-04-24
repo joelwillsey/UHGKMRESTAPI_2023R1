@@ -955,6 +955,7 @@ $(document)
 								$.fn.getSelectedContentTags());
 						if (runSearch) {
 							$(".dpui-widget").trigger("dpui:blankSearch");
+							$(".dpui-widget").trigger("dpui:alertSearch");
 						} else {
 							$(".dpui-widget").trigger("dpui:runSearch");
 						}
@@ -1380,21 +1381,12 @@ $(document)
 					// manages the themes for various kbase tags, basically just
 					// switches around the css sheets in the verintkm html
 					$.fn.manageTheme = function() {
-						var current = $.fn.getParameterByName('tags');
-						var url = "/verintkm/km/property/read?address=/app_2/verint/projects/uhgiq/restapi/kmservices/connectionpool.properties&property=restapi.alternativebranding";
-						var configList = "";
+						var current = $.fn.getParameterByName('tags');					
+						//var configList = "";
+						var configList = $.fn.getProperty('themes.knowledgeCentralTheme');
+						
 
-						jQuery.ajaxSetup({
-							async : false
-						});
-						$.fn.serviceCall('GET', '', url, 15000, function(data) {
-							// configList = data.propertiesString;
-						});
-						jQuery.ajaxSetup({
-							async : true
-						});
-
-						configList = "kbase_dentalvision,kbase_ecsolt,kbase_ecs,kbase_prime,kbase_uhcbs,kbase_eienrollmentbilling,kbase_csenrollmentbilling,"
+						//configList = "kbase_dentalvision,kbase_ecsolt,kbase_ecs,kbase_prime,kbase_uhcbs,kbase_eienrollmentbilling,kbase_csenrollmentbilling,"
 								+ "kbase_mrenrollmentbilling,kbase_mrclaimappeals,kbase_eiproduceroperations,kbase_providerdata,kbase_provideroperations,"
 								+ "kbase_uhcwest,kbase_customerimp,kbase_csconsumerservice,kbase_csclaims,kbase_eiclaims,kbase_eiclaimappeals,kbase_eispecialtyops,"
 								+ "kbase_eiconsumerservice,kbase_eiempire,kbase_railroad,kbase_uhcglobal,kbase_mrproviderservice,kbase_eirv,kbase_eiproviderservice,"
@@ -1443,3 +1435,36 @@ $(document)
 					// $.fn.getTagsforTagSets()
 					$.fn.getKBaseTags()
 				});
+
+//Property Reader Service
+$.fn.getProperty = function(property) {
+	
+	var query = '?property=' +property;
+	var retValue = '';
+		
+	jQuery.ajaxSetup({
+		async : false
+	});
+	// Call the service
+	try {
+		$.fn.serviceCallText('GET', '', verintKmServiceName + 'km/property/read'+ query, 15000, function(data) {
+			 if (typeof data != 'undefined' && data != null && data != '') {			 
+					retValue = data;					
+			    }		
+		});
+	}
+	catch(err) {
+		log('$.fn.serviceCall Exception: ' +err.messagee);
+		}
+	jQuery.ajaxSetup({
+			async : true
+	});
+	
+	if (retValue === 'undefined' || retValue === null || retValue === 'null') {
+		retValue = '';
+	}
+	
+	log(property + ': '  + retValue); 
+	
+	return 	retValue;
+}
