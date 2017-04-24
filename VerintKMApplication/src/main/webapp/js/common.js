@@ -226,6 +226,53 @@ $.fn.serviceCallNoSpin = function(type, data, url, timeout, successCallback) {
 	}).then(function(data) {
 	}).responseJSON;
 }
+
+//Service call function
+$.fn.serviceCallText = function(type, data, url, timeout, successCallback) {
+	// Call the search service
+	$.ajax({
+		type : type,
+		contentType : 'application/json',
+		data : data,
+		url : url,
+		async: false,
+		dataType : 'text',
+		timeout : timeout,
+		beforeSend : function(jqXHR, settings) {
+			$.fn.setupHeader(jqXHR);
+			$.fn.setupSpinner();
+		},
+		success : function(data, textStatus, jqXHR) {
+			// Send response headers
+			$.fn.interrogateResponse(jqXHR.getAllResponseHeaders());
+			successCallback(data);
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			$.fn.disableSpinner();
+			$.fn.handleError(jqXHR, textStatus, errorThrown);
+		},
+		statusCode : {
+			// Authentication error code
+			401 : function(jqXHR, textStatus, errorThrown) {
+				$.fn.disableSpinner();
+				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+			},
+			// Authorization error code
+			403 : function(jqXHR, textStatus, errorThrown) {
+				$.fn.disableSpinner();
+				$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+			},
+			// Not found error code
+			404 : function(jqXHR, textStatus, errorThrown) {
+				$.fn.disableSpinner();
+				$.fn.handleError(jqXHR, textStatus, errorThrown);
+			}
+		},
+	}).then(function(data) {
+		$.fn.disableSpinner();
+	}).responseJSON;
+}
+
 // Dynamically create a class
 $.fn.createClass = function(name, rules) {
 	var style = document.createElement('style');
@@ -366,4 +413,18 @@ function transformToAssocArray(prmstr) {
 		params[tmparr[0]] = tmparr[1];
 	}
 	return params;
+}
+
+//Get the kbase tag from the parameters
+$.fn.getParameterKbaseTag = function() {
+	var kbaseTag ='';
+	var tags = $.fn.getParameterByName('tags').split(',');
+	
+	$.each(tags, function(i, val) {
+		  if(val.indexOf('kbase_') >=0 ) {
+			  kbaseTag = val;
+		  }
+		});
+	
+	return kbaseTag;
 }
