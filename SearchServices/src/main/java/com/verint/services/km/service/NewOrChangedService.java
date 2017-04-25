@@ -123,6 +123,7 @@ public class NewOrChangedService extends BaseService {
 			Double totalPages = new Double(0);
 			if (newOrChangedResponse.getNumberOfResults() != null && newOrChangedRequest.getMaxNumberOfUnitsPerGroup() != null) {
 				totalPages = Math.ceil(newOrChangedResponse.getNumberOfResults().doubleValue()/newOrChangedRequest.getMaxNumberOfUnitsPerGroup().doubleValue());
+				LOGGER.debug("totalPages: " + totalPages);
 				newOrChangedResponse.setTotalPages(totalPages.intValue());
 			}
 			

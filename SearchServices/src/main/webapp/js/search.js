@@ -273,7 +273,7 @@ $(document).ready(function() {
 
 	// New or Changed Service
 	$.fn.newOrChanged = function(page, size, kbase) {
-        $.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&kbase_tags=' + kbase, SEARCH_SERVICE_TIMEOUT, function(data) {
+        $.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/neworchanged?page=' + page + '&size=' + size + '&kbase_tags=' + kbase, SEARCH_SERVICE_TIMEOUT, function(data) {
         	$.fn.sendToResults('New or Changed', data);
         });
 	}
