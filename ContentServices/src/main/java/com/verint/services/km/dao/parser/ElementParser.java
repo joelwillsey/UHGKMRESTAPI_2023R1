@@ -367,13 +367,16 @@ public class ElementParser {
 							externalContent.setUrl(tempString.substring(0, endHref));
 							externalContents.add(externalContent);
 							data = data.substring(end + 1);
+						} else {
+							LOGGER.error("Unable to find '> for the end of href=' for start of href. Link Substring: " + data.substring(begin, end));
+							break;
 						}
 					} else {
 						LOGGER.error("Unable to find href=' for start of link. Link Substring: " + data.substring(begin, end));
 						break;
 					}
 				} else {
-					LOGGER.error("Unable to find '\">\" for closing of end tag of <a.  Link Substring: " + data.substring(begin, end));
+					LOGGER.error("Unable to find '> for closing of end tag of <a.  Link Substring: " + data.substring(begin, end));
 					break;
 				}
 			} else {
@@ -418,8 +421,13 @@ public class ElementParser {
 							attachment.setUrl(tempString.substring(0, endHref));
 							attachments.add(attachment);
 							data = data.substring(end + 1);
+						} else {
+							LOGGER.error("Unable to find '\">\" for closing of href tag.  Link Substring: " + data.substring(begin, end));
 						}
-					}					
+					} else {
+						LOGGER.error("Unable to find href=' for start of link. Link Substring: " + data.substring(begin, end));
+						break;
+					}
 				}else {
 					LOGGER.error("Unable to find '\">\" for closing of end tag of <a  findBeginEnd: " + findBeginEnd);
 				}
