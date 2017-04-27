@@ -136,7 +136,7 @@ $.fn.ssoLoginService = function() {
 	req.send(null);
 	var ssousername = req.getResponseHeader("ssousername");
 	var kmgroups = req.getResponseHeader("kmgroups");
-    var password = "doesNotMatterForSSO";
+    var password = "doesNotMatterForSSO1";
     var firstName = req.getResponseHeader("ssofirstname");
     var lastName = req.getResponseHeader("ssolastname");
    	//var dataPackage = '{"username":"' + ssousername + '", "password":"' + password + '", "firstName":"Joe", "lastName":"Smoo", "vemGroups":"kiqadmin"}';
