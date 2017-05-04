@@ -1039,7 +1039,12 @@
 	
 	// Help button
 	$('#widget-help').on('click', function () {
-		window.open('http://www.verint.com/', '_blank');
+		var helpUrl = $.fn.getProperty('verintkm.helpfile.url');
+		if (typeof helpUrl != 'undefined' && helpUrl && helpUrl != '') {
+			window.open(helpUrl, '_blank');
+		} else {
+			alert('The help content is currently unavailable.  Please contact your administrator.');
+		}
 	});
 
 	// On any click remove typeahead
