@@ -77,10 +77,10 @@ $(document).ready(function() {
 	// Method added to drop the autosuggest pop up when we click off of it.
 	$.typeahead({
 	    input: '.search_text',
-	    minLength: 1,
+	    minLength: 2,
 	    order: "asc",
 	    dynamic: true,
-	    delay: 125,
+	    delay: 2000,
 	    backdrop: {
 	        "background-color": "#fff"
 	    },
