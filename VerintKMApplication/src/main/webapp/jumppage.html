@@ -40,15 +40,15 @@
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
 		document.cookie = 'savedurl=' + 'jumppage.html%3F' + urlToSend + '; path=/';
 		
-		//do not want to call 
-		if ($.fn.isUserAuthenticated())
-			  $.fn.setUpJump();
-		
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
 		 $.fn.ssoLoginService();
 		
-
+		//do not want to call 
+		if ($.fn.isUserAuthenticated())
+			  $.fn.setUpJump();
+		
+		
 	</script>
 </head>
 <body style="position: relative; overflow-y: auto; margin: 0px; background-color: rgb(0,0,0);">
