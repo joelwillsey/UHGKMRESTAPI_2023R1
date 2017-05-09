@@ -157,8 +157,15 @@ $(document).ready(function() {
     }
     
    //Launch Remote Documents in new window
-   $.fn.launchRemoteDocuments = function(data) {
-		window.open (data);
+   $.fn.autoOpenRemoteDocuments = function(data) {
+	   	log('Auto open remote document: ' + data);
+		var myWindow = window.open(data, '_blank');
+		if(myWindow){
+			if(myWindow.focus) myWindow.focus();
+			 	return false;
+		}
+		myWindow = null;
+		return true;
 	}
    
 	// Setup skip links
@@ -639,16 +646,16 @@ $(document).ready(function() {
 						//Check for EM URL format Title||URL
 						if (typeof urlArray != 'undefined' && urlArray.length == 2){
 							if (urlArray[0].length > 0){
-							contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + urlArray[1] + '>' +  urlArray[0] + '</a><br><br>');
-							window.open(urlArray[1]);
+							contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href="' + urlArray[1] + '">' +  urlArray[0] + '</a><br><br>');
+							$.fn.autoOpenRemoteDocuments(urlArray[1]);
 							} else {
 								//No title just use URL as title
-								contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + urlArray[1] + '>' +  urlArray[1] + '</a><br><br>');
-								window.open(urlArray[1]);
+								contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href="' + urlArray[1] + '">' +  urlArray[1] + '</a><br><br>');
+								$.fn.autoOpenRemoteDocuments(urlArray[1]);
 							}
 						} else {
-							contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href=' + data.customFields[i].data + '>' + data.customFields[i].data + '</a><br><br>');
-							window.open(data.customFields[i].data);
+							contentBody.push("URL: " + '<a id="remote-document-link" target="_blank" href="' + data.customFields[i].data + '">' + data.customFields[i].data + '</a><br><br>');
+							$.fn.autoOpenRemoteDocuments(data.customFields[i].data);
 						}
 					}
 				}
@@ -860,7 +867,7 @@ $(document).ready(function() {
     	// Resize the window if necessary
     	$.fn.setupContentWidget();
     	
-    	$.fn.autoOpenRemoteDoc();
+
     }
 
     // Rate content
@@ -1011,7 +1018,7 @@ $(document).ready(function() {
             self.element.addClass('dpui-widget');
             self.element.bind('dpui:startWidget', function(e) {
                 log('startWidget');
-                $('.dpui-widget').trigger('dpui:registerContentView');
+                $('.dpui-widget').trigger('dpui:registerContentView');               
             });
             self.element.bind('dpui:registerSearchResults', function(e) {
                 log('registerSearchResults');
@@ -1077,7 +1084,6 @@ $(document).ready(function() {
 		$.fn.retrieveExternalContent(packagedData);
 	}
 
-	
 	
 });
 
