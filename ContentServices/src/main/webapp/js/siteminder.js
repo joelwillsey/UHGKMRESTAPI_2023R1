@@ -114,6 +114,20 @@ var delete_cookie = function(name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 };
 
+//Check for web preview button
+$.fn.isDraftContent = function() {
+	var isDraftContent = false	
+	var paramStr = $.fn.getAllParametersString();
+	if (typeof paramStr != 'undefined' && paramStr != '') {
+		var n = paramStr.indexOf("workflowstate=DRAFT");
+		if (n > -1){
+			isDraftContent = true;
+		}
+	}
+	log('isDraftContent = ' + isDraftContent);
+	return isDraftContent;
+};
+
 // Login Service
 $.fn.ssoLoginService = function() {
 
@@ -144,7 +158,7 @@ $.fn.ssoLoginService = function() {
     var requestURL = "http://" + window.location.host +  "/verintkm/km/login_v2";
 	var dataPackage = '{"username":"' + ssousername + '", "password":"' + password  + '", "firstName":"' + firstName + '", "lastName":"' + lastName + '", "vemGroups":"' + kmgroups + '"}';
 
-    if (ssousername == null)
+    if (ssousername == null || $.fn.isDraftContent())
         window.document.location = "login.html";
         else
         {
