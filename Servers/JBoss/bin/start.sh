@@ -70,6 +70,8 @@ export JAVA_OPTS="-XX:+UseConcMarkSweepGC \
   -Xmx4g \
   -XX:NewSize=1g \
   -XX:MaxNewSize=1g \
+  -Djavax.net.ssl.trustStore=/app_2/verint/projects/uhgiq/AgentDesktop/config/environment.${ENVIRONMENT}/components/ssl/trust.jks \
+  -Djavax.net.ssl.trustStorePassword=changeit \
   -Dorg.apache.coyote.http11.Http11Protocol.MAX_HEADER_SIZE=65536 \
   -Dorg.apache.coyote.ajp.MAX_PACKET_SIZE=65536"
 
