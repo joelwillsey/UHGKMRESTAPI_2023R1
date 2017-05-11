@@ -106,9 +106,8 @@ public class NewOrChangedService extends BaseService {
 			newOrChangedRequest.setApplicationID(applicationID);
 			newOrChangedRequest.setKBaseTags(kbase_tags);
 			newOrChangedRequest.setPaginationStartIndex(page);
-			newOrChangedRequest.setMaxNumberOfGroupResults(size);
+			newOrChangedRequest.setMaxNumberOfGroupResults(new BigInteger("10"));
 			newOrChangedRequest.setMaxNumberOfUnitsPerGroup(size);
-			
 			LOGGER.debug("NewOrChangedRequest: " +newOrChangedRequest);
 			
 			// Do the search and get the response back

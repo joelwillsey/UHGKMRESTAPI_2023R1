@@ -105,7 +105,25 @@ $(document).ready(function() {
     			"page": data,
     			"sort": sortBy
     	}
-		$('.dpui-widget').trigger("dpui:runSearch", packagedData);
+    	
+    	if($('#tab-new-changed-button').hasClass('sel')) {
+	    	var kbase_tag = $.fn.getParameterKbaseTag();
+	    	$.fn.newOrChanged(packagedData.page, size, kbase_tag);
+	    	
+    	} else if($('#tab-alert-button').hasClass('sel')) {
+    		var kTagParameter = $.fn.getParameterKbaseTag();
+        	$.fn.search('', packagedData.page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
+        		$.fn.sendToResults('Knowledge Alert', data);
+        	});
+    	} else if($('#tab-bookmarks-button').hasClass('sel')) {
+    		var kTagParameter = $.fn.getParameterKbaseTag();
+    		$.fn.bookmark(packagedData.page, size, kTagParameter);
+    	} else if($('#tab-featured-button').hasClass('sel')) {
+    		var kTagParameter = $.fn.getParameterKbaseTag();
+    		$.fn.featured(packagedData.page, size, kTagParameter);
+    	} else {
+    		$('.dpui-widget').trigger("dpui:runSearch", packagedData);
+    	}
 	}
 	
 	// Call to view Content

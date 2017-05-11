@@ -124,6 +124,7 @@ $(document).ready(function() {
 
 	// Alert button
     $('#tab-alert-button').on('click', function() {
+    	$('#sr-numbers').show();
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('alert');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
@@ -135,58 +136,40 @@ $(document).ready(function() {
 
 	// Bookmark button
     $('#tab-bookmarks-button').on('click', function() {
+    	$('#sr-numbers').hide();
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('bookmark');
     	$('.dpui-widget').trigger('dpui:showManageButton');
-    	var kTagsParameterStrings = $.fn.getParameterByName('tags').split(",");
-    	$.fn.bookmark(page, size, kTagsParameterStrings[1]);
+    	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
+    	$.fn.bookmark(page, size, kTagsParameterStrings);
 	});
     
     // Featured Content button
 	$('#tab-featured-button').on('click', function() {
+		$('#sr-numbers').show();
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('featured');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
-    	var kTagsParameterStrings = $.fn.getAllTags().split(',');
-    	kTagsParameterStrings = kTagsParameterStrings.filter(function (tags) {
-    		  return tags != "";
-    	});
-    	$.each(kTagsParameterStrings, function(i, val) {
-    	    if(val.indexOf('kbase_') >=0 ) {
-    	    	kTagsParameterStrings = val;
-    	    }
-    	});
-    	
+    	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
     	$.fn.featured(page, size, kTagsParameterStrings);
 	});
 
 	// New or Changed Button button
 	$('#tab-new-changed-button').on('click', function() {
+		$('#sr-numbers').show();
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('neworchanged');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
-    	
-    	 //this pulls in the params and puts them into an array
-		 var kTagsParameterStrings = $.fn.getParameterByName('tags');
-		 var parameterArray = "";
-		 var currentKTag = "";
-		 
-		 if (kTagsParameterStrings != null){
-			 parameterArray = kTagsParameterStrings.split(',');
+    	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
+		
+		if (kTagsParameterStrings != null) {
+			$.fn.newOrChanged(page, size, kTagsParameterStrings);
 		 }
-		 
-		 for (var i = 0; i < parameterArray.length; i++){
-			 var current = parameterArray[i].substring(0,5);
-			 if(parameterArray[i].substring(0,5) == "kbase"){
-				 currentKTag = parameterArray[i];
-			 }
-		 }
-    	
-    	$.fn.newOrChanged(page, size, currentKTag);
 	});
-
+	
     // Search button
 	$('#tab-search-button').on('click', function() {
+		$('#sr-numbers').show();
     	// Setup the tabs
     	$.fn.toggleMenu(this);
 		$.fn.toggleSearch('search');
@@ -281,6 +264,7 @@ $(document).ready(function() {
 	// Bookmark function
 	$.fn.bookmark = function(page, size, tags) {
 		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
+			data.totalPages = 1;
 			$.fn.sendToResults('My Bookmarks', data);
 		});
 	}
@@ -293,7 +277,7 @@ $(document).ready(function() {
 		} else {
 			tags += ",search_showinsearch";
 		}
-		
+		console.log("Details = Page: " + page + " Size: " + size + " Tags: " + tags + " Categories: " + categories);
 		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
 	}
 	

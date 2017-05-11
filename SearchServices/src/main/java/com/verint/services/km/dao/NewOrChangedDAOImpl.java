@@ -81,6 +81,7 @@ public class NewOrChangedDAOImpl extends BaseDAOImpl implements NewOrChangedDAO{
 		request.setKbase_tags(newOrChangedRequest.getKBaseTags());
 		request.setMaxNumberOfGroupResults(newOrChangedRequest.getMaxNumberOfGroupResults());
 		request.setMaxNumberOfUnitsPerGroup(newOrChangedRequest.getMaxNumberOfUnitsPerGroup());
+		request.setPaginationStartIndex(newOrChangedRequest.getPaginationStartIndex());
 		
 		// Call the service
 		Instant start = Instant.now();
