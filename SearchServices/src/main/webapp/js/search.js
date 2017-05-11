@@ -245,11 +245,10 @@ $(document).ready(function() {
 				for (var j = 0; j < data.knowledgeGroupUnits[i].knowledgeUnits["0"].tags.length; ++j){
 					if (data.knowledgeGroupUnits[i].knowledgeUnits["0"].tags[j].systemTagName == tags){
 						newData.knowledgeGroupUnits.push(data.knowledgeGroupUnits[i]);
-						++newData.numberOfResults;
 					}
 				}				
 			}
-			
+			newData.numberOfResults = data.numberOfResults;
 			$.fn.sendToResults('Featured Content', newData);
 		});
 	}
