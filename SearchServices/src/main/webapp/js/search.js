@@ -245,10 +245,10 @@ $(document).ready(function() {
 				for (var j = 0; j < data.knowledgeGroupUnits[i].knowledgeUnits["0"].tags.length; ++j){
 					if (data.knowledgeGroupUnits[i].knowledgeUnits["0"].tags[j].systemTagName == tags){
 						newData.knowledgeGroupUnits.push(data.knowledgeGroupUnits[i]);
+						++newData.numberOfResults;
 					}
 				}				
 			}
-			newData.numberOfResults = data.numberOfResults;
 			$.fn.sendToResults('Featured Content', newData);
 		});
 	}
@@ -263,7 +263,6 @@ $(document).ready(function() {
 	// Bookmark function
 	$.fn.bookmark = function(page, size, tags) {
 		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
-			data.totalPages = 1;
 			$.fn.sendToResults('My Bookmarks', data);
 		});
 	}
@@ -276,7 +275,6 @@ $(document).ready(function() {
 		} else {
 			tags += ",search_showinsearch";
 		}
-		console.log("Details = Page: " + page + " Size: " + size + " Tags: " + tags + " Categories: " + categories);
 		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
 	}
 	

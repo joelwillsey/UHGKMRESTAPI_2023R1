@@ -200,6 +200,7 @@ $(document).ready(function() {
 			size = data.size;
 		}
 		
+		data.totalPages = Math.ceil(data.numberOfResults / data.size);
 		// sets values for the showing numbers
 		var oneOf = ((page-1) * size);
 		var twoOf = oneOf + size;
@@ -421,6 +422,9 @@ $(document).ready(function() {
 	
 	// Setup pagination view
 	$.fn.setupPagination = function(data) {
+		if($('#tab-bookmarks-button').hasClass('sel')) {
+			data.totalPages = 1;
+		}
 		// Now setup the pagination
 		var pagination = [];
 		pagination.push('<nav><ul>');
