@@ -954,7 +954,7 @@ $(document)
 						$(".dpui-widget").trigger("dpui:setupContentTypeTags",
 								$.fn.getSelectedContentTags());
 						if (runSearch) {
-							$(".dpui-widget").trigger("dpui:blankSearch");
+							//$(".dpui-widget").trigger("dpui:blankSearch");
 							$(".dpui-widget").trigger("dpui:alertSearch");
 						} else {
 							$(".dpui-widget").trigger("dpui:runSearch");
