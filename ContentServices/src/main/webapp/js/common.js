@@ -305,14 +305,28 @@ function transformToAssocArray(prmstr) {
 
 //Get the kbase tag from the parameters
 $.fn.getParameterKbaseTag = function() {
-	var kbaseTag ='';
-	var tags = $.fn.getParameterByName('tags').split(',');
-	
-	$.each(tags, function(i, val) {
-		  if(val.indexOf('kbase_') >=0 ) {
-			  kbaseTag = val;
-		  }
+	var tags = $.fn.getParameterByName('tags');
+	if(tags != null && tags != undefined & tags != "") {
+		tags = tags.split(',');
+		tags = tags.filter(function(tag) {
+			return tag.indexOf('kbase_') >= 0;
 		});
-	
-	return kbaseTag;
+	}
+	if(tags == null || tags == undefined || tags == "") {
+		tags = $('#kbase-selection').children();
+		if(tags.length > 0) {
+			for (var i = 0; i < tags.length; i++) {
+				if(tags[i].id != null && tags[i].id != undefined && tags[i].id != "" && tags[i].id.indexOf('kbase_') >= 0) {
+					tags = tags[i].id;
+					break;
+				}
+			}
+		}
+	}
+	if(tags == null) {
+		tags = '';
+	} else {
+		tags = tags.toString();
+	}
+	return tags;
 }
