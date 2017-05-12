@@ -48,6 +48,7 @@ $(document).ready(function() {
 			$('#popup').removeClass('popup');
 			$('#popup').addClass('popup_on');
 			$('#popup').addClass('popup_full');
+			$("#popup").css("overflow", "scroll");
 		});
 	});
 
