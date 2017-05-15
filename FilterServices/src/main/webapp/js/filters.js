@@ -1164,89 +1164,91 @@ $(document)
 						for (var i = 0; i < data.crossTags.length; ++i) {
 							var currentTargetSet = data.crossTags[i].tags[0].parentTagName;
 
-							if (currentTargetSet == 'topic') {
-								var treeValue = $.fn
-										.createTreeFilter(
-												data.crossTags[i].tags,
-												data.crossTags[i].tags["0"].systemTagName,
-												'topic', false);
-
-								topicTreeData += treeValue;
-
-								$('#div-topic-tags').html(topicTreeData);
-
-								// remove the crossTag from the array of all tag
-								// types
-								var index = crossTagTypes
-										.indexOf(currentTargetSet);
-								if (index > -1) {
-									crossTagTypes.splice(index, 1);
-								}
-							} else if (currentTargetSet == 'cntnttype') {
-								var treeData = $.fn
-										.createTreeFilter(
-												data.crossTags[i].tags,
-												data.crossTags[i].tags["0"].systemTagName,
-												'cntnttype', false);
-								$('#div-cntnttype-tags').html(treeData);
-								$('#ul-cntnttype-tags')
-										.html(
-												$.fn
-														.setupFilter(
-																data.crossTags[i].tags,
-																data.crossTags[i].tags["0"].systemTagName,
-																'cntnttype'));
-
-								// remove the crossTag from the array of all tag
-								// types
-								var index = crossTagTypes
-										.indexOf(currentTargetSet);
-								if (index > -1) {
-									crossTagTypes.splice(index, 1);
-								}
-							} else if (currentTargetSet == 'region') {
-								var treeData = $.fn
-										.createTreeFilter(
-												data.crossTags[i].tags,
-												data.crossTags[i].tags["0"].systemTagName,
-												'region', false);
-								$('#div-region-tags').html(treeData);
-								$('#ul-region-tags')
-										.html(
-												$.fn
-														.setupFilter(
-																data.crossTags[i].tags,
-																data.crossTags[i].tags["0"].systemTagName,
-																'region'));
-
-								// remove the crossTag from the array of all tag
-								// types
-								var index = crossTagTypes
-										.indexOf(currentTargetSet);
-								if (index > -1) {
-									crossTagTypes.splice(index, 1);
-								}
-							} else if (currentTargetSet == 'product') {
-								var treeData = $.fn
-										.createTreeFilter(
-												data.crossTags[i].tags,
-												data.crossTags[i].tags["0"].systemTagName,
-												'product', true);
-								$('#div-product-tags').html(treeData);
-								$('#ul-product-tags')
-										.html(
-												$.fn
-														.setupFilter(
-																data.crossTags[i].tags,
-																data.crossTags[i].tags["0"].systemTagName,
-																'product'));
-
-								// remove the crossTag from the array of all tag
-								// types
-								var index = crossTagTypes
-										.indexOf(currentTargetSet);
-								if (index > -1) {
-									crossTagTypes.splice(index, 1);
+							if (typeof currentTargetSet != 'undefined' && currentTargetSet != null ) {
+								if (currentTargetSet == 'topic') {
+									var treeValue = $.fn
+											.createTreeFilter(
+													data.crossTags[i].tags,
+													data.crossTags[i].tags["0"].systemTagName,
+													'topic', false);
+	
+									topicTreeData += treeValue;
+	
+									$('#div-topic-tags').html(topicTreeData);
+	
+									// remove the crossTag from the array of all tag
+									// types
+									var index = crossTagTypes
+											.indexOf(currentTargetSet);
+									if (index > -1) {
+										crossTagTypes.splice(index, 1);
+									}
+								} else if (currentTargetSet == 'cntnttype') {
+									var treeData = $.fn
+											.createTreeFilter(
+													data.crossTags[i].tags,
+													data.crossTags[i].tags["0"].systemTagName,
+													'cntnttype', false);
+									$('#div-cntnttype-tags').html(treeData);
+									$('#ul-cntnttype-tags')
+											.html(
+													$.fn
+															.setupFilter(
+																	data.crossTags[i].tags,
+																	data.crossTags[i].tags["0"].systemTagName,
+																	'cntnttype'));
+	
+									// remove the crossTag from the array of all tag
+									// types
+									var index = crossTagTypes
+											.indexOf(currentTargetSet);
+									if (index > -1) {
+										crossTagTypes.splice(index, 1);
+									}
+								} else if (currentTargetSet == 'region') {
+									var treeData = $.fn
+											.createTreeFilter(
+													data.crossTags[i].tags,
+													data.crossTags[i].tags["0"].systemTagName,
+													'region', false);
+									$('#div-region-tags').html(treeData);
+									$('#ul-region-tags')
+											.html(
+													$.fn
+															.setupFilter(
+																	data.crossTags[i].tags,
+																	data.crossTags[i].tags["0"].systemTagName,
+																	'region'));
+	
+									// remove the crossTag from the array of all tag
+									// types
+									var index = crossTagTypes
+											.indexOf(currentTargetSet);
+									if (index > -1) {
+										crossTagTypes.splice(index, 1);
+									}
+								} else if (currentTargetSet == 'product') {
+									var treeData = $.fn
+											.createTreeFilter(
+													data.crossTags[i].tags,
+													data.crossTags[i].tags["0"].systemTagName,
+													'product', true);
+									$('#div-product-tags').html(treeData);
+									$('#ul-product-tags')
+											.html(
+													$.fn
+															.setupFilter(
+																	data.crossTags[i].tags,
+																	data.crossTags[i].tags["0"].systemTagName,
+																	'product'));
+	
+									// remove the crossTag from the array of all tag
+									// types
+									var index = crossTagTypes
+											.indexOf(currentTargetSet);
+									if (index > -1) {
+										crossTagTypes.splice(index, 1);
+									}
 								}
 							}
 						}
