@@ -7,6 +7,7 @@
 	
 	// Manage bookmark exit
 	$.fn.bookmarkExit = function() {
+		$("#popup").removeAttr("style");
 		$('#popup').removeClass('popup_full');
 		$('#popup').addClass('popup');
 		$('#bookmark-html').html($('#popup').html());
