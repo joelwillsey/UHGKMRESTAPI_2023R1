@@ -1162,9 +1162,10 @@ $(document)
 						// goes through all of the tags in crosstags and
 						// populates and removes them from the array
 						for (var i = 0; i < data.crossTags.length; ++i) {
-							var currentTargetSet = data.crossTags[i].tags[0].parentTagName;
+							
+							if (typeof  data.crossTags[i].tags[0] != 'undefined' &&  data.crossTags[i].tags[0] != null ){
+								var currentTargetSet = data.crossTags[i].tags[0].parentTagName;
 
-							if (typeof currentTargetSet != 'undefined' && currentTargetSet != null ) {
 								if (currentTargetSet == 'topic') {
 									var treeValue = $.fn
 											.createTreeFilter(
