@@ -80,7 +80,7 @@ $(document).ready(function() {
 	    minLength: 2,
 	    order: "asc",
 	    dynamic: true,
-	    delay: 2000,
+	    delay: 1000,
 	    backdrop: {
 	        "background-color": "#fff"
 	    },
