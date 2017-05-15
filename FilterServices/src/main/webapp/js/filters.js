@@ -21,22 +21,35 @@ $(document)
 					$('.fs_cloud_reset').on(
 							'click',
 							function() {
+								var kbasename = 'null';
+								
 								$('.ul_all_tags li').each(
 										function(index) {
-											log(index);
+											log("Index: " + index);
 											var li = $(this);
-											log(li);
+											log("li: " + li);
 											var id = li.attr('id');
 											id = id.substring(3);
 											var tagtype = $(
 													'#' + li.attr('id') + ' a')
 													.attr('tagtype');
-											if (typeof tagtype != 'undefined') {
+											
+											// check if we have kbase tag (should always be there)
+											var topicTag = li.context.id.substring(
+													0, 8);
+											if (topicTag == 'sc-kbase') {
+												// grab the name for use later.
+												kbasename = id;
+											}
+											
+											if (typeof tagtype != 'undefined'){
 												$.fn.removeTag(tagtype, id);
 											}
+																				
 											li.remove();
+											
 										});
-
+								
 								$('#ul-filter-section-tree li a span').each(
 										function(index) {
 											var a = $(this);
@@ -47,7 +60,15 @@ $(document)
 								$('.ul_all_tags').html('');
 								$('.fs_dt_info_label').css('display', 'block');
 								$(".dpui-widget").trigger("dpui:resetSearch",
-										'*');
+								'*');
+								
+								// reset search removes the kbase tag but doesn't handle removing from the kbase field.
+								// add tag again and remove correctly. tagClick will set up the cross tags/remove and add etc.
+								if (kbasename != 'null' ){
+									$.fn.addToSearchCloud('kbase', kbasename);
+									$.fn.tagClick('kbase', kbasename);
+								}
+
 							});
 
 					// Topic Reset button
@@ -1354,7 +1375,7 @@ $(document)
 									// gets
 									var elem = document
 											.getElementById(data.tags[0].systemTagName);
-
+ 
 									if (typeof elem.onclick == "function") {
 										elem.onclick.apply(elem);
 									}
