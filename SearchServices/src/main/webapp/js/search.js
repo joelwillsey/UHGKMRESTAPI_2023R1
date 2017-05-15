@@ -129,7 +129,8 @@ $(document).ready(function() {
     	$.fn.toggleSearch('alert');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
     	var kTagParameter = $.fn.getParameterKbaseTag();
-    	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
+    	console.log("Alert Button Clicked");
+    	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'lastModifiedDate', '', function(data) {
     		$.fn.sendToResults('Knowledge Alert', data);
     	});
 	});
@@ -408,7 +409,8 @@ $(document).ready(function() {
 	            	$.fn.toggleSearch('alert');
 	            	$('.dpui-widget').trigger('dpui:hideManageButton');
 	            var kTagParameter = $.fn.getParameterKbaseTag();
-	        	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
+	            console.log("Alert Search Trigger");
+	        	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'lastModifiedDate', '', function(data) {
 	        		$.fn.sendToResults('Knowledge Alert', data);
 	        	});            	
             });
@@ -436,7 +438,7 @@ $(document).ready(function() {
                 if (typeof data != 'undefined' && data != null && data != '') {
                 	var kTagParameter = $.fn.getParameterKbaseTag();
                 	if (data === 'Knowledge Alert')
-                		log("Knowledge Alert Search");                		
+                		log("Knowledge Alert Search");
                 		$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
                     		$.fn.sendToResults('Knowledge Alert', data);
                     	});

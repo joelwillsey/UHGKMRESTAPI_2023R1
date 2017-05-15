@@ -113,7 +113,8 @@ $(document).ready(function() {
 	    	
     	} else if($('#tab-alert-button').hasClass('sel')) {
     		var kTagParameter = $.fn.getParameterKbaseTag();
-        	$.fn.search('', packagedData.page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
+    		console.log("Pagination Clicked on Alert");
+        	$.fn.search('', packagedData.page, size, kTagParameter, 'content_knowledgealert', 'lastModifiedDate', '', function(data) {
         		$.fn.sendToResults('Knowledge Alert', data);
         	});
     	} else if($('#tab-bookmarks-button').hasClass('sel')) {
