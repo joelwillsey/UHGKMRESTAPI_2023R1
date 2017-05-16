@@ -679,7 +679,6 @@ public class ElementParser {
 	public String parseScriptPlaceHolders(String data){
 		LOGGER.info("Entering parseScriptPlaceHolders()");
 		
-		String linkPlaceHolder = "#link#";
 		String startscriptPlaceHolder ="#startscript#";
 		String stopscriptPlaceHolder ="#endscript#";
 		
@@ -703,7 +702,11 @@ public class ElementParser {
 
 			startSearchIndex = 	indexStartScript + startscriptPlaceHolder.length();
 			
-			indexStartScript = data.indexOf(startscriptPlaceHolder, startSearchIndex);			
+			if (startSearchIndex == -1){
+				indexStartScript = -1;				
+			} else {
+				indexStartScript = data.indexOf(startscriptPlaceHolder, startSearchIndex);
+			}
 		
 		}
 		LOGGER.info("Exiting parseScriptPlaceHolders()");
@@ -716,7 +719,7 @@ public class ElementParser {
 			
 
 			String linkPlaceHolder = "#startlink#";
-			//HTML escape charaacter > = &gt;
+			//HTML escape character > = &gt;
 			String greaterThanEsc = "&gt;";
 
 			
@@ -724,14 +727,18 @@ public class ElementParser {
 			
 			int indexStartLink = data.indexOf(linkPlaceHolder, startSearchIndex);
 			
+			LOGGER.debug("indexStartLink: " + indexStartLink);
+			
 			while (indexStartLink != -1) {
 				
-				// link tag #link# media="screen" type="text/css" href="/http://localhost:8090/fileStorage/SpryTabbedPanels.css" rel="stylesheet" &gt;
+				// link tag;  #startlink# media="screen" type="text/css" href="/http://localhost:8090/fileStorage/SpryTabbedPanels.css" rel="stylesheet" &gt;
 				
-				int indexStartLinkClosing = data.indexOf(greaterThanEsc, startSearchIndex);
+				int indexStartLinkClosing = data.indexOf(greaterThanEsc, indexStartLink);
+				
 				
 				if (indexStartLinkClosing != -1){
 					String linkString = data.substring(indexStartLink, indexStartLinkClosing) + data.substring(indexStartLinkClosing, indexStartLinkClosing + greaterThanEsc.length());
+					
 					String newLinkString = replaceEscapeChar(linkString);
 					data = data.replaceAll(Pattern.quote(linkString), newLinkString);
 					LOGGER.debug("parseLinkPlaceHolders: Replacing Link placeholders: \"" + linkString + "\" with \"" + newLinkString + "\"");
@@ -739,7 +746,11 @@ public class ElementParser {
 				
 				startSearchIndex = 	indexStartLink + linkPlaceHolder.length();
 				
-				indexStartLink = data.indexOf(linkPlaceHolder, startSearchIndex);			
+				if (startSearchIndex == -1){
+					indexStartLink = -1;
+				} else {
+					indexStartLink = data.indexOf(linkPlaceHolder, startSearchIndex);	
+				}
 			
 			}
 			LOGGER.info("Exiting parseLinkPlaceHolders()");
