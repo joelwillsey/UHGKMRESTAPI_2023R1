@@ -637,6 +637,6 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		final ElementParser elementParser = new ElementParser();
 
 		elementParser.parseBody(bodyContent, contentResponse);
-		LOGGER.info("Entering parseBody()");
+		LOGGER.info("Exiting parseBody()");
 	}
 }

@@ -675,29 +675,46 @@ public class ElementParser {
 	}
 	
 	
-	//Find script placeholders and convert it to the correct script verbiage
+	//Find script placeholders and convert it to the correct script verbiage and move it to the top
 	public String parseScriptPlaceHolders(String data){
 		LOGGER.info("Entering parseScriptPlaceHolders()");
 		
+		String originalData = data;			
+		String publicBody = "<publicBody>";
+		String srcAttributte = "src=";
 		String startscriptPlaceHolder ="#startscript#";
 		String stopscriptPlaceHolder ="#endscript#";
 		
 		int startSearchIndex = 0;
 		String scriptString = "";
 		
-		int indexStartScript = data.indexOf(startscriptPlaceHolder, startSearchIndex);
+		int indexStartScript = originalData.indexOf(startscriptPlaceHolder, startSearchIndex);
 		
 		while (indexStartScript != -1) {
 			
 			// script tag could be self contained i.e #startscript# type="text/javascript" src="http://localhost:8090/fileStorage/lastModified.js">
 			// or have an end tag i.e. #startscript# type="text/javascript">function StartCountdown(){for(var i=1; i{{&lt;}}=3; i++) {alert("Count "+i+" is done!") }}#endscript#
 			// so we need to find the next start to make sure it is not before the end tag
-			int indexEndScript = data.indexOf(stopscriptPlaceHolder, indexStartScript + startscriptPlaceHolder.length());
+			int indexEndScript = originalData.indexOf(stopscriptPlaceHolder, indexStartScript + startscriptPlaceHolder.length());
 			if (indexEndScript != -1){
-				scriptString = data.substring(indexStartScript, indexEndScript + stopscriptPlaceHolder.length());
+				scriptString = originalData.substring(indexStartScript, indexEndScript + stopscriptPlaceHolder.length());
 				String newScriptString = replaceEscapeChar(scriptString);
-				data = data.replaceAll(Pattern.quote(scriptString), newScriptString);
-				LOGGER.debug("parseScriptPlaceHolders: Replacing script placeholders: \"" + scriptString + "\" with \"" + newScriptString + "\"");				
+				
+				
+				int indexSrcAttr = newScriptString.indexOf(srcAttributte);
+				
+				if (indexSrcAttr == -1){
+					data = data.replaceAll(Pattern.quote(scriptString), newScriptString);
+					LOGGER.debug("parseScriptPlaceHolders: Replacing script placeholders: \"" + scriptString + "\" with \"" + newScriptString + "\"");
+				} else {
+					int indexPublicBody = data.indexOf(publicBody);
+										
+					if (indexPublicBody != -1) {
+						data = data.replaceAll(Pattern.quote(scriptString), "<!-- Moved remote js script tag to top of publicBody content from here -->");	
+						data = data.substring(0, indexPublicBody + publicBody.length()) + newScriptString + data.substring(indexPublicBody + publicBody.length());
+						LOGGER.debug("parseScriptPlaceHolders: Replacing script placeholders: \"" + scriptString + "\" with \"" + newScriptString + "\"");
+					}
+				}
 			}
 
 			startSearchIndex = 	indexStartScript + startscriptPlaceHolder.length();
@@ -705,7 +722,7 @@ public class ElementParser {
 			if (startSearchIndex == -1){
 				indexStartScript = -1;				
 			} else {
-				indexStartScript = data.indexOf(startscriptPlaceHolder, startSearchIndex);
+				indexStartScript = originalData.indexOf(startscriptPlaceHolder, startSearchIndex);
 			}
 		
 		}
@@ -713,11 +730,12 @@ public class ElementParser {
 		return data;
 	}
 	
-	//Find link placeholders and convert it to the correct script verbiage
+	//Find link placeholders and convert it to the correct script verbiage and move it to the top
 		public String parseLinkPlaceHolders(String data){
 			LOGGER.info("Entering parseLinkPlaceHolders()");
 			
-
+			String originalData = data;			
+			String publicBody = "<publicBody>";
 			String linkPlaceHolder = "#startlink#";
 			//HTML escape character > = &gt;
 			String greaterThanEsc = "&gt;";
@@ -725,23 +743,30 @@ public class ElementParser {
 			
 			int startSearchIndex = 0;
 			
-			int indexStartLink = data.indexOf(linkPlaceHolder, startSearchIndex);
+			int indexStartLink = originalData.indexOf(linkPlaceHolder, startSearchIndex);
 			
-			LOGGER.debug("indexStartLink: " + indexStartLink);
 			
 			while (indexStartLink != -1) {
 				
 				// link tag;  #startlink# media="screen" type="text/css" href="/http://localhost:8090/fileStorage/SpryTabbedPanels.css" rel="stylesheet" &gt;
 				
-				int indexStartLinkClosing = data.indexOf(greaterThanEsc, indexStartLink);
+				int indexStartLinkClosing = originalData.indexOf(greaterThanEsc, indexStartLink);
 				
 				
 				if (indexStartLinkClosing != -1){
-					String linkString = data.substring(indexStartLink, indexStartLinkClosing) + data.substring(indexStartLinkClosing, indexStartLinkClosing + greaterThanEsc.length());
+					String linkString = originalData.substring(indexStartLink, indexStartLinkClosing) + originalData.substring(indexStartLinkClosing, indexStartLinkClosing + greaterThanEsc.length());
 					
 					String newLinkString = replaceEscapeChar(linkString);
-					data = data.replaceAll(Pattern.quote(linkString), newLinkString);
-					LOGGER.debug("parseLinkPlaceHolders: Replacing Link placeholders: \"" + linkString + "\" with \"" + newLinkString + "\"");
+					
+					int indexPublicBody = data.indexOf(publicBody);
+					
+					if (indexPublicBody != -1) {
+						data = data.replaceAll(Pattern.quote(linkString), "<!-- Moved link tag to top of publicBody content from here -->");
+						data = data.substring(0, indexPublicBody + publicBody.length()) + newLinkString + data.substring(indexPublicBody + publicBody.length());
+						LOGGER.debug("parseLinkPlaceHolders: Replacing Link placeholders: \"" + linkString + "\" with \"" + newLinkString + "\"");
+					}
+					
+					
 				}
 				
 				startSearchIndex = 	indexStartLink + linkPlaceHolder.length();
@@ -749,7 +774,7 @@ public class ElementParser {
 				if (startSearchIndex == -1){
 					indexStartLink = -1;
 				} else {
-					indexStartLink = data.indexOf(linkPlaceHolder, startSearchIndex);	
+					indexStartLink = originalData.indexOf(linkPlaceHolder, startSearchIndex);	
 				}
 			
 			}
