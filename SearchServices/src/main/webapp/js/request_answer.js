@@ -1,18 +1,19 @@
 	var keyword;
 	var selectedFilter;
-	
+		
 	$.fn.throwError = function(data) {
 		$('#error-body').html(data);
 		$('#background-popup-error').addClass('background_popup_error_on');
 		$('#error-message').addClass('error_message_on');
 	}
-
+	
 	// Submit button
 	$.fn.requestAnswerSubmit = function() {
 		$.fn.parseParams();
 		var searchDate = new Date();
 		var jsonDate = JSON.stringify(searchDate);
-		var expectation = $('#request-answer-expectation').val();
+		var rae = $('#request-answer-expectation').val();
+		var expectation = rae.replace(/\n/g, '\\n');
 		keyword = $('#request-answer-query').val();
 		if(!keyword) keyword = " ";
 		$('#request-answer-query').val('');
@@ -115,6 +116,7 @@
 		$('#popup').removeClass('popup_on');
 	}
 
+	
 	// Initialize the data
 	$.fn.initData = function(keywordParam, selectedFilterParam) {
 		log('keyword: ' + keywordParam);

@@ -214,12 +214,19 @@ $(document).ready(function() {
 	});
 
 	// Catch enter key; call the search service
-	$(document).keydown( function(event) {
+	/*$(document).keydown( function(event) {
 		if (event.which === 13){
 			$.fn.toggleMenu($('#tab-search-button'));
 			$(".dpui-widget").trigger("dpui:runSearch");
 		}
-	});
+	});*/
+	
+	$.fn.checkEnter = function(e) {
+		if (event.which === 13) {
+			$.fn.toggleMenu($('#tab-search-button'));
+			$(".dpui-widget").trigger("dpui:runSearch");
+		}
+	}
 
 	// Handle search results
 	$.fn.sendToResults = function(label, data) {

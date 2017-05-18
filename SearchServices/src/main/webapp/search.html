@@ -16,14 +16,14 @@
 	<script type='text/javascript' src="js/search_results.js"></script>
 	
 </head>
-<body style="position: relative;">
+<body style="position: relative;" onkeypress="$.fn.checkEnter(event);">
 <!-- Begin Search Widget -->
 	<section class="search_container">
 		<section class="search">
 			<div id="search-wrapper" class="search_wrapper">
 				<div class="search_box">
 					<div class="dropdown">
-						<input id="search-text" class="search_text" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
+						<input id="search-text" class="search_text" onkeypress="$.fn.checkEnter(event);" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
 						<ul id="autoSuggest" class="auto-suggest-content">
 						</ul>
 					</div>

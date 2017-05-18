@@ -1,8 +1,8 @@
 $(document).ready(function() {
 	var params = $.fn.getAllParametersString();
 
-	// Catch enter key; call the search service
-	$(document).keydown( function(event) {
+	//Catch enter key; call the search service
+	/*$(document).keydown( function(event) {
 		if (event.which === 13) {
 			var username = $('#username').val();
 			var password= $('#password').val();
@@ -10,7 +10,16 @@ $(document).ready(function() {
 			// Call the login service
 			$.fn.loginService(username, password);
 		}
-	});
+	});*/
+	
+	
+	$.fn.checkEnter = function(e) {
+	    if (event.which == 13 || event.keyCode == 13) {
+	        //code to execute here
+	        return false;
+	    }
+	    return true;
+	}
 
 	// Login Service
 	$.fn.loginService = function(username, password) {

@@ -7,6 +7,8 @@ $(document).ready(function() {
 	// Submit button
 	$.fn.feedbackSubmit = function() {
 		var feedbackCode = $('#feedback-code-list').val();
+		var feedbackComment = $('#feedback-comment').val();
+		var feedbackCommentEscaped = feedbackComment.replace(/\n/g, '\\n');
 		if (feedbackCode === 'Please select') {
 			$('#error-body').html('Please select a feedback for this content.');
 			$('#background-popup-error').addClass('background_popup_error_on');
@@ -21,7 +23,7 @@ $(document).ready(function() {
 				{
 					var postObject = [];
 						postObject.push('{"contentId":"' + contentId + '"'); 
-						postObject.push(',"comment":"' + $('#feedback-comment').val() + '"');
+						postObject.push(',"comment":"' + feedbackCommentEscaped + '"');
 						postObject.push(',"notification":"' + notification + '"');
 						postObject.push(',"locale":"' + 'en-US' + '"');
 						postObject.push(',"feedbackCodeID":' + feedbackCode);
@@ -41,7 +43,7 @@ $(document).ready(function() {
 				var notification = false;
 				var postObject = [];
 					postObject.push('{"contentId":"' + contentId + '"'); 
-					postObject.push(',"comment":"' + $('#feedback-comment').val() + '"');
+					postObject.push(',"comment":"' + feedbackCommentEscaped + '"');
 					postObject.push(',"notification":"' + notification + '"');
 					postObject.push(',"locale":"' + 'en-US' + '"');
 					postObject.push(',"feedbackCodeID":' + feedbackCode);
