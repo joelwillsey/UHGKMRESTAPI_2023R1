@@ -150,7 +150,7 @@
     				<div id="typeahead-container" class="typeahead__container">
         				<div class="typeahead__field">
             				<span class="typeahead__query">
-            					<input id="search-text" class="search_text" autocomplete="off" type="search" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
+            					<input id="search-text" class="search_text" onkeypress="$.fn.checkEnter(event);" autocomplete="off" type="search" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
             				</span>
 				            <span class="typeahead__button">
 				            	<button id="search-button" class="" tabindex="2" type="submit">
