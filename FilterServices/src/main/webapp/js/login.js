@@ -11,6 +11,16 @@ $(document).ready(function() {
 			$.fn.loginService(username, password);
 		}
 	});
+	
+	$.fn.checkEnter = function(e) {
+		if (event.which === 13) {
+			var username = $('#username').val();
+			var password= $('#password').val();
+
+			// Call the login service
+			$.fn.loginService(username, password);
+		}
+	}
 
 	// Login Service
 	$.fn.loginService = function(username, password) {

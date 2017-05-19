@@ -2,7 +2,7 @@ $(document).ready(function() {
 	var params = $.fn.getAllParametersString();
 
 	// Catch enter key; call the search service
-	$(document).keydown( function(event) {
+	/*$(document).keydown( function(event) {
 		if (event.which === 13) {
 			var username = $('#username').val();
 			var password= $('#password').val();
@@ -10,8 +10,18 @@ $(document).ready(function() {
 			// Call the login service
 			$.fn.loginService(username, password);
 		}
-	});
+	});*/
 
+	$.fn.checkEnter = function(e) {
+		if (event.which === 13) {
+			var username = $('#username').val();
+			var password= $('#password').val();
+
+			// Call the login service
+			$.fn.loginService(username, password);
+		}
+	}
+	
 	// Login Service
 	$.fn.loginService = function(username, password) {
 		// Check for valid username/password
