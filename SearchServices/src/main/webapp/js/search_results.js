@@ -49,6 +49,7 @@ $(document).ready(function() {
 			$('#popup').addClass('popup_on');
 			$('#popup').addClass('popup_full');
 			$("#popup").css("overflow", "scroll");
+			$('.content_body_field_custom_data').hide();
 		});
 	});
 

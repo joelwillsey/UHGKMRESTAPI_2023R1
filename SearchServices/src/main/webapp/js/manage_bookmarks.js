@@ -7,6 +7,7 @@
 	
 	// Manage bookmark exit
 	$.fn.bookmarkExit = function() {
+		$('.content_body_field_custom_data').show();
 		$("#popup").removeAttr("style");
 		$('#popup').removeClass('popup_full');
 		$('#popup').addClass('popup');
