@@ -14,11 +14,13 @@ $(document).ready(function() {
 	
 	
 	$.fn.checkEnter = function(e) {
-	    if (event.which == 13 || event.keyCode == 13) {
-	        //code to execute here
-	        return false;
-	    }
-	    return true;
+		if (event.which === 13) {
+			var username = $('#username').val();
+			var password= $('#password').val();
+
+			// Call the login service
+			$.fn.loginService(username, password);
+		}
 	}
 
 	// Login Service
