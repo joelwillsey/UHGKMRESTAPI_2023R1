@@ -222,7 +222,7 @@ $(document).ready(function() {
 	});*/
 	
 	$.fn.checkEnter = function(e) {
-		if (event.which === 13) {
+		if (e.which === 13) {
 			$.fn.toggleMenu($('#tab-search-button'));
 			$(".dpui-widget").trigger("dpui:runSearch");
 		}
