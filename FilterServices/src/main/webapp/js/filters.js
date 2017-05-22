@@ -1146,35 +1146,3 @@ $(document).ready(function() {
 	$.fn.getKBaseTags()
 });
 
-//Property Reader Service
-$.fn.getProperty = function(property) {
-	
-	var query = '?property=' +property;
-	var retValue = '';
-		
-	jQuery.ajaxSetup({
-		async : false
-	});
-	// Call the service
-	try {
-		$.fn.serviceCallText('GET', '', verintKmServiceName + 'km/property/read'+ query, 15000, function(data) {
-			 if (typeof data != 'undefined' && data != null && data != '') {			 
-					retValue = data;					
-			    }		
-		});
-	}
-	catch(err) {
-		log('$.fn.serviceCall Exception: ' +err.messagee);
-		}
-	jQuery.ajaxSetup({
-			async : true
-	});
-	
-	if (retValue === 'undefined' || retValue === null || retValue === 'null') {
-		retValue = '';
-	}
-	
-	log(property + ': '  + retValue); 
-	
-	return 	retValue;
-}
