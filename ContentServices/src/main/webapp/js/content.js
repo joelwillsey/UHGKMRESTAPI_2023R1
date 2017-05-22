@@ -5,7 +5,7 @@ var externalLink = false;
 var contentTitle = '';
 
 $(document).ready(function() {
-
+		
     // Setup ratings and rate functions
     $('.rate1').on('click', function() {
     	$('#ratingStars').css('width', '1.0em');
@@ -255,7 +255,7 @@ $(document).ready(function() {
     	// Store the contentId and viewUUID
     	contentId = data.id;
     	viewId = data.viewUUID;
-
+    	
     	// Setup icon
     	$('.content_header_mobile_top_left').html('<div class="content_header_mobile_top_left_' + data.contentCategory + '">&nbsp;</div>');
     	$('.content_header_left_icon').html('<div class="content_header_left_icon_' + data.contentCategory + '">&nbsp;</div>');
@@ -869,7 +869,29 @@ $(document).ready(function() {
     	
 
     }
+    
+    //add javascript files to head
+    $.fn.getJavaScript = function(filename) {	
+    	var oHead = document.getElementsByTagName('HEAD').item(0);
+    	var oScript= document.createElement("script");
+    	oScript.type = "text/javascript";
+    	oScript.src = filename;
+    	oHead.appendChild(oScript);
+    	log('Adding javascript to head element: ' + filename);
+    }
 
+    //add css files to head
+    $.fn.getCSS = function(filename) {
+    	var oHead = document.getElementsByTagName('HEAD').item(0);
+    	var oLink= document.createElement("link");
+    	oLink.type = "text/css";
+    	oLink.media = "screen";
+    	oLink.rel = "stylesheet";
+    	oLink.href = filename;
+    	oHead.appendChild(oLink);
+    	log('Adding CCS stylesheet to head element: ' + filename);
+    }
+    
     // Rate content
 	$.fn.rateContent = function(id, rating) {
 		var dataPackage = '{"contentId":"' + id + '", "rating":' + rating + '}';
@@ -1087,36 +1109,5 @@ $(document).ready(function() {
 	
 });
 
-//Property Reader Service
-$.fn.getProperty = function(property) {
-	
-	var query = '?property=' +property;
-	var retValue = '';
-		
-	jQuery.ajaxSetup({
-		async : false
-	});
-	// Call the service
-	try {
-		$.fn.serviceCallText('GET', '', verintKmServiceName + 'km/property/read'+ query, 15000, function(data) {
-			 if (typeof data != 'undefined' && data != null && data != '') {			 
-					retValue = data;					
-			    }		
-		});
-	}
-	catch(err) {
-		log('$.fn.serviceCall Exception: ' +err.messagee);
-		}
-	jQuery.ajaxSetup({
-			async : true
-	});
-	
-	if (retValue === 'undefined' || retValue === null || retValue === 'null') {
-		retValue = '';
-	}
-	
-	log(property + ': '  + retValue); 
-	
-	return 	retValue;
-}
+
 
