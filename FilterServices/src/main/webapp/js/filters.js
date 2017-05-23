@@ -24,9 +24,7 @@ $(document).ready(function() {
 			log("li: " + li);
 			var id = li.attr('id');
 			id = id.substring(3);
-			var tagtype = $(
-					'#' + li.attr('id') + ' a')
-					.attr('tagtype');
+			var tagtype = $('#' + li.attr('id') + ' a').attr('tagtype');
 			
 			// check if we have kbase tag (should always be there)
 			var topicTag = li.context.id.substring(
@@ -52,8 +50,7 @@ $(document).ready(function() {
 		});
 		$('.ul_all_tags').html('');
 		$('.fs_dt_info_label').css('display', 'block');
-		$(".dpui-widget").trigger("dpui:resetSearch",
-		'*');
+		$(".dpui-widget").trigger("dpui:resetSearch",'*');
 		
 		// reset search removes the kbase tag but doesn't handle removing from the kbase field.
 		// add tag again and remove correctly. tagClick will set up the cross tags/remove and add etc.
@@ -69,8 +66,7 @@ $(document).ready(function() {
 		$('.ul_all_tags li').each(function(index) {
 			var li = $(this);
 			var topicTag = li.attr('tagtype');
-			if (typeof topicTag != 'undefined'
-					&& topicTag != '') {
+			if (typeof topicTag != 'undefined' && topicTag != '') {
 				li.remove();
 			}
 		});
@@ -189,8 +185,7 @@ $(document).ready(function() {
 	// Region input field
 	$("#region-input").keyup(function(e) {
 		var keyCode = e.keyCode || e.which;
-		$.fn.filter(this, '#ul-region-tags', keyCode,
-				'region');
+		$.fn.filter(this, '#ul-region-tags', keyCode,'region');
 	});
 
 	// kbase Input popup
@@ -202,7 +197,7 @@ $(document).ready(function() {
 		$.fn.showPopup('#kbase-tags','#ul-kbase-tags'); 
 		$(document).click(function(e) {
 			var eTarget = $(e.target);
-			var cl = $(e.target).closest('#ul-kbase-tags').length
+			var cl = $(e.target).closest('#ul-kbase-tags').length;
 			var l = cl.length;
 			if ($(e.target).closest('#ul-kbase-tags').length != 0 || $(e.target).closest('#kbase-selection').length)
 				return false;
@@ -395,17 +390,14 @@ $(document).ready(function() {
 	// Get all the tags from the Service Cloud list
 	$.fn.getAllTags = function() {
 		var tags = '';
-		$('.ul_all_tags li').each(
-				function(index) {
-					var li = $(this);
-					var id = li.attr('id');
-					id = id.substring(3);
-					if (typeof id != 'undefined' && id != ''
-							&& id != 'English'
-							&& id != 'ContentTypes') {
-						tags += id + ',';
-					}
-				});
+		$('.ul_all_tags li').each(function(index) {
+			var li = $(this);
+			var id = li.attr('id');
+			id = id.substring(3);
+			if (typeof id != 'undefined' && id != '' && id != 'English' && id != 'ContentTypes') {
+				tags += id + ',';
+			}
+		});
 		return tags;
 	}
 
@@ -428,9 +420,7 @@ $(document).ready(function() {
 		$('.fs_dt_info_label').css('display', 'none');
 		var n = $('.ul_all_tags li').length;
 		if (n === 0) {
-			var buildLi = '<li id="sc-'
-					+ 'English'
-					+ '" class="search-choice search-choice-cloud" title="English">';
+			var buildLi = '<li id="sc-' + 'English' + '" class="search-choice search-choice-cloud" title="English">';
 			buildLi += '<span>English</span>';
 			buildLi += '</li>';
 			$('.ul_all_tags').append(buildLi);
@@ -457,12 +447,8 @@ $(document).ready(function() {
 			var buildLi = '<li id="sc-'+ term + '" class="search-choice search-choice-cloud" title="' + element + '" tagtype="' + type + '">';
 			var value = element;
 			buildLi += '<span>' + value + '</span>';
-			buildLi += '<a class="search_choice_close" rel="0" onclick="$.fn.removeCloudTag(\''
-					+ type
-					+ '\', \''
-					+ term
-					+ '\');" href="javascript:void(0);" tagtype="'
-					+ type + '"></a>';
+			buildLi += '<a class="search_choice_close" rel="0" onclick="$.fn.removeCloudTag(\'' + type + '\', \'' + term
+					+ '\');" href="javascript:void(0);" tagtype="' + type + '"></a>';
 			buildLi += '</li>';
 			log(buildLi);
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
@@ -476,19 +462,12 @@ $(document).ready(function() {
 					li.remove();
 				}
 			});
-			var buildLi = '<li id="sc-'
-					+ element
-					+ '" class="search-choice search-choice-cloud" title="'
-					+ $('#tag-' + element).attr('value')
-					+ '" tagtype="' + type + '">';
+			var buildLi = '<li id="sc-' + element + '" class="search-choice search-choice-cloud" title="'
+					+ $('#tag-' + element).attr('value') + '" tagtype="' + type + '">';
 			var value = $('#tag-' + element).attr('value');
 			buildLi += '<span>' + value + '</span>';
 			buildLi += '<a class="search_choice_close" rel="0" onclick="$.fn.removeCloudTag(\''
-					+ type
-					+ '\', \''
-					+ element
-					+ '\');" href="javascript:void(0);" tagtype="'
-					+ type + '"></a>';
+					+ type + '\', \'' + element + '\');" href="javascript:void(0);" tagtype="' + type + '"></a>';
 			buildLi += '</li>';
 			log(buildLi);
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
@@ -512,11 +491,9 @@ $(document).ready(function() {
 			// creating the tags to put into the cloud/search
 			var buildLi = '<li id="sc-'
 					+ element
-					+ '" class="search-choice search-choice-cloud" title="'
-					+ $('#' + element).text() + '" rel="'
+					+ '" class="search-choice search-choice-cloud" title="' + $('#' + element).text() + '" rel="'
 					+ $('#' + element).attr('rel') + '">';
-			buildLi += '<span>' + $('#' + element).text()
-					+ '</span>';
+			buildLi += '<span>' + $('#' + element).text() + '</span>';
 			buildLi += '</li>';
 			log(buildLi);
 
@@ -524,21 +501,11 @@ $(document).ready(function() {
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
 
 		} else {
-			var buildLi = '<li id="sc-'
-					+ element
-					+ '" class="search-choice search-choice-cloud" title="'
-					+ $('#' + element).text() + '" rel="'
-					+ $('#' + element).attr('rel') + '">';
-			buildLi += '<span>' + $('#' + element).text()
-					+ '</span>';
-			buildLi += '<a class="search_choice_close" rel="'
-					+ $('#' + element).attr('rel')
-					+ '" onclick="$.fn.removeCloudTag(\''
-					+ type
-					+ '\', \''
-					+ $('#' + element).attr('id')
-					+ '\');" href="javascript:void(0);" tagtype="'
-					+ type + '"></a>';
+			var buildLi = '<li id="sc-' + element + '" class="search-choice search-choice-cloud" title="' 
+			+ $('#' + element).text() + '" rel="' + $('#' + element).attr('rel') + '">';
+			buildLi += '<span>' + $('#' + element).text() + '</span>';
+			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '" onclick="$.fn.removeCloudTag(\''
+					+ type + '\', \'' + $('#' + element).attr('id') + '\');" href="javascript:void(0);" tagtype="' + type + '"></a>';
 			buildLi += '</li>';
 			log(buildLi);
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
@@ -559,9 +526,7 @@ $(document).ready(function() {
 			});
 			var buildLi = '<li id="sc-ContentTypes'
 					+ '" class="search-choice search-choice-cloud" title="Content Types">';
-			buildLi += '<span>'
-					+ contentCollection.substring(0, 12)
-					+ '...</span>';
+			buildLi += '<span>' + contentCollection.substring(0, 12) + '...</span>';
 			buildLi += '</li>';
 			$('.ul_all_tags').append(buildLi);
 		}
@@ -614,18 +579,12 @@ $(document).ready(function() {
 	$.fn.tagClick = function(type, element) {
 		$.fn.setupSpinner();
 		log('TagClick: ' + element);
-		var buildLi = '<li id="' + element
-				+ '" class="search-choice" title="'
-				+ $('#' + element).text() + '" rel="'
+		var buildLi = '<li id="' + element + '" class="search-choice" title="' + $('#' + element).text() + '" rel="'
 				+ $('#' + element).attr('rel') + '">';
-		buildLi += '<span>' + $('#' + element).text()
-				+ '</span>';
+		buildLi += '<span>' + $('#' + element).text() + '</span>';
 		if (type != 'kbase') {
-			buildLi += '<a class="search_choice_close" rel="'
-					+ $('#' + element).attr('rel')
-					+ '"onclick="$.fn.removeCloudTag(\'' + type
-					+ '\', \'' + element
-					+ '\');"	href="javascript:void(0);"></a>';
+			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + '"onclick="$.fn.removeCloudTag(\'' + type
+					+ '\', \'' + element + '\');"	href="javascript:void(0);"></a>';
 		}
 		buildLi += '</li>';
 		$.fn.addToSearchCloud(type, element);
@@ -640,15 +599,12 @@ $(document).ready(function() {
 
 		if (type == "kbase") {
 			// calling the crosstags to update
-			$.fn.getCrossTag(element, 'topic', 'cntnttype',
-					'region', 'product');
-
+			$.fn.getCrossTag(element, 'topic', 'cntnttype', 'region', 'product');
 			$.fn.toggleMenu('#tab-search-button.search_search');
 		}
 
 		// Send inter-widget communication
 		$.fn.widgetCommunication(true);
-
 		$.fn.manageTheme();
 	}
 
@@ -656,12 +612,8 @@ $(document).ready(function() {
 	$.fn.removeTag = function(type, item) {
 		log(item);
 		var buildLi = '<li id="' + item
-				+ '" class="active-result" title="'
-				+ $('#' + item + ' span').text()
-				+ '" onclick="$.fn.tagClick(\'' + type
-				+ '\', \'' + item + '\');" style="" rel="'
-				+ $('#' + item).attr('rel') + '">'
-				+ $('#' + item + ' span').text() + '</li>';
+				+ '" class="active-result" title="' + $('#' + item + ' span').text() + '" onclick="$.fn.tagClick(\'' + type
+				+ '\', \'' + item + '\');" style="" rel="' + $('#' + item).attr('rel') + '">' + $('#' + item + ' span').text() + '</li>';
 		var rel = parseInt($('#' + item).attr('rel'));
 		$('#' + item).remove();
 		$('#sc-' + item).remove();
@@ -717,17 +669,9 @@ $(document).ready(function() {
 			if (data[x].systemTagName === startTag) {
 				begin = true;
 			} else if (begin) {
-				filterData += '<li id="'
-						+ data[x].systemTagName
-						+ '" rel="'
-						+ startRel
-						+ '" class="active-result" style="" onclick="$.fn.tagClick(\''
-						+ methodName + '\', \''
-						+ data[x].systemTagName
-						+ '\');" title="'
-						+ data[x].systemTagDisplayName + '">'
-						+ data[x].systemTagDisplayName
-						+ '</li>';
+				filterData += '<li id="' + data[x].systemTagName + '" rel="' + startRel + '" class="active-result" style="" onclick="$.fn.tagClick(\''
+						+ methodName + '\', \'' + data[x].systemTagName + '\');" title="' + data[x].systemTagDisplayName + '">'
+						+ data[x].systemTagDisplayName + '</li>';
 				startRel++;
 			}
 		}
@@ -742,16 +686,11 @@ $(document).ready(function() {
 			if (data[x].systemTagName != 'content'
 					&& data[x].systemTagName != 'content_segment') {
 				filterData += '<div class="filter_section_data_info_tagset_list_content_types"><input id="'
-						+ data[x].systemTagName
-						+ '" class="" type="checkbox" title="'
-						+ data[x].systemTagDisplayName
-						+ '" tabindex="" checked="checked" name="" value="'
+						+ data[x].systemTagName + '" class="" type="checkbox" title="' 
+						+ data[x].systemTagDisplayName + '" tabindex="" checked="checked" name="" value="'
 						+ data[x].systemTagDisplayName + '"/>';
-				filterData += '<label id="'
-						+ data[x].systemTagName
-						+ '_label" style="" for="">'
-						+ data[x].systemTagDisplayName
-						+ '</label></div>';
+				filterData += '<label id="' + data[x].systemTagName + '_label" style="" for="">'
+						+ data[x].systemTagDisplayName + '</label></div>';
 			}
 		}
 		return filterData;
@@ -759,10 +698,8 @@ $(document).ready(function() {
 
 	// Send tags, content types and run a search
 	$.fn.widgetCommunication = function(runSearch) {
-		$(".dpui-widget").trigger("dpui:setupTags",
-				$.fn.getAllTags());
-		$(".dpui-widget").trigger("dpui:setupContentTypeTags",
-				$.fn.getSelectedContentTags());
+		$(".dpui-widget").trigger("dpui:setupTags", $.fn.getAllTags());
+		$(".dpui-widget").trigger("dpui:setupContentTypeTags", $.fn.getSelectedContentTags());
 		if (runSearch) {
 			$(".dpui-widget").trigger("dpui:blankSearch");
 			$(".dpui-widget").trigger("dpui:alertSearch");
@@ -826,22 +763,18 @@ $(document).ready(function() {
 				log("startWidget");
 				$(".dpui-widget").trigger("dpui:registerFilter");
 			});
-			self.element.bind("dpui:registerSearch",
-					function(e) {
+			self.element.bind("dpui:registerSearch", function(e) {
 						log("registerSearch");
 					});
-			self.element.bind("dpui:registerContentView",
-					function(e) {
+			self.element.bind("dpui:registerContentView", function(e) {
 						log("registerContentView");
 					});
-			self.element.bind("dpui:resultData", function(e,
-					data) {
+			self.element.bind("dpui:resultData", function(e, data) {
 				log(data);
 		    	// put the scrool bar back to the top
 		    	$('#f_wrapper').scrollTop(0);
 			});
-			self.element.bind("dpui:searchTerm", function(e,
-					data) {
+			self.element.bind("dpui:searchTerm", function(e, data) {
 				log(data);
 		    	// put the scrool bar back to the top
 		    	$('#f_wrapper').scrollTop(0);
@@ -860,8 +793,7 @@ $(document).ready(function() {
 
 	// populates the cross tags according to source tag and 4
 	// target tags
-	$.fn.getCrossTag = function(source, target, target1,
-			target2, target3) {
+	$.fn.getCrossTag = function(source, target, target1, target2, target3) {
 		jQuery.ajaxSetup({
 			async : false
 		});
@@ -871,19 +803,14 @@ $(document).ready(function() {
 		
 		// topic tag would be populated first, since this could
 		// have several appended to it
-		var url = filtersServiceName
-				+ 'km/crosstags?sourcetag=' + source
-				+ '&targettagset=' + target;
+		var url = filtersServiceName + 'km/crosstags?sourcetag=' + source + '&targettagset=' + target;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
 			$.fn.populateCrossTags(data);
 		});
 
 		// populates the rest
-		var url = filtersServiceName
-				+ 'km/crosstags?sourcetag=' + source
-				+ '&targettagset=' + target1
-				+ '&targettagset1=' + target2
-				+ '&targettagset2=' + target3;
+		var url = filtersServiceName + 'km/crosstags?sourcetag=' + source + '&targettagset=' + target1
+				+ '&targettagset1=' + target2 + '&targettagset2=' + target3;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
 			$.fn.populateCrossTags(data);
 		});
@@ -904,7 +831,7 @@ $(document).ready(function() {
 		// populates and removes them from the array
 		for (var i = 0; i < data.crossTags.length; ++i) {
 			
-			if (typeof  data.crossTags[i].tags[0] != 'undefined' &&  data.crossTags[i].tags[0] != null ){
+			if (typeof  data.crossTags[i].tags[0] != 'undefined' &&  data.crossTags[i].tags[0] != null ) {
 				var currentTargetSet = data.crossTags[i].tags[0].parentTagName;
 
 				if (currentTargetSet == 'topic') {
@@ -964,9 +891,7 @@ $(document).ready(function() {
 	// content categories only (since most others will be
 	// overwritten)
 	$.fn.getTagsforTagSets = function(tagSets) {
-		var url = filtersServiceName
-				+ 'km/tags/gettagsfortagsets?tagsets='
-				+ tagSets;
+		var url = filtersServiceName + 'km/tags/gettagsfortagsets?tagsets=' + tagSets;
 		
     	// put the scrool bar back to the top
     	$('#f_wrapper').scrollTop(0);
@@ -1013,17 +938,10 @@ $(document).ready(function() {
 			for (var x = 0; x < data.tags.length; x++) {
 				if (typeof data.tags[x] != 'undefined' && data.tags[x] != null && data.tags[x].systemTagName.length > 0) {
 					$('#div-kbase-tags').html(data.tags[x].systemTagDisplayName);
-					kbaseData += '<li id="'
-							+ data.tags[x].systemTagName
-							+ '" rel="'
-							+ x
-							+ '" class="active-result" style="" onclick="$.fn.tagClick(\'kbase\', \''
-							+ data.tags[x].systemTagName
-							+ '\');" title="'
-							+ data.tags[x].systemTagDisplayName
-							+ '">'
-							+ data.tags[x].systemTagDisplayName
-							+ '</li>';
+					kbaseData += '<li id="' + data.tags[x].systemTagName
+							+ '" rel="' + x + '" class="active-result" style="" onclick="$.fn.tagClick(\'kbase\', \''
+							+ data.tags[x].systemTagName + '\');" title="' + data.tags[x].systemTagDisplayName + '">'
+							+ data.tags[x].systemTagDisplayName + '</li>';
 					$('#ul-kbase-tags').html(kbaseData);
 				}
 			}
@@ -1034,8 +952,7 @@ $(document).ready(function() {
 			var parameterArray = "";
 
 			if (kTagsParameterStrings != null) {
-				parameterArray = kTagsParameterStrings
-						.split(',');
+				parameterArray = kTagsParameterStrings.split(',');
 			}
 
 			var noKBaseInParameters = true;
@@ -1083,9 +1000,8 @@ $(document).ready(function() {
 		var myList = $(data);
 		var listitems = myList.children('li').get();
 		listitems.sort(function(a, b) {
-			return $(a).text().toUpperCase().localeCompare(
-					$(b).text().toUpperCase())
-		})
+			return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
+		});
 		$.each(listitems, function(idx, itm) {
 			myList.append(itm);
 		});
@@ -1143,6 +1059,6 @@ $(document).ready(function() {
 
 	// Get the Tags
 	// $.fn.getTagsforTagSets()
-	$.fn.getKBaseTags()
+	$.fn.getKBaseTags();
 });
 
