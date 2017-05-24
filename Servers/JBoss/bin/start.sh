@@ -52,6 +52,66 @@ fi
 # Setting up variables for JBoss
 # at this point we should have valid values for ENVIRONMENT, HOSTNAME, and CONTAINER
 # ... should
+
+## Dynatrace Agent Assignment
+if [[ ${HOSTNAME} = apsrs2231 ]]
+then
+	if [[ ${CONTAINER} = stage_rest_a ]]
+		then 
+			DT_AGENT_NAME=n1a
+		else
+			DT_AGENT_NAME=n1b
+
+	fi
+
+elif [[ ${HOSTNAME} = apsrs2232 ]]
+then
+        if [[ ${CONTAINER} = stage_rest_a ]]
+                then
+                        DT_AGENT_NAME=n2a
+                else
+                        DT_AGENT_NAME=n2b
+
+        fi
+
+elif [[ ${HOSTNAME} = apsrs2257 ]]
+then
+        if [[ ${CONTAINER} = stage_rest_a ]]
+                then
+                        DT_AGENT_NAME=n3a
+                else
+                        DT_AGENT_NAME=n3b
+
+        fi
+elif [[ ${HOSTNAME} = apsrs2258 ]]
+then
+        if [[ ${CONTAINER} = stage_rest_a ]]
+                then
+                        DT_AGENT_NAME=n4a
+                else
+                        DT_AGENT_NAME=n4b
+
+        fi
+elif [[ ${HOSTNAME} = apsrs2264 ]]
+then
+        if [[ ${CONTAINER} = stage_rest_a ]]
+                then
+                        DT_AGENT_NAME=n5a
+                else
+                        DT_AGENT_NAME=n5b
+
+        fi
+elif [[ ${HOSTNAME} = apsrs2265 ]]
+then
+        if [[ ${CONTAINER} = stage_rest_a ]]
+                then
+                        DT_AGENT_NAME=n6a
+                else
+                        DT_AGENT_NAME=n6b
+
+        fi
+fi
+
 export JAVA_HOME=/app_2/verint/products/java/jdk1.8.0_101
 export JBOSS_HOME=/app_2/verint/containers/jboss-eap-6.4
 export CONFIG_HOME=/app_2/verint/projects/uhgiq/restapi/${CONTAINER}
@@ -73,7 +133,8 @@ export JAVA_OPTS="-XX:+UseConcMarkSweepGC \
   -Djavax.net.ssl.trustStore=/app_2/verint/projects/uhgiq/AgentDesktop/config/environment.${ENVIRONMENT}/components/ssl/trust.jks \
   -Djavax.net.ssl.trustStorePassword=changeit \
   -Dorg.apache.coyote.http11.Http11Protocol.MAX_HEADER_SIZE=65536 \
-  -Dorg.apache.coyote.ajp.MAX_PACKET_SIZE=65536"
+  -Dorg.apache.coyote.ajp.MAX_PACKET_SIZE=65536
+  -agentpath:/app_2/Dynatrace/agent/lib64/libdtagent.so=server=Dtc-nonprod-core-ctc.uhc.com:24445,name=kmkc_eap64_stg_rest_${DT_AGENT_NAME}"
 
 # create the logging directory
 if [[ ! -d ${LOGS_HOME}/jboss ]]
