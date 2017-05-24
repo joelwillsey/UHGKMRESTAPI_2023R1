@@ -4,19 +4,20 @@
 package com.verint.services.km.dao;
 
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.net.URL;
 
-
 import javax.xml.rpc.ServiceException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentV1BindingStub;
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentV1PortType;
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentV1ServiceLocator;
+import com.kana.contactcentre.services.model.FeaturedV1Service_wsdl.FeaturedV1BindingStub;
+import com.kana.contactcentre.services.model.FeaturedV1Service_wsdl.FeaturedV1PortType;
+import com.kana.contactcentre.services.model.FeaturedV1Service_wsdl.FeaturedV1ServiceLocator;
 import com.kana.contactcentre.services.model.FeedbackV1Service_wsdl.FeedbackV1BindingStub;
 import com.kana.contactcentre.services.model.FeedbackV1Service_wsdl.FeedbackV1PortType;
 import com.kana.contactcentre.services.model.FeedbackV1Service_wsdl.FeedbackV1ServiceLocator;
@@ -26,6 +27,9 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.KMB
 import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginV1BindingStub;
 import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginV1PortType;
 import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginV1ServiceLocator;
+import com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginV2BindingStub;
+import com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginV2PortType;
+import com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginV2ServiceLocator;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.NewOrChangedV1BindingStub;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.NewOrChangedV1PortType;
 import com.kana.contactcentre.services.model.NewOrChangedV1Service_wsdl.NewOrChangedV1ServiceLocator;
@@ -38,9 +42,6 @@ import com.kana.contactcentre.services.model.SearchV1Service_wsdl.SearchV1Servic
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagV1BindingStub;
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagV1PortType;
 import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagV1ServiceLocator;
-import com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginV2BindingStub;
-import com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginV2PortType;
-import com.kana.contactcentre.services.model.LoginV2Service_wsdl.LoginV2ServiceLocator;
 import com.verint.services.km.util.ConfigInfo;
 
 
@@ -57,6 +58,7 @@ public class BaseDAOImpl  {
 	protected static SearchV1PortType SearchPortType;
 	protected static KMBookmarkServiceV1PortType KMBookmarkServicePortType;
 	protected static NewOrChangedV1PortType NewOrChangedPortType;
+	protected static FeaturedV1PortType FeaturedPortType;
 	protected static ContentV1PortType ContentPortType;
 	protected static TagV1PortType TagPortType;
 	protected static RequestAnswerV1PortType RequestAnswerPortType;
@@ -70,6 +72,7 @@ public class BaseDAOImpl  {
 	protected static int SOAP_TAG_TIMEOUT = 20;
 	protected static int SOAP_CONTENT_TIMEOUT = 40;
 	protected static int SOAP_NEW_OR_CHANGED_TIMEOUT = 20;
+	protected static int SOAP_FEATURED_TIMEOUT = 20;
 	protected static int SOAP_BOOKMARK_TIMEOUT = 20;
 	protected static int SOAP_SEARCH_TIMEOUT = 40;
 	
@@ -86,6 +89,7 @@ public class BaseDAOImpl  {
 	        final String TagV1Port_address = kmConfiguration.getSoapTaggingservice();
 	        final String BookmarkV1Port_address = kmConfiguration.getSoapBookmarkservice();
 	        final String NewOrChangedV1Port_address = kmConfiguration.getSoapNeworchangedservice();
+	        final String FeaturedV1Port_address = kmConfiguration.getSoapFeaturedservice();
 	        final String RequestAnswerV1Port_address = kmConfiguration.getSoapRequestanswer();
 	        final String FeedbackV1Port_address = kmConfiguration.getSoapFeedback();
 	        final String LoginV1Port_address = kmConfiguration.getSoapLogin();
@@ -113,6 +117,12 @@ public class BaseDAOImpl  {
 			NewOrChangedPortType = newOrChangedServiceLocator.getNewOrChangedV1Port(new URL(NewOrChangedV1Port_address));
 			NewOrChangedV1BindingStub newOrChangedBinding = (NewOrChangedV1BindingStub) NewOrChangedPortType;
 			newOrChangedBinding.setTimeout(SOAP_NEW_OR_CHANGED_TIMEOUT * 1000);
+			
+			// Featured Service
+			final FeaturedV1ServiceLocator featuredServiceLocator = new FeaturedV1ServiceLocator();
+			FeaturedPortType = featuredServiceLocator.getFeaturedV1Port(new URL(FeaturedV1Port_address));
+			FeaturedV1BindingStub featuredBinding = (FeaturedV1BindingStub) FeaturedPortType;
+			featuredBinding.setTimeout(SOAP_FEATURED_TIMEOUT * 1000);
 			
 			// Content Service
 			final ContentV1ServiceLocator contentServiceLocator = new ContentV1ServiceLocator(); 

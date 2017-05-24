@@ -35,6 +35,7 @@ public class ConfigInfo {
 	private String soapLogin="";
 	private String soapLoginV2="";
 	private String soapNeworchangedservice="";
+	private String soapFeaturedservice="";
 	private String soapAppid="AD";
 	private String soapLocale="en-US";
 	private String soapMaxnumberofunitspergroup="10";
@@ -94,6 +95,7 @@ public class ConfigInfo {
 				soapLogin= prop.getProperty("soap.login");
 				soapLoginV2= prop.getProperty("soap.login.v2");
 				soapNeworchangedservice= prop.getProperty("soap.neworchangedservice");
+				soapFeaturedservice= prop.getProperty("soap.featuredservice");
 				soapAppid=prop.getProperty("soap.appid");
 				soapLocale=prop.getProperty("soap.locale");
 				soapMaxnumberofunitspergroup = prop.getProperty("soap.maxnumberofunitspergroup");
@@ -161,6 +163,9 @@ public class ConfigInfo {
 	}
 	public String getSoapNeworchangedservice() {
 		return soapNeworchangedservice;
+	}
+	public String getSoapFeaturedservice() {
+		return soapFeaturedservice;
 	}
 	public String getSoapAppid() {
 		return soapAppid;
@@ -275,6 +280,7 @@ public class ConfigInfo {
 		"soap.login=" + soapLogin + "\n" +
 		"soap.login.v2=" + soapLoginV2 + "\n" +
 		"soap.neworchangedservice=" + soapNeworchangedservice + "\n" +
+		"soap.featuredservice=" + soapFeaturedservice + "\n" +
 		"soap.appid=" + soapAppid + "\n" +
 		"soap.locale=" + soapLocale + "\n" +
 		"soap.maxnumberofunitspergroup=" + soapMaxnumberofunitspergroup + "\n" +

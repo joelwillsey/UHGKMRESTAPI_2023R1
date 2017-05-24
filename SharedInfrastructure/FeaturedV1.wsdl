@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <definitions
+      name="FeaturedV1Service"
+      targetNamespace="http://localhost:80/FeaturedV1Service.wsdl"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="http://localhost:80/FeaturedV1Service.wsdl"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Created by Verint on Tue May 23 12:23:59 CDT 2017. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema
+          elementFormDefault="unqualified"
+          targetNamespace="http://localhost:80/FeaturedV1Service.wsdl">
+        <xsd:complexType
+            name="KnowledgeGroupUnit">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="knowledgeUnits"
+                type="tns:KnowledgeUnitList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="isFeatured"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="title"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="ratingInformation"
+                type="tns:RatingInformation" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentType"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="viewCount"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentSource"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeGroupUnitList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="KnowledgeGroupUnit"
+                type="tns:KnowledgeGroupUnit" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeResultSet">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="knowledgeGroupUnits"
+                type="tns:KnowledgeGroupUnitList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="numberOfResults"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="suggestedQueryList"
+                type="tns:SuggestedQueryList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ReplacedTerm">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="term"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="replacement"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="SuggestedQuery">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="knowledgeGroupUnits"
+                type="tns:KnowledgeGroupUnitList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="queryText"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="replacedTermsList"
+                type="tns:ReplacedTermsList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="type"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="numberOfGroupResultsFound"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeUnit">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentOwner"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="lastPublishedDate"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="synopsis"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="workflowState"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="relevanceScore"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="lastModifiedDate"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="associatedContentURL"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentUnitID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="title"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentCategoryTags"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="pageIdentifier"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="tags"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentVersion"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="SuggestedQueryList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="SuggestedQuery"
+                type="tns:SuggestedQuery" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ReplacedTermsList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="ReplacedTerm"
+                type="tns:ReplacedTerm" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="KnowledgeUnitList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="KnowledgeUnit"
+                type="tns:KnowledgeUnit" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="RatingInformation">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="averageRating"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="numberOfRatings"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetFeaturedContentRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="kbase_tags"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfUnitsPerGroup"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="paginationStartIndex"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfGroupResults"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetFeaturedContentResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="response"
+                type="tns:KnowledgeResultSet" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfGroupResults"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="paginationStartIndex"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="maxNumberOfUnitsPerGroup"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:element
+            name="GetFeaturedContentRequestBody"
+            type="tns:GetFeaturedContentRequestBodyType" />
+        <xsd:element
+            name="GetFeaturedContentResponseBody"
+            type="tns:GetFeaturedContentResponseBodyType" />
+      </xsd:schema>
+    </types>
+    <message
+        name="GetFeaturedContentRequest">
+      <part
+          element="tns:GetFeaturedContentRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="GetFeaturedContentResponse">
+      <part
+          element="tns:GetFeaturedContentResponseBody"
+          name="body" />
+    </message>
+    <portType
+        name="FeaturedV1PortType">
+      <operation
+          name="GetFeaturedContent">
+        <input
+            message="tns:GetFeaturedContentRequest" />
+        <output
+            message="tns:GetFeaturedContentResponse" />
+      </operation>
+    </portType>
+    <binding
+        name="FeaturedV1Binding"
+        type="tns:FeaturedV1PortType">
+      <soap:binding
+          style="document"
+          transport="http://schemas.xmlsoap.org/soap/http" />
+      <operation
+          name="GetFeaturedContent">
+        <soap:operation
+            soapAction="FeaturedV1Service#GetFeaturedContent" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+    </binding>
+    <service
+        name="FeaturedV1Service">
+      <documentation>
+        Undefined
+      </documentation>
+      <port
+          binding="tns:FeaturedV1Binding"
+          name="FeaturedV1Port">
+        <soap:address
+            location="http://127.0.0.1:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=UHGFeaturedAPIServices.API.Featured.FeaturedV1" />
+      </port>
+    </service>
+  </definitions>
