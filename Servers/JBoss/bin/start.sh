@@ -133,8 +133,12 @@ export JAVA_OPTS="-XX:+UseConcMarkSweepGC \
   -Djavax.net.ssl.trustStore=/app_2/verint/projects/uhgiq/AgentDesktop/config/environment.${ENVIRONMENT}/components/ssl/trust.jks \
   -Djavax.net.ssl.trustStorePassword=changeit \
   -Dorg.apache.coyote.http11.Http11Protocol.MAX_HEADER_SIZE=65536 \
-  -Dorg.apache.coyote.ajp.MAX_PACKET_SIZE=65536
-  -agentpath:/app_2/Dynatrace/agent/lib64/libdtagent.so=server=Dtc-nonprod-core-ctc.uhc.com:24445,name=kmkc_eap64_stg_rest_${DT_AGENT_NAME}"
+  -Dorg.apache.coyote.ajp.MAX_PACKET_SIZE=65536"
+  
+if [[ ${ENVIRONMENT} = stage ]]
+then
+  export JAVA_OPTS="${JAVA_OPTS} -agentpath:/app_2/Dynatrace/agent/lib64/libdtagent.so=server=Dtc-nonprod-core-ctc.uhc.com:24445,name=kmkc_eap64_stg_rest_${DT_AGENT_NAME}"
+fi
 
 # create the logging directory
 if [[ ! -d ${LOGS_HOME}/jboss ]]
