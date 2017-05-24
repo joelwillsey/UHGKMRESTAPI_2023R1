@@ -1007,8 +1007,27 @@ $(document).ready(function() {
 		} else {
 			
 			//decisionTreeUrl2 = 'http://localhost:8280/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
-			
-			var inlineHtml = '<iframe src="' + decisionTreeUrl + query + '" style="width: 1030px; height: 850px;"/>';
+			//var inlineHtml = '<iframe src="' + decisionTreeUrl + query + '" style="width: 1030px; height: 850px;"/>' + '<script>window.onbeforeunload = function (e) {return \'Do you want to exit?\';};';
+			//var inlineHtml = '<iframe src="' + decisionTreeUrl + query + '" style="width: 1030px; height: 850px;"/>' + '<script>window.onbeforeunload = function (e) {window.location.href= \"' + decisionTreeUrl +'?killSession\"; wait(3000);};  function wait(ms){var start = new Date().getTime();var end = start;while(end < start + ms) {end = new Date().getTime();};}</script>';
+			var inlineHtml = '<iframe id="dtree-id" src="' + decisionTreeUrl + query + '" style="width: 1030px; height: 850px;"/>' + '<script>window.onbeforeunload = function (e) { document.getElementById(\'dtree-id\').contentWindow.document.location.href="' + decisionTreeUrl +'?killSession\"; wait(3000); return true;};  function wait(ms){var start = new Date().getTime();var end = start;while(end < start + ms) {end = new Date().getTime();};}</script>';
+			//var inlineHtml = '<iframe name="dtree-id" src="' + decisionTreeUrl + query + '" style="width: 1030px; height: 850px;"/>' 
+			//inlineHtml = inlineHtml + '\n<script>\n'; 
+			inlineHtml = inlineHtml + '<script> window.onbeforeunload = function (e) { $.fn.logoutDTree(\'' + decisionTreeUrl + '\');};</script>'
+			//inlineHtml = inlineHtml + 'var inFormOrLink;\n';
+			//inlineHtml = inlineHtml + '$("a,:button,:submit").click(function () { inFormOrLink = true; });\n';
+			//inlineHtml = inlineHtml + '$(window).bind("beforeunload", function () {\n';
+			//inlineHtml = inlineHtml + '	if (!inFormOrLink) {\n';
+			//inlineHtml = inlineHtml + '		$.ajax({\n';
+			//inlineHtml = inlineHtml + '			type: \'POST\',\n';
+			//inlineHtml = inlineHtml + '			async: false,\n';
+			//inlineHtml = inlineHtml + '			url: \''+ decisionTreeUrl +'?killSession\'\n';
+			//inlineHtml = inlineHtml + '			window.location.replace(\'' + decisionTreeUrl + '?killSession\');\n';
+			//inlineHtml = inlineHtml + '			document.getElementById(\'dtree-id\').src="' + decisionTreeUrl + '?killSession";\n';
+			//inlineHtml = inlineHtml + '			return "This is my text";';
+			//inlineHtml = inlineHtml + '		});\n';
+			//inlineHtml = inlineHtml + '	}\n';
+			//inlineHtml = inlineHtml + '});\n';
+			//inlineHtml = inlineHtml + '</script>\n';
 			$('#content-decision-tree').css('display', 'block');
 			$('#content-decision-tree').css('width', '100%');
 			$('#content-decision-tree').css('height', '100%');
