@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Verint Content Widget</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+	<link media="screen" type="text/css" href="css/ionicons.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/jquery-ui/11.4.1/jquery-ui.min.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/common.css" rel="stylesheet"/>
+	<link rel="icon" type="image/png" href="images/favicon.png">
+	<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui/11.4.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/respond.min.js"></script>
+	<!-- <script type="text/javascript" src="js/basicauth.js"></script> -->
+	<!-- <script type="text/javascript" src="js/samlv2.js"></script> -->
+	<script type='text/javascript' src="js/common.js"></script>
+	<script type='text/javascript' src="js/siteminder.js"></script>
+	<script type="text/javascript">
+		var contentServiceName = '/contentservices/';
+		var searchServiceName = '/searchservices/';
+		var filtersServiceName = '/filterservices/';
+		var verintKmServiceName = '/verintkm/';
+		var LOGIN_SERVICE_TIMEOUT = 21000;
+		var FEEDBACK_SERVICE_TIMEOUT = 21000;
+		var REQUEST_ANSWER_SERVICE_TIMEOUT = 21000;
+		var TAG_SERVICE_TIMEOUT = 21000;
+		var CONTENT_SERVICE_TIMEOUT = 41000;
+		var NEW_OR_CHANGED_SERVICE_TIMEOUT = 21000;
+		var BOOKMARK_SERVICE_TIMEOUT = 21000;
+		var SEARCH_SERVICE_TIMEOUT = 120000;
+		var historyPushEnabled = false;
+		var defaultTitle = 'Verint Content Widget';
+		
+		// Setup cookie to store the initial URL
+		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
+		document.cookie = 'savedurl=' + 'dtree_logout.html%3F' + urlToSend + '; path=/';
+		
+		// Check if authenticated
+		if (!$.fn.isUserAuthenticated())
+		 $.fn.ssoLoginService();
+
+		
+	</script>
+</head>
+<body style="background-color:#003C71" >
+	<div id="content">
+		<h2 style="color:white">Exiting Decision Tree</h2>		
+	</div>
+</body>
+
+<script type="text/javascript">
+		
+	function loaded() {    
+		window.setTimeout(function() {window.close();}, 1000);
+	}
+	
+	var decisionTreeUrl = $.fn.getProperty('PageSetV1.RestPageSet.Url');		
+	
+	if (decisionTreeUrl === 'undefined' || decisionTreeUrl === null || decisionTreeUrl === 'null' || decisionTreeUrl === '') {
+		var errStatus = 'Error retriveing D-Tree confiuration (PageSetV1.RestPageSet.Url), contact administrator';
+			$.fn.handleErrorText(errStatus);
+	} else {						
+		var inlineHtml = '<iframe id="dtreeFrame" src="' + decisionTreeUrl + '" style="width: 100px; height: 100px; visibility: hidden" />'; 
+		log('inlineHtml: ' + inlineHtml);
+		var iframe = document.createElement('iframe');
+
+		iframe.setAttribute('src', decisionTreeUrl + '?killSession');
+		iframe.setAttribute('onload', 'loaded()');
+		iframe.setAttribute('style', 'visibility: hidden');
+		document.body.appendChild(iframe);
+	}
+			
+</script>
+</html>
