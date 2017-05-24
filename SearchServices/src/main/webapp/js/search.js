@@ -242,6 +242,12 @@ $(document).ready(function() {
 
 	// Featured Content Service
 	$.fn.featured = function(page, size, tags) {
+		var kbase = $.fn.getParameterKbaseTag();
+		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/featured?page=' + page + '&size=' + size + '&kbase_tags=' + kbase, SEARCH_SERVICE_TIMEOUT, function(data) {
+			$.fn.sendToResults('Featured Content', data);
+        });
+		
+		/*
 		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
 			
 			//super janky filter to make up for the fact that the soap call hasnt been fixed
@@ -258,7 +264,7 @@ $(document).ready(function() {
 				}				
 			}
 			$.fn.sendToResults('Featured Content', newData);
-		});
+		});*/
 	}
 
 	// New or Changed Service
