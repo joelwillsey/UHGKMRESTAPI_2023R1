@@ -257,7 +257,7 @@ $(document).ready(function() {
     	viewId = data.viewUUID;
     	
     	 $.fn.setCSS('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.css');
-    	 $.fn.setJavaScript('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.js"');
+    	 $.fn.setJavaScript('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.js');
     	 
     	// Setup icon
     	$('.content_header_mobile_top_left').html('<div class="content_header_mobile_top_left_' + data.contentCategory + '">&nbsp;</div>');
