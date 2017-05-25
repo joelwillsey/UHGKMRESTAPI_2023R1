@@ -4,8 +4,8 @@ var contentIds= new Array();
 var externalLink = false;
 var contentTitle = '';
 
-$(document).ready(function() {
-		
+$(document).ready(function() {	
+	 
     // Setup ratings and rate functions
     $('.rate1').on('click', function() {
     	$('#ratingStars').css('width', '1.0em');
@@ -256,6 +256,9 @@ $(document).ready(function() {
     	contentId = data.id;
     	viewId = data.viewUUID;
     	
+    	 $.fn.setCSS('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.css');
+    	 $.fn.setJavaScript('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.js"');
+    	 
     	// Setup icon
     	$('.content_header_mobile_top_left').html('<div class="content_header_mobile_top_left_' + data.contentCategory + '">&nbsp;</div>');
     	$('.content_header_left_icon').html('<div class="content_header_left_icon_' + data.contentCategory + '">&nbsp;</div>');
@@ -871,25 +874,53 @@ $(document).ready(function() {
     }
     
     //add javascript files to head
-    $.fn.getJavaScript = function(filename) {	
+    $.fn.setJavaScript = function(filename) {
+    	var targetelement = "script"
+    	var targetattr= "src" 
+        var addJS = true;
+    	var allsuspects=document.getElementsByTagName(targetelement)
+    	for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements 
+	    	if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1){
+	    		//element already exists no need to add it	    		
+	    		addJS = false;
+	    	} 
+    	}
+    	if (addJS) {
     	var oHead = document.getElementsByTagName('HEAD').item(0);
-    	var oScript= document.createElement("script");
-    	oScript.type = "text/javascript";
-    	oScript.src = filename;
-    	oHead.appendChild(oScript);
-    	log('Adding javascript to head element: ' + filename);
+	    	var oScript= document.createElement("script");
+	    	oScript.type = "text/javascript";
+	    	oScript.src = filename;
+	    	oHead.appendChild(oScript);
+	    	log('Adding javascript to head element: ' + filename);
+    	}  else {
+    		log('Javascript src already exists in head element: ' + filename);
+    	}
     }
 
     //add css files to head
-    $.fn.getCSS = function(filename) {
-    	var oHead = document.getElementsByTagName('HEAD').item(0);
-    	var oLink= document.createElement("link");
-    	oLink.type = "text/css";
-    	oLink.media = "screen";
-    	oLink.rel = "stylesheet";
-    	oLink.href = filename;
-    	oHead.appendChild(oLink);
-    	log('Adding CCS stylesheet to head element: ' + filename);
+    $.fn.setCSS = function(filename) {
+    	var targetelement = "link"
+    	var targetattr= "href" 
+        var addCSS = true;
+    	var allsuspects=document.getElementsByTagName(targetelement)
+    	for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements 
+	    	if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1){
+	    		//element already exists no need to add it	    		
+	    		addCSS = false;
+	    	} 
+    	}
+    	if (addCSS) {
+	    	var oHead = document.getElementsByTagName('HEAD').item(0);
+	    	var oLink= document.createElement("link");
+	    	oLink.type = "text/css";
+	    	oLink.media = "screen";
+	    	oLink.rel = "stylesheet";
+	    	oLink.href = filename;
+	    	oHead.appendChild(oLink);
+	    	log('Adding CCS stylesheet to head element: ' + filename);
+    	} else {
+    		log('CCS stylesheet already exists in head element: ' + filename);
+    	}
     }
     
     // Rate content
