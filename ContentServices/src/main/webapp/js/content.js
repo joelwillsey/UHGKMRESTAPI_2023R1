@@ -970,8 +970,8 @@ $(document).ready(function() {
 		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id, CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get content ID: ' + data);
 		    if (typeof data != 'undefined' && data != null && data != '') {
-		    	$.fn.setCSS('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.css');
-		    	$.fn.setJavaScript('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.js');
+		    	//$.fn.setCSS('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.css');
+		    	//$.fn.setJavaScript('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.js');
 		    	$.fn.setupContent(data);
 		    }
 		});
