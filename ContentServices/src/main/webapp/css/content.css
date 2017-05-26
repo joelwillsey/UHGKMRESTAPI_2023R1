@@ -698,6 +698,12 @@ table {
 	display: none;
 }
 
+.mce-item-anchor, a:not([href]) {
+	display: inline-block;
+	padding-top: 15px;
+	margin-top: -40px;
+}
+
 /* Media Queries */
 @media screen and (min-width: 1025px) {
 	.content_header_mobile {
