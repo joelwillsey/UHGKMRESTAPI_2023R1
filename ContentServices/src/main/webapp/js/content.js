@@ -1003,14 +1003,7 @@ $(document).ready(function() {
 		}
 		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id, CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get content ID: ' + data);
-		    if (typeof data != 'undefined' && data != null && data != '') {
-		    	var scriptName = 'http://webrt0307.uhc.com:1080/filestorage/SpryTabbedPanels.js'
-		    	$.cachedScript(scriptName).always(function( script, textStatus) {
-		    		  console.log('Get Script: ' + scriptName + ' textStatus: ' + textStatus);
-		    		  $.fn.setupContent(data);
-		    		});
-		    	//$.fn.setupContent(data);
-		    }
+		    $.fn.setupContent(data);
 		});
 	}
 	
