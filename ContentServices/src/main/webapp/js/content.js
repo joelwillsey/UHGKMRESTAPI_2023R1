@@ -250,12 +250,46 @@ $(document).ready(function() {
 		return retValue;
     }
 
+    //Get the javascript includes in the
+    $.fn.getJavaScript = function(data) {
+    	if (typeof data != 'undefined' && data != ''){
+	    	log("Get Script:" + data);
+	    	$.getScript(data).done(function(script, textStatus, jqxhr) {log( "getScript: " + data + " Status: " + textStatus + " jqxhr:" + jqxhr.status );});
+    	} else {
+    		log("Get Script is undefined");
+    	}
+    }
+    
+    jQuery.cachedScript = function(url, options) {
+    	     	
+    	  // Allow user to set any option except for dataType, cache, and url
+    	  options = $.extend( options || {}, {    	    
+    		dataType: "script",
+    	    cache: true,
+    	    url: url,  
+    	    async: false
+    	  });
+    	 
+    	  // Use $.ajax() since it is more flexible than $.getScript
+    	  // Return the jqXHR object so we can chain callbacks
+    	  return jQuery.ajax(options);
+    	};
+    
 	// Setup the content
     $.fn.setupContent = function(data) {
     	// Store the contentId and viewUUID
     	contentId = data.id;
     	viewId = data.viewUUID;
-
+    	
+    	//$.cachedScript('http://localhost:8090/fileStorage/SpryTabbedPanels.js').done(function( script, textStatus ) {
+    	//	  console.log( textStatus );
+    	//	});
+    	//$.fn.getJavaScript('http://localhost:8090/fileStorage/SpryTabbedPanels.js');
+    	//log("Get Script");
+    	//$.getScript('http://localhost:8090/fileStorage/SpryTabbedPanels.css',function() {log( "SpryTabbedPanels.css getScript was performed." );});
+    	//$.getScript('http://localhost:8090/fileStorage/SpryTabbedPanels.js').done(function(script, textStatus) {log( "getScript: http://localhost:8090/fileStorage/SpryTabbedPanels.js Status: " + textStatus );});
+    	//$('content-loader').load('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.css');
+    	//$('content-loader').load('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.js');
     	 
     	// Setup icon
     	$('.content_header_mobile_top_left').html('<div class="content_header_mobile_top_left_' + data.contentCategory + '">&nbsp;</div>');
@@ -970,9 +1004,12 @@ $(document).ready(function() {
 		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id, CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get content ID: ' + data);
 		    if (typeof data != 'undefined' && data != null && data != '') {
-		    	//$.fn.setCSS('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.css');
-		    	//$.fn.setJavaScript('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.js');
-		    	$.fn.setupContent(data);
+		    	var scriptName = 'http://webrt0307.uhc.com:8680/filestorage/SpryTabbedPanels.js'
+		    	$.cachedScript(scriptName).always(function( script, textStatus) {
+		    		  console.log('Get Script: ' + scriptName + ' textStatus: ' + textStatus);
+		    		  $.fn.setupContent(data);
+		    		});
+		    	//$.fn.setupContent(data);
 		    }
 		});
 	}
