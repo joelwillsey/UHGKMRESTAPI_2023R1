@@ -704,6 +704,12 @@ table {
 	margin-top: -40px;
 }
 
+.mce-item-table {
+	width:100%;
+    table-layout:fixed;
+}
+
+
 /* Media Queries */
 @media screen and (min-width: 1025px) {
 	.content_header_mobile {
