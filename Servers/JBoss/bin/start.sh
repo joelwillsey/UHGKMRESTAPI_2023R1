@@ -54,6 +54,8 @@ fi
 # ... should
 
 ## Dynatrace Agent Assignment
+
+## Stage
 if [[ ${HOSTNAME} = apsrs2231 ]]
 then
 	if [[ ${CONTAINER} = stage_rest_a ]]
@@ -104,6 +106,65 @@ then
 elif [[ ${HOSTNAME} = apsrs2265 ]]
 then
         if [[ ${CONTAINER} = stage_rest_a ]]
+                then
+                        DT_AGENT_NAME=n6a
+                else
+                        DT_AGENT_NAME=n6b
+
+        fi
+fi
+
+## Prod
+if [[ ${HOSTNAME} = apsrp2937 ]]
+then
+	if [[ ${CONTAINER} = prod_rest_a ]]
+		then 
+			DT_AGENT_NAME=n1a
+		else
+			DT_AGENT_NAME=n1b
+
+	fi
+
+elif [[ ${HOSTNAME} = apsrp2939 ]]
+then
+        if [[ ${CONTAINER} = prod_rest_a ]]
+                then
+                        DT_AGENT_NAME=n2a
+                else
+                        DT_AGENT_NAME=n2b
+
+        fi
+
+elif [[ ${HOSTNAME} = apsrp2991 ]]
+then
+        if [[ ${CONTAINER} = prod_rest_a ]]
+                then
+                        DT_AGENT_NAME=n3a
+                else
+                        DT_AGENT_NAME=n3b
+
+        fi
+elif [[ ${HOSTNAME} = apsrp2992 ]]
+then
+        if [[ ${CONTAINER} = prod_rest_a ]]
+                then
+                        DT_AGENT_NAME=n4a
+                else
+                        DT_AGENT_NAME=n4b
+
+        fi
+elif [[ ${HOSTNAME} = apsrp2993 ]]
+then
+        if [[ ${CONTAINER} = prod_rest_a ]]
+                then
+                        DT_AGENT_NAME=n5a
+                else
+                        DT_AGENT_NAME=n5b
+
+        fi
+elif [[ ${HOSTNAME} = apsrp2994 ]]
+then
+        if [[ ${CONTAINER} = prod_rest_a ]]
                 then
                         DT_AGENT_NAME=n6a
                 else
