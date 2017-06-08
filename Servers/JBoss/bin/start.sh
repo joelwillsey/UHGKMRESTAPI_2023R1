@@ -201,6 +201,12 @@ then
   export JAVA_OPTS="${JAVA_OPTS} -agentpath:/app_2/Dynatrace/agent/lib64/libdtagent.so=server=Dtc-nonprod-core-ctc.uhc.com:24445,name=kmkc_eap64_stg_rest_${DT_AGENT_NAME}"
 fi
 
+if [[ ${ENVIRONMENT} = prod ]]
+then
+  export JAVA_OPTS="${JAVA_OPTS} -agentpath:/app_2/Dynatrace/agent/lib64/libdtagent.so=server=Dtc-prod-core-elr.uhc.com:24445,name=kmkc_eap64_prd_rest_${DT_AGENT_NAME}"
+fi
+
+
 # create the logging directory
 if [[ ! -d ${LOGS_HOME}/jboss ]]
 then
