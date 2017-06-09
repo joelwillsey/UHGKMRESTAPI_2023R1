@@ -1027,14 +1027,18 @@ $(document).ready(function() {
 
 			if ($.fn.hasCommonElement(currentArray, configArray)) {
 				document.getElementById('knowledgeCentralTheme').disabled = false;
+				$("link[rel*='icon']").attr("href", "images/faviconKC.png");
+				document.title = "Knowledge Central"
 				document.getElementById('defaultTheme').disabled = true;
 			} else {
 				document.getElementById('knowledgeCentralTheme').disabled = true;
 				document.getElementById('defaultTheme').disabled = false;
+				$("link[rel*='icon']").attr("href", "images/favicon.png");
 			}
 		} else {
 			document.getElementById('knowledgeCentralTheme').disabled = true;
 			document.getElementById('defaultTheme').disabled = false;
+			$("link[rel*='icon']").attr("href", "images/favicon.png");
 		}
 	}
 
