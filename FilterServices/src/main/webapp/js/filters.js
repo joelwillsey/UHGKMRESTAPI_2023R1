@@ -1013,35 +1013,34 @@ $(document).ready(function() {
 		var current = $.fn.getParameterByName('tags');					
 		//var configList = "";
 		var configList = $.fn.getProperty('themes.knowledgeCentralTheme');
-		
-
-		//configList = "kbase_dentalvision,kbase_ecsolt,kbase_ecs,kbase_prime,kbase_uhcbs,kbase_eienrollmentbilling,kbase_csenrollmentbilling,"
-				+ "kbase_mrenrollmentbilling,kbase_mrclaimappeals,kbase_eiproduceroperations,kbase_providerdata,kbase_provideroperations,"
-				+ "kbase_uhcwest,kbase_customerimp,kbase_csconsumerservice,kbase_csclaims,kbase_eiclaims,kbase_eiclaimappeals,kbase_eispecialtyops,"
-				+ "kbase_eiconsumerservice,kbase_eiempire,kbase_railroad,kbase_uhcglobal,kbase_mrproviderservice,kbase_eirv,kbase_eiproviderservice,"
-				+ "kbase_einhp,kbase_einaa,kbase_mrcustomerservice,kbase_mrtelesales,kbase_mrproducerhelpdesk,kbase_test,kbase_tricare,kbase_tricaremedmgmt";
-
+				
 		if (current != 'undefined' && current != null) {
 			var currentArray = current.split(",");
 			var configArray = configList.split(",");
 
 			if ($.fn.hasCommonElement(currentArray, configArray)) {
 				document.getElementById('knowledgeCentralTheme').disabled = false;
-				$("link[rel*='icon']").attr("href", "images/faviconKC.png");
+				$.fn.changeFavicon("images/faviconKC.png");
 				document.title = "Knowledge Central"
 				document.getElementById('defaultTheme').disabled = true;
 			} else {
 				document.getElementById('knowledgeCentralTheme').disabled = true;
 				document.getElementById('defaultTheme').disabled = false;
-				$("link[rel*='icon']").attr("href", "images/favicon.png");
+				$.fn.changeFavicon("images/favicon.png");
 			}
 		} else {
 			document.getElementById('knowledgeCentralTheme').disabled = true;
 			document.getElementById('defaultTheme').disabled = false;
-			$("link[rel*='icon']").attr("href", "images/favicon.png");
+			$.fn.changeFavicon("images/favicon.png");
 		}
 	}
 
+	$.fn.changeFavicon = function(src) {
+		$("link[rel*='icon']").attr("href", src);
+		$("link[rel*='shortcut icon']").attr("href", src);
+	}
+	
+	
 	// Array has common elements helper function
 	$.fn.hasCommonElement = function(arr1, arr2) {
 		var bExists = false;
