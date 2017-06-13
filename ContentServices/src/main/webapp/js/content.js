@@ -986,10 +986,12 @@ $(document).ready(function() {
 		    		for (var x = 0; x < data.externalSrcFiles.length; x++) {						
 		    			var scriptName = data.externalSrcFiles[x].src;
 		    			if (data.externalSrcFiles[x].async == "false") {
+		    				jQuery.ajaxSetup({async:false});
 							//this script must be loaded synchronously
 							$.cachedScriptSync(scriptName).always(function( script, textStatus) {
 								console.log('Get Script (synchronously): ' + scriptName + ' textStatus: ' + textStatus);
 							});
+							jQuery.ajaxSetup({async:true});
 						} else {
 							//this script can be loaded asynchronously
 							$.cachedScriptAsync(scriptName).always(function( script, textStatus) {
