@@ -35,7 +35,8 @@ import com.verint.services.km.model.ContentResponse;
 import com.verint.services.km.model.CustomField;
 import com.verint.services.km.model.ExternalContent;
 import com.verint.services.km.model.Translated;
-import com.verint.services.km.util.ConfigInfo;;
+import com.verint.services.km.util.ConfigInfo;
+import com.verint.services.km.model.ScriptSrc;;
 /**
  * @author jmiller
  *
@@ -234,9 +235,14 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			//Add the javascript(s) includes at the most bottom of the content html to help with load times so I place it the bottom
 			//most section of the render.  Probably makes no difference :)
 			String includeJSFile = "\n <script type=\"text/javascript\" src=\"" + ExternalUrl + "/VEM_showHideDiv.js\" ></script>";
+			ScriptSrc showHideDivFile = new ScriptSrc();
+			showHideDivFile.setAsync("true");
+			showHideDivFile.setSrc(ExternalUrl + "/VEM_showHideDiv.js");
+			showHideDivFile.setType("text/javascript");
+			contentResponse.addExternalSrcFiles(showHideDivFile);
 			//String includeSpryTabbedPanelsJSFile = "\n <script type=\"text/javascript\" src=\"" + ExternalUrl + "/SpryTabbedPanels.js\" ></script>";
 			//String includeSpryCSS = "\n <link type=\"text/css\" href=\"" + ExternalUrl + "/SpryTabbedPanels.css\" rel=\"stylesheet\" />";
-			
+			/**
 			if (contentResponse.getPrivateAnswer().length() > 0) {
 				contentResponse.setPrivateAnswer(contentResponse.getPrivateAnswer() + includeJSFile);
 				//contentResponse.setPrivateAnswer(contentResponse.getPrivateAnswer() + includeSpryTabbedPanelsJSFile);
@@ -260,6 +266,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 				LOGGER.debug("Added to end of PublicBody: " + includeJSFile);
 				//LOGGER.debug("Added to end of PublicBody: " + includeSpryTabbedPanelsJSFile);
 			}
+			**/
 			
 			// Setup Public Body
 			contentResponse.setPublicBody(parseBodyData(contentResponse.getPublicBody()));
@@ -304,8 +311,8 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 					url = ExternalUrl + url;
 					attachment.setUrl(url);
 				}
-			}
-
+			}			
+						
 			// Reformat custom fields
 			final Set<CustomField> customFields = contentResponse.getCustomFields();
 			if (customFields != null && !customFields.isEmpty()) {

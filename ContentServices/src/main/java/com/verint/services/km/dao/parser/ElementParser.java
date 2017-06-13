@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.verint.services.km.model.ScriptSrc;
 import com.verint.services.km.model.Attachment;
 import com.verint.services.km.model.ContentEntry;
 import com.verint.services.km.model.ContentResponse;
@@ -92,7 +93,10 @@ public class ElementParser {
 		//bodyContent = bodyContent.replaceAll("#startscript#", "<script");		
 		//bodyContent = bodyContent.replaceAll("#endscript#", "</script>");
 
-		bodyContent = parseScriptPlaceHolders(bodyContent);
+		//bodyContent = parseScriptPlaceHolders(bodyContent);
+		resultParseScriptPlaceHolders ScriptPlaceHolders =parseScriptPlaceHolders(bodyContent);
+		bodyContent = ScriptPlaceHolders.getData();
+		response.setExternalSrcFiles(ScriptPlaceHolders.getExternalSrcFiles());
 		bodyContent = parseLinkPlaceHolders(bodyContent);
 		
 // END JGM
@@ -444,6 +448,9 @@ public class ElementParser {
 		return attachments;
 	}
 
+	
+
+	
 	/**
 	 * 
 	 * @param data
@@ -679,14 +686,21 @@ public class ElementParser {
 		return null;
 	}
 	
-	
-	//Find script placeholders and convert it to the correct script verbiage and move it to the top
-	public String parseScriptPlaceHolders(String data){
+	/**
+	 * Find script placeholders and convert it to the correct script verbiage and move it to the top
+	 * 
+	 * @param data
+	 * @return resultParseScriptPlaceHolders
+	 */
+	public resultParseScriptPlaceHolders parseScriptPlaceHolders(String data){
 		LOGGER.info("Entering parseScriptPlaceHolders()");
 		
+		resultParseScriptPlaceHolders result = new resultParseScriptPlaceHolders();
 		String originalData = data;			
 		String publicBody = "<publicBody>";
-		String srcAttributte = "src=";
+		String srcAttribute = "src=";
+		String typeAttribute = "type=";
+		String asyncAttribute = "async";
 		String startscriptPlaceHolder ="#startscript#";
 		String stopscriptPlaceHolder ="#endscript#";
 		
@@ -706,19 +720,68 @@ public class ElementParser {
 				String newScriptString = replaceEscapeChar(scriptString);
 				
 				
-				int indexSrcAttr = newScriptString.indexOf(srcAttributte);
+				int indexSrcAttr = newScriptString.indexOf(srcAttribute);
+				
 				
 				if (indexSrcAttr == -1){
 					data = data.replaceAll(Pattern.quote(scriptString), newScriptString);
 					LOGGER.debug("parseScriptPlaceHolders: Replacing script placeholders: \"" + scriptString + "\" with \"" + newScriptString + "\"");
 				} else {
-					int indexPublicBody = data.indexOf(publicBody);
-										
+					ScriptSrc externalFile = new ScriptSrc();
+					//default it to a type="text/javascript"  it will get overwritten later if they set the type
+					externalFile.setType("text/javascript");
+					
+					//get the src attribute
+					int indexofStartQout = newScriptString.indexOf( "\"", indexSrcAttr + srcAttribute.length());
+					if (indexofStartQout != -1){
+						int indexofEndQout = newScriptString.indexOf( "\"", indexofStartQout + 1);
+						if (indexofEndQout != -1){
+							String scrString = newScriptString.substring(indexofStartQout + 1, indexofEndQout);
+							externalFile.setSrc(scrString);
+							LOGGER.debug("Found scr attribute of script, src=\"" +  scrString + "\"");
+							
+							//lets see if they added the type attribute
+							int indexofType = newScriptString.indexOf(typeAttribute);
+							if (indexofType != -1){
+								// found it
+								int startOfTypeAttr = newScriptString.indexOf("\"", indexofType);
+								if (startOfTypeAttr != -1){
+									int endOfTypeAttr = newScriptString.indexOf("\"", startOfTypeAttr+1);
+									if (endOfTypeAttr != -1){
+										String typeString = newScriptString.substring(startOfTypeAttr + 1, endOfTypeAttr);
+										externalFile.setType(typeString);
+										LOGGER.debug("Found type attribute of script, type=\"" +  typeString + "\"");
+									} 
+								}
+							} 							
+							
+							//lets see if they added the async attribute
+							int indexofAsync = newScriptString.indexOf(asyncAttribute);
+							if (indexofAsync != -1){
+								externalFile.setAsync("true");
+								LOGGER.debug("Found async attribute of script");
+							} else {
+								externalFile.setAsync("false");
+							}
+							
+							result.addExternalSrcFiles(externalFile);
+							LOGGER.debug("New external file added:" + externalFile.toString());
+						}					
+					}
+					
+					//this is an external file
+					//int indexPublicBody = data.indexOf(publicBody);
+					
+					data = data.replaceAll(Pattern.quote(scriptString), "<!-- Removed remote js script tag to be added back in by the system -->");						
+					LOGGER.debug("parseScriptPlaceHolders: Replacing script placeholders: \"" + scriptString + "\" with \"" + newScriptString + "\"");
+					
+					/** 
 					if (indexPublicBody != -1) {
 						data = data.replaceAll(Pattern.quote(scriptString), "<!-- Moved remote js script tag to top of publicBody content from here -->");	
 						data = data.substring(0, indexPublicBody + publicBody.length()) + newScriptString + data.substring(indexPublicBody + publicBody.length());
 						LOGGER.debug("parseScriptPlaceHolders: Replacing script placeholders: \"" + scriptString + "\" with \"" + newScriptString + "\"");
 					}
+					**/
 				}
 			}
 
@@ -731,8 +794,14 @@ public class ElementParser {
 			}
 		
 		}
+		LOGGER.info("External files found: " + result.getExternalSrcFiles().toString());
 		LOGGER.info("Exiting parseScriptPlaceHolders()");
-		return data;
+		
+		
+		result.setData(data);		
+		//return data;
+		return result;
+		
 	}
 	
 	//Find link placeholders and convert it to the correct script verbiage and move it to the top

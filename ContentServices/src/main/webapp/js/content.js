@@ -260,36 +260,12 @@ $(document).ready(function() {
     	}
     }
     
-    jQuery.cachedScript = function(url, options) {
-    	     	
-    	  // Allow user to set any option except for dataType, cache, and url
-    	  options = $.extend( options || {}, {    	    
-    		dataType: "script",
-    	    cache: true,
-    	    url: url,  
-    	    async: false
-    	  });
-    	 
-    	  // Use $.ajax() since it is more flexible than $.getScript
-    	  // Return the jqXHR object so we can chain callbacks
-    	  return jQuery.ajax(options);
-    	};
     
 	// Setup the content
     $.fn.setupContent = function(data) {
     	// Store the contentId and viewUUID
     	contentId = data.id;
-    	viewId = data.viewUUID;
-    	
-    	//$.cachedScript('http://localhost:8090/fileStorage/SpryTabbedPanels.js').done(function( script, textStatus ) {
-    	//	  console.log( textStatus );
-    	//	});
-    	//$.fn.getJavaScript('http://localhost:8090/fileStorage/SpryTabbedPanels.js');
-    	//log("Get Script");
-    	//$.getScript('http://localhost:8090/fileStorage/SpryTabbedPanels.css',function() {log( "SpryTabbedPanels.css getScript was performed." );});
-    	//$.getScript('http://localhost:8090/fileStorage/SpryTabbedPanels.js').done(function(script, textStatus) {log( "getScript: http://localhost:8090/fileStorage/SpryTabbedPanels.js Status: " + textStatus );});
-    	//$('content-loader').load('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.css');
-    	//$('content-loader').load('http://apsrd4065.uhc.com:8680/filestorage/SpryTabbedPanels.js');
+    	viewId = data.viewUUID;    	
     	 
     	// Setup icon
     	$('.content_header_mobile_top_left').html('<div class="content_header_mobile_top_left_' + data.contentCategory + '">&nbsp;</div>');
@@ -1003,10 +979,65 @@ $(document).ready(function() {
 		}
 		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id, CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get content ID: ' + data);
-		    $.fn.setupContent(data);
+		    if (typeof data != 'undefined' && data != null && data != '') {
+		    	
+		    	//if there are externalSourceFiles need to load them before rendering the content
+		    	if (typeof data.externalSrcFiles != 'undefined' && data.externalSrcFiles != null && data.externalSrcFiles.length > 0) {
+		    		for (var x = 0; x < data.externalSrcFiles.length; x++) {						
+		    			var scriptName = data.externalSrcFiles[x].src;
+		    			if (data.externalSrcFiles[x].async == "false") {
+							//this script must be loaded synchronously
+							$.cachedScriptSync(scriptName).always(function( script, textStatus) {
+								console.log('Get Script (synchronously): ' + scriptName + ' textStatus: ' + textStatus);
+							});
+						} else {
+							//this script can be loaded asynchronously
+							$.cachedScriptAsync(scriptName).always(function( script, textStatus) {
+								console.log('Get Script (asynchronously): ' + scriptName + ' textStatus: ' + textStatus);
+							});
+						}
+					}
+				}
+		    	
+		    	$.fn.setupContent(data);
+		    	
+		    } else {
+		    	$.fn.setupContent(data);
+		    }
 		});
 	}
 	
+	  	
+	jQuery.cachedScriptSync = function(url, options) {
+     	
+  	  // Allow user to set any option except for dataType, cache, and url
+  	  options = $.extend( options || {}, {    	    
+  		dataType: "script",
+  	    cache: true,
+  	    url: url,  
+  	    async: false
+  	  });
+  	 
+  	  // Use $.ajax() since it is more flexible than $.getScript
+  	  // Return the jqXHR object so we can chain callbacks
+  	  return jQuery.ajax(options);
+  	};
+  	
+	jQuery.cachedScriptAsync = function(url, options) {
+     	
+	  	  // Allow user to set any option except for dataType, cache, and url
+	  	  options = $.extend( options || {}, {    	    
+	  		dataType: "script",
+	  	    cache: true,
+	  	    url: url,  
+	  	    async: true
+	  	  });
+	  	 
+	  	  // Use $.ajax() since it is more flexible than $.getScript
+	  	  // Return the jqXHR object so we can chain callbacks
+	  	  return jQuery.ajax(options);
+	  	};
+	  	
 	$.fn.retrieveDraftContent = function(id) {
 		log('Retrieve Content: ' + id);
     	var length = contentIds.unshift(id);

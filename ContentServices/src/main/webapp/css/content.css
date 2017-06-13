@@ -57,6 +57,10 @@ button {
 		.content_body img:hover {
 			-webkit-transform:scale(1.2); transform:scale(1.2);
 		}
+	.content_body td {
+	word-wrap: break-word
+	
+	}
 /* Begin Content Header */
 .content_header {
 		padding-left: 24px;
@@ -683,6 +687,7 @@ button {
 }
 table {
     border-collapse: collapse;
+    display: table;
 }
 *::-moz-placeholder {
     font-size: 12px;
@@ -704,6 +709,18 @@ table {
 	margin-top: -40px;
 }
 
+
+
+.mce-item-table {
+	border-collapse:separate;
+	table-layout: fixed;
+	word-warp: break-word;
+}
+
+.mce-content-body{ 
+ 	word-wrap:break-word;
+ }
+ 
 /* Media Queries */
 @media screen and (min-width: 1025px) {
 	.content_header_mobile {
