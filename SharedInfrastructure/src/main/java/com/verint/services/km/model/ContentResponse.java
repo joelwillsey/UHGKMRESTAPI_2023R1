@@ -105,6 +105,9 @@ public class ContentResponse implements Serializable {
 
 	@XmlElement(nillable=true)
 	private Set<Attachment> attachments = new HashSet<Attachment>();
+	
+	@XmlElement(nillable=true)
+	private Set<ScriptSrc> externalSrcFiles = new HashSet<ScriptSrc>();
 
 	@XmlElement(nillable=true)
 	private String publishedDate = "";
@@ -623,6 +626,27 @@ public class ContentResponse implements Serializable {
 	}
 
 	/**
+	 * @return the scriptSrc
+	 */
+	public Set<ScriptSrc> getExternalSrcFiles() {
+		return externalSrcFiles;
+	}
+	
+	/**
+	 * @param scriptSrc the scriptSrc to set
+	 */
+	public void setExternalSrcFiles(Set<ScriptSrc> externalSrcFiles) {
+		this.externalSrcFiles =externalSrcFiles;
+	}
+
+	/**
+	 * @param scriptSrc the scriptSrc to add
+	 */
+	public void addExternalSrcFiles(ScriptSrc scriptSrc) {
+		this.externalSrcFiles.add(scriptSrc);
+	}
+	
+	/**
 	 * @return the privateBody
 	 */
 	public String getPrivateBody() {
@@ -772,6 +796,6 @@ public class ContentResponse implements Serializable {
 				+ ", viewContent=" + viewContent + ", description=" + description + ", attachments=" + attachments
 				+ ", publishedDate=" + publishedDate + ", expiredDate=" + expiredDate + ", lastModifiedBy="
 				+ lastModifiedBy + ", owner=" + owner + ", weighting=" + weighting + ", status=" + status
-				+ ", bookmarked=" + bookmarked + ", rawBody=" + rawBody + ", viewUUID=" + viewUUID + "]";
+				+ ", bookmarked=" + bookmarked + ", rawBody=" + rawBody + ", viewUUID=" + viewUUID + ", externalSrcFiles=" + externalSrcFiles + " ]";
 	}
 }
