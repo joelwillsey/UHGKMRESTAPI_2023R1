@@ -988,7 +988,7 @@ $(document).ready(function() {
 		    		var finished = [];
 		    		for (var z= 0; z < data.externalSrcFiles.length; z++){
 		    			finished[z] = false;
-		    			console.log("finished[" + z + "]=" + finished[z]);
+		    			//console.log("finished[" + z + "]=" + finished[z]);
 		    		}
 		    		
 		    		for (var x = 0; x < data.externalSrcFiles.length; x++) {						
@@ -1008,7 +1008,7 @@ $(document).ready(function() {
 								}								
 								// check to see if all downloads are done
 								var done = allDownloadsTrue(finished);								
-								console.log('Get Script (synchronously): ' + this.url + ' textStatus: ' + textStatus + " File Index [" + w + "] all files retrieved: " + done);								
+								console.log('Get Script (synchronously): ' + this.url + ' textStatus: ' + textStatus + " ,File Index [" + w + "], all files retrieved: " + done);								
 								if (done) {
 									$.fn.setupContent(data);
 								}
@@ -1028,7 +1028,7 @@ $(document).ready(function() {
 								}
 								// check to see if all downloads are done
 								var done = allDownloadsTrue(finished);								
-								console.log('Get Script (asynchronously): ' + this.url + ' textStatus: ' + textStatus + " File Index [" + w + "] all files retrieved: " + done);									
+								console.log('Get Script (asynchronously): ' + this.url + ' textStatus: ' + textStatus + ", File Index [" + w + "], all files retrieved: " + done);									
 								if (done) {
 									$.fn.setupContent(data);
 								}
