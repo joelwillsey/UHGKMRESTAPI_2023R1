@@ -983,32 +983,80 @@ $(document).ready(function() {
 		    	
 		    	//if there are externalSourceFiles need to load them before rendering the content
 		    	if (typeof data.externalSrcFiles != 'undefined' && data.externalSrcFiles != null && data.externalSrcFiles.length > 0) {
+		    		
+		    		//initilize array to keep track of js file downloads
+		    		var finished = [];
+		    		for (var z= 0; z < data.externalSrcFiles.length; z++){
+		    			finished[z] = false;
+		    			console.log("finished[" + z + "]=" + finished[z]);
+		    		}
+		    		
 		    		for (var x = 0; x < data.externalSrcFiles.length; x++) {						
 		    			var scriptName = data.externalSrcFiles[x].src;
+		    			console.log("scriptName " + data.externalSrcFiles[x].src + " file index: [" + x + "]");
 		    			if (data.externalSrcFiles[x].async == "false") {
 		    				jQuery.ajaxSetup({async:false});
 							//this script must be loaded synchronously
-							$.cachedScriptSync(scriptName).always(function( script, textStatus) {
-								console.log('Get Script (synchronously): ' + scriptName + ' textStatus: ' + textStatus);
+							$.cachedScriptSync(scriptName).always(function( script, textStatus) {													
+								//mark file as downloaded
+								for (var w = 0; w < finished.length; w++){					
+									if (data.externalSrcFiles[w].src == this.url ){
+										finished[w] = true;
+										//console.log("File Index [" + w + "] completed");
+										break; // breaks out of loop completely
+									}
+								}								
+								// check to see if all downloads are done
+								var done = allDownloadsTrue(finished);								
+								console.log('Get Script (synchronously): ' + this.url + ' textStatus: ' + textStatus + " File Index [" + w + "] all files retrieved: " + done);								
+								if (done) {
+									$.fn.setupContent(data);
+								}
+								
 							});
 							jQuery.ajaxSetup({async:true});
 						} else {
 							//this script can be loaded asynchronously
-							$.cachedScriptAsync(scriptName).always(function( script, textStatus) {
-								console.log('Get Script (asynchronously): ' + scriptName + ' textStatus: ' + textStatus);
+							$.cachedScriptAsync(scriptName).always(function( script, textStatus) {								
+								//mark file as downloaded
+								for (var w = 0; w < finished.length; w++){									
+									if (data.externalSrcFiles[w].src == this.url ){
+										finished[w] = true;
+										//console.log("File Index [" + w + "] completed");
+										break; // breaks out of loop completely
+									}
+								}
+								// check to see if all downloads are done
+								var done = allDownloadsTrue(finished);								
+								console.log('Get Script (asynchronously): ' + this.url + ' textStatus: ' + textStatus + " File Index [" + w + "] all files retrieved: " + done);									
+								if (done) {
+									$.fn.setupContent(data);
+								}
 							});
 						}
 					}
-				}
-		    	
-		    	$.fn.setupContent(data);
-		    	
+				} else {
+					//no external files to load, just setup content
+					$.fn.setupContent(data);
+				}	
 		    } else {
+		    	//no data found
 		    	$.fn.setupContent(data);
 		    }
 		});
 	}
 	
+	function allDownloadsTrue (finished) {
+		var done = true;
+		
+		for (var y = 0; y < finished.length; y++ ){									
+			if (finished[y] != true){
+				done = false;
+			}
+		}
+		
+		return done
+	}
 	  	
 	jQuery.cachedScriptSync = function(url, options) {
      	
@@ -1017,9 +1065,13 @@ $(document).ready(function() {
   		dataType: "script",
   	    cache: true,
   	    url: url,  
-  	    async: false
+  	    async: false,
   	  });
   	 
+  	jQuery.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+	  	  // Modify options, control originalOptions, store jqXHR, etc
+  			originalOptions.url = options.url;
+	  	});
   	  // Use $.ajax() since it is more flexible than $.getScript
   	  // Return the jqXHR object so we can chain callbacks
   	  return jQuery.ajax(options);
