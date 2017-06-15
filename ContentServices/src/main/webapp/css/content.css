@@ -444,6 +444,7 @@ button {
 			line-height: normal;
 			white-space: normal;
 			visibility: visible;
+
 		}
 			.content_body_field_data p {
 				overflow-wrap: break-word;
@@ -687,7 +688,7 @@ button {
 }
 table {
     border-collapse: collapse;
-    display: table;
+    /**display: table; **/
 }
 *::-moz-placeholder {
     font-size: 12px;
@@ -713,9 +714,12 @@ table {
 
 .mce-item-table {
 	border-collapse:separate;
+	word-warp: break-word; 
 	table-layout: fixed;
-	word-warp: break-word;
+	width: 100%;
+	display: table;
 }
+
 
 .mce-content-body{ 
  	word-wrap:break-word;
