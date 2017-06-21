@@ -34,7 +34,7 @@
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
 		document.cookie = 'savedurl=' + 'content_container.html%3F' + urlToSend + '; path=/';
-		console.log('savedurl=content_container.html%3F' + urlToSend);
+		log('savedurl=content_container.html%3F' + urlToSend);
 		
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
