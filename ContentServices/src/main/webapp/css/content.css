@@ -55,7 +55,7 @@ button {
 	    -webkit-transition: all 0.7s ease; transition: all 0.7s ease;
 	}
 		.content_body img:hover {
-			-webkit-transform:scale(1.2); transform:scale(1.2);
+		-webkit-transform:scale(1.2); transform:scale(1.2);
 		}
 	.content_body td {
 	word-wrap: break-word
