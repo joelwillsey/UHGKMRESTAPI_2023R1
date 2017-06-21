@@ -175,8 +175,14 @@ $.fn.ssoLoginService = function() {
 		            $.fn.setupToken(ssousername, password);
 		            //Setup user info
 	  				$.fn.setupUserInfo(data);
-	
-	  				}
+	  				var cookieSavedUrlValue = document.cookie.replace(/(?:(?:^|.*;\s*)savedurl\s*\=\s*([^;]*).*$)|^.*$/, "$1");	
+	  				
+	  				 if (typeof cookieSavedUrlValue != 'undefined' && cookieSavedUrlValue != '') {
+	 	            	cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3F/g, "?");
+	 	 	            cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3D/g, "=");
+	 	            	window.document.location = cookieSavedUrlValue;
+	 	            }
+	  			}
 	  			else
 	  				{
 	  				   errorMessage = data.message;	  				   
