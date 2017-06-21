@@ -178,6 +178,7 @@ $.fn.ssoLoginService = function() {
 	  				var cookieSavedUrlValue = document.cookie.replace(/(?:(?:^|.*;\s*)savedurl\s*\=\s*([^;]*).*$)|^.*$/, "$1");	
 	  				
 	  				 if (typeof cookieSavedUrlValue != 'undefined' && cookieSavedUrlValue != '') {
+	  					console.log("cookieSavedUrlValue=" + cookieSavedUrlValue);
 	 	            	cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3F/g, "?");
 	 	 	            cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3D/g, "=");
 	 	            	window.document.location = cookieSavedUrlValue;
