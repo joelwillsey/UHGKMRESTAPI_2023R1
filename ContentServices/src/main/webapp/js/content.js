@@ -1111,7 +1111,29 @@ $(document).ready(function() {
 			}
 		}
 		
-		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id + '/state/DRAFT' , CONTENT_SERVICE_TIMEOUT, function(data) {
+		// Draft content might not be in the contentServiceName path because it is proxied so we need to get teh proxy path to bypass Siteminder 
+		var contextPath = window.location.pathname.split('/');		 
+		/**When we split the pathname the first array element will be blank because it looks like this /verintkm/verintkm.html
+		contextPath[0]="", contextPath[1]="verintkm", contextPath[2]="verintkm.html", **/
+		var contextPath = window.location.pathname.split('/');
+		
+		var newContentServiceName = '';
+		
+		if (contextPath.length > 1){
+			var newContextPath = '/';
+			//don't want the last element as it is the html page
+			for (x=0; x < contextPath.length-1; x++){
+				if(typeof contextPath[x] != 'undefined' && contextPath[x] != ''){
+					newContextPath = newContextPath + contextPath[x] + "/";
+				}
+			}
+			
+			newContentServiceName = newContextPath;
+		} else {
+			newContentServiceName= contentServiceName;
+		}
+		
+		$.fn.serviceCall('GET', '', newContentServiceName + 'km/content/id/' + id + '/state/DRAFT' , CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get content ID: ' + data);
 		    if (typeof data != 'undefined' && data != null && data != '') {
 		    	$.fn.setupContent(data);
@@ -1253,6 +1275,3 @@ $(document).ready(function() {
 
 	
 });
-
-
-
