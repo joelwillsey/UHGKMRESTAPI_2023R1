@@ -50,6 +50,7 @@ $(document).ready(function() {
 	            
 	            // Check to see where to redirect
 	            if (typeof cookieSavedUrlValue != 'undefined' && cookieSavedUrlValue != '') {
+	            	log('cookieSavedUrlValue=' + cookieSavedUrlValue)
 	            	cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3F/g, "?");
 	 	            cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3D/g, "=");
 	            	window.document.location = cookieSavedUrlValue;
@@ -63,13 +64,6 @@ $(document).ready(function() {
 	     	         }
 	 		        window.document.location = postLogin;
 	 		    }
-	           // if (typeof postLogin != 'undefined' && postLogin != '') {
-		       //     if (typeof params != 'undefined' && params != '') {
-		       //     	window.document.location = postLogin + '?' + params;
-		       //     } else {
-		       //     	window.document.location = postLogin;
-		       //     }
-	           // }
 			} else {
 				if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 16){
 					$('#show-alert-misconfigured').addClass('alert_on');
