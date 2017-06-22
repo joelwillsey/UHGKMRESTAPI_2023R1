@@ -134,8 +134,8 @@ $.fn.ssoLoginService = function() {
 	// Call the service
 	//headerData = '{"ssousername":"' + ssousername + '"ssofirstname":"' + ssofirstname + '"ssolastname":"' + ssolastname + '"kbnames":"' + kbnames + '"}';
 
-	//When we split the pathname the first array element will be blank because it looks like this /verintkm/verintkm.html
-	// contextPath[0]="", contextPath[1]="verintkm", contextPath[2]="verintkm.html",
+	/**When we split the pathname the first array element will be blank because it looks like this /verintkm/verintkm.html
+	contextPath[0]="", contextPath[1]="verintkm", contextPath[2]="verintkm.html", **/
 	var contextPath = window.location.pathname.split('/');
 	
 	var URL = '';
