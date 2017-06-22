@@ -48,15 +48,7 @@ $(document).ready(function() {
 	            var cookieSavedUrlValue = document.cookie.replace(/(?:(?:^|.*;\s*)savedurl\s*\=\s*([^;]*).*$)|^.*$/, "$1");	          
 
 	            // Check to see where to redirect
-	           /* if (typeof postLogin != 'undefined' && postLogin != '') {
-		            if (typeof params != 'undefined' && params != '') {
-		            	window.document.location = postLogin + '?' + params;
-		            } else {
-		            	window.document.location = postLogin;
-		            }
-	            }
-			}*/ 
-	         if (typeof cookieSavedUrlValue != 'undefined' && cookieSavedUrlValue != '') {
+	            if (typeof cookieSavedUrlValue != 'undefined' && cookieSavedUrlValue != '') {
 	            	cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3F/g, "?");
 	 	            cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3D/g, "=");
 	            	window.document.location = cookieSavedUrlValue;

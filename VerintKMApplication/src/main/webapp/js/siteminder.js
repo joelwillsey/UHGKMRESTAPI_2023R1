@@ -118,18 +118,26 @@ $.fn.ssoLoginService = function() {
 
 	// Call the service
 	//headerData = '{"ssousername":"' + ssousername + '"ssofirstname":"' + ssofirstname + '"ssolastname":"' + ssolastname + '"kbnames":"' + kbnames + '"}';
-	var URL = window.location.protocol  + "//" + window.location.host +  verintKmServiceName + "getuserinfo.jsp"; //default value
-	var contextPath = window.location.pathname;
 
-	if (contextPath.indexOf(verintKmServiceName) > -1){
-		URL = window.location.protocol  + "//" + window.location.host +  verintKmServiceName + "getuserinfo.jsp";
-	} else if (contextPath.indexOf(filtersServiceName) > -1) {
-		URL = window.location.protocol  + "//" + window.location.host +  filtersServiceName + "getuserinfo.jsp";
-	} else if (contextPath.indexOf(searchServiceName) > -1) {
-	URL = window.location.protocol  + "//" + window.location.host +  searchServiceName + "getuserinfo.jsp";
-	} else if (contextPath.indexOf(contentServiceName) > -1) {
-	URL = window.location.protocol  + "//" + window.location.host +  contentServiceName + "getuserinfo.jsp";
-	} 
+	/**When we split the pathname the first array element will be blank because it looks like this /verintkm/verintkm.html
+	contextPath[0]="", contextPath[1]="verintkm", contextPath[2]="verintkm.html", **/
+	var contextPath = window.location.pathname.split('/');
+	
+	var URL = '';
+	
+	if (contextPath.length > 1){
+		var newContextPath = '';
+		//don't want the last element as it is the html page
+		for (x=0; x < contextPath.length-1; x++){
+			if(typeof contextPath[x] != 'undefined' && contextPath[x] != ''){
+				newContextPath = newContextPath + contextPath[x] + "/";
+			}
+		}
+		
+		URL = window.location.protocol  + "//" + window.location.host + "/" + newContextPath  + "getuserinfo.jsp";
+	} else {
+		URL = window.location.protocol  + "//" + window.location.host +  verintKmServiceName + "getuserinfo.jsp"; //default value
+	}
 	
 	var req = new XMLHttpRequest();
 	req.open('GET', URL, false);
