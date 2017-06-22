@@ -1020,26 +1020,56 @@ $(document).ready(function() {
 
 			if ($.fn.hasCommonElement(currentArray, configArray)) {
 				document.getElementById('knowledgeCentralTheme').disabled = false;
-				$.fn.changeFavicon("images/faviconKC.png");
+				$.fn.setFavicon("images/faviconKC.png");
 				document.title = "Knowledge Central"
 				document.getElementById('defaultTheme').disabled = true;
 			} else {
 				document.getElementById('knowledgeCentralTheme').disabled = true;
 				document.getElementById('defaultTheme').disabled = false;
-				$.fn.changeFavicon("images/favicon.png");
+				$.fn.setFavicon("images/favicon.png");				
 			}
 		} else {
 			document.getElementById('knowledgeCentralTheme').disabled = true;
 			document.getElementById('defaultTheme').disabled = false;
-			$.fn.changeFavicon("images/favicon.png");
+			$.fn.setFavicon("images/favicon.png");
 		}
 	}
 
-	$.fn.changeFavicon = function(src) {
-		$("link[rel*='icon']").attr("href", src);
-		$("link[rel*='shortcut icon']").attr("href", src);
+	$.fn.setFavicon = function(src) {
+		removeFavicon();
+		var link=document.createElement('link');
+		link.type='image/x-icon';
+		link.rel='icon';
+		link.href=src;
+		document.getElementsByTagName('head')[0].appendChild(link);
+		if (window.console) console.log("Set FavIcon URL to " + getFavicon().href);
 	}
 	
+	function removeFavicon()
+	{
+	    var links=document.getElementsByTagName('link');
+	    var head=document.getElementsByTagName('head')[0];
+	    for(var i=0; i<links.length; i++)
+	    {
+	        if(links[i].getAttribute('rel')==='icon')
+	        {
+	            head.removeChild(links[i])
+	        }         
+	    }      
+	}
+	
+	function getFavicon()
+	{
+	    var links=document.getElementsByTagName('link');
+	    for(var i=0; i<links.length; i++)
+	    {
+	        if (links[i].getAttribute('rel')==='icon')
+	        {
+	            return links[i];
+	        }       
+	    }
+	    return undefined;
+	}
 	
 	// Array has common elements helper function
 	$.fn.hasCommonElement = function(arr1, arr2) {
