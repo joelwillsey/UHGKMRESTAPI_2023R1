@@ -17,7 +17,7 @@ $(document).ready(function() {
 					newContextPath = newContextPath + contextPath[x] + "/";
 				}
 			}
-			log("This is draft content retrieving pathname as it may be proxied. context=" + newContextPath);
+			log("This is draft content retrieving pathname as it may be proxied. context=" + newContextPath  + "content.html");
 			$.get(newContextPath + 'content.html', function(data) {
 				$('#content-widget').html(data);
 			});
