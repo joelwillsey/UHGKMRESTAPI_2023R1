@@ -35,7 +35,7 @@
 		
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
-		document.cookie = 'savedurl=' + 'search_container.html%3F' + urlToSend + '; path=/';
+		document.cookie = 'savedurl=' + 'iset_search_container.html%3F' + urlToSend + '; path=/';
 		
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
@@ -72,7 +72,7 @@
 	</div>
 	<section id="search-area">
 		<div id="search-widget">
-			<script id="search-info" src="js/search_container.js" type="text/javascript"></script>
+			<script id="search-info" src="js/iset_search_container.js" type="text/javascript"></script>
 		</div>
 		<div id="search-results-widget">
 			<script id="search-results-info" src="js/iset_search_results_container.js" type="text/javascript"></script>

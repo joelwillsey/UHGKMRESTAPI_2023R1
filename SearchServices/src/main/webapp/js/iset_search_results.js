@@ -428,7 +428,9 @@ $(document).ready(function() {
 			$('.sr_pagination').html('');
 		}
 		// Reshape widgets
-		$.fn.setupSearchResultsWidget();
+		if (typeof $.fn.setupSearchResultsWidget === "function") { 
+			$.fn.setupSearchResultsWidget();
+		}
 	}
 	
 	// checks the current date of the content and whether or no it should have the new or changed label
