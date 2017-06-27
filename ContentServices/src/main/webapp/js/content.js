@@ -1093,7 +1093,7 @@ $(document).ready(function() {
 	  	};
 	  	
 	$.fn.retrieveDraftContent = function(id) {
-		log('Retrieve Content: ' + id);
+		log('Retrieve Draft Content: ' + id);
     	var length = contentIds.unshift(id);
 
 		// First check if pushState is supported and if so is it enabled
@@ -1134,8 +1134,69 @@ $(document).ready(function() {
 		}
 		
 		$.fn.serviceCall('GET', '', newContentServiceName + 'km/content/id/' + id + '/state/DRAFT' , CONTENT_SERVICE_TIMEOUT, function(data) {
-			log('Get content ID: ' + data);
+			log('Get draft content ID: ' + data);
 		    if (typeof data != 'undefined' && data != null && data != '') {
+		    	
+		    	//if there are externalSourceFiles need to load them before rendering the content
+		    	if (typeof data.externalSrcFiles != 'undefined' && data.externalSrcFiles != null && data.externalSrcFiles.length > 0) {
+		    		
+		    		//initilize array to keep track of js file downloads
+		    		var finished = [];
+		    		for (var z= 0; z < data.externalSrcFiles.length; z++){
+		    			finished[z] = false;
+		    			//console.log("finished[" + z + "]=" + finished[z]);
+		    		}
+		    		
+		    		for (var x = 0; x < data.externalSrcFiles.length; x++) {						
+		    			var scriptName = data.externalSrcFiles[x].src;
+		    			console.log("scriptName " + data.externalSrcFiles[x].src + " file index: [" + x + "]");
+		    			if (data.externalSrcFiles[x].async == "false") {
+		    				jQuery.ajaxSetup({async:false});
+							//this script must be loaded synchronously
+							$.cachedScriptSync(scriptName).always(function( script, textStatus) {													
+								//mark file as downloaded
+								for (var w = 0; w < finished.length; w++){					
+									if (data.externalSrcFiles[w].src == this.url ){
+										finished[w] = true;
+										//console.log("File Index [" + w + "] completed");
+										break; // breaks out of loop completely
+									}
+								}								
+								// check to see if all downloads are done
+								var done = allDownloadsTrue(finished);								
+								console.log('Get Script (synchronously): ' + this.url + ' textStatus: ' + textStatus + " ,File Index [" + w + "], all files retrieved: " + done);								
+								if (done) {
+									$.fn.setupContent(data);
+								}
+								
+							});
+							jQuery.ajaxSetup({async:true});
+						} else {
+							//this script can be loaded asynchronously
+							$.cachedScriptAsync(scriptName).always(function( script, textStatus) {								
+								//mark file as downloaded
+								for (var w = 0; w < finished.length; w++){									
+									if (data.externalSrcFiles[w].src == this.url ){
+										finished[w] = true;
+										//console.log("File Index [" + w + "] completed");
+										break; // breaks out of loop completely
+									}
+								}
+								// check to see if all downloads are done
+								var done = allDownloadsTrue(finished);								
+								console.log('Get Script (asynchronously): ' + this.url + ' textStatus: ' + textStatus + ", File Index [" + w + "], all files retrieved: " + done);									
+								if (done) {
+									$.fn.setupContent(data);
+								}
+							});
+						}
+					}
+				} else {
+					//no external files to load, just setup content
+					$.fn.setupContent(data);
+				}	
+		    } else {
+		    	//no data found
 		    	$.fn.setupContent(data);
 		    }
 		});
