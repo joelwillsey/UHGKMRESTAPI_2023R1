@@ -448,7 +448,7 @@ button {
 		}
 			.content_body_field_data p {
 				overflow-wrap: break-word;
-				margin: 0px;
+				margin: 10px;
 			}
 			.content_body_field_data a {
 				text-decoration: none;
