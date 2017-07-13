@@ -181,6 +181,7 @@ export JAVA_OPTS="-XX:+UseConcMarkSweepGC \
   -XX:+DisableExplicitGC \
   -verbose:gc \
   -XX:+UseCompressedOops \
+  -XX:-TieredCompilation \
   -Xloggc:${LOGS_HOME}/gc.log \
   -XX:+PrintGCDetails \
   -XX:+PrintGCTimeStamps \
