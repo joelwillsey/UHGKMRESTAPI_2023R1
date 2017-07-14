@@ -199,6 +199,8 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 							LOGGER.debug("tempData: " + tempData);
 							tempData = tempData.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
 							LOGGER.debug("tempData: " + tempData);
+							//data = "<p>" + data + "</p>" + "<p><iframe srcdoc=\"" + ExternalUrl + tempData + "\" src=\"" + ExternalUrl + tempData
+							//		+ "\" width=\"100%\" height=\"400px\"/></p>";
 							data = "<p>" + data + "</p>" + "<p><iframe src=\"" + ExternalUrl + tempData
 									+ "\" width=\"100%\" height=\"400px\"/></p>";
 							LOGGER.debug("data: " + data);
@@ -218,6 +220,8 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 							LOGGER.debug("tempData: " + tempData);
 							tempData = tempData.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
 							LOGGER.debug("tempData: " + tempData);
+							//String data = "<p><iframe srcdoc=\"" + ExternalUrl + tempData + "\" src=\"" + ExternalUrl + tempData
+							//		+ "\" width=\"100%\" height=\"400px\"/></p>";
 							String data = "<p><iframe src=\"" + ExternalUrl + tempData
 									+ "\" width=\"100%\" height=\"400px\"/></p>";
 							LOGGER.debug("data: " + data);

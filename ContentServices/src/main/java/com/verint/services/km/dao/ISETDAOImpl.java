@@ -63,7 +63,7 @@ public class ISETDAOImpl extends BaseDAOImpl implements ISETDAO{
 					+ " FROM UHG_MigRefID2RefName"
 					+ " WHERE (REFERENCE_NAME = '"+refName +"'"
 					+ " AND OBJECT_TYPE = '"+objType+"')"
-					+ " OR (IQ_OBJECT_ID = '"+objID +"'"
+					+ " OR (IQ_OBJECT_ID = '{"+objID +"}'"
 					+ " AND OBJECT_TYPE = '"+objType+"')";
 			
 			stmt = connection.prepareStatement(query);

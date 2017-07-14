@@ -9,6 +9,7 @@ $(document).ready(function() {
 		var feedbackCode = $('#feedback-code-list').val();
 		var feedbackComment = $('#feedback-comment').val();
 		var feedbackCommentEscaped = feedbackComment.replace(/\n/g, '\\n');
+		log('feedbackCommentEscaped=' + feedbackCommentEscaped);
 		if (feedbackCode === 'Please select') {
 			$('#error-body').html('Please select a feedback for this content.');
 			$('#background-popup-error').addClass('background_popup_error_on');

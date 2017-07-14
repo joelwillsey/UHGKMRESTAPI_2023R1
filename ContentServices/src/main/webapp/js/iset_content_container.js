@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	// Load content widget
 	$.get(contentServiceName + 'iset_content.html', function(data) {
-		$('#iset-content-widget').html(data);
+		$('#content-widget').html(data);
 	});
 	
 	/*

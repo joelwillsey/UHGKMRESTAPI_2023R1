@@ -16,7 +16,6 @@
 <!-- <script type="text/javascript" src="js/samlv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
 	<script type='text/javascript' src="js/siteminder.js"></script>
-<!--	<script type="text/javascript" src="js/content.js"></script> -->
 	<script type="text/javascript">
 		var contentServiceName = '/contentservices/';
 		var searchServiceName = '/searchservices/';
@@ -106,6 +105,25 @@
 			}
 	    }
 	}
+	
+	$.fn.logoutDTree = function(data) {
+		// Call the killSession on the D-Tree Process
+		var logoutWindow;
+		//logoutWindow = window.open(data + '?killSession',data + '_logout','location=0,menubar=1,resizable=1,width=100,height=100');
+		logoutWindow = window.open(contentServiceName + 'dtree_logout.html','dtree_logout','location=0,menubar=1,resizable=1,width=200,height=20');
+		//wait(1000);
+		//logoutWindow.close();	
+	}
+	
+	function wait(ms){
+		   var start = new Date().getTime();
+		   var end = start;
+		   while(end < start + ms) {
+		     end = new Date().getTime();
+		  }
+		}
+	
+	
 	
 	// Setup the resize as appropriate
 	$(window).resize(function() {
