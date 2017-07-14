@@ -51,9 +51,30 @@
 		
 	</script>
 </head>
-<body style="position: relative; overflow-y: auto; margin: 0px; background-color: rgb(0,0,0);">
+<body style="position: relative; overflow-y: auto; margin: 0px; background-color: white;">
 	<div id="overlay-back" class="overlay_back" style="margin: auto; margin-top: 26%; margin-left: 45%;">
 		<img alt="PageLoading" src="images/glassLoadingAnimation.gif">
 	</div>
+	<div id="background" class="background"></div>
+	<div id="popup" class="popup"></div>
+	<div id="background-popup-error" class="background_popup_error"></div>
+	<div id="error-message" class="error_message">
+		<div class="error_header">
+			<h1>Message</h1>
+		</div>
+		<div class="error_body">
+			<h1 id="error-body"></h1>
+		</div>
+		<div class="error_button">
+			<div class="float_right">
+				<button id="error-button" class="km_button" onclick="$.fn.errorButtonFunc();" tabindex="1" type="button" name="error-button-message" title="Ok" accesskey="S">
+					<span>
+						<span class="error_underline">O</span>k
+					</span>
+				</button>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>
