@@ -652,7 +652,9 @@ public class ElementParser {
 					LOGGER.debug("ContentData: " + tempData);
 					if (tempData != null) {
 						String[] tokens = tempData.split("\\|\\|");
-						if (tokens != null && tokens.length == 4) {
+						//if (tokens != null && tokens.length == 4) {
+						//There should be 4 tokens but if it's the Migration Tool it could be only 2
+						if (tokens != null && tokens.length >= 2) {
 							// Get rid of ContentED.
 							int tempIndex = tokens[0].indexOf("ContentED.");
 							String id = tokens[0].substring(tempIndex + "ContentED.".length());
@@ -666,8 +668,12 @@ public class ElementParser {
 							LOGGER.debug("newUrl: " + newUrl);
 							data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("--]]").length());
 						} else {
+							//No tokens need to end the loop
 							break;
 						}
+					} else {
+						//No data need to end the loop
+						break;
 					}
 				}
 				beginIndex = data.indexOf("[[--");
