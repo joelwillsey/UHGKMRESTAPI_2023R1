@@ -669,10 +669,12 @@ public class ElementParser {
 							data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("--]]").length());
 						} else {
 							//No tokens need to end the loop
+							LOGGER.error("parseInlineContent - Missing the correct number of tokens in ContentData: " + tempData);
 							break;
 						}
 					} else {
 						//No data need to end the loop
+						LOGGER.error("parseInlineContent - Missing the embedded link in data (beginIndex="+beginIndex+" endIndex="+endIndex + " data:" + data);
 						break;
 					}
 				}
