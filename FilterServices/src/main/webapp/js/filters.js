@@ -416,7 +416,7 @@ $(document).ready(function() {
 
 	// Add to search cloud
 	$.fn.addToSearchCloud = function(type, element) {
-		log(element);
+		log('addToSearchCloud: ' + element);
 		$('.fs_dt_info_label').css('display', 'none');
 		var n = $('.ul_all_tags li').length;
 		if (n === 0) {
@@ -433,7 +433,7 @@ $(document).ready(function() {
 			} else if (element === '*') {
 				term = 'all';
 			} else {
-				term = element;
+				term = $.fn.removeSpecialCharacters(element);
 			}
 			// Replace existing search term
 			$('.ul_all_tags li').each(function(index) {
@@ -1069,6 +1069,16 @@ $(document).ready(function() {
 	        }       
 	    }
 	    return undefined;
+	}
+	
+	$.fn.removeSpecialCharacters = function(data){
+		//these characters where causing jquery exceptions if in the element name
+		log('removeSpecialCharacters start - ' + data);
+		data = data.replace(/\(/g, " ");
+		data = data.replace(/\)/g, " ");
+		data = data.replace(/\//g, " ");
+		log('removeSpecialCharacters end - ' + data);
+		return data;
 	}
 	
 	// Array has common elements helper function
