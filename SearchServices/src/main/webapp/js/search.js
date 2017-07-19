@@ -323,7 +323,9 @@ $(document).ready(function() {
 		$(".dpui-widget").trigger("dpui:searchTerm", search_text);
 		var query = '?';
 		if (search_text != '') {
-			query += 'query=' + search_text + '&';
+			//added escape to search string to catch all the special characters
+			query += 'query=' + escape(search_text) + '&';
+			//query += 'query=' + search_text + '&';
 		}
 		if (page != '') {
 			query += 'page=' + page + '&'; 
