@@ -23,7 +23,7 @@
 			"KM_EnI_Railroad","KM_UHCG_Clinical","KM_UHCG_Insurance","KM_UHCG_Markets","KM_UHCG_Medical","KM_MnR_Provider_Service","KM_EnI_River_Valley",
 			"KM_EnI_NHP","KM_EnI_Natl_Accounts_Advocacy","KM_MnR_Consumer_Service","KM_Test","KM_MnR_Telesales","KM_MnR_Producer_HelpDesk",
 			"KM_MnV_TRICARE","KM_MnV_TRICAREMedMgmt","KIQPolaris_Agent","OClaim Agent","KM_Exchange Agent","KM_COB Processor",
-			"KM_Dental Vision Provider Network Agent"};	
+			"KM_Dental Vision Provider Network Agent","KM_UHG_Authors"};	
 	String parsedGroups=parseKMGroups(kmGroups,GLOBAL_GROUPS );
 
 	%>
