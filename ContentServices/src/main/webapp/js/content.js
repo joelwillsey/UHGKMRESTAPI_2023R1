@@ -1092,8 +1092,9 @@ $(document).ready(function() {
 	  	  return jQuery.ajax(options);
 	  	};
 	  	
-	$.fn.retrieveDraftContent = function(id) {
-		log('Retrieve Draft Content: ' + id);
+	$.fn.retrieveDraftContent = function(id, state) {
+		log('Retrieve Draft Content id: ' + id);
+		log('Retrieve Draft Content state: ' + state);
     	var length = contentIds.unshift(id);
 
 		// First check if pushState is supported and if so is it enabled
@@ -1133,7 +1134,7 @@ $(document).ready(function() {
 			newContentServiceName= contentServiceName;
 		}
 		
-		$.fn.serviceCall('GET', '', newContentServiceName + 'km/content/id/' + id + '/state/DRAFT' , CONTENT_SERVICE_TIMEOUT, function(data) {
+		$.fn.serviceCall('GET', '', newContentServiceName + 'km/content/id/' + id + '/state/' + state , CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get draft content ID: ' + data);
 		    if (typeof data != 'undefined' && data != null && data != '') {
 		    	
@@ -1301,7 +1302,7 @@ $(document).ready(function() {
 		externalLink = true;
 		if (typeof cWorkflowState != 'undefined' && cWorkflowState != null && cWorkflowState != 'null' && cWorkflowState != '') {
 			log('Workflow State: ' + cWorkflowState);
-			$.fn.retrieveDraftContent(cId);
+			$.fn.retrieveDraftContent(cId, cWorkflowState);
 		} else {
 			$.fn.retrieveContent(cId);
 		}
