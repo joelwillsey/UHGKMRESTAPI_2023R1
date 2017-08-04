@@ -119,7 +119,7 @@ $.fn.isDraftContent = function() {
 	var isDraftContent = false	
 	var paramStr = $.fn.getAllParametersString();
 	if (typeof paramStr != 'undefined' && paramStr != '') {
-		var n = paramStr.indexOf("workflowstate=DRAFT");
+		var n = paramStr.indexOf("workflowstate=");
 		if (n > -1){
 			isDraftContent = true;
 		}

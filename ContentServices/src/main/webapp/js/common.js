@@ -374,7 +374,7 @@ $.fn.isDraftContent = function() {
 			isDraftContent = true;
 		}
 	}
-	log('isDraftContent = ' + isDraftContent);
+	log('isDraftContent = ' + isDraftContent + ' paramStr=' + paramStr);
 	return isDraftContent;
-}
+} 
 
