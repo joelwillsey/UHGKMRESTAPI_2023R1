@@ -114,10 +114,10 @@ public class ContentService extends BaseService {
 			
 
 			// Check if content is bookmarked
-			if(!workflowState.equals("PUBLISHED")){
+			if(!workflowState.equals("PUBLISHED") && !workflowState.equals("")){
 				//bookmarks do not work on draft state content
 				contentResponse.setBookmarked(false);
-				LOGGER.debug("Content is in a non-PUBLISHED state skipping bookmarks and markAsViewed");
+				LOGGER.debug("Content is in a non-PUBLISHED state skipping bookmarks and markAsViewed. Workflow State: " + workflowState);
 			} else {
 				
 				// Check if content is bookmarked
