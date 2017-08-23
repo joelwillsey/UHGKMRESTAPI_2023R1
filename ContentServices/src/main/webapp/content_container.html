@@ -35,7 +35,6 @@
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
 		document.cookie = 'savedurl=' + 'content_container.html%3F' + urlToSend + '; path=/';
 		log('savedurl=content_container.html%3F' + urlToSend);
-		//alert('savedurl=content_container.html%3F' + urlToSend);
 		
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
@@ -104,12 +103,12 @@
 	}
 	
 	function wait(ms){
-		   var start = new Date().getTime();
-		   var end = start;
-		   while(end < start + ms) {
-		     end = new Date().getTime();
-		  }
-		}
+	   var start = new Date().getTime();
+	   var end = start;
+	   while(end < start + ms) {
+	     end = new Date().getTime();
+	  }
+	}
 	
 	// Setup the resize as appropriate
 	$(window).resize(function() {
