@@ -26,6 +26,16 @@
 	padding: 0 0 0 6px;			
 }
 
+.cover {
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}
+
 .feedback_body {
 	height: auto;
 }
