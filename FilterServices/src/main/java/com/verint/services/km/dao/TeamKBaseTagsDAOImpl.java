@@ -77,7 +77,7 @@ public class TeamKBaseTagsDAOImpl extends BaseDAOImpl implements TeamKBaseTagsDA
 								+ 				"AND ENTITY_TYPE_ENV_ID = 666 "
 								+ 				"AND ENTITY_ENV_ID = 666 "
 								+ 				"AND ENTITY_ID IN ("
-								+ 					"SELECT CE_POSITION.TEAM_ID "
+								+ 					"SELECT DISTINCT CE_POSITION.TEAM_ID "
 								+ 					"FROM CE_TEAM "
 								+ 						",CE_POSITION "
 								+ 						",CE_TEAM_ROLE "
