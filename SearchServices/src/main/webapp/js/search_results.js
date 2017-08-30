@@ -567,7 +567,8 @@ $(document).ready(function() {
 	            $('#sr-hns-manage').addClass('sr_hns_right_off');
 	        });
 	        self.element.bind("dpui:resultData", function(e, data) {
-            	log(data);
+	        	log("resultData below:");
+	        	log(data);
             	// check for regular search
             	if (typeof data != 'undefined' && 
             			data != null && 

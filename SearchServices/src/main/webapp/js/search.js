@@ -144,7 +144,7 @@ $(document).ready(function() {
     	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
     	$.fn.bookmark(page, size, kTagsParameterStrings);
 	});
-    
+
     // Featured Content button
 	$('#tab-featured-button').on('click', function() {
 		$('#sr-numbers').show();
@@ -167,7 +167,7 @@ $(document).ready(function() {
 			$.fn.newOrChanged(page, size, kTagsParameterStrings);
 		 }
 	});
-	
+
     // Search button
 	$('#tab-search-button').on('click', function() {
 		$('#sr-numbers').show();
@@ -547,7 +547,7 @@ $(document).ready(function() {
 					$.fn.sendToResults('Knowledge Alert', data);
 				});
 	    	}	   
-	    	**/ 	
+	    	**/ 
 	    }
     }
 });

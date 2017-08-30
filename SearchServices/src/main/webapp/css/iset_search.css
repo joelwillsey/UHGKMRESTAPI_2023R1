@@ -30,7 +30,7 @@ h4 {
 	position: relative;
 	
 	/* Adding in to hide the Search Area */
-	display: none !important;
+	/* display: none !important; */
 }
 		.search_wrapper {
 		    padding: 12px 10px;

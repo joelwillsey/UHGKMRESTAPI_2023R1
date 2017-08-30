@@ -5,30 +5,39 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 	<link media="screen" type="text/css" href="css/iset_search.css" rel="stylesheet"/>
+	<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
+	<script type='text/javascript' src="js/jquery.typeahead.js"></script>
 	<script type='text/javascript' src="js/iset_search.js"></script>
+	<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.min.js"></script>
+	<script type='text/javascript' src='js/respond.min.js'></script>
+	<script type="text/javascript" src="js/basicauth.js"></script>
+<!-- <script type="text/javascript" src="js/smalv2.js"></script> -->
+	<script type='text/javascript' src="js/common.js"></script>
+	<script type='text/javascript' src="js/iset_search_results.js"></script>
 </head>
 <body style="position: relative;">
+
 <!-- Begin Search Widget -->
 	<section class="search_container">
 		<section class="search">
 			<div id="search-wrapper" class="search_wrapper">
-				<div class="search_box">
+ 			<div class="search_box">
 					<div class="dropdown">
-						<input id="search-text" class="search_text" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1"/>
-						<div id="autoSuggest" class="auto-suggest-content">
-						</div>
+						<input id="search-text" class="search_text" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1" disabled/>
+					<!-- 	<ul id="autoSuggest" class="auto-suggest-content"> -->
+						</ul>
 					</div>
-					<button id="search-button" class="search_button"></button>
-				</div>
+				<!-- 	<button id="search-button" class="search_button"></button> -->
+				</div> 
 			</div>
 			<nav id="search-menu" class="search_menu">
 				<ul id="search-menu-ul">
-<!-- 					 DO NOT move these to new lines because it results in a space between the elements on the screen  -->
-					<li title="Knowledge Alerts"><a id="tab-alert-button" class="left search_alerts sel" href="javascript:void(0);">&nbsp;</a></li>
-					<li title="My Bookmarks"><a id="tab-bookmarks-button" class="search_bookmarks" href="javascript:void(0);">&nbsp;</a></li>
-					<li title="Featured Content"><a id="tab-featured-button" class="search_featured" href="javascript:void(0);">&nbsp;</a></li>
-					<li title="New or Changed"><a id="tab-new-changed-button" class="search_new_changed" href="javascript:void(0);">&nbsp;</a></li>
-					<li title="Search Results"><a id="tab-search-button" class="search_search" href="javascript:void(0);">&nbsp;</a></li>
+					<!-- DO NOT move these to new lines because it results in a space between the elements on the screen -->
+					<!-- <li title="Knowledge Alerts"><a id="tab-alert-button" class="left search_alerts sel" href="javascript:void(0);">&nbsp;</a></li> -->
+					<!-- <li title="My Bookmarks"><a id="tab-bookmarks-button" class="search_bookmarks" href="javascript:void(0);">&nbsp;</a></li> -->
+					<!-- <li title="Featured Content"><a id="tab-featured-button" class="search_featured" href="javascript:void(0);">&nbsp;</a></li> -->
+					<!-- <li title="New or Changed"><a id="tab-new-changed-button" class="search_new_changed" href="javascript:void(0);">&nbsp;</a></li> -->
+					<!-- <li title="Search Results"><a id="tab-search-button" class="search_search" href="javascript:void(0);">&nbsp;</a></li> -->
 					<li id='search-tab-menu' title="Menu"><a id="tab-menu-button" class="search_tab_menu" href="javascript:void(0);"><i class="icon ion-navicon-round"></i></a></li>
 				</ul>
 			</nav>

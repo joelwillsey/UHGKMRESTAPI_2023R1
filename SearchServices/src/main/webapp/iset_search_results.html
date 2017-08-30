@@ -51,4 +51,84 @@
 	</section>
 <!-- End Search Results Widget -->
 </body>
+<script type="text/javascript">
+	//
+	// Setup the search results widget for desktop vs. mobile
+	// Search resize
+	//
+	$.fn.setupSearchWidget = function() {
+		if ($(window).outerWidth(true) < 1025) {
+			$('#search-menu').insertBefore('#search-wrapper');
+		} else {
+			$('#search-wrapper').removeClass('off');
+			$('#search-wrapper').addClass('on');
+			$('#search-cloud-wrapper').removeClass('on');
+			$('#search-cloud-wrapper').addClass('off');			
+			$('#search-wrapper').insertBefore('#search-menu');
+		}		
+	}
+
+	// Search Results resize
+	$.fn.setupSearchResultsWidget = function() {
+		// 
+		// *NOTE: Use CSS Classes to put fixed sizes on the screen because if you just change the 
+		// height/width element then it breaks responsive design because you have styled the element directly
+		//
+		// **NOTE: For IE9/10 the deleteClass and createClass functions will cause access exceptions
+		//
+	    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
+			if ($(window).outerWidth(true) < 1025) {
+				$('#search-results').css('height', '100%');
+				$('#sr-listing').css('height', '100%');
+			} else {	    		
+				var sizeOfSearchResultsWidget = $(window).outerHeight(true) - $('#widgetHeader').outerHeight(true) - $('#search-widget').outerHeight(true) - 25;
+				var searchResultsListing = sizeOfSearchResultsWidget - $('#sr-header-search').outerHeight(true) - $('#sr-numbers').outerHeight(true) - $('#sr-pagination').outerHeight(true);
+				$('#search-results').css('height', sizeOfSearchResultsWidget);
+				$('#sr-listing').css('height', searchResultsListing);
+			}
+	    } else {
+			if ($(window).outerWidth(true) < 1025) {
+				$('#search-results').removeClass('search_results_resize');
+				$.fn.deleteClass('.search_results_resize');
+				$('#search-results').removeClass('sr_list_resize');
+				$.fn.deleteClass('.sr_list_resize');
+			} else {		
+				var sizeOfSearchResultsWidget = $(window).outerHeight(true) - $('#widgetHeader').outerHeight(true) - $('#search-widget').outerHeight(true) - 25;
+				$('#search-results').removeClass('search_results_resize');
+				$.fn.deleteClass('.search_results_resize');
+				$.fn.createClass('.search_results_resize', 'height: ' + sizeOfSearchResultsWidget + 'px;');
+				$('#search-results').addClass('search_results_resize');
+				var searchResultsListing = sizeOfSearchResultsWidget - $('#sr-header-search').outerHeight(true) - $('#sr-numbers').outerHeight(true) - $('#sr-pagination').outerHeight(true);
+				$('#search-results').removeClass('sr_list_resize');
+				$.fn.deleteClass('.sr_list_resize');
+				$.fn.createClass('.sr_list_resize','height: ' + searchResultsListing + 'px;');
+				$('#sr-listing').addClass('sr_list_resize');
+			}
+	    }
+	}
+
+	// Setup the resize as appropriate
+	$(window).resize(function() {
+		if ($(window).outerWidth(true) < 1025) {
+			$('.search_menu').removeClass('open');
+			$('.search_menu').addClass('close');
+			$('#search-menu-toggle-icon').removeClass('ion-chevron-down');
+			$('#search-menu-toggle-icon').addClass('ion-chevron-right');
+		} else {
+			$('.search_menu_toggle').removeClass('open');
+			$('.search_menu').removeClass('close');
+			$('.search_menu').addClass('open');
+		}
+
+		// Search widget
+		$.fn.setupSearchWidget();
+
+		// Search results widget
+		$.fn.setupSearchResultsWidget();
+	});
+
+	// Setup initial sizes
+	$.fn.setupSearchWidget();
+	$.fn.setupSearchResultsWidget();
+</script>
 </html>

@@ -1,6 +1,9 @@
 var pageSelected;
 var sortBy;
 var query;
+var base_query;
+var filterTags;
+var contentType;
 
 $(document).ready(function() {
 
@@ -15,6 +18,15 @@ $(document).ready(function() {
     	return packagedData;
 	}
 
+	filterTags = $.fn.getParameterByName('tags');
+	log("filterTags:" + filterTags);
+	base_query = $.fn.getParameterByName('query');
+	log("base_query:" + base_query);
+	contentType = $.fn.getParameterByName('categories');
+	log("contentType:" + contentType);
+	
+	$('#search-text').val(base_query);
+	
 	// Sort by Relevance
 	var sortByRelevance = function(event) {
     	$('#sr-sort-by-date').removeClass('active');
@@ -48,13 +60,26 @@ $(document).ready(function() {
 			$('#popup').removeClass('popup');
 			$('#popup').addClass('popup_on');
 			$('#popup').addClass('popup_full');
+			$("#popup").css("overflow", "scroll");
+			$('.content_body_field_custom_data').hide();
 		});
 	});
 
 
 	// Refresh button
 	$('#sr-hns-refresh').on('click', function(event) {
-    	$('.dpui-widget').trigger('dpui:runRefresh', $('.sr_label').text());
+    	if($('#tab-alert-button').hasClass('sel')){
+    		$('#tab-alert-button').click();
+    	}
+    	else if ($('#tab-bookmarks-button').hasClass('sel')){
+    		$('#tab-bookmarks-button').click();
+    	}
+    	else if ($('#tab-featured-button').hasClass('sel')){
+    		$('#tab-featured-button').click();
+    	} 
+    	else if ($('#tab-new-changed-button').hasClass('sel')){
+    		$('#tab-new-changed-button').click();
+    	}
 	});
 	
 	// Sort by date link
@@ -77,16 +102,30 @@ $(document).ready(function() {
 			$('#popup').addClass('popup');
 			$('#popup').addClass('popup_on');
 	});
-	
+		
 	// Call search to paginate
 	$.fn.pageSelected = function(data) {
-		log(data);
+		log("pageSelected - " + data);
+		
     	var packagedData = [];
-    	packagedData = {
-    			"page": data,
-    			"sort": sortBy
+    	
+    	if (sortBy == undefined) {
+    		sortBy = "";
     	}
-		$('.dpui-widget').trigger("dpui:runSearch", packagedData);
+    	
+    	if (query == undefined || query == "") {
+    		query = base_query;   		
+    	}
+    	    	
+    	
+    	// put the scrool bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
+
+		$.fn.search(query, data, size, filterTags, contentType, sortBy, publishedid, function(data) {
+    		$.fn.sendToResults('Search', data);
+    	});
+    	
 	}
 	
 	// Call to view Content
@@ -96,7 +135,12 @@ $(document).ready(function() {
 			"contentId" : contentId,
 			"contentType" : contentType
 		}
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
+		var sPageURL = decodeURIComponent(window.location.search.substring(1));
 		$('.dpui-widget').trigger("dpui:viewContent", packagedData);
+
 	}
 	$.fn.viewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
     	var packagedData = [];
@@ -111,17 +155,29 @@ $(document).ready(function() {
     			"tags": tags,
     			"bookmarked": false
     	}
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
 		$('.dpui-widget').trigger("dpui:viewExternalContent", packagedData);
 	}
 
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
 		window.open (contentServiceName + 'iset_content_container.html?id=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchDTContent = function(data) {
-		window.open (contentServiceName + 'iset_content_container.html?dt=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
+		window.open (contentServiceName + 'content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchViewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
+    	// put the scroll bar back to the top
+    	$('#sr-listing').scrollTop(0);
+
 		var passedUrl = 'contentId=' + encodeURIComponent(contentId) + '&url=' + encodeURIComponent(url) + '&isFeatured=' + isFeatured + '&averageRating=' + averageRating;
 		passedUrl += '&numRatings=' + numRatings + '&title=' + encodeURIComponent(title) + '&publishedDate=' + encodeURIComponent(publishedDate) + '&tags=' + encodeURIComponent(tags);
 		window.open (contentServiceName + 'content_container.html?'+ passedUrl, contentId + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1030,height=750');
@@ -146,6 +202,7 @@ $(document).ready(function() {
 			size = data.size;
 		}
 		
+		data.totalPages = Math.ceil(data.numberOfResults / data.size);
 		// sets values for the showing numbers
 		var oneOf = ((page-1) * size);
 		var twoOf = oneOf + size;
@@ -274,7 +331,7 @@ $(document).ready(function() {
 	$.fn.setupResultsListing = function(data) {
 		var results = [];
 		// First check if we have suggested content
-		if (typeof data.suggestedQueries != 'undefined' && data.suggestedQueries != null && data.suggestedQueries.length > 0) {
+		if (typeof data != 'undefined' && data != null && typeof data.suggestedQueries != 'undefined' && data.suggestedQueries != null && data.suggestedQueries.length > 0) {
 			// Check for 0 results
 			if (data.numberOfResults === 0) {
 				$('.sr_numbers_showing').html('Showing 0 of 0 results');
@@ -317,18 +374,19 @@ $(document).ready(function() {
 					results.push('		</a>');
 					results.push('	  </div>');
 					results.push('	  <div style="padding: 18px 6px 12px;">');
-					if (typeof data.suggestedQueries[i].knowledgeGroupUnits != 'undefined' && data.suggestedQueries[i].knowledgeGroupUnits != null && data.suggestedQueries[i].knowledgeGroupUnits.length > 0) {
+					if (typeof data != 'undefined' && data != null && typeof data.suggestedQueries != 'undefined' && typeof data.suggestedQueries[i] != 'undefined' && data.suggestedQueries[i] != null && typeof data.suggestedQueries[i].knowledgeGroupUnits != 'undefined' && data.suggestedQueries[i].knowledgeGroupUnits != null && data.suggestedQueries[i].knowledgeGroupUnits.length > 0) {
 						// Loop through the results
-						for (var i=0;(data.suggestedQueries[i].knowledgeGroupUnits != null) && (i < data.suggestedQueries[i].knowledgeGroupUnits.length); i++) {
-							if (data.suggestedQueries[i].knowledgeGroupUnits[i].knowledgeUnits != null && data.suggestedQueries[i].knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
-								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[i], results);
+						for (var p = 0; (data.suggestedQueries[i].knowledgeGroupUnits != null) && (p < data.suggestedQueries[i].knowledgeGroupUnits.length); p++) {
+							if (data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits != null && 
+								data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits.length > 1) {
+								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
 							} else {
 								// Do we have spidered content to setup?
-								if (data.suggestedQueries[i].knowledgeGroupUnits[i].contentType === 'Unstructured') {
-									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[i], results);
+								if (data.suggestedQueries[i].knowledgeGroupUnits[p].contentType === 'Unstructured') {
+									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
 								} else {
 									// "regular" content
-									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[i], results);
+									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
 								}
 							}
 						}
@@ -366,6 +424,9 @@ $(document).ready(function() {
 	
 	// Setup pagination view
 	$.fn.setupPagination = function(data) {
+		if($('#tab-bookmarks-button').hasClass('sel')) {
+			data.totalPages = 1;
+		}
 		// Now setup the pagination
 		var pagination = [];
 		pagination.push('<nav><ul>');
@@ -505,7 +566,8 @@ $(document).ready(function() {
 	            $('#sr-hns-manage').addClass('sr_hns_right_off');
 	        });
 	        self.element.bind("dpui:resultData", function(e, data) {
-            	log(data);
+	        	log("resultData below:");
+	        	log(data);
             	// check for regular search
             	if (typeof data != 'undefined' && 
             			data != null && 
@@ -524,7 +586,15 @@ $(document).ready(function() {
             		$('.sr_label').html(data.label);
             	}
             	pageSelected = data.data.page;
-            	query = data.query;
+            	
+            	//make sure the base query is always there
+            	if (!data.query == ""){
+            		query = base_query + " " +  data.query;
+            	}
+            	
+
+		    	// put the scroll bar back to the top
+            	$('#sr-listing').scrollTop(0);
 
             	// Display the results
             	$.fn.displayResults(data.data);

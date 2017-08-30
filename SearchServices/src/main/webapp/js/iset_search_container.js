@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	// Load Search Results HTML
-	$.get(searchServiceName + 'search.html', function(data) {
+	$.get(searchServiceName + 'iset_search.html', function(data) {
 		$('#search-widget').html(data);
 	});
 });
