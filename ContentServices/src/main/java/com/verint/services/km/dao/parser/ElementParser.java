@@ -641,11 +641,16 @@ public class ElementParser {
 	 */
 	public String parseInlineContent(String data) {
 		LOGGER.info("Entering parseInlineContent()");
+		//LOGGER.debug("parseInlineContent - data: " + data);
 		//[[--ContentED.tC7ZxVwafh6P2ZGru9SQP6||1. Overview||KM1000521||Article--]]
 		if (data != null && data.length() > 0) {
 			int beginIndex = data.indexOf("[[--");
-			while (beginIndex != -1) {
+			int indexLoopControl = -1;
+			//LOGGER.debug("parseInlineContent - Pre-Loop beginIndex=" + beginIndex + " indexLoopControl=" + indexLoopControl);
+			while (beginIndex != -1) {				
+				indexLoopControl = data.indexOf("[[--");
 				int endIndex = data.indexOf("--]]");
+				//LOGGER.debug("parseInlineContent - beginIndex=" + beginIndex + " endIndex=" + endIndex + " indexLoopControl=" + indexLoopControl);
 				if (endIndex != -1) {
 					// We have a match
 					String tempData = data.substring(beginIndex + "[[--".length(), endIndex);
@@ -666,20 +671,35 @@ public class ElementParser {
 							//String newUrlWithDiv = "<div class = \"sr_listing_result\"><a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>" + openNewUrlInWindowWithDiv;
 							String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + id + "');\">" + tokens[1] + "</a>" + openNewUrlInWindow;
 							LOGGER.debug("newUrl: " + newUrl);
-							data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("--]]").length());
+							data = data.substring(0, beginIndex) + newUrl + data.substring(endIndex + ("--]]").length());		
+							beginIndex = data.indexOf("[[--");
 						} else {
-							//No tokens need to end the loop
-							LOGGER.error("parseInlineContent - Missing the correct number of tokens in ContentData: " + tempData);
-							break;
+							//No tokens (or not enough tokens) need to end the loop
+							LOGGER.error("parseInlineContent - Entered an infinite loop. Missing the correct number of tokens in ContentData: " + tempData);
+							beginIndex = -1;
 						}
 					} else {
-						//No data need to end the loop
-						LOGGER.error("parseInlineContent - Missing the embedded link in data (beginIndex="+beginIndex+" endIndex="+endIndex + " data:" + data);
-						break;
+						//No data (embedded link) need to end the loop
+						LOGGER.error("parseInlineContent - Entered an infinite loop. Missing the embedded link in data (beginIndex="+beginIndex+" endIndex="+endIndex + " data:" + data);
+						beginIndex = -1;
 					}
+				} else {
+					//found no endIndex
+					LOGGER.error("parseInlineContent - Entered an infinite loop. Missing the \"--]]\" of the embedded link in data (beginIndex="+beginIndex+" endIndex="+endIndex + " data:" + data);
+					beginIndex = -1;
 				}
-				beginIndex = data.indexOf("[[--");
-			}
+				
+				//LOGGER.debug("parseInlineContent - Bottom Loop beginIndex=" + beginIndex + " endIndex=" + endIndex + " indexLoopControl=" + indexLoopControl);
+				if(beginIndex != -1 && indexLoopControl == beginIndex){
+					//entered an infinite loop set index to -1 to exit.  
+					beginIndex = -1;
+					LOGGER.error("parseInlineContent - Entered an infinite loop. Most likely caused by malformed embedded link. data: " + data);					
+				}
+			}  //end of while loop
+			
+		} else {
+			//There is no data
+			LOGGER.debug("parseInlineContent - No data to parse");
 		}
 		LOGGER.info("Exiting parseInlineContent()");
 		return data;
