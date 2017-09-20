@@ -41,13 +41,18 @@ $.fn.setUpJump=function() {
 	// Get all the iset return from the hopefully working service
 	$.fn.getIsetResponse = function(refName, objType, objId) {
 		
+		log("refName: " + refName + " objType: " + objType + " objId: " + objId);
 		var migratableReferenceId = "";
 		
 		var url = contentServiceName + 'km/iset/migref?refName='+refName+'&objType='+objType+'&objID='+objId;
 		$.fn.serviceCall('GET', '', url, 15000, function(data) {
-			log(data.migratableReferenceId["0"].migratableReferenceId);
-			migratableReferenceId = data.migratableReferenceId["0"].migratableReferenceId;
-			log(data.migratableReferenceId["0"].migratableReferenceId);
+			if (typeof data.migratableReferenceId != 'undefined' && data.migratableReferenceId != null && data.migratableReferenceId.length > 0){
+				migratableReferenceId = data.migratableReferenceId["0"].migratableReferenceId;
+				log("migratableReferenceId=" + migratableReferenceId);
+			} else {
+				log("migratableReferenceId=");
+				log(data);
+			}
 		});
 		return migratableReferenceId;
 	}
