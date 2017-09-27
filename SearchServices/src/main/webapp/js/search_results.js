@@ -85,6 +85,8 @@ $(document).ready(function() {
 		// Load Request Answer HTML
 			$('#popup').html($('#request-answer-widget').html());
 			$('#request-answer-widget').html('');
+			///IainTest
+			///$('#request-answer-widget').css('display','block');
 			$.fn.initData(query, '');
 			$('#background').addClass('background_on');
 			$('#popup').addClass('popup');
@@ -137,7 +139,8 @@ $(document).ready(function() {
 			"contentType" : contentType
 		}
     	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
+		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
+    	//$('#sr-listing').scrollTop(0);
 
 		var sPageURL = decodeURIComponent(window.location.search.substring(1));
 		$('.dpui-widget').trigger("dpui:viewContent", packagedData);
@@ -157,7 +160,8 @@ $(document).ready(function() {
     			"bookmarked": false
     	}
     	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
+    	// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
+    	// $('#sr-listing').scrollTop(0);
 
 		$('.dpui-widget').trigger("dpui:viewExternalContent", packagedData);
 	}
@@ -165,19 +169,22 @@ $(document).ready(function() {
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
     	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
+		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
+    	// $('#sr-listing').scrollTop(0);
 
 		window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchDTContent = function(data) {
     	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
+		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
+    	// $('#sr-listing').scrollTop(0);
 
 		window.open (contentServiceName + 'content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchViewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
     	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
+		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
+    	// $('#sr-listing').scrollTop(0);
 
 		var passedUrl = 'contentId=' + encodeURIComponent(contentId) + '&url=' + encodeURIComponent(url) + '&isFeatured=' + isFeatured + '&averageRating=' + averageRating;
 		passedUrl += '&numRatings=' + numRatings + '&title=' + encodeURIComponent(title) + '&publishedDate=' + encodeURIComponent(publishedDate) + '&tags=' + encodeURIComponent(tags);
