@@ -3,9 +3,16 @@ var viewId;
 var contentIds= new Array();
 var externalLink = false;
 var contentTitle = '';
+var vccdInstalled = false;
 
 $(document).ready(function() {	
 	 
+	//check if vccd is installed for agent
+	if (isIE() && VCCDorNull()){
+		vccdInstalled = true;
+	}
+	log('VCCD installed: ' + vccdInstalled);
+	
     // Setup ratings and rate functions
     $('.rate1').on('click', function() {
     	$('#ratingStars').css('width', '1.0em');
@@ -303,6 +310,7 @@ $(document).ready(function() {
     	
     	// Setup Public Content 
     	var contentBody = [];
+    	
     	contentBody = $.fn.setupPublic(data, contentBody);
 
         // Setup Public Answer
@@ -386,7 +394,12 @@ $(document).ready(function() {
 			contentBody.push('    <label class="public">Public Information</label>');
 			contentBody.push('  </div>');
 			contentBody.push('  <div class="content_body_field_data">');
-			contentBody.push(data.publicBody);
+	    	//check if vccd parsing is needed
+	    	if (vccdInstalled){
+	    		contentBody.push(findPhoneNumber(data.publicBody));
+	    	} else {
+	    		contentBody.push(data.publicBody);
+	    	}			
 			contentBody.push('  </div>');
 			for (var p = 0; p < data.publicSectionContent.length; p++) {
 				contentBody.push('  <div class="content_body_field_resuable_content">');
@@ -410,6 +423,13 @@ $(document).ready(function() {
 			}
 			contentBody.push('</section>');
     	}
+    	
+    	//if vccd is installed we need to add the vccd script
+    	if (vccdInstalled){
+    		log('Adding in VCCD script');
+    		contentBody.push($.fn.addVccdScript());
+    	}
+    	
     	return contentBody;
     }
     
@@ -422,7 +442,12 @@ $(document).ready(function() {
 			contentBody.push('    <label class="public">Public Answer</label>');
 			contentBody.push('  </div>');
 			contentBody.push('  <div class="content_body_field_data">');
-			contentBody.push(data.publicAnswer);
+			//check if vccd parsing is needed
+	    	if (vccdInstalled){
+	    		contentBody.push(findPhoneNumber(data.publicAnswer));
+	    	} else {
+	    		contentBody.push(data.publicAnswer);
+	    	}	
 			contentBody.push('  </div>');
 			contentBody.push('</section>');
     	}
@@ -440,7 +465,12 @@ $(document).ready(function() {
 			contentBody.push('    <label class="private">Private Information</label>');
 			contentBody.push('  </div>');
 			contentBody.push('  <div class="content_body_field_data">');
-			contentBody.push(data.privateBody);
+			//check if vccd parsing is needed
+	    	if (vccdInstalled){
+	    		contentBody.push(findPhoneNumber(data.privateBody));
+	    	} else {
+	    		contentBody.push(data.privateBody);
+	    	}
 			contentBody.push('  </div>');
 			for (var p = 0; p < data.privateSectionContent.length; p++) {
 				contentBody.push('  <div class="content_body_field_resuable_content">');
@@ -477,7 +507,11 @@ $(document).ready(function() {
 			contentBody.push('    <label class="private">Private Answer</label>');
 			contentBody.push('  </div>');
 			contentBody.push('  <div class="content_body_field_data">');
-			contentBody.push(data.privateAnswer);
+	    	if (vccdInstalled){
+	    		contentBody.push(findPhoneNumber(data.privateAnswer));
+	    	} else {
+	    		contentBody.push(data.privateAnswer);
+	    	}
 			contentBody.push('  </div>');
 			for (var p = 0; p < data.privateSectionContent.length; p++) {
 				contentBody.push('  <div class="content_body_field_resuable_content">');

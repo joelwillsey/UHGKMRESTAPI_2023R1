@@ -1,0 +1,126 @@
+SPAN.vccdr_container {
+	border: 0px none #000000;
+	padding: 0px;
+	CLIP: rect(auto auto auto auto); 				
+	LIST-STYLE: disc none outside; 				
+	PAGE-BREAK-AFTER: auto !important; 				
+	Z-INDEX: 0 !important; 				
+	POSITION: static !important; 				
+	TEXT-ALIGN: left !important; 				
+	PAGE-BREAK-BEFORE: auto !important; 				
+	LINE-HEIGHT: 13px !important; 				
+	overflow: hidden !important; 				
+	TEXT-TRANSFORM: none !important; 				
+	FONT-STYLE: normal !important; 				
+	TEXT-INDENT: 0px !important; 				
+	MARGIN: 0px; 				
+	PAGE-BREAK-INSIDE: auto !important; 				
+	WIDTH: auto !important; 				
+	BOTTOM: auto !important; 				
+	DISPLAY: inline !important; 				
+	BORDER-COLLAPSE: separate !important; 				
+	FONT-FAMILY: Tahoma, Arial, Helvetica, sans-serif !important;
+	DIRECTION: ltr !important; 				
+	WHITE-SPACE: nowrap !important; 				
+	BACKGROUND: no-repeat 0px 0px; 				
+	FLOAT: none !important; 				
+	TABLE-LAYOUT: auto !important; 				
+	LETTER-SPACING: 0px !important; 				
+	HEIGHT: 13px !important; 				
+	COLOR: #49535a !important; 				
+	CLEAR: none !important; 				
+	FONT-SIZE: 11px !important; 				
+	VERTICAL-ALIGN: baseline !important; 				
+	OVERFLOW: hidden !important; 				
+	TOP: auto !important; 				
+	CURSOR: pointer !important; 				
+	RIGHT: auto !important; 				
+	FONT-WEIGHT: bold !important; 				
+	WORD-SPACING: normal !important; 				
+	TEXT-DECORATION: none !important; 				
+	LEFT: auto !important; 				
+	voice-family: inherit
+}
+SPAN.vccdr_container * {
+	border: 0px none #000000;
+	padding: 0px;
+	CLIP: rect(auto auto auto auto); 				
+	LIST-STYLE: disc none outside; 				
+	PAGE-BREAK-AFTER: auto !important; 				
+	Z-INDEX: 0 !important; 				
+	POSITION: static !important; 				
+	TEXT-ALIGN: left !important; 				
+	PAGE-BREAK-BEFORE: auto !important; 				
+	LINE-HEIGHT: 13px !important; 				
+	overflow: hidden !important; 				
+	TEXT-TRANSFORM: none !important; 				
+	FONT-STYLE: normal !important; 				
+	TEXT-INDENT: 0px !important; 				
+	MARGIN: 0px; 				
+	PAGE-BREAK-INSIDE: auto !important; 				
+	WIDTH: auto !important; 				
+	BOTTOM: auto !important; 				
+	DISPLAY: inline !important; 				
+	BORDER-COLLAPSE: separate !important; 				
+	FONT-FAMILY: Tahoma, Arial, Helvetica, sans-serif !important;
+	DIRECTION: ltr !important;
+	WHITE-SPACE: nowrap !important;
+	BACKGROUND: no-repeat 0px 0px;
+	FLOAT: none !important;
+	TABLE-LAYOUT: auto !important;
+	LETTER-SPACING: 0px !important;
+	HEIGHT: 13px !important;
+	COLOR: #49535a !important;
+	CLEAR: none !important;
+	FONT-SIZE: 11px !important;
+	VERTICAL-ALIGN: baseline !important;
+	OVERFLOW: hidden !important;
+	TOP: auto !important;
+	CURSOR: pointer !important;
+	RIGHT: auto !important;
+	FONT-WEIGHT: bold !important;
+	WORD-SPACING: normal !important;
+	TEXT-DECORATION: none !important;
+	LEFT: auto !important;
+	voice-family: inherit
+}
+
+SPAN.vccdr_container SPAN.vccdr_textarea_span {
+	BACKGROUND-POSITION: -125px 0px;
+}
+
+SPAN.vccdr_container SPAN.vccdr_text_span {
+	PADDING-LEFT: 0px !important; 
+	BACKGROUND-POSITION: -125px 0px
+}
+
+SPAN.vccdr_container SPAN.vccdr_left_span {
+	WIDTH: 4px !important; 
+	BACKGROUND-POSITION: 0px 0px
+}
+
+SPAN.vccdr_container SPAN.vccdr_right_span {
+	WIDTH: 15px !important; 
+	BACKGROUND-POSITION: -54px 0px
+}
+
+SPAN.vccdr_container SPAN.vccdr_dropdown_span {
+	WIDTH: 26px !important; 
+	BACKGROUND-POSITION: -28px 0px
+}
+
+SPAN.vccdr_container SPAN.vccdr_background *
+{
+	background-image: url(data:image/gif;base64,%s); 
+}
+
+SPAN.vccdr_container SPAN.vccdr_background:hover *
+{
+	background-image: url(data:image/gif;base64,%s); 
+}
+
+SPAN.vccdr_container SPAN.vccdr_background_hover *
+{
+	background-image: url(data:image/gif;base64,%s); 
+}
+
