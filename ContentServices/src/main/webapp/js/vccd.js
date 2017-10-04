@@ -393,6 +393,9 @@ function isAPhoneNumber(data) {
     return data;
 }
 
+/*
+ * Returns new string with VCCD coded added if phone numbers are found otherwise it returns empty string
+ */
 function findPhoneNumber(data) {
 
     var indexOfPhone = -1;

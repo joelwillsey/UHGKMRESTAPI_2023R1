@@ -4,11 +4,13 @@ var contentIds= new Array();
 var externalLink = false;
 var contentTitle = '';
 var vccdInstalled = false;
+var addVccdScript = false;
 
 $(document).ready(function() {	
 	 
 	//check if vccd is installed for agent
-	if (isIE() && VCCDorNull()){
+	//if (isIE() && VCCDorNull()){
+	if (isIE()){
 		vccdInstalled = true;
 	}
 	log('VCCD installed: ' + vccdInstalled);
@@ -340,6 +342,13 @@ $(document).ready(function() {
     	// Setup Attachments
     	contentBody = $.fn.setupAttachments(data, contentBody);
 
+    	//if vccd is installed we need to add the vccd script
+    	if (addVccdScript){
+    		log('Adding in VCCD <script>');
+    		contentBody.push($.fn.addVccdScript());
+    		addVccdScript = false;
+    	}
+    	
     	// Setup the content body
     	$('.content_body_fields').html(contentBody.join('\n'));
         $(function(){
@@ -396,7 +405,14 @@ $(document).ready(function() {
 			contentBody.push('  <div class="content_body_field_data">');
 	    	//check if vccd parsing is needed
 	    	if (vccdInstalled){
-	    		contentBody.push(findPhoneNumber(data.publicBody));
+	    		var newHtml = findPhoneNumber(data.publicBody);
+	    		//is there a vccd phone number?
+	    		if (newHtml.length > 0){
+	    			contentBody.push(newHtml);
+	    			addVccdScript = true;
+	    		} else {
+	    			contentBody.push(data.publicBody);
+	    		}
 	    	} else {
 	    		contentBody.push(data.publicBody);
 	    	}			
@@ -422,13 +438,7 @@ $(document).ready(function() {
 				contentBody.push('  </div>');
 			}
 			contentBody.push('</section>');
-    	}
-    	
-    	//if vccd is installed we need to add the vccd script
-    	if (vccdInstalled){
-    		log('Adding in VCCD script');
-    		contentBody.push($.fn.addVccdScript());
-    	}
+    	}    	
     	
     	return contentBody;
     }
@@ -444,7 +454,14 @@ $(document).ready(function() {
 			contentBody.push('  <div class="content_body_field_data">');
 			//check if vccd parsing is needed
 	    	if (vccdInstalled){
-	    		contentBody.push(findPhoneNumber(data.publicAnswer));
+	    		var newHtml = findPhoneNumber(data.publicAnswer);
+	    		//is there a vccd phone number?
+	    		if (newHtml.length > 0){
+	    			contentBody.push(newHtml);
+	    			addVccdScript = true;
+	    		} else {
+	    			contentBody.push(data.publicAnswer);
+	    		}
 	    	} else {
 	    		contentBody.push(data.publicAnswer);
 	    	}	
@@ -467,7 +484,14 @@ $(document).ready(function() {
 			contentBody.push('  <div class="content_body_field_data">');
 			//check if vccd parsing is needed
 	    	if (vccdInstalled){
-	    		contentBody.push(findPhoneNumber(data.privateBody));
+	    		var newHtml = findPhoneNumber(data.privateBody);
+	    		//is there a vccd phone number?
+	    		if (newHtml.length > 0){
+	    			contentBody.push(newHtml);
+	    			addVccdScript = true;
+	    		} else {
+	    			contentBody.push(data.privateBody);
+	    		}
 	    	} else {
 	    		contentBody.push(data.privateBody);
 	    	}
@@ -508,7 +532,14 @@ $(document).ready(function() {
 			contentBody.push('  </div>');
 			contentBody.push('  <div class="content_body_field_data">');
 	    	if (vccdInstalled){
-	    		contentBody.push(findPhoneNumber(data.privateAnswer));
+	    		var newHtml = findPhoneNumber(data.privateAnswer);
+	    		//is there a vccd phone number?
+	    		if (newHtml.length > 0){
+	    			contentBody.push(newHtml);
+	    			addVccdScript = true;
+	    		} else {
+	    			contentBody.push(data.privateAnswer);
+	    		}
 	    	} else {
 	    		contentBody.push(data.privateAnswer);
 	    	}
