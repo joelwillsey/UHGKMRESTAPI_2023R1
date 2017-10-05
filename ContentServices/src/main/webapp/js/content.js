@@ -9,8 +9,7 @@ var addVccdScript = false;
 $(document).ready(function() {	
 	 
 	//check if vccd is installed for agent
-	//if (isIE() && VCCDorNull()){
-	if (isIE()){
+	if (isIE() && VCCDorNull()){	
 		vccdInstalled = true;
 	}
 	log('VCCD installed: ' + vccdInstalled);

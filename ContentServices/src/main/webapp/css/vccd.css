@@ -111,16 +111,16 @@ SPAN.vccdr_container SPAN.vccdr_dropdown_span {
 
 SPAN.vccdr_container SPAN.vccdr_background *
 {
-	background-image: url(data:image/gif;base64,%s); 
+	background-image: url(../images/inactive_icon_set.gif); 
 }
 
 SPAN.vccdr_container SPAN.vccdr_background:hover *
 {
-	background-image: url(data:image/gif;base64,%s); 
+	background-image: url(../images/active_icon_set.gif); 
 }
 
 SPAN.vccdr_container SPAN.vccdr_background_hover *
 {
-	background-image: url(data:image/gif;base64,%s); 
+	background-image: url(../images/active_icon_set.gif); 
 }
 

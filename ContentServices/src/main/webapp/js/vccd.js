@@ -45,8 +45,10 @@ function setupVccd(sourceText, redirectType, redirectMsg) {
     var newHtml;
     var strRedirectType = redirectType;
 
+   
+    newHtml = "<span dir=\"ltr\" class=\"vccdr_container\">";
     // if IE8 or greater, the style sheet will support hover, so no javascript is needed
-    newHtml = "<span class=\"vccdr_background\" onmouseover=\"this.className += '_hover';\" onmouseout=\"this.className = this.className.replace('_hover', '');\" ";
+    newHtml += "<span class=\"vccdr_background\" onmouseover=\"this.className += '_hover';\" onmouseout=\"this.className = this.className.replace('_hover', '');\" ";
     newHtml += "title=\"Redirect the current call (or outdial) to: ";
     newHtml += sourceText;
     newHtml += ", with the VCC Desktop.\">";
