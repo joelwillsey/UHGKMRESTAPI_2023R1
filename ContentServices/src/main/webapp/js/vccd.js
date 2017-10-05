@@ -426,7 +426,7 @@ function findPhoneNumber(data) {
         var newText = '';
         var bReplacedANumber = false;
 
-        log('SearchText: ' + remainingText.substring(startPosition));
+        log('VCCD - Search text for telephone numbers.');
 
         if (firstChar == '*' && nextChar == '8') { // could be start of Carrier Redirect
             nextPosition = startPosition + 1;
@@ -444,20 +444,20 @@ function findPhoneNumber(data) {
 
             myPhoneNumber = isAPhoneNumber(myPhoneNumber);
 
-            log('myPhoneNumber.text: ' + myPhoneNumber.text)
-            log('myPhoneNumber.startingPosition: ' + myPhoneNumber.startingPosition)
-            log('myPhoneNumber.endingPosition: ' + myPhoneNumber.endingPosition)
-            log('myPhoneNumber.numberLength: ' + myPhoneNumber.numberLength)
-            log('myPhoneNumber.redirectOption: ' + myPhoneNumber.redirectOption)
-            log('myPhoneNumber.result: ' + myPhoneNumber.result)
+           // log('myPhoneNumber.text: ' + myPhoneNumber.text)
+           // log('myPhoneNumber.startingPosition: ' + myPhoneNumber.startingPosition)
+           // log('myPhoneNumber.endingPosition: ' + myPhoneNumber.endingPosition)
+           // log('myPhoneNumber.numberLength: ' + myPhoneNumber.numberLength)
+           // log('myPhoneNumber.redirectOption: ' + myPhoneNumber.redirectOption)
+           // log('myPhoneNumber.result: ' + myPhoneNumber.result)
 
             if (myPhoneNumber.result) {
                 //nextPosition is endPostition of myPhoneNumber object
                 nextPosition = myPhoneNumber.endingPosition;
                 var parsedNumber = remainingText.substring(myPhoneNumber.startingPosition, myPhoneNumber.startingPosition + myPhoneNumber.numberLength);
                 newText = setupVccd(parsedNumber, myPhoneNumber.redirectOption, 'From Knowledge Central');
-                log('Found Phone Number: ' + parsedNumber + ' redirectionOption: ' + myPhoneNumber.redirectOption)
-                log('newTextfor Phone Number: ' + newText);
+                log('VCCD - Found Phone Number: ' + parsedNumber + ' redirectionOption: ' + myPhoneNumber.redirectOption);
+                //log('newTextfor Phone Number: ' + newText);
                 bReplacedANumber = true;
             } else {
                 nextPosition = startPosition + 1;
@@ -475,20 +475,20 @@ function findPhoneNumber(data) {
 
             myPhoneNumber = isAPhoneNumber(myPhoneNumber);
 
-            log('myPhoneNumber.text: ' + myPhoneNumber.text)
-            log('myPhoneNumber.startingPosition: ' + myPhoneNumber.startingPosition)
-            log('myPhoneNumber.endingPosition: ' + myPhoneNumber.endingPosition)
-            log('myPhoneNumber.numberLength: ' + myPhoneNumber.numberLength)
-            log('myPhoneNumber.redirectOption: ' + myPhoneNumber.redirectOption)
-            log('myPhoneNumber.result: ' + myPhoneNumber.result)
+            // log('myPhoneNumber.text: ' + myPhoneNumber.text)
+            // log('myPhoneNumber.startingPosition: ' + myPhoneNumber.startingPosition)
+            // log('myPhoneNumber.endingPosition: ' + myPhoneNumber.endingPosition)
+            // log('myPhoneNumber.numberLength: ' + myPhoneNumber.numberLength)
+            // log('myPhoneNumber.redirectOption: ' + myPhoneNumber.redirectOption)
+            // log('myPhoneNumber.result: ' + myPhoneNumber.result)
 
             if (myPhoneNumber.result) {
                 //nextPosition is endPostition of myPhoneNumber object
                 nextPosition = myPhoneNumber.endingPosition;
                 var parsedNumber = remainingText.substring(myPhoneNumber.startingPosition, myPhoneNumber.startingPosition + myPhoneNumber.numberLength);
                 newText = setupVccd(parsedNumber, myPhoneNumber.redirectOption, 'From Knowledge Central');
-                log('Found Phone Number: ' + parsedNumber + ' redirectionOption: ' + myPhoneNumber.redirectOption)
-                log('Phone Number newText: ' + newText);
+                log('VCCD - Found Phone Number: ' + parsedNumber + ' redirectionOption: ' + myPhoneNumber.redirectOption);
+                //log('Phone Number newText: ' + newText);
                 bReplacedANumber = true;
             } else {
                 nextPosition = startPosition + 1;
@@ -508,8 +508,10 @@ function findPhoneNumber(data) {
 
     if (bReplacedANumber) {
         replacementText += remainingText;
+        log('VCCD -Found Phone Numbers in text.  New Text: ' + replacementText);
+    } else {
+    	log('VCCD -No Phone Numbers in text.');
     }
     
-    log('findPhoneNumber: ' + replacementText);
     return replacementText;
 }
