@@ -406,6 +406,8 @@ function findPhoneNumber(data) {
     var nextPosition = 0;
     var replacementText = '';
 
+    log('VCCD - Search text for telephone numbers.');
+    
     /*
      * The regex should match telephone #'s with a vaild transfer code ( WT| WC| CT| CC| CR| SD) at the end
      * 812-991-8581 WT
@@ -418,7 +420,7 @@ function findPhoneNumber(data) {
     var re = /(\*8|91|1|\*8 |91 |1 )?(\*|\(|\.|-)?\d{3}(\)| |-|\/|\.)+\d{3}(|\.| |-)+\d{4}( WT| WC| CT| CC| CR| SD)/g;
 
     startPosition = remainingText.search(re);
-
+    
     while (startPosition > -1 && startPosition + 1 < remainingText.length) {
 
         var firstChar = remainingText.charAt(startPosition);
@@ -426,7 +428,7 @@ function findPhoneNumber(data) {
         var newText = '';
         var bReplacedANumber = false;
 
-        log('VCCD - Search text for telephone numbers.');
+        
 
         if (firstChar == '*' && nextChar == '8') { // could be start of Carrier Redirect
             nextPosition = startPosition + 1;
