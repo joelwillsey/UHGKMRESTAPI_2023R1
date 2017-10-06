@@ -130,7 +130,7 @@ $(document).ready(function() {
     	$('.dpui-widget').trigger('dpui:hideManageButton');
     	var kTagParameter = $.fn.getParameterKbaseTag();
     	console.log("Alert Button Clicked");
-    	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'lastModifiedDate', '', function(data) {
+    	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
     		$.fn.sendToResults('Knowledge Alert', data);
     	});
 	});
@@ -426,7 +426,7 @@ $(document).ready(function() {
 	            	$('.dpui-widget').trigger('dpui:hideManageButton');
 	            var kTagParameter = $.fn.getParameterKbaseTag();
 	            console.log("Alert Search Trigger");
-	        	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'lastModifiedDate', '', function(data) {
+	        	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
 	        		$.fn.sendToResults('Knowledge Alert', data);
 	        	});            	
             });
