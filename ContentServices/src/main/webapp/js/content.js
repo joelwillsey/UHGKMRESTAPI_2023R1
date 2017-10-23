@@ -852,10 +852,14 @@ $(document).ready(function() {
 			// First parse the list
 			var tagArray = data.tags.split(",");
 
+			var kbaseArray = new Array();
 			var topicArray = new Array();
 			var productArray = new Array();
 			var regionArray = new Array();
-			var processArray = new Array();
+			var cntntsmeArray = new Array();
+			var cntnttypeArray = new Array();
+			var newchange = new Array();
+			var searchArray = new Array();
 			if (typeof tagArray != 'undefined' && tagArray.length > 0) {
 				for (var b=0; b < tagArray.length; b++) {
 					var index = tagArray[b].indexOf('_');
@@ -868,9 +872,18 @@ $(document).ready(function() {
 							productArray.push(tagName);
 						} else if (tagSet === 'region') {
 							regionArray.push(tagName);
-						} else if (tagSet === 'process') {
-							processArray.push(tagName);
+						} else if (tagSet === 'cntntsme') {
+							cntntsmeArray.push(tagName);
+						} else if (tagSet === 'kbase') {
+							kbaseArray.push(tagName);
+						} else if (tagSet === 'cntnttype') {
+							cntnttypeArray.push(tagName);
+						} else if (tagSet === 'newchang') {
+							newchangArray.push(tagName);
+						} else if (tagSet === 'search') {
+							searchArray.push(tagName);
 						}
+						
 					}
 				}
 			}
@@ -881,6 +894,17 @@ $(document).ready(function() {
 			contentBody.push('  <div class="content_body_field_tags_data">');
 			contentBody.push('    <div class="content_body_field_tags_data_field">');
 
+			// kbase
+			if (typeof kbaseArray != 'undefined' && kbaseArray.length > 0) {
+				contentBody.push('<div class="content_body_field_tags_data_field_tags">');
+				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Knowledge Base:</div>');
+				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
+	    		for (var t=0; t < kbaseArray.length; t++) {
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + kbaseArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    		}
+	    		contentBody.push('  </div>');
+	    		contentBody.push('</div>');
+			}
 			// Topic
 			if (typeof topicArray != 'undefined' && topicArray.length > 0) {
 				contentBody.push('<div class="content_body_field_tags_data_field_tags">');
@@ -914,13 +938,46 @@ $(document).ready(function() {
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
 			}
-			// Process
-			if (typeof processArray != 'undefined' && processArray.length > 0) {
+			// cntntsme
+			if (typeof cntntsmeArray != 'undefined' && cntntsmeArray.length > 0) {
 				contentBody.push('<div class="content_body_field_tags_data_field_tags">');
-				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Process:</div>');
+				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Content SME:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
-	    		for (var t=0; t < processArray.length; t++) {
-	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + processArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    		for (var t=0; t < cntntsmeArray.length; t++) {
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + cntntsmeArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    		}
+	    		contentBody.push('  </div>');
+	    		contentBody.push('</div>');
+			}
+			// cntnttype
+			if (typeof cntnttypeArray != 'undefined' && cntnttypeArray.length > 0) {
+				contentBody.push('<div class="content_body_field_tags_data_field_tags">');
+				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Content Type:</div>');
+				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
+	    		for (var t=0; t < cntnttypeArray.length; t++) {
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + cntnttypeArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    		}
+	    		contentBody.push('  </div>');
+	    		contentBody.push('</div>');
+			}
+			// newchang
+			if (typeof newchangArray != 'undefined' && newchangArray.length > 0) {
+				contentBody.push('<div class="content_body_field_tags_data_field_tags">');
+				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">New or Changed:</div>');
+				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
+	    		for (var t=0; t < newchangArray.length; t++) {
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' +newchangArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    		}
+	    		contentBody.push('  </div>');
+	    		contentBody.push('</div>');
+			}
+			// search
+			if (typeof searchArray != 'undefined' && searchArray.length > 0) {
+				contentBody.push('<div class="content_body_field_tags_data_field_tags">');
+				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Searchability:</div>');
+				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
+	    		for (var t=0; t < searchArray.length; t++) {
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + searchArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
@@ -1383,7 +1440,7 @@ $(document).ready(function() {
 	// Get external content if necessary
 	var tmpcontentId = $.fn.getParameterByName('contentId');
 	if (typeof tmpcontentId != 'undefined' && tmpcontentId != null && tmpcontentId != 'null' && tmpcontentId != '') {
-		log(tmpcontentId);
+		log('contentId: ' +tmpcontentId);
 		externalLink = true;
     	packagedData = {
     			"contentId": $.fn.getParameterByName('contentId'),
