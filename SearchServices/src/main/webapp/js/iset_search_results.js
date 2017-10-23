@@ -253,7 +253,7 @@ $(document).ready(function() {
 			}
 		}
 		results.push('<article>');
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
+		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewExternalContent(\'' +
 			data.contentID + '\',\'' +
 			data.knowledgeUnits[0].associatedContentURL + '\',' + 
 			data.isFeatured + ',' +
@@ -279,7 +279,7 @@ $(document).ready(function() {
 		results.push('      </div>');
 		results.push('    </div>');
 		results.push('  </a>');
-		results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewExternalContent(\'' + 
+/*		results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewExternalContent(\'' + 
 			data.contentID + '\',\'' +
 			data.knowledgeUnits[0].associatedContentURL + '\',' + 
 			data.isFeatured + ',' +
@@ -287,7 +287,7 @@ $(document).ready(function() {
 			data.numberOfRatings + ',\'' +
 			data.title + '\',\'' +
 			data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
-			passTags + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+			passTags + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');*/
 		results.push('</article>');
 		return results;		
 	}
