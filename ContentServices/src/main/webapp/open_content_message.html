@@ -1,0 +1,99 @@
+<html>
+
+<head>
+    <style>
+        #content_container {
+            border: 1px solid #c7c7c7;
+            display: none;
+            overflow-y: auto;
+            padding: 6px;
+            position: relative;
+            color: #000000;
+            display: block;
+        }
+        
+        #xui-topbar {
+           	background-image: url(images/KnowledgeCentral.png);
+			background-repeat: no-repeat;
+			height: 45px; 
+			width: 522px; 
+			display: block; 
+			width: 100%; 
+			overflow: none; 
+			background-color: #666666
+        }
+        
+        #xui-topbar h1 {
+            font-size: 14px;
+            line-height: 24px;
+            margin: 0;
+            float: left;
+        }
+        
+        #xui-main {
+            padding: 40px 80px;
+        }
+    </style>
+</head>
+
+<body onLoad="openContent()">
+
+    <article id="content_container">
+        <div id="xui-topbar">
+          <!--   <h1>Knowledge Central</h1> -->
+        </div>
+        <div id="xui-main">
+            <p><strong>If the content does not automatically open then you can click this link to <span id="contentspan"></span> in a new window.</strong></p>
+            <p>
+                <br>
+                <br>
+                <br>
+                <br>
+            </p>
+
+            <p>Migratable Reference ID: <span id="migRef"></span></p>
+        </div>
+    </article>
+</body>
+<script>
+    function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+    }
+
+    function openContent() {   
+    	var contentID = getURLParameter("dtreeid");
+    	var prefixContentURL = "/contentservices/iset_content_container.html?dtreeid=";
+    	//default to regular content
+    	if (typeof contentID != 'undefined' && contentID != '' ) {
+    		prefixContentURL = "/contentservices/iset_content_container.html?dtreeid=";
+    	} else {
+    		contentID = getURLParameter("id");
+    	}    	
+        var newURL = prefixContentURL + contentID;
+        var mydiv = document.getElementById("contentspan");
+        var a = document.createElement('a');
+        a.title = newURL;
+        a.href = '#';
+        a.innerHTML = "view the content";       
+        a.setAttribute('onClick', 'openWindow();');
+        mydiv.appendChild(a);
+        var myMigRef = document.getElementById("migRef");
+        myMigRef.innerHTML = contentID;
+    }
+    
+    function openWindow() {    	
+    	 var prefixContentURL = "/contentservices/iset_content_container.html?id=";
+         var contentID = getURLParameter("dtreeid");
+         //default to regular content
+     	 if (typeof contentID != 'undefined' && contentID != '' && contentID != null ) {
+     		prefixContentURL = "/contentservices/iset_content_container.html?dtreeid=";
+     	 } else {
+     		contentID = getURLParameter("id");
+     	 }   
+         var newURL = prefixContentURL + contentID;         
+         window.open(newURL, contentID + '_contentwindow', 'scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
+    }
+    
+</script>
+
+</html>

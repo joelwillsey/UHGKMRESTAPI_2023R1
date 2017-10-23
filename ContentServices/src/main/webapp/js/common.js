@@ -1,4 +1,3 @@
-
 // Log function; IE9 does not support console.log
 log = function(message) {
 	if (typeof console != 'undefined') {
@@ -89,7 +88,6 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 			// Send response headers
 			$.fn.interrogateResponse(jqXHR.getAllResponseHeaders());
 			successCallback(data);
-			$.fn.showHideBookmarkIcon(data);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
 			$.fn.disableSpinner();
@@ -380,20 +378,16 @@ $.fn.isDraftContent = function() {
 	return isDraftContent;
 } 
 
-//Check for Hide in Search. If this is present then we do not show the bookmark option.
-$.fn.showHideBookmarkIcon = function(data) {
-	var name;
-	if ( data != 'undefined' && data != null && data != '') {
-		if ( data.tagSets != 'undefined' && data.tagSets != null && data.tagSets != '') {
-			for (var i = 0; i < data.tagSets.length; i++) {
-				if ( data.tagSets[i].tags != 'undefined' && data.tagSets[i].tags != null && data.tagSets[i].tags != '') {
-				name = data.tagSets[i].tags[0].systemTagName; 
-					if (name == "search_hideinsearch"){
-						var x = document.getElementById("content-bookmark-header");
-						x.style.display = "none";
-					}
-				}
-			}
+//Check for dtree content
+$.fn.isDTreeContent = function() {
+	var isDTreeContent = false	
+	var paramStr = $.fn.getAllParametersString();
+	if (typeof paramStr != 'undefined' && paramStr != '') {
+		var n = paramStr.indexOf("dtreeid=");
+		if (n > -1){
+			isDTreeContent = true;
 		}
 	}
-}
+	log('isDTreeContent = ' + isDTreeContent + ' paramStr=' + paramStr);
+	return isDTreeContent;
+} 
