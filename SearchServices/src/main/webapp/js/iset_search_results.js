@@ -164,23 +164,26 @@ $(document).ready(function() {
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
     	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
+		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
+    	//$('#sr-listing').scrollTop(0);
 
 		window.open (contentServiceName + 'iset_content_container.html?id=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchDTContent = function(data) {
     	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
+		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
+    	//$('#sr-listing').scrollTop(0);
 
-		window.open (contentServiceName + 'content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
+		window.open (contentServiceName + 'iset_content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchViewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
     	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
+		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
+    	//$('#sr-listing').scrollTop(0);
 
 		var passedUrl = 'contentId=' + encodeURIComponent(contentId) + '&url=' + encodeURIComponent(url) + '&isFeatured=' + isFeatured + '&averageRating=' + averageRating;
 		passedUrl += '&numRatings=' + numRatings + '&title=' + encodeURIComponent(title) + '&publishedDate=' + encodeURIComponent(publishedDate) + '&tags=' + encodeURIComponent(tags);
-		window.open (contentServiceName + 'content_container.html?'+ passedUrl, contentId + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1030,height=750');
+		window.open (contentServiceName + 'iset_content_container.html?'+ passedUrl, contentId + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1030,height=750');
 	}
 
 	// Setup search results numbers

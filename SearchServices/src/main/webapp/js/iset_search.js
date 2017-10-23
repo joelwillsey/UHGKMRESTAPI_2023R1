@@ -509,7 +509,17 @@ $(document).ready(function() {
     		if (sSize === '') {
     			sSize = size;
     		}
-
+    		
+//    		var sTags_array = sTags.split(',');
+//    		
+//    		for(var i = 0; i < sTags_array.length; i++) {
+//    			var sTag_array = sTags_array[i].split('_');
+//    			$.fn.addToSearchCloud(sTag_array[0], sTag_array[1]);     			
+//    		}
+//    		
+//    		$.fn.addToSearchCloud('search_term', sQuery);
+//    		//$.fn.addToSearchCloud('kbase', 'Codes');
+    		
     		// Call the search
         	$.fn.search(sQuery, sPage, sSize, sTags, sCategories, sSort, sPublishedid, function(data) {
         		$.fn.sendToResults('Search', data);
@@ -535,6 +545,145 @@ $(document).ready(function() {
     	return retValue;
     }
 
+	// Add to search cloud
+	$.fn.addToSearchCloud = function(type, element) {
+		log('addToSearchCloud: ' + element);
+		$('.fs_dt_info_label').css('display', 'none');
+		var n = $('.ul_all_tags li').length;
+		if (n === 0) {
+			var buildLi = '<li id="sc-' + 'English' + '" class="search-choice search-choice-cloud" title="English">';
+			buildLi += '<span>English</span>';
+			buildLi += '</li>';
+			$('.ul_all_tags').append(buildLi);
+		}
+		if (type === 'search_term') {
+			var term;
+			if (typeof element === 'undefined'|| element === '') {
+				element = '*';
+				term = 'all';
+			} else if (element === '*') {
+				term = 'all';
+			} else {
+				term = $.fn.removeSpecialCharacters(element);
+			}
+			// Replace existing search term
+			$('.ul_all_tags li').each(function(index) {
+				var li = $(this);
+				var searchTerm = li.attr('tagtype');
+				if (typeof searchTerm != 'undefined' && searchTerm != '' && searchTerm === 'search_term') {
+					$('#tag-' + li.attr('id').substring(3)).removeClass('tree_selected');
+					li.remove();
+				}
+			});
+			var buildLi = '<li id="sc-'+ term + '" class="search-choice search-choice-cloud" title="' + element + '" tagtype="' + type + '">';
+			var value = element;
+			buildLi += '<span>' + value + '</span>';
+			//buildLi += '<a class="search_choice_close" rel="0" tagtype="' + type + '"></a>';
+			buildLi += '</li>';
+			log(buildLi);
+			$(buildLi).insertAt(1, $('.ul_all_tags'));
+		} else if (type === 'topic') {
+			// Replace existing topic
+			$('.ul_all_tags li').each(function(index) {
+				var li = $(this);
+				var topicTag = li.attr('tagtype');
+				if (typeof topicTag != 'undefined' && topicTag != '') {
+					$('#tag-'+ li.attr('id').substring(3)).removeClass('tree_selected');
+					li.remove();
+				}
+			});
+			var buildLi = '<li id="sc-' + element + '" class="search-choice search-choice-cloud" title="'
+					+ $('#tag-' + element).attr('value') + '" tagtype="' + type + '">';
+			var value = $('#tag-' + element).attr('value');
+			buildLi += '<span>' + value + '</span>';
+			buildLi += '<a class="search_choice_close" rel="0" tagtype="' + type + '"></a>';
+			buildLi += '</li>';
+			log(buildLi);
+			$(buildLi).insertAt(1, $('.ul_all_tags'));
+		} else if (type === 'publishedid') {
+			// Do nothing for now
+		} else if (type === 'kbase') {
+			// we only want to allow one 'kbase' tag to be
+			// active at one time
+
+			// Run check on whether another kbase tag is active
+//			$('.ul_all_tags li').each(function(index) {
+//				var li = $(this);
+//				var topicTag = li.context.id.substring(0, 8);
+//				if (topicTag == 'sc-kbase') {
+//					// calls remove tag on existing
+//					// kbase tag in cloud and search
+//					$.fn.removeTag(type, li.context.id.substring(3));
+//				}
+//			});
+
+			// creating the tags to put into the cloud/search
+			var buildLi = '<li id="sc-'
+					+ type + '_' + element
+					+ '" class="search-choice search-choice-cloud" title="' +  element + '" rel="0">';
+					//+ $('#' + element).attr('rel') + '">';
+			//buildLi += '<span>' + $('#' + element).text() + '</span>';
+			buildLi += '<span>' + element + '</span>';
+			buildLi += '</li>';
+			log(buildLi);
+
+			// inserts the html code at the designated spot
+			$(buildLi).insertAt(1, $('.ul_all_tags'));
+
+		} else {
+			var buildLi = '<li id="sc-' + element + '" class="search-choice search-choice-cloud" title="' 
+			+ $('#' + element).text() + '" rel="' + $('#' + element).attr('rel') + '">';
+			buildLi += '<span>' + $('#' + element).text() + '</span>';
+			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + ' tagtype="' + type + '"></a>';
+			buildLi += '</li>';
+			log(buildLi);
+			$(buildLi).insertAt(1, $('.ul_all_tags'));
+		}
+
+		// Get all the content type filters
+		var contentTypes = $('#div-content-tags div input').length;
+		log(contentTypes);
+		var contentCollection = '';
+		var liCttitle = $('#sc-ContentTypes').attr('title')
+		if (typeof liCttitle === 'undefined' || liCttitle === null) {
+			$('#div-content-tags div input').each(function(index) {
+				var input = $(this);
+				if (input.is(":checked")) {
+					// it is checked
+					contentCollection += input.attr('value') + ' ';
+				}
+			});
+			var buildLi = '<li id="sc-ContentTypes'
+					+ '" class="search-choice search-choice-cloud" title="Content Types">';
+			buildLi += '<span>' + contentCollection.substring(0, 12) + '...</span>';
+			buildLi += '</li>';
+			$('.ul_all_tags').append(buildLi);
+		}
+
+		//$(".dpui-widget").trigger("dpui:updateSearchCloud", buildLi);
+	}
+	
+	// InsertAt
+	$.fn.insertAt = function(index, $parent) {
+		return this.each(function() {
+			if (index === 0) {
+				$parent.prepend(this);
+			} else {
+				$parent.children().eq(index - 1).after(this);
+			}
+		});
+	}
+    
+	$.fn.removeSpecialCharacters = function(data){
+		//these characters where causing jquery exceptions if in the element name
+		log('removeSpecialCharacters start - ' + data);
+		data = data.replace(/\(/g, " ");
+		data = data.replace(/\)/g, " ");
+		data = data.replace(/\//g, " ");
+		log('removeSpecialCharacters end - ' + data);
+		return data;
+	}
+	
     // Check if the parameters passed in required a search
     if (!$.fn.checkForContentId()) {
 	    if (!$.fn.checkForUrlSearch()) {
