@@ -112,29 +112,36 @@ $.fn.setUpJump=function() {
 						var report = variables[3].substring(2, variables[3].length-1);
 						
 						//run a search for decision tree on knowledgeBase and Dtree GUID
-						jQuery.ajaxSetup({async:false});
-						var migratableReferenceId = $.fn.getIsetResponse("","DOCUMENT",report);
-						jQuery.ajaxSetup({async:true});
-						var url = contentServiceName + 'iset_content_container.html?id=' + migratableReferenceId;
+						$.fn.launchISetDTContent(report);
+						var url = contentServiceName + 'open_content_message.html?dtreeid=' + report;
 						window.location.replace(url);
+//						jQuery.ajaxSetup({async:false});
+//						var migratableReferenceId = $.fn.getIsetResponse("","DOCUMENT",report);
+//						jQuery.ajaxSetup({async:true});
+//						var url = contentServiceName + 'iset_content_container.html?dtreeid=' + migratableReferenceId;
+//						window.location.replace(url);
 						break;
 	
 					}else if(variables[3].substring(0,2) == "d["){
 						var report = variables[3].substring(2, variables[3].length-1);
+						var url = contentServiceName + 'open_content_message.html?dtreeid=' + report;
+						window.location.replace(url);
 						
 						//run a search for decision tree on knowledgeBase and Dtree RefID
-						jQuery.ajaxSetup({async:false});
-						var migratableReferenceId = $.fn.getIsetResponse(report,"DOCUMENT","");
-						jQuery.ajaxSetup({async:true});
-						var url = contentServiceName + 'iset_content_container.html?id=' + migratableReferenceId;
-						window.location.replace(url);
+//						jQuery.ajaxSetup({async:false});
+//						var migratableReferenceId = $.fn.getIsetResponse(report,"DOCUMENT","");
+//						jQuery.ajaxSetup({async:true});
+//						$.fn.launchISetDTContent(migratableReferenceId);
+//						var url = contentServiceName + 'iset_content_container.html?id=' + migratableReferenceId;
+//						window.location.replace(url);
 						break;
 						
 					}else if(variables[3].substring(0,2) == "d("){
 						var report = variables[3].substring(2, variables[3].length-1);
 						
 						//run a search for decision tree on knowledgeBase and Migratable Reference
-						var url = contentServiceName + 'iset_content_container.html?id=' + report;
+						$.fn.launchISetDTContent(report);
+						var url = contentServiceName + 'open_content_message.html?dtreeid=' + report;
 						window.location.replace(url);
 						break;
 						
@@ -175,11 +182,11 @@ $.fn.setUpJump=function() {
 					break;
 				case "Report":
 					var reportSplit = variables[3].split(":");
-					var content = reportSplit[0].substring(2, reportSplit[0].length-1);
-					var contentFaq = reportSplit[1];
+					var contentText = reportSplit[0].substring(2, reportSplit[0].length-1);
+					var contentType = reportSplit[1];
 					
 					//apply filter to result list with knowledgeBase, content, and contentFAQ
-					var url = searchServiceName + "iset_search_container.html?tags=" + knowledgeBase + "&categories="+content+"&query="+contentFaq;
+					var url = searchServiceName + "iset_search_container.html?tags=" + knowledgeBase + "&categories="+contentType+"&query="+contentText;
 					window.location.replace(url);
 					break;
 					
@@ -205,6 +212,18 @@ $.fn.setUpJump=function() {
 				log('Agent does not have the knowledge base team that contains the kbase tag: ' + knowledgeBase);
 			}
 		} else if (variables[0] == "displayByRefName"){
+			// /verintkm/jumppage.html?displayByRefName= + refName 
+			var refName = variables[1];
+
+			//run a search for refName 
+			jQuery.ajaxSetup({async:false});
+			var migratableReferenceId = $.fn.getIsetResponse(refName,"all","");
+			jQuery.ajaxSetup({async:true});
+		//	document.cookie = 'savedurl=' + 'jumppage.html%3F' + variables[0] + '; path=/';
+			var url = contentServiceName + 'content_container.html?id='+migratableReferenceId;
+			window.location.replace(url);
+		
+		} else if (variables[0] == "isetDisplayByRefName"){
 			// /verintkm/jumppage.html?displayByRefName= + refName 
 			var refName = variables[1];
 
@@ -251,3 +270,7 @@ $.fn.setUpJump=function() {
 		log ('Agent result of $.fn.checkKBaseTags(' + systemTagName + ') = '+ result);
 		return result
 	}	
+	
+$.fn.launchISetDTContent = function(data){
+	window.open (contentServiceName + 'iset_content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
+}
