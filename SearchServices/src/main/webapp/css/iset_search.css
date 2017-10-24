@@ -20,6 +20,19 @@ h4 {
 .search {
 	margin-bottom: 0px;	
 }
+
+.search_filter_container {
+    padding-top: 6px;
+    padding-left: 6px;
+    padding-right: 6px;
+    position: relative;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+.search_filter_wrapper {
+    padding: 12px 10px;
+}
+	
 .search_container {
 	border-top: 1px solid #c7c7c7;
 /*	border-left: 1px solid #c7c7c7; */

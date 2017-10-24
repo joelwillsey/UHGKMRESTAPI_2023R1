@@ -11,21 +11,44 @@
 	<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.min.js"></script>
 	<script type='text/javascript' src='js/respond.min.js'></script>
 	<script type="text/javascript" src="js/basicauth.js"></script>
-<!-- <script type="text/javascript" src="js/smalv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
 	<script type='text/javascript' src="js/iset_search_results.js"></script>
 </head>
 <body style="position: relative;">
+	</div>
+	
+<!-- Begin Filter Widget -->
+<section class="search_container">
+	<section id="filter-container" class="filter_container search_filter_container">
+		<div id="filter_wrapper"  style="height: inherit">
+			<div id="f_wrapper" style="height: inherit; overflow-y: auto;">
+				<section id="search-cloud" class="filter_section">
+					<div class="fs_label">
+						<ul><li id="fs-li-cloud" class="filter_section"><h4><i id="fs-i-cloud" class="fs_arrow icon ion-chevron-down"></i>Search Cloud</h4></li></ul>
+					</div>
+					<div id="fs-cloud-data" class="fs_data_tags">
+						<div class="fs_dt_info">
+							<label id="fs-dt-info-label" class="fs_dt_info_label">No Search Cloud</label>
+							<ul id="ul-all-tags" class="ul_all_tags fs_dt_info_filters">
+							</ul>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</section>	
+<!--	</section> -->
+<!-- End Filter Widget -->
 
 <!-- Begin Search Widget -->
-	<section class="search_container">
+<!--	<section class="search_container"> -->
 		<section class="search">
 			<div id="search-wrapper" class="search_wrapper">
- 			<div class="search_box">
+ 				<div class="search_box">
 					<div class="dropdown">
 						<input id="search-text" class="search_text" type="text" maxlength="150" placeholder="Search Knowledge" title="Search Knowledge" tabindex="1" disabled/>
-					<!-- 	<ul id="autoSuggest" class="auto-suggest-content"> -->
-						</ul>
+					<!-- 	<ul id="autoSuggest" class="auto-suggest-content"> 
+						</ul> -->
 					</div>
 				<!-- 	<button id="search-button" class="search_button"></button> -->
 				</div> 
@@ -41,23 +64,9 @@
 					<li id='search-tab-menu' title="Menu"><a id="tab-menu-button" class="search_tab_menu" href="javascript:void(0);"><i class="icon ion-navicon-round"></i></a></li>
 				</ul>
 			</nav>
-<!-- 		<section id="search-cloud-wrapper" class="search_filter_section">
-					<div class="fs_label">
-						<ul><li id="fs-li-cloud2" class="filter_section"><h4><i id="fs-i-cloud2" class="fs_arrow icon ion-chevron-down"></i>Search Cloud</h4></li></ul>
-					</div>
-					<div id="fs-cloud-data2" class="fs_data_tags">
-						<div class="fs_dt_reset">
-							<ul><li id="fs-cloud-reset2" class="fs_cloud_reset">Reset All</li></ul>
-						</div>
-						<div class="fs_dt_info">
-							<label id="fs-dt-info-label" class="fs_dt_info_label2">No Search Cloud</label>
-							<ul id="ul-all-tags2" class="ul_all_tags fs_dt_info_filters"></ul>
-						</div>
-					</div>
-			</section>
- -->
 		</section>
 	</section>
 <!-- End Search Widget -->
+
 </body>
 </html>

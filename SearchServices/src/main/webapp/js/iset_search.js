@@ -6,21 +6,40 @@ var publishedid = '';
 
 $(document).ready(function() {
 
-	// Toggle the search cloud
-	$.fn.toggleSearchCloudSection = function() {
-		// determine which way it is pointing
-		if ($('#search-filter-arrow').hasClass('ion-chevron-down')) {
-			$('#search-filter-arrow').removeClass('ion-chevron-down');
-			$('#search-filter-arrow').addClass('ion-chevron-right');
-			$('#search-filter-data').removeClass('on');
-			$('#search-filter-data').addClass('off');
+	
+	// Service Cloud arrow link
+	$('#fs-li-cloud').on('click', function() {
+		$.fn.changeArrow('#fs-cloud-data', '#fs-i-cloud');
+	});
+	
+	// Change the arrow direction
+	$.fn.changeArrow = function(iddata, idname) {
+		if ($(iddata).hasClass('fs_data_off')) {
+			$(iddata).removeClass('fs_data_off');
+			$(idname).removeClass('ion-chevron-right');
+			$(idname).addClass('ion-chevron-down');
 		} else {
-			$('#search-filter-arrow').addClass('ion-chevron-down');
-			$('#search-filter-arrow').removeClass('ion-chevron-right');
-			$('#search-filter-data').removeClass('off');
-			$('#search-filter-data').addClass('on');
+			$(iddata).addClass('fs_data_off');
+			$(idname).removeClass('ion-chevron-down');
+			$(idname).addClass('ion-chevron-right');
 		}
 	}
+	
+	// Toggle the search cloud
+//	$.fn.toggleSearchCloudSection = function() {
+//		// determine which way it is pointing
+//		if ($('#search-filter-arrow').hasClass('ion-chevron-down')) {
+//			$('#search-filter-arrow').removeClass('ion-chevron-down');
+//			$('#search-filter-arrow').addClass('ion-chevron-right');
+//			$('#search-filter-data').removeClass('on');
+//			$('#search-filter-data').addClass('off');
+//		} else {
+//			$('#search-filter-arrow').addClass('ion-chevron-down');
+//			$('#search-filter-arrow').removeClass('ion-chevron-right');
+//			$('#search-filter-data').removeClass('off');
+//			$('#search-filter-data').addClass('on');
+//		}
+//	}
 
 	// Toggle the search menu
 	$.fn.toggleMenu= function(selection) {
@@ -245,26 +264,7 @@ $(document).ready(function() {
 		var kbase = $.fn.getParameterKbaseTag();
 		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/featured?page=' + page + '&size=' + size + '&kbase_tags=' + kbase, SEARCH_SERVICE_TIMEOUT, function(data) {
 			$.fn.sendToResults('Featured Content', data);
-        });
-		
-		/*
-		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/featuredcontent?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
-			
-			//super janky filter to make up for the fact that the soap call hasnt been fixed
-			var newData = jQuery.extend(true, {}, data);
-			newData.knowledgeGroupUnits = [];
-			newData.numberOfResults = 0;
-			
-			for (var i = 0; i < data.knowledgeGroupUnits.length; ++i){
-				for (var j = 0; j < data.knowledgeGroupUnits[i].knowledgeUnits["0"].tags.length; ++j){
-					if (data.knowledgeGroupUnits[i].knowledgeUnits["0"].tags[j].systemTagName == tags){
-						newData.knowledgeGroupUnits.push(data.knowledgeGroupUnits[i]);
-						++newData.numberOfResults;
-					}
-				}				
-			}
-			$.fn.sendToResults('Featured Content', newData);
-		});*/
+        });		
 	}
 
 	// New or Changed Service
@@ -413,7 +413,7 @@ $(document).ready(function() {
             });
 	        self.element.bind("dpui:blankSearch", function(e, data) {
 	            log("blankSearch");
-	            /*  Commented out as blank search is always follwed by alert search but we still need to populate the URL
+	            /*  Commented out as blank search is always followed by alert search but we still need to populate the URL
            	   $.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/blankResponse' , SEARCH_SERVICE_TIMEOUT, function(data) {
             		$.fn.sendToResults('Search', data);
             	}) */
@@ -517,8 +517,10 @@ $(document).ready(function() {
 //    			$.fn.addToSearchCloud(sTag_array[0], sTag_array[1]);     			
 //    		}
 //    		
-//    		$.fn.addToSearchCloud('search_term', sQuery);
-//    		//$.fn.addToSearchCloud('kbase', 'Codes');
+    		;
+    		if (typeof sTags != 'undefined' && sTags != null && sTags != '') {
+    			$.fn.fillSearchCloud(sTags)
+    		}
     		
     		// Call the search
         	$.fn.search(sQuery, sPage, sSize, sTags, sCategories, sSort, sPublishedid, function(data) {
@@ -527,6 +529,174 @@ $(document).ready(function() {
         	retValue = true;
     	}
     	return retValue;
+    }
+    
+    $.fn.fillSearchCloud = function(tags){
+    	// First parse the list
+		var tagArray = tags.split(",");
+
+		var kbaseArray = new Array();
+		var topicArray = new Array();
+		var productArray = new Array();
+		var regionArray = new Array();
+		var cntntsmeArray = new Array();
+		var cntnttypeArray = new Array();
+		var newchangeArray = new Array();
+		var searchArray = new Array();
+		if (typeof tagArray != 'undefined' && tagArray.length > 0) {
+			for (var b=0; b < tagArray.length; b++) {
+				var index = tagArray[b].indexOf('_');
+				if (index != -1) {
+					var tagSet = tagArray[b].substring(0, index);
+					var tagName = tagArray[b].substring(index + 1);
+					if (tagSet === 'topic') {
+						topicArray.push(tagName);
+					} else if (tagSet === 'product') {
+						productArray.push(tagName);
+					} else if (tagSet === 'region') {
+						regionArray.push(tagName);
+					} else if (tagSet === 'cntntsme') {
+						cntntsmeArray.push(tagName);
+					} else if (tagSet === 'kbase') {
+						kbaseArray.push(tagName);
+					} else if (tagSet === 'cntnttype') {
+						cntnttypeArray.push(tagName);
+					} else if (tagSet === 'newchang') {
+						newchangeArray.push(tagName);
+					} else if (tagSet === 'search') {
+						searchArray.push(tagName);
+					}
+					
+				}
+			}
+		}
+		
+		
+		var requestTagsets = '';
+		if (typeof kbaseArray != 'undefined' && kbaseArray.length > 0) {
+			requestTagsets = 'kbase,';
+		}
+		if (typeof topicArray != 'undefined' && topicArray.length > 0) {
+			requestTagsets += 'topic,';
+		}
+		if (typeof productArray != 'undefined' && productArray.length > 0) {
+			requestTagsets += 'product,';
+		}
+		if (typeof regionArray != 'undefined' && regionArray.length > 0) {
+			requestTagsets += 'region,';
+		}
+		if (typeof cntntsmeArray != 'undefined' && cntntsmeArray.length > 0) {
+			requestTagsets += 'cntntsme,';
+		}
+		if (typeof cntnttypeArray != 'undefined' && cntnttypeArray.length > 0) {
+			requestTagsets += 'cntnttype,';
+		}
+		if (typeof newchangeArray != 'undefined' && newchangeArray.length > 0) {
+			requestTagsets += 'newchange,';
+		}
+		if (typeof searchArray != 'undefined' && searchArray.length > 0) {
+			requestTagsets += 'search';
+		}
+		
+		log('Query Tagsets" ' + requestTagsets);
+			
+		var url = filtersServiceName + 'km/tags/gettagsfortagsets?tagsets=' + requestTagsets;			
+
+    	jQuery.ajaxSetup({
+			async : false
+		});
+    	
+		$.fn.serviceCall('GET', '', url, 15000, function(data) {
+			log(data);
+			
+			if (typeof data.tagSets != 'undefined' && data.tagSets != null && data.tagSets.length > 0) {
+				for (var x = 0; x < data.tagSets.length; x++) {					
+					var currentTagSet = data.tagSets[x];
+					if (typeof currentTagSet.tags != 'undefined' && currentTagSet.tags != null && currentTagSet.tags.length > 0) {
+						if (currentTagSet.systemTagName === 'topic') {
+							for (var y = 0; y < topicArray.length; y++){						
+								for (var z = 0; z <currentTagSet.tags.length; z++) {
+									if (currentTagSet.tags[z].systemTagName == 'topic_' + topicArray[y]){
+										$.fn.addToSearchCloud('topic', currentTagSet.tags[z].systemTagDisplayName);
+										break;
+									}
+								}							
+							}						
+						} else if (currentTagSet.systemTagName === 'product') {
+							for (var y = 0; y < productArray.length; y++){
+								for (var z = 0; z < currentTagSet.tags.length; z++) {
+									if (currentTagSet.tags[z].systemTagName == 'product_' + productArray[y]){
+										$.fn.addToSearchCloud('product', currentTagSet.tags[z].systemTagDisplayName);
+										break;
+									}
+								}							
+							}						
+						} else if (currentTagSet.systemTagName === 'kbase') {
+							for (var y = 0; y < kbaseArray.length; y++){
+								for (var z = 0; z < currentTagSet.tags.length; z++) {
+									if (currentTagSet.tags[z].systemTagName == 'kbase_' + kbaseArray[y]){
+										$.fn.addToSearchCloud('kbase', currentTagSet.tags[z].systemTagDisplayName);
+										break;
+									}
+								}							
+							}						
+						} else if (currentTagSet.systemTagName === 'region') {
+							for (var y = 0; y < regionArray.length; y++){
+								for (var z = 0; z < currentTagSet.tags.length; z++) {
+									if (currentTagSet.tags[z].systemTagName == 'region_' + regionArray[y]){										
+										$.fn.addToSearchCloud('region', currentTagSet.tags[z].systemTagDisplayName);
+										break;
+									}
+								}							
+							}												
+						} else if (currentTagSet.systemTagName === 'cntnttype') {
+							for (var y = 0; y < cntnttypeArray.length; y++){
+								for (var z = 0; z < currentTagSet.tags.length; z++) {
+									if (currentTagSet.tags[z].systemTagName == 'cntnttype_' + cntnttypeArray[y]){
+										//Note the 0 index is the tagset display name
+										$.fn.addToSearchCloud('cntnttype', currentTagSet.tags[z].systemTagDisplayName);
+										break;
+									}
+								}							
+							}												
+						} else if (currentTagSet.systemTagName === 'cntntsme') {						
+							for (var y = 0; y < cntntsmeArray.length; y++){
+								for (var z = 0; z < currentTagSet.tags.length; z++) {
+									if (currentTagSet.tags[z].systemTagName == 'cntntsme_' + cntntsmeArray[y]){
+										$.fn.addToSearchCloud('cntntsme', currentTagSet.tags[z].systemTagDisplayName);
+										break;
+									}
+								}							
+							}												
+						} else if (currentTagSet.systemTagName === 'newchange') {						
+							for (var y = 0; y < newchangeArray.length; y++){
+								for (var z = 0; z < currentTagSet.tags.length; z++) {
+									if (currentTagSet.tags[z].systemTagName == 'newchange_' + newchangeArray[y]){
+										$.fn.addToSearchCloud(newchange, currentTagSet.tags[z].systemTagDisplayName);
+										break;
+									}
+								}							
+							}											
+						} else if (currentTagSet.systemTagName === 'search') {						
+							for (var y = 0; y < searchArray.length; y++){
+								for (var z = 0; z < currentTagSet.tags.length; z++) {
+									if (currentTagSet.tags[z].systemTagName == 'search_' + searchArray[y]){
+										$.fn.addToSearchCloud('search', currentTagSet.tags[z].systemTagDisplayName);
+										break;
+									}
+								}							
+							}												
+						}
+					}
+				}
+			}
+			
+		});
+		
+		jQuery.ajaxSetup({
+			async : true
+		});
+				
     }
 
     // Check for content id being passed first
@@ -593,10 +763,9 @@ $(document).ready(function() {
 				}
 			});
 			var buildLi = '<li id="sc-' + element + '" class="search-choice search-choice-cloud" title="'
-					+ $('#tag-' + element).attr('value') + '" tagtype="' + type + '">';
-			var value = $('#tag-' + element).attr('value');
+					+  element + '" tagtype="' + type + '">';
+			var value = element;
 			buildLi += '<span>' + value + '</span>';
-			buildLi += '<a class="search_choice_close" rel="0" tagtype="' + type + '"></a>';
 			buildLi += '</li>';
 			log(buildLi);
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
@@ -607,15 +776,15 @@ $(document).ready(function() {
 			// active at one time
 
 			// Run check on whether another kbase tag is active
-//			$('.ul_all_tags li').each(function(index) {
-//				var li = $(this);
-//				var topicTag = li.context.id.substring(0, 8);
-//				if (topicTag == 'sc-kbase') {
-//					// calls remove tag on existing
-//					// kbase tag in cloud and search
-//					$.fn.removeTag(type, li.context.id.substring(3));
-//				}
-//			});
+			$('.ul_all_tags li').each(function(index) {
+				var li = $(this);
+				var topicTag = li.context.id.substring(0, 8);
+				if (topicTag == 'sc-kbase') {
+					// calls remove tag on existing
+					// kbase tag in cloud and search
+					$.fn.removeTag(type, li.context.id.substring(3));
+				}
+			});
 
 			// creating the tags to put into the cloud/search
 			var buildLi = '<li id="sc-'
@@ -687,16 +856,8 @@ $(document).ready(function() {
     // Check if the parameters passed in required a search
     if (!$.fn.checkForContentId()) {
 	    if (!$.fn.checkForUrlSearch()) {
-	    	/**  Dont need to do this anymore as alerts have been added to the dpui:alertSearch which runs after a dpui:blankSearch
-			// Show the alerts on default of page load 
-				log('CALLING KNOWLEDGE ALERT');
-				$.fn.toggleMenu($('#tab-alert-button'));
-		    	$.fn.toggleSearch('alert');
-	    		$.fn.search('', page, size, '', 'content_knowledgealert', '', '', function(data) {
-					$.fn.sendToResults('Knowledge Alert', data);
-				});
-	    	}	   
-	    	**/ 
+	    	/**  Don't need to do this anymore as alerts have been added to the dpui:alertSearch which runs after a dpui:blankSearch **/
+ 
 	    }
     }
 });
