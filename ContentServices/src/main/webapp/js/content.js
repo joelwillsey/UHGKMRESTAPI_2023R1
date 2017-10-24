@@ -858,7 +858,7 @@ $(document).ready(function() {
 			var regionArray = new Array();
 			var cntntsmeArray = new Array();
 			var cntnttypeArray = new Array();
-			var newchange = new Array();
+			var newchangeArray = new Array();
 			var searchArray = new Array();
 			if (typeof tagArray != 'undefined' && tagArray.length > 0) {
 				for (var b=0; b < tagArray.length; b++) {
@@ -879,7 +879,7 @@ $(document).ready(function() {
 						} else if (tagSet === 'cntnttype') {
 							cntnttypeArray.push(tagName);
 						} else if (tagSet === 'newchang') {
-							newchangArray.push(tagName);
+							newchangeArray.push(tagName);
 						} else if (tagSet === 'search') {
 							searchArray.push(tagName);
 						}
@@ -960,12 +960,12 @@ $(document).ready(function() {
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
 			}
-			// newchang
-			if (typeof newchangArray != 'undefined' && newchangArray.length > 0) {
+			// newchange
+			if (typeof newchangeArray != 'undefined' && newchangeArray.length > 0) {
 				contentBody.push('<div class="content_body_field_tags_data_field_tags">');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">New or Changed:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
-	    		for (var t=0; t < newchangArray.length; t++) {
+	    		for (var t=0; t < newchangeArray.length; t++) {
 	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' +newchangArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
