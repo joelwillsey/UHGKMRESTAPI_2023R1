@@ -591,15 +591,11 @@ $(document).ready(function() {
 	            	sQuery = sQuery + "*";
 	            	log('Adding wildcard to search query: ' + sQuery);
             	}
-            }
-            
-    		var sTags_array = sTags.split(',');
+            }    		
     		
-    		for(var i = 0; i < sTags_array.length; i++) {
-    			var sTag_array = sTags_array[i].split('_');
-    			$.fn.addToSearchCloud(sTag_array[0], sTag_array[1]);     			
+    		if (typeof sTags != 'undefined' && sTags != null && sTags != '') {
+    			$.fn.fillSearchCloud(sTags)
     		}
-
     		if (typeof sQuery != 'undefined' && sQuery != null && sQuery != '') {
     			$.fn.addToSearchCloud('search_term', sQuery)
     		}    		    		    	   
