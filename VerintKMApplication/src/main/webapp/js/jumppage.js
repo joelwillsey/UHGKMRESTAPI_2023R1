@@ -76,6 +76,7 @@ $.fn.setUpJump=function() {
 					var Search = variables[3];
 					//run a search on knowledgeBase and a keyword test
 					var url = searchServiceName + "iset_search_container.html?tags=" + knowledgeBase + "&query="+Search;
+					log('search URL: ' + url);
 					window.location.replace(url);
 					break;
 				case "report":
@@ -87,6 +88,7 @@ $.fn.setUpJump=function() {
 						var migratableReferenceId = $.fn.getIsetResponse("","SOLUTION",report);
 						jQuery.ajaxSetup({async:true});
 						var url = contentServiceName + 'iset_content_container.html?id='+migratableReferenceId;
+						log('report URL: ' + url);
 						window.location.replace(url);
 						break;
 						
@@ -98,13 +100,15 @@ $.fn.setUpJump=function() {
 						var migratableReferenceId = $.fn.getIsetResponse(report,"SOLUTION","");
 						jQuery.ajaxSetup({async:true});
 						var url = contentServiceName + 'iset_content_container.html?id='+migratableReferenceId;
+						log('report URL: ' + url);
 						window.location.replace(url);
 						break;
 						
 					}else if(variables[3].substring(0,2) == "p("){
 						var report = variables[3].substring(2, variables[3].length-1);
 						
-						var url = searchServiceName + "iset_search_container.html?tags=" + knowledgeBase + ","+report;
+						var url = searchServiceName + "iset_search_container.html?tags=" + knowledgeBase + ","+report + "&query=*";
+						log('report URL: ' + url);
 						window.location.replace(url);
 						break;
 						
@@ -114,6 +118,7 @@ $.fn.setUpJump=function() {
 						//run a search for decision tree on knowledgeBase and Dtree GUID
 						$.fn.launchISetDTContent(report);
 						var url = contentServiceName + 'open_content_message.html?dtreeid=' + report;
+						log('report URL: ' + url);
 						window.location.replace(url);
 //						jQuery.ajaxSetup({async:false});
 //						var migratableReferenceId = $.fn.getIsetResponse("","DOCUMENT",report);
@@ -125,6 +130,7 @@ $.fn.setUpJump=function() {
 					}else if(variables[3].substring(0,2) == "d["){
 						var report = variables[3].substring(2, variables[3].length-1);
 						var url = contentServiceName + 'open_content_message.html?dtreeid=' + report;
+						log('report URL: ' + url);
 						window.location.replace(url);
 						
 						//run a search for decision tree on knowledgeBase and Dtree RefID
@@ -142,6 +148,7 @@ $.fn.setUpJump=function() {
 						//run a search for decision tree on knowledgeBase and Migratable Reference
 						$.fn.launchISetDTContent(report);
 						var url = contentServiceName + 'open_content_message.html?dtreeid=' + report;
+						log('report URL: ' + url);
 						window.location.replace(url);
 						break;
 						
@@ -156,6 +163,7 @@ $.fn.setUpJump=function() {
 						var migratableReferenceId = $.fn.getIsetResponse("","CASE",report);
 						jQuery.ajaxSetup({async:true});
 						var url = contentServiceName + 'iset_content_container.html?id=' + migratableReferenceId;
+						log('veiw URL: ' + url);
 						window.location.replace(url);
 						break;
 						
@@ -167,6 +175,7 @@ $.fn.setUpJump=function() {
 						var migratableReferenceId = $.fn.getIsetResponse(report,"CASE","");
 						jQuery.ajaxSetup({async:true});
 						var url = contentServiceName + 'iset_content_container.html?id=' + migratableReferenceId;
+						log('veiw URL: ' + url);
 						window.location.replace(url);
 						break;
 						
@@ -175,6 +184,7 @@ $.fn.setUpJump=function() {
 						
 						//run a search for content on knowledgeBase and Migratable Reference
 						var url = contentServiceName + 'iset_content_container.html?id=' + report;
+						log('veiw URL: ' + url);
 						window.location.replace(url);
 						break;
 						
@@ -187,6 +197,7 @@ $.fn.setUpJump=function() {
 					
 					//apply filter to result list with knowledgeBase, content, and contentFAQ
 					var url = searchServiceName + "iset_search_container.html?tags=" + knowledgeBase + "&categories="+contentType+"&query="+contentText;
+					log('veiw URL: ' + url);
 					window.location.replace(url);
 					break;
 					
@@ -224,7 +235,7 @@ $.fn.setUpJump=function() {
 			window.location.replace(url);
 		
 		} else if (variables[0] == "isetDisplayByRefName"){
-			// /verintkm/jumppage.html?displayByRefName= + refName 
+			// /verintkm/jumppage.html?isetDisplayByRefName= + refName 
 			var refName = variables[1];
 
 			//run a search for refName 
