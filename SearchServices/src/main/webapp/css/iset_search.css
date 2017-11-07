@@ -20,7 +20,16 @@ h4 {
 .search {
 	margin-bottom: 0px;	
 }
-
+#widgetHeader-logo{
+	background-image: url(../images/KnowledgeCentral.png);
+	background-repeat: no-repeat;
+	height: 45px; 
+	width: 522px; 
+	display: block; 
+	width: 100%; 
+	overflow: none; 
+	background-color: #666666
+}
 .search_filter_container {
     padding-top: 6px;
     padding-left: 6px;
@@ -41,7 +50,6 @@ h4 {
 	padding-left: 6px;
 	padding-right: 6px;
 	position: relative;
-	
 	/* Adding in to hide the Search Area */
 	/* display: none !important; */
 }
@@ -54,6 +62,30 @@ h4 {
 			#search-wrapper.off {
 				display: none;
 			}
+			.code_search_box {
+		    border: 1px solid #a2a2a2;
+		    border-radius: 3px;
+		    display: inline-block;
+		    height: auto;
+		    min-height: 14px;
+		    position: relative;		   
+		    width: 300px;
+		    top: 13px;
+		}
+		.code_selection {
+			border: 1px solid #a2a2a2;
+		    border-radius: 3px;
+		    width: 200px;
+		    position: relative;
+		    height: auto;
+		    display: inline-block; 
+		    font-size: 12px;
+		    line-height: normal; 
+		    min-height: 14px;
+    		padding: 8px 8px 8px 8px;
+			text-indent: 1px;
+		}
+
 		.search_box {
 		    border: 1px solid #a2a2a2;
 		    border-radius: 3px;
@@ -63,7 +95,7 @@ h4 {
 		    width: auto;
 		}
 			.search_text {
-    			background-color: transparent;
+    			background-color: #ffffff;
     			border: 0 none;
     			box-shadow: none;
     			box-sizing: border-box;
@@ -75,6 +107,22 @@ h4 {
 			    margin: 0;
     			min-height: 14px;
     			padding: 15px 48px 15px 15px;
+				text-indent: 1px;
+    			width: 100%;
+			}
+			.search_box_text {
+    			background-color: transparent;
+    			border: 0 none;
+    			box-shadow: none;
+    			box-sizing: border-box;
+    			color: #232221;
+			    cursor: auto;
+		    	font-size: 14px;
+			    height: auto !important;
+    			line-height: normal;
+			    margin: 0;
+    			min-height: 14px;
+    			padding: 13px 15px 13px 15px;
 				text-indent: 1px;
     			width: 100%;
 			}
@@ -335,3 +383,4 @@ h4 {
 		}
 		.dropdown li.selected {background-color: #003c71;}
 .show {display:block;}
+

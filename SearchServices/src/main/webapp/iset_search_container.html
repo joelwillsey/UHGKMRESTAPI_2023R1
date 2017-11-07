@@ -12,7 +12,7 @@
 	<link rel="icon" type="image/png" href="images/favicon.png">
 	<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
 	<script type='text/javascript' src="js/jquery.typeahead.js"></script>
-	<script type='text/javascript' src="js/iset_search.js"></script>
+<!-- 	<script type='text/javascript' src="js/iset_search.js"></script> -->
 	<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.min.js"></script>
 	<script type='text/javascript' src='js/respond.min.js'></script>
 <!-- <script type="text/javascript" src="js/basicauth.js"></script> -->
@@ -74,6 +74,16 @@
 			</div>
 		</div>
 	</div>
+	<section id="widgetHeader" style="position: relative; height: 45px;">
+		<div id="widgetHeader-logo">
+			<div style="float: right; height: 45px; line-height: 45px; text-align: center; ">
+				<button id="widget-help" style="background-image: url(images/iconHelp.png);height: 24px;width: 24px;display: inline-block;vertical-align: middle;line-height: normal;background-color: #666666;"></button>
+				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>
+				<span id="widgetHeader-name" style="display: inline-block; vertical-align: middle; line-height: normal; color: #ffffff"></span>
+				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>		
+				<!--  <button id="widget-logout" style="background-image: url(images/Logout_btn.png); height: 22px; width: 22px; display: inline-block; margin-right: 5px; vertical-align: middle; line-height: normal; background-color: #666666"></button> -->		
+			</div>
+		</div>
 	</section>
 	<section id="search-area">
 		<div id="search-widget">
@@ -86,6 +96,24 @@
 	
 </body>
 <script type="text/javascript">
+
+
+	//Get the Agent name to display in widget header
+	var agentInfo = $.fn.getCookie('AgentInfo');
+	if (agentInfo != null && agentInfo != '') {
+		$('#widgetHeader-name').html('Hi ' + agentInfo);
+	}
+	
+	// Help button
+	$('#widget-help').on('click', function () {
+		var helpUrl = $.fn.getProperty('verintkm.helpfile.url');
+		if (typeof helpUrl != 'undefined' && helpUrl && helpUrl != '') {
+			window.open(helpUrl, '_blank');
+		} else {
+			alert('The help content is currently unavailable.  Please contact your administrator.');
+		}
+	});
+	
 	//
 	// Setup the search results widget for desktop vs. mobile
 	// Search resize
