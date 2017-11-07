@@ -36,6 +36,12 @@ $(document).ready(function() {
 						value: systemTagName,
 						text: displayName
 					}));
+					
+					if (i == 0) {
+						//first tag in dropdown is the all tags, make it default
+						codesTopicTag = systemTagName;	
+					}
+					
 				} else {
 					//config error in code.search.topics					
 				}
