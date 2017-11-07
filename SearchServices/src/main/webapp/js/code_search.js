@@ -3,8 +3,8 @@ var size = 20;
 var contentTypeTags = ''; //'content_article,content_remotedocument,content_decisiontree,content_faq,content_knowledgealert,content_spidereddocument';
 var filterTags = '';
 var publishedid = '';
-var kbaseTag = 'kbase_codes';
-var codesTopicTag = 'topic_codes';
+var kbaseTag = '';
+var codesTopicTag = '';
 var policieTopicTag = 'topic_policies';
 
 $(document).ready(function() {
@@ -570,6 +570,10 @@ $(document).ready(function() {
     			sSize = size;
     		}
     		
+    		codesTopicTag = $('#code-selection').val();
+ 		    var fTags = kbaseTag + ',' + codesTopicTag;
+ 		    $(".dpui-widget").trigger("dpui:setupTags", fTags);
+ 		    
     		sTags = kbaseTag + ',' + codesTopicTag;
     		
     		 $(".dpui-widget").trigger("dpui:setupTags", sTags);
