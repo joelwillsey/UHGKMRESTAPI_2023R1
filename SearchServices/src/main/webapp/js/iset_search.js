@@ -11,7 +11,7 @@ $(document).ready(function() {
 	$('#fs-li-cloud').on('click', function() {
 		$.fn.changeArrow('#fs-cloud-data', '#fs-i-cloud');
 	});
-	
+
 	// Change the arrow direction
 	$.fn.changeArrow = function(iddata, idname) {
 		if ($(iddata).hasClass('fs_data_off')) {
