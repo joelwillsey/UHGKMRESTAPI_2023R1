@@ -752,7 +752,7 @@ $(document).ready(function() {
 							for (var y = 0; y < newchangeArray.length; y++){
 								for (var z = 0; z < currentTagSet.tags.length; z++) {
 									if (currentTagSet.tags[z].systemTagName == 'newchange_' + newchangeArray[y]){
-										$.fn.addToSearchCloud(newchange, currentTagSet.tags[z].systemTagDisplayName);
+										$.fn.addToSearchCloud('newchange', currentTagSet.tags[z].systemTagDisplayName);
 										break;
 									}
 								}							
