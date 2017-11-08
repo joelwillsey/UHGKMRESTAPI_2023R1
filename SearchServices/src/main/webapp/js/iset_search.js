@@ -242,6 +242,9 @@ $(document).ready(function() {
 	
 	$.fn.checkEnter = function(e) {
 		if (e.which === 13) {
+			codesTopicTag = $('#code-selection').val();
+		    var fTags = kbaseTag + ',' + codesTopicTag;
+		    $(".dpui-widget").trigger("dpui:setupTags", fTags);
 			$.fn.toggleMenu($('#tab-search-button'));
 			$(".dpui-widget").trigger("dpui:runSearch");
 		}
@@ -508,16 +511,8 @@ $(document).ready(function() {
     		}
     		if (sSize === '') {
     			sSize = size;
-    		}
-    		
-    		var sTags_array = sTags.split(',');
-    		
-//    		for(var i = 0; i < sTags_array.length; i++) {
-//    			var sTag_array = sTags_array[i].split('_');
-//    			$.fn.addToSearchCloud(sTag_array[0], sTag_array[1]);     			
-//    		}
-    		
-    		
+    		}    		
+    		    		    		
     		if (typeof sTags != 'undefined' && sTags != null && sTags != '') {
     			$.fn.fillSearchCloud(sTags)
     		}
@@ -677,7 +672,7 @@ $(document).ready(function() {
 							for (var y = 0; y < newchangeArray.length; y++){
 								for (var z = 0; z < currentTagSet.tags.length; z++) {
 									if (currentTagSet.tags[z].systemTagName == 'newchange_' + newchangeArray[y]){
-										$.fn.addToSearchCloud(newchange, currentTagSet.tags[z].systemTagDisplayName);
+										$.fn.addToSearchCloud('newchange', currentTagSet.tags[z].systemTagDisplayName);
 										break;
 									}
 								}							
