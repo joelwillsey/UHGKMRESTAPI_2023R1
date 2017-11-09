@@ -16,7 +16,7 @@
 			"KIQACME_Agent_UHCWest","KIQACME Client Implementation","KIQACME Medicaid Call Agent","KIQACME Medicaid-Processor",
 			"KIQACME Transaction-Processor","KIQAgent CCP","KIQAgent PPR","KIQACME HealthAdvisor","KIQCustomer Service","KIQEnrollment",
 			"KIQPDP Telesales","KIQProducer HelpDesk","KIQTricare_Agent","KIQTRICAREMedMgmt_Agent","KIQAgent CCP","KIQkiqadmin",
-			"KM_Dental_Vision_Call","KM_Dental_Vision_Claim","KM_EnI_ECS_OLT","KM_EnI_ECS","KM_EnI_PRIME","KM_EnI_UHCBS","KM_EnI_EnrollBill",
+			"KM_All_KB_Access","KM_Dental_Vision_Call","KM_Dental_Vision_Claim","KM_EnI_ECS_OLT","KM_EnI_ECS","KM_EnI_PRIME","KM_EnI_UHCBS","KM_EnI_EnrollBill",
 			"KM_CnS_EnrollBill","KM_MnR_EnrollBill","KM_MnR_Claim_n_Appeals","KM_EnI_ProducerOps","KM_Shrd_Svcs_ProviderData",
 			"KM_Shrd_Svcs_ProviderOps","KM_EnI_UHCWest","KM_EnI_Customer_Implementation","KM_CnS_Consumer_Service","KM_CnS_Claims",
 			"KM_EnI_Claims","KM_EnI_Claim_Appeals","KM_EnI_Specialty_Ops","KM_EnI_Consumer_Service","KM_EnI_Provider_Service","KM_EnI_Empire",
