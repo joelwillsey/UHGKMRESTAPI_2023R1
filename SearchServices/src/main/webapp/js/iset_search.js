@@ -16,7 +16,7 @@ $(document).ready(function() {
             var self = this;
             self.element.addClass("dpui-widget");
             self.element.bind("dpui:startWidget", function(e) {
-                log("startWidget");
+                log("startWidget -iset_search");
                 $(".dpui-widget").trigger("dpui:registerSearch");
             });
             self.element.bind("dpui:registerSearchResults", function(e) {

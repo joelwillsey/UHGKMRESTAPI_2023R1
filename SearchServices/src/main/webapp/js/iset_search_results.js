@@ -543,7 +543,7 @@ $(document).ready(function() {
 	        var self = this;
 	        self.element.addClass('dpui-widget');
             self.element.bind('dpui:startWidget', function(e) {
-                log('startWidget');
+                log('startWidget - iset_search_results');
                 // register the widget with other widgets
                 $('.dpui-widget').trigger('dpui:registerSearchResults');
             });
