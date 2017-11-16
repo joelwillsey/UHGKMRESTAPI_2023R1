@@ -245,6 +245,8 @@ $(document).ready(function() {
 	
 	// Setup external content links
 	$.fn.setupExternalContent = function(data, results, addPolicySearch) {
+		//log('setupExternalContent');
+		//log(data);
 		var nTags = data.knowledgeUnits[0].tags;
 		var passTags = '';
 		if (typeof nTags != 'undefined' && nTags != null && nTags.length > 0) {

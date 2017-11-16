@@ -106,10 +106,13 @@ $(document).ready(function() {
                 
                 $(".dpui-widget").trigger("dpui:searchTerm", search_text);
                 
-                if(typeof filerTags != 'undefined' && filerTags != null){
+                if(typeof filterTags != 'undefined' && filterTags != null){
 	                var fTags = kbaseTag + ',' + codesTopicTag;
 	    		    $(".dpui-widget").trigger("dpui:setupTags", fTags);
+	    		    
                 }
+                
+                $.fn.fillSearchCloud(filterTags);
                 
                 if (typeof search_text != 'undefined' && search_text != null && search_text != '') {
         			$.fn.addToSearchCloud('search_term', search_text)
@@ -538,6 +541,7 @@ $(document).ready(function() {
     }
     
     $.fn.fillSearchCloud = function(tags){
+		
     	// First parse the list
 		var tagArray = tags.split(",");
 
@@ -724,6 +728,7 @@ $(document).ready(function() {
 	// Add to search cloud
 	$.fn.addToSearchCloud = function(type, element) {
 		log('addToSearchCloud: ' + element);
+		
 		$('.fs_dt_info_label').css('display', 'none');
 		var n = $('.ul_all_tags li').length;
 		if (n === 0) {
@@ -761,8 +766,10 @@ $(document).ready(function() {
 		} else if (type === 'topic') {
 			// Replace existing topic
 			$('.ul_all_tags li').each(function(index) {
+				log(li);
 				var li = $(this);
 				var topicTag = li.attr('tagtype');
+				log('topicTag='+topicTag);
 				if (typeof topicTag != 'undefined' && topicTag != '') {
 					$('#tag-'+ li.attr('id').substring(3)).removeClass('tree_selected');
 					li.remove();
@@ -787,13 +794,9 @@ $(document).ready(function() {
 				var topicTag = li.context.id.substring(0, 8);
 				if (topicTag == 'sc-kbase') {
 					// calls remove tag on existing
-					// kbase tag in cloud and search
-					//$.fn.removeTag(type, li.context.id.substring(3));
-					var kbaseId = '#' + li.context.id;
-					log('Remove kbase tag: ' + kbaseId);
-					if($("'" + kbaseId + "'").length()) {
-						$("'" + kbaseId + "'").remove();
-					}
+					// kbase tag in cloud and search					
+					var kbaseId = li.context.id;
+					$('#'+kbaseId).remove();
 				}
 			});
 
@@ -864,8 +867,8 @@ $(document).ready(function() {
 		}
 
 		//$(".dpui-widget").trigger("dpui:updateSearchCloud", buildLi);
-	}
-	
+	}	
+
 	// InsertAt
 	$.fn.insertAt = function(index, $parent) {
 		return this.each(function() {
