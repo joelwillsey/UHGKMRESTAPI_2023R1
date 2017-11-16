@@ -766,10 +766,8 @@ $(document).ready(function() {
 		} else if (type === 'topic') {
 			// Replace existing topic
 			$('.ul_all_tags li').each(function(index) {
-				log(li);
 				var li = $(this);
 				var topicTag = li.attr('tagtype');
-				log('topicTag='+topicTag);
 				if (typeof topicTag != 'undefined' && topicTag != '') {
 					$('#tag-'+ li.attr('id').substring(3)).removeClass('tree_selected');
 					li.remove();
@@ -780,7 +778,7 @@ $(document).ready(function() {
 			var value = element;
 			buildLi += '<span>' + value + '</span>';
 			buildLi += '</li>';
-			log(buildLi);
+			//log(buildLi);
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
 		} else if (type === 'publishedid') {
 			// Do nothing for now

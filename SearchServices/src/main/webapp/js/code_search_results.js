@@ -738,7 +738,7 @@ $(document).ready(function() {
 	            document.title = defaultTitle;
 	        });
 	        self.element.bind("dpui:resultData", function(e, data) {
-	        	log("resultData below:");
+	        	log("Recieved dpui:resultData below:");
 	        	log(data);
             	// check for regular search
             	if (typeof data != 'undefined' && 
