@@ -19,7 +19,7 @@ $(document).ready(function() {
             var self = this;
             self.element.addClass("dpui-widget");
             self.element.bind("dpui:startWidget", function(e) {
-                log("startWidget");
+                log("startWidget - code_search");
                 $(".dpui-widget").trigger("dpui:registerSearch");
             });
             self.element.bind("dpui:registerSearchResults", function(e) {
@@ -40,6 +40,9 @@ $(document).ready(function() {
 	            log("setupPublishedid");
 	            publishedid = data;
 	        });
+	        self.element.bind('dpui:registerCodeSearchResults', function(e) {
+                log('registerCodeSearchResults');
+            });
 	        self.element.bind("dpui:resetSearch", function(e, search_text) {
                 log("resetSearch");
                 log(search_text);
@@ -353,6 +356,7 @@ $(document).ready(function() {
 				"query": $('#search-text').val()
 		}
 		// Send to Search Results Widget
+		log('Send event dpui:resultData');
 		$(".dpui-widget").trigger("dpui:resultData", packagedData);			
 	}
 
@@ -470,9 +474,7 @@ $(document).ready(function() {
     		
     		var arrayTopicTags = [];
     		$('#code-selection').find('option').each(function() { arrayTopicTags.push( $(this).val() ); });
-    		
-
-    		
+  
     		var arrayParamTags = sTags.split(",");
     		
     		for (var i = 0; i < arrayParamTags.length; i++) {
@@ -488,9 +490,7 @@ $(document).ready(function() {
     						break;
     					}
     				}
-    				
-    			} 
-    			
+    			}    			
     		}
     		
     		codesTopicTag = $('#code-selection').val();

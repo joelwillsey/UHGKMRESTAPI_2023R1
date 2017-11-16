@@ -710,7 +710,7 @@ $(document).ready(function() {
 	        var self = this;
 	        self.element.addClass('dpui-widget');
             self.element.bind('dpui:startWidget', function(e) {
-                log('startWidget');
+                log('startWidget - code_search_result');
                 // register the widget with other widgets
                 $('.dpui-widget').trigger('dpui:registerCodeSearchResults');
             });
@@ -738,7 +738,7 @@ $(document).ready(function() {
 	            document.title = defaultTitle;
 	        });
 	        self.element.bind("dpui:resultData", function(e, data) {
-	        	log("Recieved dpui:resultData below:");
+	        	log("Received dpui:resultData event data below:");
 	        	log(data);
             	// check for regular search
             	if (typeof data != 'undefined' && 
