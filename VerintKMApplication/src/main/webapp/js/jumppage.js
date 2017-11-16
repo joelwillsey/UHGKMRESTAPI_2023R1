@@ -7,11 +7,13 @@ var filtersServiceName = '/filterservices/';
 var kbaseTags = null;
 
 //$(document).ready(function() {
+
+
 $.fn.setUpJump=function() {
 	var params = $.fn.getAllParametersString();
 	
 	$.fn.parsingURLVariables(params);
-};
+}
 
 	$.fn.parsingURLVariables = function( params) {
 		//splits up the parameters
@@ -204,12 +206,30 @@ $.fn.setUpJump=function() {
 				case "searchProperties":
 					
 					var searchProperties = variables[3];
-					var search = variables[5];
+					var search = decodeURI(variables[5]);
 					var forward = variables[7];
+					var constSearchStart = '(title<starts>"'
+					var constSearchEnd	= '")';
+					//search should be in the form of &search=(title<starts>”CodeSearchValue“)
+						
+					var indexStart = search.indexOf(constSearchStart); 	
+					var indexEnd = search.indexOf(constSearchEnd);
 					
-					//apply filter to to a code definition search
+					log('search='+search);
 					
-					break;
+					if (indexStart != -1){
+						if (indexEnd != -1){
+							var search_term = search.substring(indexStart+constSearchStart.length, indexEnd -1)
+							//apply filter to to a code definition search
+							var url = searchServiceName + "code_search_container.html?query=" + search_term;
+							log('veiw URL: ' + url);
+							window.location.replace(url);
+						} else {
+							log('searchProperties format is incorrect, missing ")');
+						}
+					} else{
+						log('searchProperties format is incorrect, missing (title<starts>"');
+					}									
 					
 				default:
 					
@@ -220,6 +240,10 @@ $.fn.setUpJump=function() {
 				}
 			} else {
 				//not allowed to see content as they don't have the correct kbase tag
+				$('#background').addClass('background_on');
+				$('#error-body').html('Error: You do not have the authorization for this knowledge base');
+				$('#error-message').addClass('error_message_on');
+				alert('Error: You do not have the authorization for this knowledge base');
 				log('Agent does not have the knowledge base team that contains the kbase tag: ' + knowledgeBase);
 			}
 		} else if (variables[0] == "displayByRefName"){
@@ -285,3 +309,4 @@ $.fn.setUpJump=function() {
 $.fn.launchISetDTContent = function(data){
 	window.open (contentServiceName + 'iset_content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 }
+//});
