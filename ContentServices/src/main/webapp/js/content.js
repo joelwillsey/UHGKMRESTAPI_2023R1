@@ -97,14 +97,21 @@ $(document).ready(function() {
     	    	if (externalLink) {
     	    		window.top.close();
     	    	}
+    	        //show search window if this is a code search container.
+    	    	$('.dpui-widget').trigger('dpui:showCodeSearch');
         	}
     	} else {
 	    	if (externalLink) {
 	    		window.close();
 	    	}
+	        //show search window if this is a code search container.
+	    	$('.dpui-widget').trigger('dpui:showCodeSearch');
     	}
     });
 
+
+    
+    
     // Setup Mobile Left Array Button
 	$('.content-header-mobile-top-left-arrow').on('click', function() {
 		$('#content-container').removeClass('content_container_on');
@@ -1381,6 +1388,8 @@ $(document).ready(function() {
 			}
 		}
 	}
+
+	
 	// Setup cross widget communication
     $.widget('ui.ajaxStatus', {
         options: {
@@ -1394,6 +1403,9 @@ $(document).ready(function() {
             });
             self.element.bind('dpui:registerSearchResults', function(e) {
                 log('registerSearchResults');
+            });
+            self.element.bind('dpui:registerCodeSearchResults', function(e) {
+                log('registerCodeSearchResults');
             });
             self.element.bind('dpui:viewContent', function(e, data) {
                 log('viewContent');
