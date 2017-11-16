@@ -6,6 +6,124 @@ var publishedid = '';
 
 $(document).ready(function() {
 
+	//Need to start widgets first because functions after it triggers some of the events
+	
+	// Inter-widget communication
+	$.widget("ui.ajaxStatus", {
+        options: {
+        },
+        _create : function() {
+            var self = this;
+            self.element.addClass("dpui-widget");
+            self.element.bind("dpui:startWidget", function(e) {
+                log("startWidget");
+                $(".dpui-widget").trigger("dpui:registerSearch");
+            });
+            self.element.bind("dpui:registerSearchResults", function(e) {
+                log("registerSearchResults");
+            });
+	        self.element.bind("dpui:registerFilter", function(e, data) {
+	            log("registerFilter");
+	        });
+	        self.element.bind("dpui:setupContentTypeTags", function(e, data) {
+	            log("setupContentTypeTags");
+	            contentTypeTags = data;
+	        });
+	        self.element.bind("dpui:setupTags", function(e, data) {
+	            log("setupTags");
+	            filterTags = data;
+	        });
+	        self.element.bind("dpui:setupPublishedid", function(e, data) {
+	            log("setupPublishedid");
+	            publishedid = data;
+	        });
+	        self.element.bind("dpui:resetSearch", function(e, search_text) {
+                log("resetSearch");
+                log(search_text);
+            	// Search function
+                $('#search-text').val(search_text);
+                if (typeof search_text != 'undefined' && search_text != null && search_text != '') {
+                	$.fn.search(search_text, page, size, filterTags, contentTypeTags, '', publishedid, function(data) {
+                		$.fn.sendToResults('Search', data);
+                	});
+                } else {
+                	search_text = '*';
+                	$('#search-text').val(search_text);
+                	$.fn.search(search_text, page, size, filterTags, contentTypeTags, '', publishedid, function(data) {
+                		$.fn.sendToResults('Search', data);
+                	});
+                }
+            });
+	        self.element.bind("dpui:blankSearch", function(e, data) {
+	            log("blankSearch");
+	            /*  Commented out as blank search is always followed by alert search but we still need to populate the URL
+           	   $.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/blankResponse' , SEARCH_SERVICE_TIMEOUT, function(data) {
+            		$.fn.sendToResults('Search', data);
+            	}) */
+            	$.fn.populateURL("", page, size, filterTags, contentTypeTags, '', publishedid);
+            });
+	        self.element.bind("dpui:alertSearch", function(e, data) {
+	            log("alertSearch");
+	            	$.fn.toggleMenu('#tab-alert-button.left.search_alerts');
+	            	$.fn.toggleSearch('alert');
+	            	$('.dpui-widget').trigger('dpui:hideManageButton');
+	            var kTagParameter = $.fn.getParameterKbaseTag();
+	            console.log("Alert Search Trigger");
+	        	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
+	        		$.fn.sendToResults('Knowledge Alert', data);
+	        	});            	
+            });
+	        self.element.bind("dpui:runSearch", function(e, data) {
+                log("runSearch");
+                log(data);
+                $.fn.toggleMenu('#tab-search-button.search_search');
+                $.fn.toggleSearch('search');
+            	$('.dpui-widget').trigger('dpui:hideManageButton');
+                var search_text = $('#search-text').val();
+                if (typeof data != 'undefined' && data != null) {
+                	$.fn.search(search_text, data.page, size, filterTags, contentTypeTags, data.sort, publishedid, function(data) {
+                		$.fn.sendToResults('Search', data);
+                	});
+                } else {
+                	$.fn.search(search_text, page, size, filterTags, contentTypeTags, '', publishedid, function(data) {
+                		$.fn.sendToResults('Search', data);
+                	});
+                }
+            });
+            self.element.bind("dpui:runRefresh", function(e, data) {
+                log("Refreshing " + data);
+                
+            	// Refresh by the type
+                if (typeof data != 'undefined' && data != null && data != '') {
+                	var kTagParameter = $.fn.getParameterKbaseTag();
+                	if (data === 'Knowledge Alert')
+                		log("Knowledge Alert Search");
+                		$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
+                    		$.fn.sendToResults('Knowledge Alert', data);
+                    	});
+                	if (data === 'My Bookmarks')
+                		$.fn.bookmark(page, size);
+                	if (data === 'Featured Content')
+                		//pulls in kbase tags from url
+                		$.fn.featured(page, size, kTagParameter);
+                	if (data === 'Top Content')
+                		$.fn.newOrChanged(page, size, kTagParameter);
+                }
+            });
+            self.element.bind("dpui:updateSearchCloud", function(e, data) {
+            	log("UpdateSearchCloud " + data);
+            	// Refresh by the type
+                if (typeof data != 'undefined' && data != null && data != '') {
+//                	$('#fs-dt-info-label').css('display', 'none');
+//                	$('#ul-all-tags').append(buildLi);
+                }
+            });
+        },
+        destroy: function(){
+            $.Widget.prototype.destroy.apply(this, arguments);
+        },
+    });
+
 	
 	// Service Cloud arrow link
 	$('#fs-li-cloud').on('click', function() {
@@ -23,23 +141,7 @@ $(document).ready(function() {
 			$(idname).removeClass('ion-chevron-down');
 			$(idname).addClass('ion-chevron-right');
 		}
-	}
-	
-	// Toggle the search cloud
-//	$.fn.toggleSearchCloudSection = function() {
-//		// determine which way it is pointing
-//		if ($('#search-filter-arrow').hasClass('ion-chevron-down')) {
-//			$('#search-filter-arrow').removeClass('ion-chevron-down');
-//			$('#search-filter-arrow').addClass('ion-chevron-right');
-//			$('#search-filter-data').removeClass('on');
-//			$('#search-filter-data').addClass('off');
-//		} else {
-//			$('#search-filter-arrow').addClass('ion-chevron-down');
-//			$('#search-filter-arrow').removeClass('ion-chevron-right');
-//			$('#search-filter-data').removeClass('off');
-//			$('#search-filter-data').addClass('on');
-//		}
-//	}
+	}	
 
 	// Toggle the search menu
 	$.fn.toggleMenu= function(selection) {
@@ -141,51 +243,6 @@ $(document).ready(function() {
 	    debug: true
 	});
 
-//	// Alert button
-//    $('#tab-alert-button').on('click', function() {
-//    	$('#sr-numbers').show();
-//    	$.fn.toggleMenu(this);
-//    	$.fn.toggleSearch('alert');
-//    	$('.dpui-widget').trigger('dpui:hideManageButton');
-//    	var kTagParameter = $.fn.getParameterKbaseTag();
-//    	console.log("Alert Button Clicked");
-//    	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
-//    		$.fn.sendToResults('Knowledge Alert', data);
-//    	});
-//	});
-//
-//	// Bookmark button
-//    $('#tab-bookmarks-button').on('click', function() {
-//    	$('#sr-numbers').hide();
-//    	$.fn.toggleMenu(this);
-//    	$.fn.toggleSearch('bookmark');
-//    	$('.dpui-widget').trigger('dpui:showManageButton');
-//    	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
-//    	$.fn.bookmark(page, size, kTagsParameterStrings);
-//	});
-//
-//    // Featured Content button
-//	$('#tab-featured-button').on('click', function() {
-//		$('#sr-numbers').show();
-//    	$.fn.toggleMenu(this);
-//    	$.fn.toggleSearch('featured');
-//    	$('.dpui-widget').trigger('dpui:hideManageButton');
-//    	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
-//    	$.fn.featured(page, size, kTagsParameterStrings);
-//	});
-//
-//	// New or Changed Button button
-//	$('#tab-new-changed-button').on('click', function() {
-//		$('#sr-numbers').show();
-//    	$.fn.toggleMenu(this);
-//    	$.fn.toggleSearch('neworchanged');
-//    	$('.dpui-widget').trigger('dpui:hideManageButton');
-//    	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
-//		
-//		if (kTagsParameterStrings != null) {
-//			$.fn.newOrChanged(page, size, kTagsParameterStrings);
-//		 }
-//	});
 
     // Search button
 	$('#tab-search-button').on('click', function() {
@@ -232,13 +289,6 @@ $(document).ready(function() {
 		 }
 	});
 
-	// Catch enter key; call the search service
-	/*$(document).keydown( function(event) {
-		if (event.which === 13){
-			$.fn.toggleMenu($('#tab-search-button'));
-			$(".dpui-widget").trigger("dpui:runSearch");
-		}
-	});*/
 	
 	$.fn.checkEnter = function(e) {
 		if (e.which === 13) {
@@ -368,121 +418,6 @@ $(document).ready(function() {
 
 	}
 
-	// Inter-widget communication
-	$.widget("ui.ajaxStatus", {
-        options: {
-        },
-        _create : function() {
-            var self = this;
-            self.element.addClass("dpui-widget");
-            self.element.bind("dpui:startWidget", function(e) {
-                log("startWidget");
-                $(".dpui-widget").trigger("dpui:registerSearch");
-            });
-            self.element.bind("dpui:registerSearchResults", function(e) {
-                log("registerSearchResults");
-            });
-	        self.element.bind("dpui:registerFilter", function(e, data) {
-	            log("registerFilter");
-	        });
-	        self.element.bind("dpui:setupContentTypeTags", function(e, data) {
-	            log("setupContentTypeTags");
-	            contentTypeTags = data;
-	        });
-	        self.element.bind("dpui:setupTags", function(e, data) {
-	            log("setupTags");
-	            filterTags = data;
-	        });
-	        self.element.bind("dpui:setupPublishedid", function(e, data) {
-	            log("setupPublishedid");
-	            publishedid = data;
-	        });
-	        self.element.bind("dpui:resetSearch", function(e, search_text) {
-                log("resetSearch");
-                log(search_text);
-            	// Search function
-                $('#search-text').val(search_text);
-                if (typeof search_text != 'undefined' && search_text != null && search_text != '') {
-                	$.fn.search(search_text, page, size, filterTags, contentTypeTags, '', publishedid, function(data) {
-                		$.fn.sendToResults('Search', data);
-                	});
-                } else {
-                	search_text = '*';
-                	$('#search-text').val(search_text);
-                	$.fn.search(search_text, page, size, filterTags, contentTypeTags, '', publishedid, function(data) {
-                		$.fn.sendToResults('Search', data);
-                	});
-                }
-            });
-	        self.element.bind("dpui:blankSearch", function(e, data) {
-	            log("blankSearch");
-	            /*  Commented out as blank search is always followed by alert search but we still need to populate the URL
-           	   $.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/blankResponse' , SEARCH_SERVICE_TIMEOUT, function(data) {
-            		$.fn.sendToResults('Search', data);
-            	}) */
-            	$.fn.populateURL("", page, size, filterTags, contentTypeTags, '', publishedid);
-            });
-	        self.element.bind("dpui:alertSearch", function(e, data) {
-	            log("alertSearch");
-	            	$.fn.toggleMenu('#tab-alert-button.left.search_alerts');
-	            	$.fn.toggleSearch('alert');
-	            	$('.dpui-widget').trigger('dpui:hideManageButton');
-	            var kTagParameter = $.fn.getParameterKbaseTag();
-	            console.log("Alert Search Trigger");
-	        	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
-	        		$.fn.sendToResults('Knowledge Alert', data);
-	        	});            	
-            });
-	        self.element.bind("dpui:runSearch", function(e, data) {
-                log("runSearch");
-                log(data);
-                $.fn.toggleMenu('#tab-search-button.search_search');
-                $.fn.toggleSearch('search');
-            	$('.dpui-widget').trigger('dpui:hideManageButton');
-                var search_text = $('#search-text').val();
-                if (typeof data != 'undefined' && data != null) {
-                	$.fn.search(search_text, data.page, size, filterTags, contentTypeTags, data.sort, publishedid, function(data) {
-                		$.fn.sendToResults('Search', data);
-                	});
-                } else {
-                	$.fn.search(search_text, page, size, filterTags, contentTypeTags, '', publishedid, function(data) {
-                		$.fn.sendToResults('Search', data);
-                	});
-                }
-            });
-            self.element.bind("dpui:runRefresh", function(e, data) {
-                log("Refreshing " + data);
-                
-            	// Refresh by the type
-                if (typeof data != 'undefined' && data != null && data != '') {
-                	var kTagParameter = $.fn.getParameterKbaseTag();
-                	if (data === 'Knowledge Alert')
-                		log("Knowledge Alert Search");
-                		$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', '', '', function(data) {
-                    		$.fn.sendToResults('Knowledge Alert', data);
-                    	});
-                	if (data === 'My Bookmarks')
-                		$.fn.bookmark(page, size);
-                	if (data === 'Featured Content')
-                		//pulls in kbase tags from url
-                		$.fn.featured(page, size, kTagParameter);
-                	if (data === 'Top Content')
-                		$.fn.newOrChanged(page, size, kTagParameter);
-                }
-            });
-            self.element.bind("dpui:updateSearchCloud", function(e, data) {
-            	log("UpdateSearchCloud " + data);
-            	// Refresh by the type
-                if (typeof data != 'undefined' && data != null && data != '') {
-//                	$('#fs-dt-info-label').css('display', 'none');
-//                	$('#ul-all-tags').append(buildLi);
-                }
-            });
-        },
-        destroy: function(){
-            $.Widget.prototype.destroy.apply(this, arguments);
-        },
-    });
 
 	$.ui.ajaxStatus( {}, $( "<div></div>" ).appendTo( "body") );
     $(".dpui-widget").trigger("dpui:startWidget");
@@ -876,13 +811,69 @@ $(document).ready(function() {
 		return data;
 	}
 	
+
+	$.fn.checkKBaseTags = function(systemTagName) {
+		var url = filtersServiceName + 'km/kbasetags';		
+		var result = false;
+		
+    	jQuery.ajaxSetup({
+			async : false
+		});
+    	
+		$.fn.serviceCall('GET', '', url, 15000, function(data) {
+			
+			var kbaseData = '';
+			if (typeof data.tags != 'undefined' && data.tags != null && data.tags.length > 0) {
+				for (var x = 0; x < data.tags.length; x++) {
+					if (typeof data.tags[x] != 'undefined' && data.tags[x] != null && data.tags[x].systemTagName.length > 0) {
+						//log('tag[' + x + '].systemTagName=' + data.tags[x].systemTagName);
+						if (data.tags[x].systemTagName == systemTagName){
+							result = true;
+							//log ('result = ' + result);
+							break;}
+						}
+					}
+				}
+		});
+
+		jQuery.ajaxSetup({
+			async : true
+		});
+		log ('Agent result of $.fn.checkKBaseTags(' + systemTagName + ') = '+ result);
+		return result;
+	}
+	
+
+	var sTags = $.fn.getParameterByName('tags');
+	var arraysTags = sTags.split(",");
+	var kbaseTag = '';
+	
+	for (var i = 0; i < arraysTags.length; i++) {
+		
+		var tagName = arraysTags[i];
+		var tagInfo = tagName.split("_");
+		if (tagInfo[0] == 'kbase'){
+			//found a kbase tag
+			kbaseTag = tagName;
+			break;			
+		} 		
+	}
+	
     // Check if the parameters passed in required a search
-    if (!$.fn.checkForContentId()) {
-	    if (!$.fn.checkForUrlSearch()) {
-	    	/**  Don't need to do this anymore as alerts have been added to the dpui:alertSearch which runs after a dpui:blankSearch **/
-	    	// Setup initial sizes
-	    	//$.fn.setupSearchWidget();
-	    	//$.fn.setupSearchResultsWidget();
+	if ($.fn.checkKBaseTags(kbaseTag)){
+	    if (!$.fn.checkForContentId()) {
+		    if (!$.fn.checkForUrlSearch()) {
+		    	// Setup initial sizes
+		    	//$.fn.setupSearchWidget();
+		    	//$.fn.setupSearchResultsWidget();
+		    }
 	    }
-    }
+    } else {
+		//not authorized for code KB
+		log('Show error message: Error: You are not authorized for searching the knowledge base');
+		$('#background').addClass('background_on');
+		$('#error-body').html('Error: You are not authorized for searching the knowledge base');
+		$('#error-message').addClass('error_message_on');
+	}
+	
 });

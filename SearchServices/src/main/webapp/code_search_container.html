@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Verint Search Widget</title>
+	<title>Verint Code Search</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 	<link media="screen" type="text/css" href="css/ionicons.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/jquery-ui/11.4.1/jquery-ui.min.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/common.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/filterservices/css/filters.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/code_search.css" rel="stylesheet"/>
 	<link rel="icon" type="image/png" href="images/favicon.png">
 	<script type='text/javascript' src="js/jquery/2.2.3/jquery.min.js"></script>
 	<script type='text/javascript' src="js/jquery.typeahead.js"></script>
@@ -32,7 +33,7 @@
 		var SEARCH_SERVICE_TIMEOUT = 41000;
 
 		var historyPushEnabled = false;
-		var defaultTitle = 'Verint Search Widget';
+		var defaultTitle = 'Verint Code Search';
 
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
@@ -72,7 +73,17 @@
 			</div>
 		</div>
 	</div>
-
+	<section id="widgetHeader" style="position: relative; height: 45px;">
+		<div id="widgetHeader-logo">
+			<div style="float: right; height: 45px; line-height: 45px; text-align: center; ">
+				<button id="widget-help" style="background-image: url(images/iconHelp.png);height: 24px;width: 24px;display: inline-block;vertical-align: middle;line-height: normal;background-color: #666666;"></button>
+				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>
+				<span id="widgetHeader-name" style="display: inline-block; vertical-align: middle; line-height: normal; color: #ffffff"></span>
+				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>	
+				<!--  <button id="widget-logout" style="background-image: url(images/Logout_btn.png); height: 22px; width: 22px; display: inline-block; margin-right: 5px; vertical-align: middle; line-height: normal; background-color: #666666"></button> -->			
+			</div>
+		</div>
+	</section>
 	</section>
 	<section id="code-search-area">
 
@@ -80,10 +91,14 @@
 			<script id="code-search-info" src="js/code_search_container.js" type="text/javascript"></script>
 		</div>
 		<div id="search-results-widget">
-			<script id="search-results-info" src="js/code_search_results_container.js" type="text/javascript"></script>
+			  <script id="search-results-info" src="js/code_search_results_container.js" type="text/javascript"></script> 
 		</div>
 	</section>
-	
+	<section id="content-area">
+		<div id="content-widget">
+			<script id="code-content-info" src="js/code_content.js" type="text/javascript"></script>
+		</div>
+	</section>
 </body>
 <script type="text/javascript">
 	//
@@ -102,6 +117,33 @@
 		}		
 	}
 
+	var agentInfo = $.fn.getCookie('AgentInfo');
+	if (agentInfo != null && agentInfo != '') {
+		$('#widgetHeader-name').html('Hi ' + agentInfo);
+	}
+	
+	// Help button
+	$('#widget-help').on('click', function () {
+		var helpUrl = $.fn.getProperty('verintkm.helpfile.url');
+		if (typeof helpUrl != 'undefined' && helpUrl && helpUrl != '') {
+			window.open(helpUrl, '_blank');
+		} else {
+			alert('The help content is currently unavailable.  Please contact your administrator.');
+		}
+	});
+	
+	// Logout button
+	// NOTE: This needs to be improved as the cookie is not actually being deleted
+	$('#widget-logout').on('click', function() {
+		//$.cookie('AuthToken', '', { path: '/' });
+		//$.removeCookie('AgentInfo', null, { path: '/' });
+		//$.removeCookie("AuthToken",  { path: '/' });
+		$.cookie('AuthToken', '', { expires: -1, path: '/'});
+		//$.cookie('AgentInfo', '', { expires: -1, path: '/'});
+		basicAuth = '';		
+		$('#widgetHeader-name').html('');		
+		window.document.location = 'logout.html';
+	});
 	// Search Results resize
 	$.fn.setupSearchResultsWidget = function() {
 		// 
@@ -164,6 +206,7 @@
 	// Setup initial sizes
 	$.fn.setupSearchWidget();
 	$.fn.setupSearchResultsWidget();
+	
 </script>
 <style>
 	/* Media Queries */

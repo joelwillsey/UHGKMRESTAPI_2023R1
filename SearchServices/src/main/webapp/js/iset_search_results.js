@@ -118,7 +118,7 @@ $(document).ready(function() {
     	}
     	    	
     	
-    	// put the scrool bar back to the top
+    	// put the scroll bar back to the top
     	$('#sr-listing').scrollTop(0);
 
 
@@ -135,8 +135,6 @@ $(document).ready(function() {
 			"contentId" : contentId,
 			"contentType" : contentType
 		}
-    	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
 
 		var sPageURL = decodeURIComponent(window.location.search.substring(1));
 		$('.dpui-widget').trigger("dpui:viewContent", packagedData);
@@ -155,31 +153,21 @@ $(document).ready(function() {
     			"tags": tags,
     			"bookmarked": false
     	}
-    	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
+
 
 		$('.dpui-widget').trigger("dpui:viewExternalContent", packagedData);
 	}
 
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
-    	// put the scroll bar back to the top
-		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
-    	//$('#sr-listing').scrollTop(0);
 
 		window.open (contentServiceName + 'iset_content_container.html?id=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchDTContent = function(data) {
-    	// put the scroll bar back to the top
-		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
-    	//$('#sr-listing').scrollTop(0);
 
 		window.open (contentServiceName + 'iset_content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchViewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
-    	// put the scroll bar back to the top
-		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
-    	//$('#sr-listing').scrollTop(0);
 
 		var passedUrl = 'contentId=' + encodeURIComponent(contentId) + '&url=' + encodeURIComponent(url) + '&isFeatured=' + isFeatured + '&averageRating=' + averageRating;
 		passedUrl += '&numRatings=' + numRatings + '&title=' + encodeURIComponent(title) + '&publishedDate=' + encodeURIComponent(publishedDate) + '&tags=' + encodeURIComponent(tags);
@@ -219,7 +207,12 @@ $(document).ready(function() {
 	// Setup slice results if there are any
 	$.fn.setupSlicedContent = function(data, results) {
 		results.push('<article>');
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		// Check for a decision tree or not
+		if (data.contentType === 'pageSet') {
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		} else {
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		}		
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {

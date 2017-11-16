@@ -188,7 +188,8 @@ button{
 			}
 			.sr_listing_result article a.sr_lr_article {
 				color: #222222;
-				display: block;
+				/** display: block;  **/
+				display: inline-block; /** Added to allow +- icon to show inline **/
 				padding: 3px;
 				position: relative;
 				text-decoration: none;
@@ -237,6 +238,40 @@ button{
 			}
 			.sr_lr_icon_content_remotedocument, .sr_lr_icon_KnowledgeRemoteDocumentED {
 				background: transparent url(../images/iconKnowledgeRemoteDocument.png) no-repeat scroll center center;
+			}
+			.sr_lr_icon_content_toggle_expand {
+				background: transparent url(../images/toggle_plus.png) no-repeat scroll center center;
+			}
+			.sr_lr_icon_content_toggle_collapse {
+				background: transparent url(../images/toggle_minus.png) no-repeat scroll center center;
+			}
+			.sr_lr_icon_expand_collapse {
+				cursor: pointer;
+		    	display: inline-block;
+			    line-height: 16px;
+			    overflow: hidden;
+			    padding-right: 5px;
+			    vertical-align: middle;
+			    width: 16px;
+			    vertical-align: top;
+			}
+			.sr_lr_policy_search_on {
+				color: #222222;
+				display: block; 
+				padding: 3px 3px 3px 3px;
+				margin: 3px 48px 3px 24px;
+				position: relative;
+				text-decoration: none;
+			}
+			.sr_lr_policy_search_off {
+				display: none;
+			}
+			.sr_lr_policy_search_results {
+				color: #222222;
+				/**display: block;**/ 
+				padding: 3px 3px 3px 24px;
+				position: relative;
+				text-decoration: none;
 			}
 			.sr_lr_title {
 				color: #003c71;

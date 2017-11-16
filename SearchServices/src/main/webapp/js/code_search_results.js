@@ -4,9 +4,22 @@ var query;
 var base_query;
 var filterTags;
 var contentType;
+var kbaseTag = '';
+var policiesTopicTag = '';
+var codesTopicTag;
+var maxSizeOfPolicyResults;
+var defaultTitle = 'Verint Code Search';
 
 $(document).ready(function() {
 
+	kbaseTag = $.fn.getProperty('code.search.kbase');
+	policiesTopicTag = $.fn.getProperty('code.search.topic.policies');
+	maxSizeOfPolicyResults = parseInt($.fn.getProperty('code.search.topic.policies.maxsize'));
+	
+	if(maxSizeOfPolicyResults == 'undefined' || maxSizeOfPolicyResults == null){
+		maxSizeOfPolicyResults = 50;
+	}
+	
 	// Setup package data
 	var setupPackage = function(toSortBy) {
 		sortBy = toSortBy;
@@ -18,14 +31,16 @@ $(document).ready(function() {
     	return packagedData;
 	}
 
-	filterTags = $.fn.getParameterByName('tags');
+	codesTopicTag = $('#code-selection').val();
+	filterTags = kbaseTag + "," + codesTopicTag;
+	
+
 	log("filterTags:" + filterTags);
-	base_query = $.fn.getParameterByName('query');
+	base_query = $('#search-text').val();
 	log("base_query:" + base_query);
 	contentType = $.fn.getParameterByName('categories');
 	log("contentType:" + contentType);
-	
-	$('#search-text').val(base_query);
+
 	
 	// Sort by Relevance
 	var sortByRelevance = function(event) {
@@ -47,40 +62,6 @@ $(document).ready(function() {
 		// Call search widget to do new search
 		$('.dpui-widget').trigger("dpui:resetSearch", query);
 	}
-
-	// Manage button
-	$('#sr-hns-manage').on('click', function(event) {
-		log('Manage Bookmark');
-		// Load Manage Bookmarks HTML
-		$.get(searchServiceName + 'manage_bookmarks.html', function(data) {
-			$('#manage-bookmarks-widget').html(data);
-			$.fn.getBookmarks($.fn.manageBookmarkCallback);
-			$('#popup').html($('#manage-bookmarks-widget').html());
-			$('#manage-bookmarks-widget').html('');
-			$('#popup').removeClass('popup');
-			$('#popup').addClass('popup_on');
-			$('#popup').addClass('popup_full');
-			$("#popup").css("overflow", "scroll");
-			$('.content_body_field_custom_data').hide();
-		});
-	});
-
-
-	// Refresh button
-	$('#sr-hns-refresh').on('click', function(event) {
-    	if($('#tab-alert-button').hasClass('sel')){
-    		$('#tab-alert-button').click();
-    	}
-    	else if ($('#tab-bookmarks-button').hasClass('sel')){
-    		$('#tab-bookmarks-button').click();
-    	}
-    	else if ($('#tab-featured-button').hasClass('sel')){
-    		$('#tab-featured-button').click();
-    	} 
-    	else if ($('#tab-new-changed-button').hasClass('sel')){
-    		$('#tab-new-changed-button').click();
-    	}
-	});
 	
 	// Sort by date link
 	$('#sr-sort-by-date').on('click', function(event) {
@@ -93,7 +74,16 @@ $(document).ready(function() {
 
 	// Request Answer
 	$('#sr-request').on('click', function() {
-		log('query: ' + query);
+		
+		//need to set the URL parameters
+		
+		codesTopicTag = $('#code-selection').val();
+		filterTags = kbaseTag + "," + codesTopicTag;
+		base_query = $('#search-text').val();
+		
+		$.fn.populateURL(base_query, page, size, filterTags, contentType, '', publishedid);
+		
+		log('query: ' + base_query);
 		// Load Request Answer HTML
 			$('#popup').html($('#request-answer-widget').html());
 			$('#request-answer-widget').html('');
@@ -101,6 +91,9 @@ $(document).ready(function() {
 			$('#background').addClass('background_on');
 			$('#popup').addClass('popup');
 			$('#popup').addClass('popup_on');
+			
+
+			
 	});
 		
 	// Call search to paginate
@@ -121,7 +114,9 @@ $(document).ready(function() {
     	// put the scroll bar back to the top
     	$('#sr-listing').scrollTop(0);
 
-
+    	codesTopicTag = $('#code-selection').val();
+    	filterTags = kbaseTag + "," + codesTopicTag;
+    	
 		$.fn.search(query, data, size, filterTags, contentType, sortBy, publishedid, function(data) {
     		$.fn.sendToResults('Search', data);
     	});
@@ -135,9 +130,10 @@ $(document).ready(function() {
 			"contentId" : contentId,
 			"contentType" : contentType
 		}
-    	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
 
+		//hide the code search window
+		$('.dpui-widget').trigger('dpui:hideCodeSearch');
+		
 		var sPageURL = decodeURIComponent(window.location.search.substring(1));
 		$('.dpui-widget').trigger("dpui:viewContent", packagedData);
 
@@ -155,31 +151,24 @@ $(document).ready(function() {
     			"tags": tags,
     			"bookmarked": false
     	}
-    	// put the scroll bar back to the top
-    	$('#sr-listing').scrollTop(0);
 
+    	//hide the code search window
+    	$('.dpui-widget').trigger('dpui:hideCodeSearch');
+    	
+    	log(packagedData);
 		$('.dpui-widget').trigger("dpui:viewExternalContent", packagedData);
 	}
 
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
-    	// put the scroll bar back to the top
-		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
-    	//$('#sr-listing').scrollTop(0);
 
 		window.open (contentServiceName + 'iset_content_container.html?id=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchDTContent = function(data) {
-    	// put the scroll bar back to the top
-		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
-    	//$('#sr-listing').scrollTop(0);
 
 		window.open (contentServiceName + 'iset_content_container.html?dtreeid=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchViewExternalContent = function(contentId, url, isFeatured, averageRating, numRatings, title, publishedDate, tags) {
-    	// put the scroll bar back to the top
-		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
-    	//$('#sr-listing').scrollTop(0);
 
 		var passedUrl = 'contentId=' + encodeURIComponent(contentId) + '&url=' + encodeURIComponent(url) + '&isFeatured=' + isFeatured + '&averageRating=' + averageRating;
 		passedUrl += '&numRatings=' + numRatings + '&title=' + encodeURIComponent(title) + '&publishedDate=' + encodeURIComponent(publishedDate) + '&tags=' + encodeURIComponent(tags);
@@ -217,9 +206,17 @@ $(document).ready(function() {
 	}
 	
 	// Setup slice results if there are any
-	$.fn.setupSlicedContent = function(data, results) {
+	$.fn.setupSlicedContent = function(data, results, addPolicySearch) {
 		results.push('<article>');
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		if (addPolicySearch){
+			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + data.title + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
+		}
+		// Check for a decision tree or not
+		if (data.contentType === 'pageSet') {
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		} else {
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		}		
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 		if (data.isFeatured) {
@@ -239,12 +236,15 @@ $(document).ready(function() {
 			results.push('  <div class="sr_lr_info_date">' + data.knowledgeUnits[x].lastPublishedDate + '</div>');
 			results.push('</div>');
 		}
+		if (addPolicySearch){
+			results.push('<div id="policy_search_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_policy_search_off"><p><span id="policies_header_' + $.fn.getAlphaNumeric(data.contentID) + '" class="policies_header">Policies</span></p><div id="policy_search_results_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_policy_search_results policies_search_box"><span style="color: #a2a2a2;">Search Results</span></div></div>');
+		}
 		results.push('</article>');
 		return results;
 	}
 	
 	// Setup external content links
-	$.fn.setupExternalContent = function(data, results) {
+	$.fn.setupExternalContent = function(data, results, addPolicySearch) {
 		var nTags = data.knowledgeUnits[0].tags;
 		var passTags = '';
 		if (typeof nTags != 'undefined' && nTags != null && nTags.length > 0) {
@@ -253,7 +253,10 @@ $(document).ready(function() {
 			}
 		}
 		results.push('<article>');
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewExternalContent(\'' +
+		if (addPolicySearch){
+			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + data.title + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
+		}
+		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
 			data.contentID + '\',\'' +
 			data.knowledgeUnits[0].associatedContentURL + '\',' + 
 			data.isFeatured + ',' +
@@ -279,7 +282,7 @@ $(document).ready(function() {
 		results.push('      </div>');
 		results.push('    </div>');
 		results.push('  </a>');
-/*		results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewExternalContent(\'' + 
+		results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewExternalContent(\'' + 
 			data.contentID + '\',\'' +
 			data.knowledgeUnits[0].associatedContentURL + '\',' + 
 			data.isFeatured + ',' +
@@ -287,19 +290,25 @@ $(document).ready(function() {
 			data.numberOfRatings + ',\'' +
 			data.title + '\',\'' +
 			data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
-			passTags + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');*/
+			passTags + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+		if (addPolicySearch){
+			results.push('<div id="policy_search_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_policy_search_off"><p><span id="policies_header_' + $.fn.getAlphaNumeric(data.contentID) + '" class="policies_header">Policies</span></p><div id="policy_search_results_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_policy_search_results policies_search_box"><span style="color: #a2a2a2;">Search Results</span></div></div>');
+		}
 		results.push('</article>');
 		return results;		
 	}
 	
 	// Setup results links
-	$.fn.setupResultsLinks = function(data, results) {
+	$.fn.setupResultsLinks = function(data, results, addPolicySearch) {
 		results.push('<article>');
+		if (addPolicySearch){
+			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + data.title + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
+		}
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
 		} else {
-			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
 		}
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
@@ -322,9 +331,12 @@ $(document).ready(function() {
 		results.push('  </a>');
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
-			//results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchDTContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchDTContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
 		} else {
-			//results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+		}
+		if (addPolicySearch){
+			results.push('<div id="policy_search_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_policy_search_off"><p><span id="policies_header_' + $.fn.getAlphaNumeric(data.contentID) + '" class="policies_header">Policies</span></p><div id="policy_search_results_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_policy_search_results policies_search_box"><span style="color: #a2a2a2;">Search Results</span></div></div>');
 		}
 		results.push('</article>');
 		return results;
@@ -382,14 +394,14 @@ $(document).ready(function() {
 						for (var p = 0; (data.suggestedQueries[i].knowledgeGroupUnits != null) && (p < data.suggestedQueries[i].knowledgeGroupUnits.length); p++) {
 							if (data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits != null && 
 								data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits.length > 1) {
-								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
+								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results, true);
 							} else {
 								// Do we have spidered content to setup?
 								if (data.suggestedQueries[i].knowledgeGroupUnits[p].contentType === 'Unstructured') {
-									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
+									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results, true);
 								} else {
 									// "regular" content
-									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
+									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[p], results, true);
 								}
 							}
 						}
@@ -409,14 +421,14 @@ $(document).ready(function() {
 			// Loop through the results
 			for (var i=0;(data.knowledgeGroupUnits != null) && (i < data.knowledgeGroupUnits.length); i++) {
 				if (data.knowledgeGroupUnits[i].knowledgeUnits != null && data.knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
-					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results);
+					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results, true);
 				} else {
 					// Do we have spidered content to setup?
 					if (data.knowledgeGroupUnits[i].contentType === 'Unstructured') {
-						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results);
+						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results, true);
 					} else {
 						// "regular" content
-						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results);
+						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, true);
 					}
 				}
 			}
@@ -500,7 +512,7 @@ $(document).ready(function() {
 		if (typeof $.fn.setupSearchResultsWidget === "function") { 
 			$.fn.setupSearchResultsWidget();
 		}
-	}
+	}	
 	
 	// checks the current date of the content and whether or no it should have the new or changed label
 	// returns true if less then the date agreed on, otherwise returns false
@@ -542,6 +554,152 @@ $(document).ready(function() {
 		}
 	}
 
+	$.fn.launchPolicySearch = function(id, title) {
+		 var iconId = 'policy_' + id;
+		 var searchId = 'policy_search_' + id;
+		 var searchCode = '';
+		 
+		//The next two statements remove the html formatting from the string
+		var tempHTML = $.parseHTML(title);
+		var strTitle = $(tempHTML).text();
+		
+		//Remove any whitespaces
+		strTitle = strTitle.trim();
+		
+		//Code is all the text up to the first space character
+		searchCode = strTitle.substr(0, strTitle.indexOf(' '));
+		log('searchCode: ' + searchCode);
+			
+		console.log(iconId);
+		if ($('#'+iconId).hasClass('sr_lr_icon_content_toggle_expand')){
+			//need to expand and show the policy search box
+			console.log('Expend policy search');
+			$('#'+iconId).removeClass('sr_lr_icon_content_toggle_expand');
+			$('#'+iconId).addClass('sr_lr_icon_content_toggle_collapse');
+			
+			$('#'+searchId).removeClass('sr_lr_policy_search_off');
+			$('#'+searchId).addClass('sr_lr_policy_search_on');
+			
+			$.fn.policySearch(searchCode, id);
+			
+		} else {
+			console.log('Collapse policy search');
+			$('#'+iconId).removeClass('sr_lr_icon_content_toggle_collapse');
+			$('#'+iconId).addClass('sr_lr_icon_content_toggle_expand');
+			
+			$('#'+searchId).removeClass('sr_lr_policy_search_on');
+			$('#'+searchId).addClass('sr_lr_policy_search_off');
+		}
+		
+
+	}
+	
+	$.fn.getAlphaNumeric = function(data){
+		 var code, i, len;
+		 var result = '';
+
+		  for (i = 0, len = data.length; i < len; i++) {
+		    code = data.charCodeAt(i);
+		    if ((code > 47 && code < 58) || // numeric (0-9)
+		        (code > 64 && code < 91) || // upper alpha (A-Z)
+		        (code > 96 && code < 123)) { // lower alpha (a-z)
+		      result += data.charAt(i);
+		    }
+		  }
+		  
+		  return result;
+	}
+	
+	$.fn.policySearch = function(search_text, id){
+		
+		var resultsHTML = [];
+		
+    	if (sortBy == undefined) {
+    		sortBy = "";
+    	}    	
+    	
+		var fTags = kbaseTag + "," + policiesTopicTag;
+		
+		$.fn.search(search_text, 1, maxSizeOfPolicyResults, fTags, contentType, sortBy, publishedid, function(data) {
+			log('Policy Search Below:');
+			log(data);
+			$.fn.setPolicySearchResults(data, resultsHTML, id);
+			//log('resultsHTML: ' + resultsHTML);
+    	});
+	}
+	
+	// Setup search results numbers
+	$.fn.setupPolicyResultsNumbers = function(data, id) {
+		
+		//declare these variables locally to deal with services that dont return them
+		var page;
+		var size;
+		
+		//runs checks to give default values to page and size
+		if(data.page == 'undefined' || data.page == null){
+			page = 1;
+		} else {
+			page = data.page;
+		}
+		if(data.size == 'undefined' || data.size == null){
+			size = 20;
+		} else {
+			size = data.size;
+		}
+		
+		data.totalPages = Math.ceil(data.numberOfResults / data.size);
+		// sets values for the showing numbers
+		var oneOf = ((page-1) * size);
+		var twoOf = oneOf + size;
+		// Check if we are at the end of the pagination
+		if ((data.numberOfResults < size) || (data.numberOfResults < twoOf)) {
+			var twoOf = data.numberOfResults;				
+		}
+		
+		if (data.numberOfResults == 0){
+			$('#policies_header_'+id).html('Policies - No results were found');
+			//$('#policy_search_results_'+id).addClass('policies_search_box_off');
+		} else {
+			if(data.numberOfResults > maxSizeOfPolicyResults){
+				$('#policies_header_'+id).html('Policies - Showing the first ' + maxSizeOfPolicyResults + ' relevant  results');
+			} else {
+				if (data.numberOfResults == 1){
+					$('#policies_header_'+id).html('Policies - Found ' + data.numberOfResults + ' Result');
+				} else {
+					$('#policies_header_'+id).html('Policies - Found ' + data.numberOfResults + ' Results');
+				}
+			}
+		}
+	}
+	
+	$.fn.setPolicySearchResults = function(data, results, id){
+	
+		$.fn.setupPolicyResultsNumbers(data,id);
+		
+		// See if there is regular results
+		if (typeof data.knowledgeGroupUnits != 'undefined' && data.knowledgeGroupUnits != null && data.knowledgeGroupUnits.length > 0) {
+			// Loop through the results
+			for (var i=0;(data.knowledgeGroupUnits != null) && (i < data.knowledgeGroupUnits.length); i++) {
+				if (data.knowledgeGroupUnits[i].knowledgeUnits != null && data.knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
+					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results, false);
+				} else {
+					// Do we have spidered content to setup?
+					if (data.knowledgeGroupUnits[i].contentType === 'Unstructured') {
+						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results, false);
+					} else {
+						// "regular" content
+						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, false);
+					}
+				}
+			}
+			$('#policy_search_results_'+id).html(results.join('\n'));
+		}
+		
+		log('results: ' + results);
+		results.length = 0; // Clear the array
+		
+	}
+	
 	// Setup the inter-widget communication
 	$.widget("ui.ajaxStatus", {
 	    options: {
@@ -552,7 +710,7 @@ $(document).ready(function() {
             self.element.bind('dpui:startWidget', function(e) {
                 log('startWidget');
                 // register the widget with other widgets
-                $('.dpui-widget').trigger('dpui:registerSearchResults');
+                $('.dpui-widget').trigger('dpui:registerCodeSearchResults');
             });
 	        self.element.bind('dpui:registerSearch', function(e) {
 	            log("registerSearch");
@@ -567,6 +725,15 @@ $(document).ready(function() {
 	        self.element.bind('dpui:hideManageButton', function(e) {
 	            log('hideManageButton');
 	            $('#sr-hns-manage').addClass('sr_hns_right_off');
+	        });
+	        self.element.bind('dpui:hideCodeSearch', function(e) {
+	            log('hideCodeSearch');
+	            $('#code-search-area').addClass('code_area_off');	            
+	        });
+	        self.element.bind('dpui:showCodeSearch', function(e) {
+	            log('showCodeSearch');
+	            $('#code-search-area').removeClass('code_area_off');
+	            document.title = defaultTitle;
 	        });
 	        self.element.bind("dpui:resultData", function(e, data) {
 	        	log("resultData below:");

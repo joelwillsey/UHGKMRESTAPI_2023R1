@@ -5,6 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 	<link media="screen" type="text/css" href="css/search_results.css" rel="stylesheet"/>
+	<script type='text/javascript' src="js/request_answer.js"></script>
 	<script type='text/javascript' src="js/iset_search_results.js"></script>
 </head>
 <body>
@@ -23,7 +24,7 @@
 			<div class="sr_numbers_showing"></div>
 		</section>
 		<section id='sr-header-search' class="sr_header_search_on">
-			<button id="sr-request" class="sr_hs_request" title="Request Answer">&nbsp;</button>
+			<button id="sr-request" class="sr_hs_request" title="Request Answer">&nbsp;</button> 
 			<div class="sr_hs_sort">
 				<div class="sr_hs_sort_by"><label>Sort by:</label></div>
 				<div class="sr_hs_sort_date">
@@ -47,7 +48,9 @@
 	</section>
 	<section id="widgets" style="display: none;">
 		<div id="manage-bookmarks-widget"></div>
-		<div id="request-answer-widget"></div>
+		<div id="request-answer-widget">
+			<script type='text/javascript' src="js/request_answer_container.js"></script>
+		</div>
 	</section>
 <!-- End Search Results Widget -->
 </body>

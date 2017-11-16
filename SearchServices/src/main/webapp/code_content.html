@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Verint KM Content View</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+	<link media="screen" type="text/css" href="/contentservices/css/content.css" rel="stylesheet"/>
+ 	<link media="screen" type="text/css" href="/contentservices/css/vccd.css" rel="stylesheet"/>  
+	<script type='text/javascript' src="/contentservices/js/vccd.js"></script>
+	<script type='text/javascript' src="/contentservices/js/content.js"></script>
+
+</head>
+<body>
+<!-- Begin Content Widget -->
+	<article id="content-container" class="content_container">
+		<section id="content-decision-tree" style="display: none;">
+		</section>
+		<section id="content-loader" class="content_loader">
+			<section class="content_header_mobile">
+				<div class="content_header_mobile_top">
+					<div><i class="content-header-mobile-top-left-arrow icon ion-chevron-left"></i></div>
+					<div class="content_header_mobile_top_left"></div>
+					<div class="content_header_mobile_top_right">
+						<div class="content_header_mobile_top_right_featured"></div>
+						<div id="mobile-content-bookmark-header" class="content_header_mobile_top_right_bookmark">
+							<a id="mobile-content-bookmark" class="content_header_right_bookmark_action" href="javascript:void(0);" tabindex="1" title="Bookmark"></a>
+						</div>
+						<div class="content_header_mobile_top_right_exit">
+							<a id="exit-button-mobile" href="javascript:void(0);" tabindex="2" title="Exit"><i class="icon ion-close"></i></a>
+						</div>
+					</div>
+				</div>
+				<div class="content_header_mobile_bottom">
+					<div class="title"></div>
+				</div>
+			</section>	
+			<section class="content_header">
+				<div style="width: 100%; position: relative;">
+					<div class="content_header_left_icon"></div>
+					<div class="content_header_left_title"></div>		
+					<div class="content_header_right">
+						<div class="content_header_right_featured"></div>
+						<div id="content-bookmark-header" class="content_header_right_bookmark">
+							<a id="content-bookmark" class="content_header_right_bookmark_action" href="javascript:void(0);" tabindex="3" title="Bookmark"></a>
+						</div>
+<!--  						<div class="content_header_right_copy">  -->
+<!--							<a id="copy-content" class="content_header_right_copy_action" href="javascript:$.fn.copyToVariable();" title="Copy to Comment"></a>  -->
+<!--					</div>  -->
+						<div class="content_header_right_exit">
+							<a id="exit-button" href="javascript:void(0);" tabindex="4" title="Exit"><i class="icon ion-close"></i></a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="content_body">
+				<section class="content_body_author_info">
+					<div class="content_body_author_info_left">
+						<div class="content_body_author_info_left_date"></div>
+						<div class="content_body_author_info_left_id"></div>
+					</div>
+					<div class="content_body_author_info_right">
+						<div class="content_body_author_info_right_action">
+							<div class="content_body_author_info_right_ratings"></div>							
+							<div class="content_body_author_info_right_rating_display">
+								<ul class="content_body_author_info_right_rating_display_ratingBar">
+									<li id="ratingStars" class="current" style="width: 0.0em;"></li>
+									<li><a class="rate1" title="1 star" tabindex="5"></a></li>
+									<li><a class="rate2" title="2 star" tabindex="6"></a></li>
+									<li><a class="rate3" title="3 star" tabindex="7"></a></li>
+									<li><a class="rate4" title="4 star" tabindex="8"></a></li>
+									<li><a class="rate5" title="5 star" tabindex="9"></a></li>
+									<li id="ratingGlass"></li>
+								</ul>
+							</div>
+						</div>
+						<div class="content_body_author_info_right_buttons">
+							<div class="content_body_author_info_right_feedback">
+								<button id="feedback" title="Feedback" tabindex="10">&nbsp;</button>
+							</div>
+							<div class="content_body_author_info_right_share">
+								<a id="content-email-link" href="javascript:void(0);" title="Email" tabindex="11">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section class="content_skipto">
+					<div class="content_skipto_label"><label>Skip To:</label></div>
+					<nav class="content_skipto_links"></nav>
+					<div class="content_skipto_refresh">
+						<a id="content-skipto-refresh" href="javascript:void(0);" tabindex="12">Refresh</a>
+					</div>
+				</section>
+				<section class="content_body_fields">
+				</section>
+			</section>
+		</section>
+	</article>
+<!-- Begin Feedback Widget -->
+	<section id="widgets" style="display: none;">
+		<div id="feedback-widget">
+			<script id="feedback-info" src="/contentservices/js/feedback_container.js" type="text/javascript"></script>
+		</div>
+	</section>
+<!-- End Feedback Widget -->
+<!-- End Content Widget -->
+</body>
+<script>
+	// Content resize
+	$.fn.setupContentWidget = function() {
+	    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
+			var sizeOfContentWidget = $(window).outerHeight(true) - $('#widgetHeader').outerHeight(true) - 25;
+			var widthSize = $(window).outerWidth(true) - $('#widgetHeader').outerWidth(true) - 25;
+			$('#content-container').height(sizeOfContentWidget);
+			$('#content-container').width(widthSize);
+			$('#content-container').addClass('content_container_on');
+	    } else {
+			$('#content-container').addClass('content_container_on');
+			var sizeOfContentWidget = $(window).outerHeight(true) - $('#widgetHeader').outerHeight(true) - 25;
+			var widthSize = $(window).outerWidth(true) - $('#widgetHeader').outerWidth(true) - 25;
+			$('#content-container').removeClass('content_resize');
+			$.fn.deleteClass('.content_resize');
+			$.fn.createClass('.content_resize', 'height: ' + sizeOfContentWidget + 'px; width: ' + widthSize + 'px;');
+			$('#content-container').addClass('content_resize');
+	    }
+	}
+	
+	$.fn.logoutDTree = function(data) {
+		// Call the killSession on the D-Tree Process
+		var logoutWindow;
+		//logoutWindow = window.open(data + '?killSession',data + '_logout','location=0,menubar=1,resizable=1,width=100,height=100');
+		logoutWindow = window.open(contentServiceName + 'dtree_logout.html','dtree_logout','location=0,menubar=1,resizable=1,width=200,height=20');
+		//wait(1000);
+		//logoutWindow.close();	
+	}
+	
+	function wait(ms){
+	   var start = new Date().getTime();
+	   var end = start;
+	   while(end < start + ms) {
+	     end = new Date().getTime();
+	  }
+	}
+	</script>
+</html>
