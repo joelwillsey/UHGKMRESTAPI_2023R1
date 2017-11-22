@@ -78,6 +78,18 @@ public class KMBookmarkServiceV2BindingSkeleton implements KMBookmarkServiceV2Se
             _myOperations.put("getFolder", new java.util.ArrayList());
         }
         ((java.util.List)_myOperations.get("getFolder")).add(_oper);
+        _params = new org.apache.axis.description.ParameterDesc [] {
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBodyType"), KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType.class, false, false), 
+        };
+        _oper = new org.apache.axis.description.OperationDesc("reorderBookmarkAndFolder", _params, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBody"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBodyType"));
+        _oper.setElementQName(new javax.xml.namespace.QName("", "ReorderBookmarkAndFolder"));
+        _oper.setSoapAction("KMBookmarkServiceV2Service#ReorderBookmarkAndFolder");
+        _myOperationsList.add(_oper);
+        if (_myOperations.get("reorderBookmarkAndFolder") == null) {
+            _myOperations.put("reorderBookmarkAndFolder", new java.util.ArrayList());
+        }
+        ((java.util.List)_myOperations.get("reorderBookmarkAndFolder")).add(_oper);
     }
 
     public KMBookmarkServiceV2BindingSkeleton() {
@@ -108,6 +120,12 @@ public class KMBookmarkServiceV2BindingSkeleton implements KMBookmarkServiceV2Se
     public KMBookmarkServiceV2Service_wsdl.GetFolderResponseBodyType getFolder(KMBookmarkServiceV2Service_wsdl.GetFolderRequestBodyType body) throws java.rmi.RemoteException
     {
         KMBookmarkServiceV2Service_wsdl.GetFolderResponseBodyType ret = impl.getFolder(body);
+        return ret;
+    }
+
+    public KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType reorderBookmarkAndFolder(KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType body) throws java.rmi.RemoteException
+    {
+        KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType ret = impl.reorderBookmarkAndFolder(body);
         return ret;
     }
 

@@ -22,6 +22,8 @@ public class ManageBookmarksV2RequestBodyType  implements java.io.Serializable {
 
     private java.lang.String folderID;
 
+    private java.lang.String folderName;
+
     public ManageBookmarksV2RequestBodyType() {
     }
 
@@ -32,7 +34,8 @@ public class ManageBookmarksV2RequestBodyType  implements java.io.Serializable {
            java.lang.String contentID,
            java.lang.String localeName,
            java.lang.String password,
-           java.lang.String folderID) {
+           java.lang.String folderID,
+           java.lang.String folderName) {
            this.userAction = userAction;
            this.userName = userName;
            this.applicationID = applicationID;
@@ -40,6 +43,7 @@ public class ManageBookmarksV2RequestBodyType  implements java.io.Serializable {
            this.localeName = localeName;
            this.password = password;
            this.folderID = folderID;
+           this.folderName = folderName;
     }
 
 
@@ -182,6 +186,26 @@ public class ManageBookmarksV2RequestBodyType  implements java.io.Serializable {
         this.folderID = folderID;
     }
 
+
+    /**
+     * Gets the folderName value for this ManageBookmarksV2RequestBodyType.
+     * 
+     * @return folderName
+     */
+    public java.lang.String getFolderName() {
+        return folderName;
+    }
+
+
+    /**
+     * Sets the folderName value for this ManageBookmarksV2RequestBodyType.
+     * 
+     * @param folderName
+     */
+    public void setFolderName(java.lang.String folderName) {
+        this.folderName = folderName;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof ManageBookmarksV2RequestBodyType)) return false;
@@ -214,7 +238,10 @@ public class ManageBookmarksV2RequestBodyType  implements java.io.Serializable {
               this.password.equals(other.getPassword()))) &&
             ((this.folderID==null && other.getFolderID()==null) || 
              (this.folderID!=null &&
-              this.folderID.equals(other.getFolderID())));
+              this.folderID.equals(other.getFolderID()))) &&
+            ((this.folderName==null && other.getFolderName()==null) || 
+             (this.folderName!=null &&
+              this.folderName.equals(other.getFolderName())));
         __equalsCalc = null;
         return _equals;
     }
@@ -246,6 +273,9 @@ public class ManageBookmarksV2RequestBodyType  implements java.io.Serializable {
         }
         if (getFolderID() != null) {
             _hashCode += getFolderID().hashCode();
+        }
+        if (getFolderName() != null) {
+            _hashCode += getFolderName().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -296,6 +326,12 @@ public class ManageBookmarksV2RequestBodyType  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("folderID");
         elemField.setXmlName(new javax.xml.namespace.QName("", "folderID"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("folderName");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "folderName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

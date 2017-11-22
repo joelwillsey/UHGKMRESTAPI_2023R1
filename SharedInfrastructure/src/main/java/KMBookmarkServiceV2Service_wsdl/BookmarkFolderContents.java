@@ -8,7 +8,7 @@
 package KMBookmarkServiceV2Service_wsdl;
 
 public class BookmarkFolderContents  implements java.io.Serializable {
-    private KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent[] childBookmarkFolderContentList;
+    private KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[][] subFolders;
 
     private KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent bookmarkFolderContent;
 
@@ -16,30 +16,30 @@ public class BookmarkFolderContents  implements java.io.Serializable {
     }
 
     public BookmarkFolderContents(
-           KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent[] childBookmarkFolderContentList,
+           KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[][] subFolders,
            KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent bookmarkFolderContent) {
-           this.childBookmarkFolderContentList = childBookmarkFolderContentList;
+           this.subFolders = subFolders;
            this.bookmarkFolderContent = bookmarkFolderContent;
     }
 
 
     /**
-     * Gets the childBookmarkFolderContentList value for this BookmarkFolderContents.
+     * Gets the subFolders value for this BookmarkFolderContents.
      * 
-     * @return childBookmarkFolderContentList
+     * @return subFolders
      */
-    public KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent[] getChildBookmarkFolderContentList() {
-        return childBookmarkFolderContentList;
+    public KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[][] getSubFolders() {
+        return subFolders;
     }
 
 
     /**
-     * Sets the childBookmarkFolderContentList value for this BookmarkFolderContents.
+     * Sets the subFolders value for this BookmarkFolderContents.
      * 
-     * @param childBookmarkFolderContentList
+     * @param subFolders
      */
-    public void setChildBookmarkFolderContentList(KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent[] childBookmarkFolderContentList) {
-        this.childBookmarkFolderContentList = childBookmarkFolderContentList;
+    public void setSubFolders(KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[][] subFolders) {
+        this.subFolders = subFolders;
     }
 
 
@@ -74,9 +74,9 @@ public class BookmarkFolderContents  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.childBookmarkFolderContentList==null && other.getChildBookmarkFolderContentList()==null) || 
-             (this.childBookmarkFolderContentList!=null &&
-              java.util.Arrays.equals(this.childBookmarkFolderContentList, other.getChildBookmarkFolderContentList()))) &&
+            ((this.subFolders==null && other.getSubFolders()==null) || 
+             (this.subFolders!=null &&
+              java.util.Arrays.equals(this.subFolders, other.getSubFolders()))) &&
             ((this.bookmarkFolderContent==null && other.getBookmarkFolderContent()==null) || 
              (this.bookmarkFolderContent!=null &&
               this.bookmarkFolderContent.equals(other.getBookmarkFolderContent())));
@@ -91,11 +91,11 @@ public class BookmarkFolderContents  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getChildBookmarkFolderContentList() != null) {
+        if (getSubFolders() != null) {
             for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getChildBookmarkFolderContentList());
+                 i<java.lang.reflect.Array.getLength(getSubFolders());
                  i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getChildBookmarkFolderContentList(), i);
+                java.lang.Object obj = java.lang.reflect.Array.get(getSubFolders(), i);
                 if (obj != null &&
                     !obj.getClass().isArray()) {
                     _hashCode += obj.hashCode();
@@ -116,11 +116,11 @@ public class BookmarkFolderContents  implements java.io.Serializable {
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContents"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("childBookmarkFolderContentList");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "childBookmarkFolderContentList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContent"));
+        elemField.setFieldName("subFolders");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "subFolders"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContentsList"));
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("", "BookmarkFolderContent"));
+        elemField.setItemQName(new javax.xml.namespace.QName("", "BookmarkFolderContentsList"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("bookmarkFolderContent");

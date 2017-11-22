@@ -12,4 +12,5 @@ public interface KMBookmarkServiceV2PortType extends java.rmi.Remote {
     public KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType body) throws java.rmi.RemoteException;
     public KMBookmarkServiceV2Service_wsdl.GetBookmarkResponseBodyType getBookmark(KMBookmarkServiceV2Service_wsdl.GetBookmarkRequestBodyType body) throws java.rmi.RemoteException;
     public KMBookmarkServiceV2Service_wsdl.GetFolderResponseBodyType getFolder(KMBookmarkServiceV2Service_wsdl.GetFolderRequestBodyType body) throws java.rmi.RemoteException;
+    public KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType reorderBookmarkAndFolder(KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType body) throws java.rmi.RemoteException;
 }

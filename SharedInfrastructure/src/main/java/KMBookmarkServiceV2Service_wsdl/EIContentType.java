@@ -1,5 +1,5 @@
 /**
- * ListAllBookmarksV2ResponseBodyType.java
+ * EIContentType.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,41 +7,41 @@
 
 package KMBookmarkServiceV2Service_wsdl;
 
-public class ListAllBookmarksV2ResponseBodyType  implements java.io.Serializable {
-    private KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 response;
+public class EIContentType  implements java.io.Serializable {
+    private java.lang.String description;
 
-    public ListAllBookmarksV2ResponseBodyType() {
+    public EIContentType() {
     }
 
-    public ListAllBookmarksV2ResponseBodyType(
-           KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 response) {
-           this.response = response;
-    }
-
-
-    /**
-     * Gets the response value for this ListAllBookmarksV2ResponseBodyType.
-     * 
-     * @return response
-     */
-    public KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 getResponse() {
-        return response;
+    public EIContentType(
+           java.lang.String description) {
+           this.description = description;
     }
 
 
     /**
-     * Sets the response value for this ListAllBookmarksV2ResponseBodyType.
+     * Gets the description value for this EIContentType.
      * 
-     * @param response
+     * @return description
      */
-    public void setResponse(KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 response) {
-        this.response = response;
+    public java.lang.String getDescription() {
+        return description;
+    }
+
+
+    /**
+     * Sets the description value for this EIContentType.
+     * 
+     * @param description
+     */
+    public void setDescription(java.lang.String description) {
+        this.description = description;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof ListAllBookmarksV2ResponseBodyType)) return false;
-        ListAllBookmarksV2ResponseBodyType other = (ListAllBookmarksV2ResponseBodyType) obj;
+        if (!(obj instanceof EIContentType)) return false;
+        EIContentType other = (EIContentType) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -50,9 +50,9 @@ public class ListAllBookmarksV2ResponseBodyType  implements java.io.Serializable
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.response==null && other.getResponse()==null) || 
-             (this.response!=null &&
-              this.response.equals(other.getResponse())));
+            ((this.description==null && other.getDescription()==null) || 
+             (this.description!=null &&
+              this.description.equals(other.getDescription())));
         __equalsCalc = null;
         return _equals;
     }
@@ -64,8 +64,8 @@ public class ListAllBookmarksV2ResponseBodyType  implements java.io.Serializable
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getResponse() != null) {
-            _hashCode += getResponse().hashCode();
+        if (getDescription() != null) {
+            _hashCode += getDescription().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -73,14 +73,14 @@ public class ListAllBookmarksV2ResponseBodyType  implements java.io.Serializable
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(ListAllBookmarksV2ResponseBodyType.class, true);
+        new org.apache.axis.description.TypeDesc(EIContentType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2ResponseBodyType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "EIContentType"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("response");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "response"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ContentBookmarksV2"));
+        elemField.setFieldName("description");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "description"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

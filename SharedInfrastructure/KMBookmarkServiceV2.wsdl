@@ -6,11 +6,31 @@
       xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
       xmlns:tns="http://localhost:80/KMBookmarkServiceV2Service.wsdl"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!-- Created by Verint on Tue Nov 21 22:31:13 CST 2017. See http://www.kana.com for more details. -->
+<!-- Created by Verint on Wed Nov 22 13:50:46 CST 2017. See http://www.kana.com for more details. -->
     <types>
       <xsd:schema
           elementFormDefault="unqualified"
           targetNamespace="http://localhost:80/KMBookmarkServiceV2Service.wsdl">
+        <xsd:complexType
+            name="IEvaId">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="environmentId"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="releaseId"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="id"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
         <xsd:complexType
             name="BookmarkedContentV2List">
           <xsd:sequence>
@@ -47,6 +67,10 @@
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
+            name="IAssociationList">
+          <xsd:sequence />
+        </xsd:complexType>
+        <xsd:complexType
             name="ErrorMessage">
           <xsd:sequence>
             <xsd:element
@@ -62,6 +86,41 @@
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
+            name="IEntityLock">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="lockTimestamp"
+                type="xsd:date" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="entityId"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="entityDefId"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="currentUsername"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="lockLastModifiedTimestamp"
+                type="xsd:date" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="lockUsername"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
             name="ErrorList">
           <xsd:sequence>
             <xsd:element
@@ -69,6 +128,16 @@
                 minOccurs="0"
                 name="ErrorMessage"
                 type="tns:ErrorMessage" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="EIContentType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="description"
+                type="xsd:string" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
@@ -82,19 +151,89 @@
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
-            name="ContentBookmarksV2">
+            name="ContentBookmark">
           <xsd:sequence>
             <xsd:element
                 maxOccurs="1"
                 minOccurs="1"
-                name="folders"
-                type="tns:BookmarkFolderContentsList" />
+                name="synopsis"
+                type="xsd:string" />
             <xsd:element
                 maxOccurs="1"
                 minOccurs="1"
-                name="bookmarks"
-                type="tns:BookmarkedContentV2List" />
+                name="bookmarkOwnerTypeId"
+                type="tns:IEvaId" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="typeSystemName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="isFeatured"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="sequenceNumber"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="title"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="viewId"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentType"
+                type="tns:EIContentType" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="bookmarkOwnerId"
+                type="tns:IEvaId" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="bookmarkOwner"
+                type="tns:IPersistableEntity" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="createdDate"
+                type="xsd:date" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentTypeId"
+                type="tns:IEvaId" />
           </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ContentBookmarksV2">
+          <xsd:complexContent>
+            <xsd:extension
+                base="tns:ContentBookmark">
+              <xsd:sequence>
+                <xsd:element
+                    maxOccurs="1"
+                    minOccurs="1"
+                    name="folders"
+                    type="tns:BookmarkFolderContentsList" />
+                <xsd:element
+                    maxOccurs="1"
+                    minOccurs="1"
+                    name="bookmarks"
+                    type="tns:BookmarkedContentV2List" />
+              </xsd:sequence>
+            </xsd:extension>
+          </xsd:complexContent>
         </xsd:complexType>
         <xsd:complexType
             name="BookmarkedContentV2">
@@ -149,6 +288,21 @@
                 minOccurs="1"
                 name="localeName"
                 type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="IPersistableEntity">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="associationList"
+                type="tns:IAssociationList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="entityLock"
+                type="tns:IEntityLock" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
@@ -414,6 +568,11 @@
                 minOccurs="1"
                 name="toReturn"
                 type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="newTree"
+                type="tns:ContentBookmarksV2" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:element

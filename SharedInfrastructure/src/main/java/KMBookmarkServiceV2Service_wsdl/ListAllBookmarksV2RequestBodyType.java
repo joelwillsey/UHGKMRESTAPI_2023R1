@@ -16,7 +16,7 @@ public class ListAllBookmarksV2RequestBodyType  implements java.io.Serializable 
 
     private java.lang.String sortOrder;
 
-    private java.lang.String username;
+    private java.lang.String userName;
 
     public ListAllBookmarksV2RequestBodyType() {
     }
@@ -26,12 +26,12 @@ public class ListAllBookmarksV2RequestBodyType  implements java.io.Serializable 
            java.lang.String password,
            java.lang.String sortColumnName,
            java.lang.String sortOrder,
-           java.lang.String username) {
+           java.lang.String userName) {
            this.applicationID = applicationID;
            this.password = password;
            this.sortColumnName = sortColumnName;
            this.sortOrder = sortOrder;
-           this.username = username;
+           this.userName = userName;
     }
 
 
@@ -116,22 +116,22 @@ public class ListAllBookmarksV2RequestBodyType  implements java.io.Serializable 
 
 
     /**
-     * Gets the username value for this ListAllBookmarksV2RequestBodyType.
+     * Gets the userName value for this ListAllBookmarksV2RequestBodyType.
      * 
-     * @return username
+     * @return userName
      */
-    public java.lang.String getUsername() {
-        return username;
+    public java.lang.String getUserName() {
+        return userName;
     }
 
 
     /**
-     * Sets the username value for this ListAllBookmarksV2RequestBodyType.
+     * Sets the userName value for this ListAllBookmarksV2RequestBodyType.
      * 
-     * @param username
+     * @param userName
      */
-    public void setUsername(java.lang.String username) {
-        this.username = username;
+    public void setUserName(java.lang.String userName) {
+        this.userName = userName;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -158,9 +158,9 @@ public class ListAllBookmarksV2RequestBodyType  implements java.io.Serializable 
             ((this.sortOrder==null && other.getSortOrder()==null) || 
              (this.sortOrder!=null &&
               this.sortOrder.equals(other.getSortOrder()))) &&
-            ((this.username==null && other.getUsername()==null) || 
-             (this.username!=null &&
-              this.username.equals(other.getUsername())));
+            ((this.userName==null && other.getUserName()==null) || 
+             (this.userName!=null &&
+              this.userName.equals(other.getUserName())));
         __equalsCalc = null;
         return _equals;
     }
@@ -184,8 +184,8 @@ public class ListAllBookmarksV2RequestBodyType  implements java.io.Serializable 
         if (getSortOrder() != null) {
             _hashCode += getSortOrder().hashCode();
         }
-        if (getUsername() != null) {
-            _hashCode += getUsername().hashCode();
+        if (getUserName() != null) {
+            _hashCode += getUserName().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -222,8 +222,8 @@ public class ListAllBookmarksV2RequestBodyType  implements java.io.Serializable 
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("username");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "username"));
+        elemField.setFieldName("userName");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "userName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

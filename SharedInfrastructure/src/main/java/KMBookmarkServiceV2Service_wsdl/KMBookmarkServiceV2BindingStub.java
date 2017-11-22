@@ -16,7 +16,7 @@ public class KMBookmarkServiceV2BindingStub extends org.apache.axis.client.Stub 
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[4];
+        _operations = new org.apache.axis.description.OperationDesc[5];
         _initOperationDesc1();
     }
 
@@ -66,6 +66,17 @@ public class KMBookmarkServiceV2BindingStub extends org.apache.axis.client.Stub 
         oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[3] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("ReorderBookmarkAndFolder");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBodyType"), KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType.class, false, false);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBodyType"));
+        oper.setReturnClass(KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBody"));
+        oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[4] = oper;
 
     }
 
@@ -121,15 +132,6 @@ public class KMBookmarkServiceV2BindingStub extends org.apache.axis.client.Stub 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
-            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContentList");
-            cachedSerQNames.add(qName);
-            cls = KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent[].class;
-            cachedSerClasses.add(cls);
-            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContent");
-            qName2 = new javax.xml.namespace.QName("", "BookmarkFolderContent");
-            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
-            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
-
             qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContents");
             cachedSerQNames.add(qName);
             cls = KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents.class;
@@ -145,6 +147,52 @@ public class KMBookmarkServiceV2BindingStub extends org.apache.axis.client.Stub 
             qName2 = new javax.xml.namespace.QName("", "BookmarkFolderContents");
             cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
             cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkSubFolderContentsList");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[][].class;
+            cachedSerClasses.add(cls);
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContentsList");
+            qName2 = new javax.xml.namespace.QName("", "BookmarkFolderContentsList");
+            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
+            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ContentBookmark");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.ContentBookmark.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ContentBookmarksV2");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "EIContentType");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.EIContentType.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ErrorList");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.ErrorMessage[].class;
+            cachedSerClasses.add(cls);
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ErrorMessage");
+            qName2 = new javax.xml.namespace.QName("", "ErrorMessage");
+            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
+            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ErrorMessage");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.ErrorMessage.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
 
             qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetBookmarkRequestBodyType");
             cachedSerQNames.add(qName);
@@ -174,6 +222,34 @@ public class KMBookmarkServiceV2BindingStub extends org.apache.axis.client.Stub 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "IAssociationList");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.IAssociationList.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "IEntityLock");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.IEntityLock.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "IEvaId");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.IEvaId.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "IPersistableEntity");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.IPersistableEntity.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2RequestBodyType");
             cachedSerQNames.add(qName);
             cls = KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType.class;
@@ -198,6 +274,20 @@ public class KMBookmarkServiceV2BindingStub extends org.apache.axis.client.Stub 
             qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2ResponseBodyType");
             cachedSerQNames.add(qName);
             cls = KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBodyType");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBodyType");
+            cachedSerQNames.add(qName);
+            cls = KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -397,6 +487,40 @@ public class KMBookmarkServiceV2BindingStub extends org.apache.axis.client.Stub 
                 return (KMBookmarkServiceV2Service_wsdl.GetFolderResponseBodyType) _resp;
             } catch (java.lang.Exception _exception) {
                 return (KMBookmarkServiceV2Service_wsdl.GetFolderResponseBodyType) org.apache.axis.utils.JavaUtils.convert(_resp, KMBookmarkServiceV2Service_wsdl.GetFolderResponseBodyType.class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType reorderBookmarkAndFolder(KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType body) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[4]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("KMBookmarkServiceV2Service#ReorderBookmarkAndFolder");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("", "ReorderBookmarkAndFolder"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {body});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType) org.apache.axis.utils.JavaUtils.convert(_resp, KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType.class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {

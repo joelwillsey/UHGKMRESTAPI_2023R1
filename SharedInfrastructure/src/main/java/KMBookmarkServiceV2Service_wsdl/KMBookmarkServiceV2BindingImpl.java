@@ -24,4 +24,8 @@ public class KMBookmarkServiceV2BindingImpl implements KMBookmarkServiceV2Servic
         return null;
     }
 
+    public KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType reorderBookmarkAndFolder(KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType body) throws java.rmi.RemoteException {
+        return null;
+    }
+
 }
