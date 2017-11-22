@@ -35,7 +35,9 @@ import KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2;
 import KMBookmarkServiceV2Service_wsdl.KMBookmarkServiceV2PortType;
 import KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType;
 import KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
-
+import KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType;
+import KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType;
+import KMBookmarkServiceV2Service_wsdl.KMBookmarkServiceV2PortType;
 /**
  * @author jmiller
  *
@@ -59,101 +61,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	public static void main(String[] args) {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.verint.services.km.dao.BookmarksDAO#addBookmark(com.verint.services.km.model.ManageBookmarkRequest)
-	 */
-	@Override
-	public ManageBookmarkV2Response addBookmark(ManageBookmarkV2Request manageBookmarkRequest) throws RemoteException, AppException {
-		LOGGER.info("Entering addBookmark()");
-		LOGGER.debug("ManageV2BookmarkRequest: " + manageBookmarkRequest);
-		final ManageBookmarkV2Response manageBookmarkResponse = new ManageBookmarkV2Response();
-		
-		// Setup the service request
-		final ManageBookmarksV2RequestBodyType request = new ManageBookmarksV2RequestBodyType();
-		request.setApplicationID(AppID);
-		request.setLocaleName(Locale);
-		request.setContentID(manageBookmarkRequest.getContentId());
-		request.setFolderID(manageBookmarkRequest.getFolderId());
-		request.setUserName(manageBookmarkRequest.getUsername());
-		request.setPassword(manageBookmarkRequest.getPassword());
-		request.setUserAction("ADD");
 
-		// Make the service call
-		Instant start = Instant.now();
-		//final ManageBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.manageBookmarksV2(request);
-		//Some issue here with the above method being static - will need to sort out ASAP
-		final  ManageBookmarksV2ResponseBodyType response = new ManageBookmarksV2ResponseBodyType();
-		Instant end = Instant.now();
-		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + manageBookmarkRequest.getUsername() + ") - addBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
-		
-		LOGGER.debug("ManageBookmarkV2ResponseBodyType: " + response);
-		if (response != null && response.getErrorList() != null) {
-			final ErrorMessage[] errors = response.getErrorList();
-			// Loop through the errors
-			for (int x = 0; (errors != null) && (x < errors.length); x++) {
-				ErrorList errorList = new ErrorList();
-				errorList.setCode(errors[x].getCode());
-				errorList.setMessage(errors[x].getMessage());
-				manageBookmarkResponse.addErrorList(errorList);
-			}
-		} else {
-			// We have a problem with the service
-			throw new AppException(500, AppErrorCodes.ADD_BOOKMARK_ERROR,
-					AppErrorMessage.ADD_BOOKMARK_ERROR);
-		}
-		LOGGER.debug("ManageBookmarkV2Response: " + manageBookmarkResponse);
-		LOGGER.info("Exiting addBookmark()");
-		return manageBookmarkResponse;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.verint.services.km.dao.BookmarksDAO#addBookmark(com.verint.services.km.model.ManageBookmarkRequest)
-	 */
-	@Override
-	public ManageBookmarkV2Response removeBookmark(ManageBookmarkV2Request manageBookmarkRequest) throws RemoteException, AppException {
-		LOGGER.info("Entering addBookmark()");
-		LOGGER.debug("ManageBookmarkV2Request: " + manageBookmarkRequest);
-		final ManageBookmarkV2Response manageBookmarkResponse = new ManageBookmarkV2Response();
-		
-		// Setup the service request
-		final ManageBookmarksV2RequestBodyType request = new ManageBookmarksV2RequestBodyType();
-		request.setApplicationID(AppID);
-		request.setLocaleName(Locale);
-		request.setContentID(manageBookmarkRequest.getContentId());
-		request.setFolderID(manageBookmarkRequest.getFolderId());
-		request.setUserName(manageBookmarkRequest.getUsername());
-		request.setPassword(manageBookmarkRequest.getPassword());
-		request.setUserAction("REMOVE");
-
-		// Make the service call
-		Instant start = Instant.now();
-		//final ManageBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.manageBookmarksV2(request);
-		//issue with static reference to method above
-		final  ManageBookmarksV2ResponseBodyType response = new ManageBookmarksV2ResponseBodyType();
-		Instant end = Instant.now();
-		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + manageBookmarkRequest.getUsername() + ") - removeBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
-		
-		LOGGER.debug("ManageBookmarkResponseV2BodyType: " + response);
-		if (response != null && response.getErrorList() != null) {
-			final ErrorMessage[] errors = response.getErrorList();
-			// Loop through the errors
-			for (int x = 0; (errors != null) && (x < errors.length); x++) {
-				ErrorList errorList = new ErrorList();
-				errorList.setCode(errors[x].getCode());
-				errorList.setMessage(errors[x].getMessage());
-				manageBookmarkResponse.addErrorList(errorList);
-			}
-		} else {
-			// We have a problem with the service
-			throw new AppException(500, AppErrorCodes.ADD_BOOKMARK_ERROR,
-					AppErrorMessage.ADD_BOOKMARK_ERROR);
-		}
-		LOGGER.debug("ManageBookmarkV2Response: " + manageBookmarkResponse);
-		LOGGER.info("Exiting addBookmark()");
-		return manageBookmarkResponse;
-	}
 	
 	/*
 	 * (non-Javadoc)
@@ -191,33 +99,8 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	}
 	
 	
-	public ManageBookmarkV2Response reorderBookmarkUp(ManageBookmarkV2Request bookmarkRequest) throws RemoteException, AppException {
-		LOGGER.info("Entering reorderBookmarkUp()");
-		LOGGER.debug("ManageBookmarkRequest: " + bookmarkRequest);
 
-		// Call the service
-		final ManageBookmarkV2Response bookmarkResponse = reorderBookmark(bookmarkRequest, "UP");
 
-		LOGGER.debug("ManageBookmarkResponse: " + bookmarkResponse);
-		LOGGER.info("Exiting reorderBookmarkUp()");
-		return bookmarkResponse;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.verint.services.km.dao.BookmarkDAO#reorderBookmarkDown(com.verint.services.km.model.ManageBookmarkRequest)
-	 */
-	public ManageBookmarkV2Response reorderBookmarkDown(ManageBookmarkV2Request bookmarkRequest) throws RemoteException, AppException {
-		LOGGER.info("Entering reorderBookmarkDown()");
-		LOGGER.debug("ManageBookmarkRequest: " + bookmarkRequest);
-
-		// Call the service
-		final ManageBookmarkV2Response bookmarkResponse = reorderBookmark(bookmarkRequest, "DOWN");
-
-		LOGGER.debug("ManageBookmarkResponse: " + bookmarkResponse);
-		LOGGER.info("Exiting reorderBookmarkDown()");
-		return bookmarkResponse;
-	}
 
 	
 	private ManageBookmarkV2Response reorderBookmark(ManageBookmarkV2Request bookmarkRequest, String direction) throws RemoteException, AppException {
@@ -277,18 +160,92 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		return null;
 	}
 
+
+
 	@Override
-	public ManageBookmarkV2Response reorderFolderUp(ManageBookmarkV2Request bookmarkRequest)
+	public ManageBookmarksV2ResponseBodyType addBookmark(ManageBookmarksV2RequestBodyType manageBookmarkRequest)
 			throws RemoteException, AppException {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Entering add bookmark -");
+		LOGGER.debug("ManageBookmarksV2RequestBodyType: " + manageBookmarkRequest);
+		
+		manageBookmarkRequest.setUserAction("ADD");
+		//final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = new ReorderBookmarkAndFolderResponseBodyType();
+		
+		final ManageBookmarksV2ResponseBodyType manageBookmarkResponse = KMBookmarkServiceV2PortType.manageBookmarksV2(manageBookmarkRequest);
+
+		return manageBookmarkResponse;
 	}
 
 	@Override
-	public ManageBookmarkV2Response reorderFolderDown(ManageBookmarkV2Request bookmarkRequest)
+	public ManageBookmarksV2ResponseBodyType removeBookmark(ManageBookmarksV2RequestBodyType manageBookmarkRequest)
 			throws RemoteException, AppException {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Entering remove bookmark -");
+		LOGGER.debug("ManageBookmarksV2RequestBodyType: " + manageBookmarkRequest);
+		
+		manageBookmarkRequest.setUserAction("REMOVE");
+		//final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = new ReorderBookmarkAndFolderResponseBodyType();
+		
+		final ManageBookmarksV2ResponseBodyType manageBookmarkResponse = KMBookmarkServiceV2PortType.manageBookmarksV2(manageBookmarkRequest);
+
+		return manageBookmarkResponse;
+	}
+
+	@Override
+	public ReorderBookmarkAndFolderResponseBodyType reorderBookmarkUp(
+			ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException {
+	
+	LOGGER.info("Entering reorder bookmark up - ");
+	LOGGER.debug("ReorderBookmarkAndFolderRequestBodyType: " + bookmarkRequest);
+	
+	bookmarkRequest.setDirection("UP");
+	//final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = new ReorderBookmarkAndFolderResponseBodyType();
+	
+	final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = KMBookmarkServiceV2PortType.reorderBookmarkAndFolder(bookmarkRequest);
+
+	return reorderBookmarkResponse;
+	
+	}
+
+	@Override
+	public ReorderBookmarkAndFolderResponseBodyType reorderFolderUp(
+			ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException {
+		LOGGER.info("Entering reorder folder up - ");
+		LOGGER.debug("ReorderBookmarkAndFolderRequestBodyType: " + bookmarkRequest);
+		
+		bookmarkRequest.setDirection("UP");
+		//final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = new ReorderBookmarkAndFolderResponseBodyType();
+		
+		final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = KMBookmarkServiceV2PortType.reorderBookmarkAndFolder(bookmarkRequest);
+
+		return reorderBookmarkResponse;
+	}
+
+	@Override
+	public ReorderBookmarkAndFolderResponseBodyType reorderFolderDown(
+			ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException {
+		LOGGER.info("Entering reorder folder down -");
+		LOGGER.debug("ReorderBookmarkAndFolderRequestBodyType: " + bookmarkRequest);
+		
+		bookmarkRequest.setDirection("DOWN");
+		//final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = new ReorderBookmarkAndFolderResponseBodyType();
+		
+		final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = KMBookmarkServiceV2PortType.reorderBookmarkAndFolder(bookmarkRequest);
+
+		return reorderBookmarkResponse;
+	}
+
+	@Override
+	public ReorderBookmarkAndFolderResponseBodyType reorderBookmarkDown(
+			ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException {
+		LOGGER.info("Entering reorder bookmark down -");
+		LOGGER.debug("ReorderBookmarkAndFolderRequestBodyType: " + bookmarkRequest);
+		
+		bookmarkRequest.setDirection("DOWN");
+		//final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = new ReorderBookmarkAndFolderResponseBodyType();
+		
+		final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = KMBookmarkServiceV2PortType.reorderBookmarkAndFolder(bookmarkRequest);
+
+		return reorderBookmarkResponse;
 	}
 
 	
