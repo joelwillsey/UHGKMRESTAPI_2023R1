@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
   <definitions
       name="KMBookmarkServiceV2Service"
-      targetNamespace=""
+      targetNamespace="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
       xmlns="http://schemas.xmlsoap.org/wsdl/"
       xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-      xmlns:tns=""
+      xmlns:tns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!-- Created by Verint on Fri Nov 24 11:30:42 CST 2017. See http://www.kana.com for more details. -->
+<!-- Created by Verint on Fri Nov 24 18:19:37 CST 2017. See http://www.kana.com for more details. -->
     <types>
       <xsd:schema
           elementFormDefault="unqualified"
-          targetNamespace="">
+          targetNamespace="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl">
         <xsd:complexType
             name="BookmarkedContentV2List">
           <xsd:sequence>
@@ -72,13 +72,23 @@
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
+            name="BookmarkFolderContentList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="BookmarkFolderContent"
+                type="tns:BookmarkFolderContent" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
             name="BookmarkSubFolderContentsList">
           <xsd:sequence>
             <xsd:element
                 maxOccurs="unbounded"
                 minOccurs="0"
-                name="BookmarkFolderContentsList"
-                type="tns:BookmarkFolderContentsList" />
+                name="BookmarkSubFolderContents"
+                type="tns:BookmarkSubFolderContents" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
@@ -189,6 +199,21 @@
                 minOccurs="1"
                 name="parentFolderId"
                 type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="BookmarkSubFolderContents">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="subSubFolders"
+                type="tns:BookmarkFolderContentList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="bookmarkFolderContent"
+                type="tns:BookmarkFolderContent" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
