@@ -5,18 +5,16 @@ package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
 
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2ResponseBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.ContentRequest;
-import KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType;
-import KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
-import KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType;
-import KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType;
-import KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType;
-import KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2ResponseBodyType;
-
-
-import KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent;
-import KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2;
 
 /**
  * @author jmiller
@@ -32,6 +30,8 @@ public interface BookmarksV2DAO {
 	 * @throws AppException
 	 */
 	public ManageBookmarksV2ResponseBodyType addBookmark(ManageBookmarksV2RequestBodyType manageBookmarkRequest) throws RemoteException, AppException;
+	public ManageBookmarksV2ResponseBodyType addFolder(ManageBookmarksV2RequestBodyType manageBookmarkRequest) throws RemoteException, AppException;
+	public ManageBookmarksV2ResponseBodyType removeFolder(ManageBookmarksV2RequestBodyType manageBookmarkRequest) throws RemoteException, AppException;
 	
 	/**
 	 * 

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="KMBookmarkServiceV2Service" targetNamespace="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl">
+<!-- Created by Verint on Sun Nov 26 16:23:49 CST 2017. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema elementFormDefault="unqualified" targetNamespace="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl">
+        <xsd:complexType name="IEvaId">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="environmentId" type="xsd:integer"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="releaseId" type="xsd:integer"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="id" type="xsd:integer"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="BookmarkedContentV2List">
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="BookmarkedContentV2" type="tns:BookmarkedContentV2"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="BookmarkFolderContentsList">
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="BookmarkFolderContents" type="tns:BookmarkFolderContents"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="BookmarkFolderContents">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="subFolders" type="tns:BookmarkSubFolderContentsList"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="bookmarkFolderContent" type="tns:BookmarkFolderContent"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="IAssociationList">
+          <xsd:sequence/>
+        </xsd:complexType>
+        <xsd:complexType name="ErrorMessage">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="code" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="IEntityLock">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="lockTimestamp" type="xsd:date"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="entityId" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="entityDefId" type="xsd:integer"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="currentUsername" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="lockLastModifiedTimestamp" type="xsd:date"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="lockUsername" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="ErrorList">
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="ErrorMessage" type="tns:ErrorMessage"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="BookmarkFolderContentList">
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="BookmarkFolderContent" type="tns:BookmarkFolderContent"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="EIContentType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="description" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="BookmarkSubFolderContentsList">
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="BookmarkSubFolderContents" type="tns:BookmarkSubFolderContents"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="ContentBookmark">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="synopsis" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="bookmarkOwnerTypeId" type="tns:IEvaId"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="typeSystemName" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="isFeatured" type="xsd:boolean"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="sequenceNumber" type="xsd:integer"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="title" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="viewId" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="contentType" type="tns:EIContentType"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="bookmarkOwnerId" type="tns:IEvaId"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="bookmarkOwner" type="tns:IPersistableEntity"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="createdDate" type="xsd:date"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="contentTypeId" type="tns:IEvaId"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="ContentBookmarksV2">
+          <xsd:complexContent>
+            <xsd:extension base="tns:ContentBookmark">
+              <xsd:sequence>
+                <xsd:element maxOccurs="1" minOccurs="1" name="folders" type="tns:BookmarkFolderContentsList"/>
+                <xsd:element maxOccurs="1" minOccurs="1" name="bookmarks" type="tns:BookmarkedContentV2List"/>
+              </xsd:sequence>
+            </xsd:extension>
+          </xsd:complexContent>
+        </xsd:complexType>
+        <xsd:complexType name="BookmarkedContentV2">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="contentId" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="synopsis" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="parentFolderId" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="isFeatured" type="xsd:boolean"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="sequenceNumber" type="xsd:float"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="isNewOrChanged" type="xsd:boolean"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="title" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="contentType" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="createdDate" type="xsd:date"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="localeName" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="IPersistableEntity">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="associationList" type="tns:IAssociationList"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="entityLock" type="tns:IEntityLock"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="BookmarkFolderContent">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="bookmarkedContentList" type="tns:BookmarkedContentV2List"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="localeName" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="folderId" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="sequenceNumber" type="xsd:float"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="dateCreated" type="xsd:date"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="title" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="parentFolderId" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="BookmarkSubFolderContents">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="subSubFolders" type="tns:BookmarkFolderContentList"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="bookmarkFolderContent" type="tns:BookmarkFolderContent"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="ManageBookmarksV2RequestBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="userAction" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="userName" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="applicationID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="contentID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="localeName" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="password" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="folderID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="folderName" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="ManageBookmarksV2ResponseBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="toReturn" type="xsd:boolean"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="ListAllBookmarksV2RequestBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="applicationID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="password" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="sortColumnName" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="sortOrder" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="userName" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="ListAllBookmarksV2ResponseBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="response" type="tns:ContentBookmarksV2"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="GetBookmarkRequestBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="applicationID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="folderID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="password" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="username" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="GetBookmarkResponseBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="returnFolder" type="tns:BookmarkFolderContent"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="GetFolderRequestBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="applicationID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="contentID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="password" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="username" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="GetFolderResponseBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="folderID" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="ReorderBookmarkAndFolderRequestBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="applicationID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="contentID" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="direction" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="folderID" type="xsd:integer"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="password" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="user" type="xsd:string"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="numMoved" type="xsd:integer"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="destinationFolderID" type="xsd:integer"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType name="ReorderBookmarkAndFolderResponseBodyType">
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="1" name="errorList" type="tns:ErrorList"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="toReturn" type="xsd:boolean"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="newTree" type="tns:ContentBookmarksV2"/>
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:element name="ManageBookmarksV2RequestBody" type="tns:ManageBookmarksV2RequestBodyType"/>
+        <xsd:element name="ManageBookmarksV2ResponseBody" type="tns:ManageBookmarksV2ResponseBodyType"/>
+        <xsd:element name="ListAllBookmarksV2RequestBody" type="tns:ListAllBookmarksV2RequestBodyType"/>
+        <xsd:element name="ListAllBookmarksV2ResponseBody" type="tns:ListAllBookmarksV2ResponseBodyType"/>
+        <xsd:element name="GetBookmarkRequestBody" type="tns:GetBookmarkRequestBodyType"/>
+        <xsd:element name="GetBookmarkResponseBody" type="tns:GetBookmarkResponseBodyType"/>
+        <xsd:element name="GetFolderRequestBody" type="tns:GetFolderRequestBodyType"/>
+        <xsd:element name="GetFolderResponseBody" type="tns:GetFolderResponseBodyType"/>
+        <xsd:element name="ReorderBookmarkAndFolderRequestBody" type="tns:ReorderBookmarkAndFolderRequestBodyType"/>
+        <xsd:element name="ReorderBookmarkAndFolderResponseBody" type="tns:ReorderBookmarkAndFolderResponseBodyType"/>
+      </xsd:schema>
+    </types>
+    <message name="ManageBookmarksV2Request">
+      <part element="tns:ManageBookmarksV2RequestBody" name="body"/>
+    </message>
+    <message name="ManageBookmarksV2Response">
+      <part element="tns:ManageBookmarksV2ResponseBody" name="body"/>
+    </message>
+    <message name="ListAllBookmarksV2Request">
+      <part element="tns:ListAllBookmarksV2RequestBody" name="body"/>
+    </message>
+    <message name="ListAllBookmarksV2Response">
+      <part element="tns:ListAllBookmarksV2ResponseBody" name="body"/>
+    </message>
+    <message name="GetBookmarkRequest">
+      <part element="tns:GetBookmarkRequestBody" name="body"/>
+    </message>
+    <message name="GetBookmarkResponse">
+      <part element="tns:GetBookmarkResponseBody" name="body"/>
+    </message>
+    <message name="GetFolderRequest">
+      <part element="tns:GetFolderRequestBody" name="body"/>
+    </message>
+    <message name="GetFolderResponse">
+      <part element="tns:GetFolderResponseBody" name="body"/>
+    </message>
+    <message name="ReorderBookmarkAndFolderRequest">
+      <part element="tns:ReorderBookmarkAndFolderRequestBody" name="body"/>
+    </message>
+    <message name="ReorderBookmarkAndFolderResponse">
+      <part element="tns:ReorderBookmarkAndFolderResponseBody" name="body"/>
+    </message>
+    <portType name="KMBookmarkServiceV2PortType">
+      <operation name="ManageBookmarksV2">
+        <input message="tns:ManageBookmarksV2Request"/>
+        <output message="tns:ManageBookmarksV2Response"/>
+      </operation>
+      <operation name="ListAllBookmarksV2">
+        <input message="tns:ListAllBookmarksV2Request"/>
+        <output message="tns:ListAllBookmarksV2Response"/>
+      </operation>
+      <operation name="GetBookmark">
+        <input message="tns:GetBookmarkRequest"/>
+        <output message="tns:GetBookmarkResponse"/>
+      </operation>
+      <operation name="GetFolder">
+        <input message="tns:GetFolderRequest"/>
+        <output message="tns:GetFolderResponse"/>
+      </operation>
+      <operation name="ReorderBookmarkAndFolder">
+        <input message="tns:ReorderBookmarkAndFolderRequest"/>
+        <output message="tns:ReorderBookmarkAndFolderResponse"/>
+      </operation>
+    </portType>
+    <binding name="KMBookmarkServiceV2Binding" type="tns:KMBookmarkServiceV2PortType">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <operation name="ManageBookmarksV2">
+        <soap:operation soapAction="KMBookmarkServiceV2Service#ManageBookmarksV2"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="ListAllBookmarksV2">
+        <soap:operation soapAction="KMBookmarkServiceV2Service#ListAllBookmarksV2"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="GetBookmark">
+        <soap:operation soapAction="KMBookmarkServiceV2Service#GetBookmark"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="GetFolder">
+        <soap:operation soapAction="KMBookmarkServiceV2Service#GetFolder"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="ReorderBookmarkAndFolder">
+        <soap:operation soapAction="KMBookmarkServiceV2Service#ReorderBookmarkAndFolder"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+    </binding>
+    <service name="KMBookmarkServiceV2Service">
+      <documentation>
+        Soap Service to expose API(s) to manage bookmarks and folders.
+      </documentation>
+      <port binding="tns:KMBookmarkServiceV2Binding" name="KMBookmarkServiceV2Port">
+        <soap:address location="http://localhost:8090/searchservices/services/KMBookmarkServiceV2Port"/>
+      </port>
+    </service>
+  </definitions>

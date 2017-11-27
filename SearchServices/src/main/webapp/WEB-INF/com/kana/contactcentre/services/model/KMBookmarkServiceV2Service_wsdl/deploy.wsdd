@@ -1,0 +1,237 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from KMBookmarkServiceV2Service WSDL service -->
+
+  <service name="KMBookmarkServiceV2Port" provider="java:RPC" style="document" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"/>
+      <parameter name="wsdlServiceElement" value="KMBookmarkServiceV2Service"/>
+      <parameter name="schemaUnqualified" value="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"/>
+      <parameter name="wsdlServicePort" value="KMBookmarkServiceV2Port"/>
+      <parameter name="className" value="com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.KMBookmarkServiceV2BindingSkeleton"/>
+      <parameter name="wsdlPortType" value="KMBookmarkServiceV2PortType"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <parameter name="allowedMethods" value="*"/>
+
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:IAssociationList"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.IAssociationList"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:BookmarkedContentV2"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:IEvaId"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.IEvaId"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:BookmarkFolderContents"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ContentBookmarksV2"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:BookmarkSubFolderContents"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkSubFolderContents"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:BookmarkFolderContentsList"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[]"
+        innerType="cmp-ns:BookmarkFolderContents" xmlns:cmp-ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:BookmarkFolderContent"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:GetFolderResponseBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.GetFolderResponseBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ReorderBookmarkAndFolderRequestBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ManageBookmarksV2ResponseBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:GetFolderRequestBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.GetFolderRequestBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:BookmarkFolderContentList"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent[]"
+        innerType="cmp-ns:BookmarkFolderContent" xmlns:cmp-ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ErrorList"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ErrorMessage[]"
+        innerType="cmp-ns:ErrorMessage" xmlns:cmp-ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:IEntityLock"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.IEntityLock"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ReorderBookmarkAndFolderResponseBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:IPersistableEntity"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.IPersistableEntity"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:GetBookmarkResponseBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.GetBookmarkResponseBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:BookmarkSubFolderContentsList"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkSubFolderContents[]"
+        innerType="cmp-ns:BookmarkSubFolderContents" xmlns:cmp-ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ErrorMessage"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ErrorMessage"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:EIContentType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.EIContentType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ContentBookmark"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmark"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ManageBookmarksV2RequestBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ListAllBookmarksV2ResponseBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2ResponseBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:ListAllBookmarksV2RequestBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:BookmarkedContentV2List"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2[]"
+        innerType="cmp-ns:BookmarkedContentV2" xmlns:cmp-ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
+        qname="ns:GetBookmarkRequestBodyType"
+        type="java:com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.GetBookmarkRequestBodyType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>
