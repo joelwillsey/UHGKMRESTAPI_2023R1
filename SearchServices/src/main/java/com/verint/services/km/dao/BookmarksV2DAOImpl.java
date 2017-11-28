@@ -16,13 +16,15 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.Boo
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ErrorMessage;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ListAllBookmarksRequestBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ListAllBookmarksResponseBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ManageBookmarkRequestBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ManageBookmarkResponseBodyType;
+//import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ManageBookmarkRequestBodyType;
+//import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ManageBookmarkResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ReorderBookmarksRequestBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ReorderBookmarksResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.KMBookmarkServiceV2PortType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2ResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType;
@@ -32,8 +34,6 @@ import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.ContentRequest;
 import com.verint.services.km.model.ErrorList;
-import com.verint.services.km.model.ManageBookmarkRequest;
-import com.verint.services.km.model.ManageBookmarkResponse;
 import com.verint.services.km.model.ManageBookmarkV2Request;
 import com.verint.services.km.model.ManageBookmarkV2Response;
 /**
@@ -166,10 +166,10 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		LOGGER.info("Entering add bookmark -");
 		LOGGER.debug("ManageBookmarksV2RequestBodyType: " + manageBookmarkRequest);
 		
-		manageBookmarkRequest.setUserAction("ADD");
+		//manageBookmarkRequest.setUserAction("ADD");
 		//final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = new ReorderBookmarkAndFolderResponseBodyType();
 		
-		final ManageBookmarksV2ResponseBodyType manageBookmarkResponse = KMBookmarkServiceV2PortType.manageBookmarksV2(manageBookmarkRequest);
+		 ManageBookmarksV2ResponseBodyType manageBookmarkResponse = KMBookmarkServiceV2PortType.manageBookmarksV2(manageBookmarkRequest);
 
 		return manageBookmarkResponse;
 	}
@@ -258,6 +258,20 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 			throws RemoteException, AppException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ListAllBookmarksV2ResponseBodyType listAll(ListAllBookmarksV2RequestBodyType listallRequest)
+			throws RemoteException, AppException {
+		LOGGER.info("Entering list all -");
+		LOGGER.debug("ListAllBookmarksV2RequesteBodyType: " + listallRequest);
+		
+		//manageBookmarkRequest.setUserAction("ADD");
+		//final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = new ReorderBookmarkAndFolderResponseBodyType();
+		
+		ListAllBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.listAllV2(listallRequest);
+
+		return response;
 	}
 
 	

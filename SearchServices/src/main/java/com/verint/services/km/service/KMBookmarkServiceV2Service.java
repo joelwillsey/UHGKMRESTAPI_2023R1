@@ -25,8 +25,10 @@ import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.service.BaseService;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2ResponseBodyType;
 //public interface KMBookmarkServiceV2Service extends javax.xml.rpc.Service {
 	@Path("/bookmarksv2")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -187,6 +189,38 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Man
  }		
 		
 		
+		
+		@Path("/list")
+		@GET
+		@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+		public ListAllBookmarksV2ResponseBodyType listAll(@Context HttpServletRequest httpRequest){
+			LOGGER.info("Entering list all()");		
+			ListAllBookmarksV2ResponseBodyType listAllResponse = new ListAllBookmarksV2ResponseBodyType();
+			final ListAllBookmarksV2RequestBodyType request = new ListAllBookmarksV2RequestBodyType();
+			
+			try {
+				// Get the authentication information
+				final String[] credentials = getAuthenticatinCredentials(httpRequest);
+				LOGGER.debug("Username: " + credentials[0]);
+				LOGGER.debug("Password: " + credentials[1]);
+				request.setUserName(credentials[0]);
+				request.setPassword(credentials[1]);
+				//request.setApplicationID(applicationID);
+				//request.set
+				//request.setApplicationID("en-US");
+				listAllResponse = bookmarksV2DAO.listAll(request);
+
+				
+		}catch (AppException ae) {
+			LOGGER.error("AppException in addFolder()", ae);
+			throw ae;
+		} catch (Throwable t) {
+			LOGGER.error("Unexpected exception in addFolder()", t);
+			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
+					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
+		}
+			return listAllResponse;
+ }
 		
 	}
 

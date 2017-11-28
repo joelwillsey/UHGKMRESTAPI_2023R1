@@ -65,7 +65,7 @@ public interface BookmarksV2DAO {
 	public ReorderBookmarkAndFolderResponseBodyType reorderFolderUp(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
 
 	public ReorderBookmarkAndFolderResponseBodyType reorderFolderDown(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
-
+	public ListAllBookmarksV2ResponseBodyType listAll(ListAllBookmarksV2RequestBodyType listallRequest) throws RemoteException, AppException;
 	/**
 	 * 
 	 * @param bookmarkRequest

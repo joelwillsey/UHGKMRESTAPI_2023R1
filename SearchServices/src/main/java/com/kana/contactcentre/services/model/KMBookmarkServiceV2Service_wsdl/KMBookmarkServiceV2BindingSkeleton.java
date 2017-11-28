@@ -129,4 +129,10 @@ public class KMBookmarkServiceV2BindingSkeleton implements com.kana.contactcentr
         return ret;
     }
 
+	@Override
+	public ListAllBookmarksV2ResponseBodyType listAllV2(ListAllBookmarksV2RequestBodyType listallRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
