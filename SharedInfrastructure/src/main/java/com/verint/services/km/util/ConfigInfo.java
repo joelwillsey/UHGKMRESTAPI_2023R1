@@ -30,6 +30,7 @@ public class ConfigInfo {
 	private String soapContentservice="";
 	private String soapTaggingservice="";
 	private String soapBookmarkservice="";
+	private String soapBookmarkserviceV2="";
 	private String soapRequestanswer="";
 	private String soapFeedback="";
 	private String soapLogin="";
@@ -90,6 +91,7 @@ public class ConfigInfo {
 				soapContentservice= prop.getProperty("soap.contentservice");
 				soapTaggingservice= prop.getProperty("soap.taggingservice");
 				soapBookmarkservice= prop.getProperty("soap.bookmarkservice");
+				soapBookmarkservice= prop.getProperty("soap.bookmarkservicev2");
 				soapRequestanswer= prop.getProperty("soap.requestanswer");
 				soapFeedback= prop.getProperty("soap.feedback");
 				soapLogin= prop.getProperty("soap.login");
@@ -148,6 +150,9 @@ public class ConfigInfo {
 	}
 	public String getSoapBookmarkservice() {
 		return soapBookmarkservice;
+	}
+	public String getSoapBookmarkserviceV2() {
+		return soapBookmarkserviceV2;
 	}
 	public String getSoapRequestanswer() {
 		return soapRequestanswer;
@@ -275,6 +280,7 @@ public class ConfigInfo {
 		"soap.contentservice=" + soapContentservice + "\n" +
 		"soap.taggingservice=" + soapTaggingservice + "\n" +
 		"soap.bookmarkservice=" + soapBookmarkservice + "\n" +
+		"soap.bookmarkservicev2=" + soapBookmarkserviceV2 + "\n" +
 		"soap.requestanswer=" + soapRequestanswer + "\n" +
 		"soap.feedback=" + soapFeedback + "\n" +
 		"soap.login=" + soapLogin + "\n" +
