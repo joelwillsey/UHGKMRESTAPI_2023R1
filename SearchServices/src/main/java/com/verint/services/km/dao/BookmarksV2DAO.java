@@ -5,6 +5,7 @@ package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
 
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType;
@@ -46,9 +47,7 @@ public interface BookmarksV2DAO {
 	public BookmarkFolderContent getFolder(java.lang.String folderId);
 	
 	public BookmarkedContentV2 getBookmark(java.lang.String contentId);
-	
-	public BookmarkedContentV2 listAllBookmarks();
-	
+		
 	/**
 	 * 
 	 * @param contentRequest
@@ -65,7 +64,7 @@ public interface BookmarksV2DAO {
 	public ReorderBookmarkAndFolderResponseBodyType reorderFolderUp(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
 
 	public ReorderBookmarkAndFolderResponseBodyType reorderFolderDown(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
-	public ListAllBookmarksV2ResponseBodyType listAll(ListAllBookmarksV2RequestBodyType listallRequest) throws RemoteException, AppException;
+	public ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(ListAllBookmarksV2RequestBodyType listallRequest) throws RemoteException, AppException;
 	/**
 	 * 
 	 * @param bookmarkRequest

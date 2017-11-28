@@ -193,7 +193,7 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 		@Path("/list")
 		@GET
 		@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-		public ListAllBookmarksV2ResponseBodyType listAll(@Context HttpServletRequest httpRequest){
+		public ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(@Context HttpServletRequest httpRequest){
 			LOGGER.info("Entering list all()");		
 			ListAllBookmarksV2ResponseBodyType listAllResponse = new ListAllBookmarksV2ResponseBodyType();
 			final ListAllBookmarksV2RequestBodyType request = new ListAllBookmarksV2RequestBodyType();
@@ -208,7 +208,7 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 				//request.setApplicationID(applicationID);
 				//request.set
 				//request.setApplicationID("en-US");
-				listAllResponse = bookmarksV2DAO.listAll(request);
+				listAllResponse = bookmarksV2DAO.listAllBookmarksV2(request);
 
 				
 		}catch (AppException ae) {

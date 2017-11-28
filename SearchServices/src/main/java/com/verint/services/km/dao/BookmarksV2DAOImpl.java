@@ -12,10 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.BookmarkedContent;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ErrorMessage;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ListAllBookmarksRequestBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ListAllBookmarksResponseBodyType;
+//import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.BookmarkedContent;
+//import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ErrorMessage;
+//import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ListAllBookmarksRequestBodyType;
+//import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ListAllBookmarksResponseBodyType;
 //import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ManageBookmarkRequestBodyType;
 //import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ManageBookmarkResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ReorderBookmarksRequestBodyType;
@@ -29,6 +29,8 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Man
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ErrorMessage;
+import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2;
 import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
@@ -67,7 +69,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	 */
 	public boolean isContentBookmarked(ContentRequest contentRequest) throws RemoteException, AppException {
 		boolean isBookmarked = false;
-		final ListAllBookmarksRequestBodyType bookmarkRequest = new ListAllBookmarksRequestBodyType();
+		final ListAllBookmarksV2RequestBodyType bookmarkRequest = new ListAllBookmarksV2RequestBodyType();
 		bookmarkRequest.setApplicationID(AppID);
 		bookmarkRequest.setUserName(contentRequest.getUsername());
 		bookmarkRequest.setPassword(contentRequest.getPassword());
@@ -76,18 +78,19 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 
 		// Check for a match
 		Instant start = Instant.now();
-		final ListAllBookmarksResponseBodyType bookmarkResponse = KMBookmarkServicePortType.listAllBookmarks(bookmarkRequest);
+		final ListAllBookmarksV2ResponseBodyType bookmarkResponse = KMBookmarkServiceV2PortType.listAllBookmarksV2(bookmarkRequest);
 		Instant end = Instant.now();
 		LOGGER.debug("SERVICE_CALL_PERFORMANCE - isContentBookmarked() duration: " + Duration.between(start, end).toMillis() + "ms");
 		
-		if (bookmarkResponse != null && bookmarkResponse.getContentList() != null) {
-			final BookmarkedContent[] content = bookmarkResponse.getContentList();
-			for (int x = 0; (content != null) && (x < content.length); x++) {
+		if (bookmarkResponse != null && bookmarkResponse.getResponse() != null) {
+			final ContentBookmarksV2 content = bookmarkResponse.getResponse();
+			
+			//for (int x = 0; (content != null) && (x < content.length); x++) {
 				// Is there a match?
-				if (contentRequest.getContentId().equalsIgnoreCase(content[x].getContentId())) {
-					isBookmarked = true;
-				}
-			}
+			//	if (contentRequest.getContentId().equalsIgnoreCase(content[x].getContentId())) {
+			//		isBookmarked = true;
+			//	}
+			//}
 		} else {
 			// We have a problem with the service
 			throw new AppException(500, AppErrorCodes.CONTENT_BOOKMARK_ERROR,
@@ -107,17 +110,17 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		final ManageBookmarkV2Response bookmarkResponse = new ManageBookmarkV2Response();
 
 		// Setup the request
-		final ReorderBookmarksRequestBodyType request = new ReorderBookmarksRequestBodyType();
+		final ReorderBookmarkAndFolderRequestBodyType request = new ReorderBookmarkAndFolderRequestBodyType();
 		request.setApplicationID(AppID);
-		request.setUserName(bookmarkRequest.getUsername());
+		request.setUser(bookmarkRequest.getUsername());
 		request.setPassword(bookmarkRequest.getPassword());
-		request.setLocaleName(Locale);
-		request.setContentId(bookmarkRequest.getContentId());
-		request.setReorderDirection(direction);
-
+		//request.(Locale);
+		request.setContentID(bookmarkRequest.getContentId());
+		request.setDirection(direction);
+		
 		// Call the service
 		Instant start = Instant.now();
-		final ReorderBookmarksResponseBodyType response = KMBookmarkServicePortType.reorderBookmarks(request);
+		final ReorderBookmarkAndFolderResponseBodyType response = KMBookmarkServiceV2PortType.reorderBookmarkAndFolder(request);
 		Instant end = Instant.now();
 		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+bookmarkRequest.getUsername()+") - manageBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
 
@@ -151,13 +154,6 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public BookmarkedContentV2 listAllBookmarks() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 
 	@Override
@@ -260,18 +256,16 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		return null;
 	}
 
-	@Override
-	public ListAllBookmarksV2ResponseBodyType listAll(ListAllBookmarksV2RequestBodyType listallRequest)
-			throws RemoteException, AppException {
-		LOGGER.info("Entering list all -");
-		LOGGER.debug("ListAllBookmarksV2RequesteBodyType: " + listallRequest);
-		
-		//manageBookmarkRequest.setUserAction("ADD");
-		//final ReorderBookmarkAndFolderResponseBodyType reorderBookmarkResponse = new ReorderBookmarkAndFolderResponseBodyType();
-		
-		ListAllBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.listAllV2(listallRequest);
 
-		return response;
+	@Override
+	public ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(ListAllBookmarksV2RequestBodyType listallRequest)
+			throws RemoteException, AppException {
+		LOGGER.info("Entering istAllBookmarksV2 -");
+		LOGGER.debug("ListAllBookmarksV2RequesteBodyType: " + listallRequest);
+
+		ListAllBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.listAllV2(listallRequest);
+		
+		return null;
 	}
 
 	
