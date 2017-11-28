@@ -25,6 +25,8 @@ public class AppErrorCodes {
 	public static final int VIEW_CONTENT_ERROR = 24;
 	public static final int LOGIN_ERROR = 25;
 	public static final int CROSS_TAGS_ERROR = 26;
+	public static final int HOVERTEXT_HOVERID_ERROR = 27;
+	public static final int HOVERTEXT_CONTENT_ERROR = 28;
 	public static final int UNAUTHORIZED_ACCESS = 401;
 	public static final int UNEXPECTED_APPLICATION_EXCEPTION = 500;
 }
