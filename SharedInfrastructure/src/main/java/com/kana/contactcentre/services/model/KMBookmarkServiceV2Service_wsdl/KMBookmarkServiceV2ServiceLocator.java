@@ -4,14 +4,14 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
-/*  not sure if we need this
+
 package com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl;
 
 public class KMBookmarkServiceV2ServiceLocator extends org.apache.axis.client.Service implements com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.KMBookmarkServiceV2Service {
 
 /**
- * Undefined
- 
+ * Soap Service to expose API(s) to manage bookmarks and folders.
+ */
 
     public KMBookmarkServiceV2ServiceLocator() {
     }
@@ -73,7 +73,7 @@ public class KMBookmarkServiceV2ServiceLocator extends org.apache.axis.client.Se
      * For the given interface, get the stub implementation.
      * If this service has no port for the given interface,
      * then ServiceException is thrown.
-     
+     */
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
             if (com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.KMBookmarkServiceV2PortType.class.isAssignableFrom(serviceEndpointInterface)) {
@@ -92,7 +92,7 @@ public class KMBookmarkServiceV2ServiceLocator extends org.apache.axis.client.Se
      * For the given interface, get the stub implementation.
      * If this service has no port for the given interface,
      * then ServiceException is thrown.
-     
+     */
     public java.rmi.Remote getPort(javax.xml.namespace.QName portName, Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         if (portName == null) {
             return getPort(serviceEndpointInterface);
@@ -109,7 +109,7 @@ public class KMBookmarkServiceV2ServiceLocator extends org.apache.axis.client.Se
     }
 
     public javax.xml.namespace.QName getServiceName() {
-        return new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "KMBookmarkServiceV2Service");
+        return new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "KMBookmarkServiceV2Service");
     }
 
     private java.util.HashSet ports = null;
@@ -117,14 +117,14 @@ public class KMBookmarkServiceV2ServiceLocator extends org.apache.axis.client.Se
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "KMBookmarkServiceV2Port"));
+            ports.add(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "KMBookmarkServiceV2Port"));
         }
         return ports.iterator();
     }
 
     /**
     * Set the endpoint address for the specified port name.
-    
+    */
     public void setEndpointAddress(java.lang.String portName, java.lang.String address) throws javax.xml.rpc.ServiceException {
         
 if ("KMBookmarkServiceV2Port".equals(portName)) {
@@ -138,9 +138,9 @@ if ("KMBookmarkServiceV2Port".equals(portName)) {
 
     /**
     * Set the endpoint address for the specified port name.
-    
+    */
     public void setEndpointAddress(javax.xml.namespace.QName portName, java.lang.String address) throws javax.xml.rpc.ServiceException {
         setEndpointAddress(portName.getLocalPart(), address);
     }
 
-}*/
+}

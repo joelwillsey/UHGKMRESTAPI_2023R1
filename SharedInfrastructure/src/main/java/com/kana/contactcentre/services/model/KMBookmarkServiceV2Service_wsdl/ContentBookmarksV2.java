@@ -7,7 +7,7 @@
 
 package com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl;
 
-public class ContentBookmarksV2  extends com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmark  implements java.io.Serializable {
+public class ContentBookmarksV2  implements java.io.Serializable {
     private com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[] folders;
 
     private com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2[] bookmarks;
@@ -16,35 +16,10 @@ public class ContentBookmarksV2  extends com.kana.contactcentre.services.model.K
     }
 
     public ContentBookmarksV2(
-           java.lang.String synopsis,
-           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.IEvaId bookmarkOwnerTypeId,
-           java.lang.String typeSystemName,
-           boolean isFeatured,
-           java.math.BigInteger sequenceNumber,
-           java.lang.String title,
-           java.lang.String viewId,
-           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.EIContentType contentType,
-           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.IEvaId bookmarkOwnerId,
-           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.IPersistableEntity bookmarkOwner,
-           java.util.Date createdDate,
-           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.IEvaId contentTypeId,
            com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[] folders,
            com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2[] bookmarks) {
-        super(
-            synopsis,
-            bookmarkOwnerTypeId,
-            typeSystemName,
-            isFeatured,
-            sequenceNumber,
-            title,
-            viewId,
-            contentType,
-            bookmarkOwnerId,
-            bookmarkOwner,
-            createdDate,
-            contentTypeId);
-        this.folders = folders;
-        this.bookmarks = bookmarks;
+           this.folders = folders;
+           this.bookmarks = bookmarks;
     }
 
 
@@ -98,7 +73,7 @@ public class ContentBookmarksV2  extends com.kana.contactcentre.services.model.K
         }
         __equalsCalc = obj;
         boolean _equals;
-        _equals = super.equals(obj) && 
+        _equals = true && 
             ((this.folders==null && other.getFolders()==null) || 
              (this.folders!=null &&
               java.util.Arrays.equals(this.folders, other.getFolders()))) &&
@@ -115,7 +90,7 @@ public class ContentBookmarksV2  extends com.kana.contactcentre.services.model.K
             return 0;
         }
         __hashCodeCalc = true;
-        int _hashCode = super.hashCode();
+        int _hashCode = 1;
         if (getFolders() != null) {
             for (int i=0;
                  i<java.lang.reflect.Array.getLength(getFolders());
@@ -147,18 +122,18 @@ public class ContentBookmarksV2  extends com.kana.contactcentre.services.model.K
         new org.apache.axis.description.TypeDesc(ContentBookmarksV2.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ContentBookmarksV2"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ContentBookmarksV2"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("folders");
         elemField.setXmlName(new javax.xml.namespace.QName("", "folders"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContents"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContents"));
         elemField.setNillable(false);
         elemField.setItemQName(new javax.xml.namespace.QName("", "BookmarkFolderContents"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("bookmarks");
         elemField.setXmlName(new javax.xml.namespace.QName("", "bookmarks"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkedContentV2"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "BookmarkedContentV2"));
         elemField.setNillable(false);
         elemField.setItemQName(new javax.xml.namespace.QName("", "BookmarkedContentV2"));
         typeDesc.addFieldDesc(elemField);

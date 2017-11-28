@@ -76,11 +76,11 @@ public class ListAllBookmarksV2ResponseBodyType  implements java.io.Serializable
         new org.apache.axis.description.TypeDesc(ListAllBookmarksV2ResponseBodyType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2ResponseBodyType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2ResponseBodyType"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("response");
         elemField.setXmlName(new javax.xml.namespace.QName("", "response"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ContentBookmarksV2"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ContentBookmarksV2"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

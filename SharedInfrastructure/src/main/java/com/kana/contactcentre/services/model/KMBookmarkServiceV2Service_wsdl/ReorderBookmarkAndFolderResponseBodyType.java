@@ -10,20 +10,16 @@ package com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl;
 public class ReorderBookmarkAndFolderResponseBodyType  implements java.io.Serializable {
     private com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ErrorMessage[] errorList;
 
-    private boolean toReturn;
-
-    private com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 newTree;
+    private com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 response;
 
     public ReorderBookmarkAndFolderResponseBodyType() {
     }
 
     public ReorderBookmarkAndFolderResponseBodyType(
            com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ErrorMessage[] errorList,
-           boolean toReturn,
-           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 newTree) {
+           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 response) {
            this.errorList = errorList;
-           this.toReturn = toReturn;
-           this.newTree = newTree;
+           this.response = response;
     }
 
 
@@ -48,42 +44,22 @@ public class ReorderBookmarkAndFolderResponseBodyType  implements java.io.Serial
 
 
     /**
-     * Gets the toReturn value for this ReorderBookmarkAndFolderResponseBodyType.
+     * Gets the response value for this ReorderBookmarkAndFolderResponseBodyType.
      * 
-     * @return toReturn
+     * @return response
      */
-    public boolean isToReturn() {
-        return toReturn;
+    public com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 getResponse() {
+        return response;
     }
 
 
     /**
-     * Sets the toReturn value for this ReorderBookmarkAndFolderResponseBodyType.
+     * Sets the response value for this ReorderBookmarkAndFolderResponseBodyType.
      * 
-     * @param toReturn
+     * @param response
      */
-    public void setToReturn(boolean toReturn) {
-        this.toReturn = toReturn;
-    }
-
-
-    /**
-     * Gets the newTree value for this ReorderBookmarkAndFolderResponseBodyType.
-     * 
-     * @return newTree
-     */
-    public com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 getNewTree() {
-        return newTree;
-    }
-
-
-    /**
-     * Sets the newTree value for this ReorderBookmarkAndFolderResponseBodyType.
-     * 
-     * @param newTree
-     */
-    public void setNewTree(com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 newTree) {
-        this.newTree = newTree;
+    public void setResponse(com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 response) {
+        this.response = response;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -101,10 +77,9 @@ public class ReorderBookmarkAndFolderResponseBodyType  implements java.io.Serial
             ((this.errorList==null && other.getErrorList()==null) || 
              (this.errorList!=null &&
               java.util.Arrays.equals(this.errorList, other.getErrorList()))) &&
-            this.toReturn == other.isToReturn() &&
-            ((this.newTree==null && other.getNewTree()==null) || 
-             (this.newTree!=null &&
-              this.newTree.equals(other.getNewTree())));
+            ((this.response==null && other.getResponse()==null) || 
+             (this.response!=null &&
+              this.response.equals(other.getResponse())));
         __equalsCalc = null;
         return _equals;
     }
@@ -127,9 +102,8 @@ public class ReorderBookmarkAndFolderResponseBodyType  implements java.io.Serial
                 }
             }
         }
-        _hashCode += (isToReturn() ? Boolean.TRUE : Boolean.FALSE).hashCode();
-        if (getNewTree() != null) {
-            _hashCode += getNewTree().hashCode();
+        if (getResponse() != null) {
+            _hashCode += getResponse().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -140,24 +114,18 @@ public class ReorderBookmarkAndFolderResponseBodyType  implements java.io.Serial
         new org.apache.axis.description.TypeDesc(ReorderBookmarkAndFolderResponseBodyType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBodyType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBodyType"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("errorList");
         elemField.setXmlName(new javax.xml.namespace.QName("", "errorList"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ErrorMessage"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ErrorMessage"));
         elemField.setNillable(false);
         elemField.setItemQName(new javax.xml.namespace.QName("", "ErrorMessage"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("toReturn");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "toReturn"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("newTree");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "newTree"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ContentBookmarksV2"));
+        elemField.setFieldName("response");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "response"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ContentBookmarksV2"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

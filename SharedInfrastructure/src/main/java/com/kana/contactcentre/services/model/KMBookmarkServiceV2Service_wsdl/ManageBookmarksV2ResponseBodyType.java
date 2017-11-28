@@ -8,34 +8,7 @@
 package com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl;
 
 public class ManageBookmarksV2ResponseBodyType  implements java.io.Serializable {
-    private boolean toReturn;
-
     public ManageBookmarksV2ResponseBodyType() {
-    }
-
-    public ManageBookmarksV2ResponseBodyType(
-           boolean toReturn) {
-           this.toReturn = toReturn;
-    }
-
-
-    /**
-     * Gets the toReturn value for this ManageBookmarksV2ResponseBodyType.
-     * 
-     * @return toReturn
-     */
-    public boolean isToReturn() {
-        return toReturn;
-    }
-
-
-    /**
-     * Sets the toReturn value for this ManageBookmarksV2ResponseBodyType.
-     * 
-     * @param toReturn
-     */
-    public void setToReturn(boolean toReturn) {
-        this.toReturn = toReturn;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -49,8 +22,7 @@ public class ManageBookmarksV2ResponseBodyType  implements java.io.Serializable 
         }
         __equalsCalc = obj;
         boolean _equals;
-        _equals = true && 
-            this.toReturn == other.isToReturn();
+        _equals = true;
         __equalsCalc = null;
         return _equals;
     }
@@ -62,7 +34,6 @@ public class ManageBookmarksV2ResponseBodyType  implements java.io.Serializable 
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        _hashCode += (isToReturn() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -72,13 +43,7 @@ public class ManageBookmarksV2ResponseBodyType  implements java.io.Serializable 
         new org.apache.axis.description.TypeDesc(ManageBookmarksV2ResponseBodyType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2ResponseBodyType"));
-        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("toReturn");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "toReturn"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2ResponseBodyType"));
     }
 
     /**

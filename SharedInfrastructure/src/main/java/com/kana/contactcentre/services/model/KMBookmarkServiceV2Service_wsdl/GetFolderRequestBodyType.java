@@ -166,7 +166,7 @@ public class GetFolderRequestBodyType  implements java.io.Serializable {
         new org.apache.axis.description.TypeDesc(GetFolderRequestBodyType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetFolderRequestBodyType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetFolderRequestBodyType"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("applicationID");
         elemField.setXmlName(new javax.xml.namespace.QName("", "applicationID"));

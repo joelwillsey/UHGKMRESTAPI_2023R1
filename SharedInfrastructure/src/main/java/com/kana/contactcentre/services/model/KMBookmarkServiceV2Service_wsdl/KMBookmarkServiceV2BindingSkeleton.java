@@ -31,10 +31,10 @@ public class KMBookmarkServiceV2BindingSkeleton implements com.kana.contactcentr
         org.apache.axis.description.FaultDesc _fault;
         org.apache.axis.description.ParameterDesc [] _params;
         _params = new org.apache.axis.description.ParameterDesc [] {
-            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2RequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2RequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType.class, false, false), 
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2RequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2RequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType.class, false, false), 
         };
-        _oper = new org.apache.axis.description.OperationDesc("manageBookmarksV2", _params, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2ResponseBody"));
-        _oper.setReturnType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2ResponseBodyType"));
+        _oper = new org.apache.axis.description.OperationDesc("manageBookmarksV2", _params, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2ResponseBody"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2ResponseBodyType"));
         _oper.setElementQName(new javax.xml.namespace.QName("", "ManageBookmarksV2"));
         _oper.setSoapAction("KMBookmarkServiceV2Service#ManageBookmarksV2");
         _myOperationsList.add(_oper);
@@ -43,10 +43,10 @@ public class KMBookmarkServiceV2BindingSkeleton implements com.kana.contactcentr
         }
         ((java.util.List)_myOperations.get("manageBookmarksV2")).add(_oper);
         _params = new org.apache.axis.description.ParameterDesc [] {
-            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2RequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2RequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType.class, false, false), 
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2RequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2RequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType.class, false, false), 
         };
-        _oper = new org.apache.axis.description.OperationDesc("listAllBookmarksV2", _params, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2ResponseBody"));
-        _oper.setReturnType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2ResponseBodyType"));
+        _oper = new org.apache.axis.description.OperationDesc("listAllBookmarksV2", _params, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2ResponseBody"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ListAllBookmarksV2ResponseBodyType"));
         _oper.setElementQName(new javax.xml.namespace.QName("", "ListAllBookmarksV2"));
         _oper.setSoapAction("KMBookmarkServiceV2Service#ListAllBookmarksV2");
         _myOperationsList.add(_oper);
@@ -55,10 +55,10 @@ public class KMBookmarkServiceV2BindingSkeleton implements com.kana.contactcentr
         }
         ((java.util.List)_myOperations.get("listAllBookmarksV2")).add(_oper);
         _params = new org.apache.axis.description.ParameterDesc [] {
-            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetBookmarkRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetBookmarkRequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.GetBookmarkRequestBodyType.class, false, false), 
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetBookmarkRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetBookmarkRequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.GetBookmarkRequestBodyType.class, false, false), 
         };
-        _oper = new org.apache.axis.description.OperationDesc("getBookmark", _params, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetBookmarkResponseBody"));
-        _oper.setReturnType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetBookmarkResponseBodyType"));
+        _oper = new org.apache.axis.description.OperationDesc("getBookmark", _params, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetBookmarkResponseBody"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetBookmarkResponseBodyType"));
         _oper.setElementQName(new javax.xml.namespace.QName("", "GetBookmark"));
         _oper.setSoapAction("KMBookmarkServiceV2Service#GetBookmark");
         _myOperationsList.add(_oper);
@@ -67,10 +67,10 @@ public class KMBookmarkServiceV2BindingSkeleton implements com.kana.contactcentr
         }
         ((java.util.List)_myOperations.get("getBookmark")).add(_oper);
         _params = new org.apache.axis.description.ParameterDesc [] {
-            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetFolderRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetFolderRequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.GetFolderRequestBodyType.class, false, false), 
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetFolderRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetFolderRequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.GetFolderRequestBodyType.class, false, false), 
         };
-        _oper = new org.apache.axis.description.OperationDesc("getFolder", _params, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetFolderResponseBody"));
-        _oper.setReturnType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetFolderResponseBodyType"));
+        _oper = new org.apache.axis.description.OperationDesc("getFolder", _params, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetFolderResponseBody"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetFolderResponseBodyType"));
         _oper.setElementQName(new javax.xml.namespace.QName("", "GetFolder"));
         _oper.setSoapAction("KMBookmarkServiceV2Service#GetFolder");
         _myOperationsList.add(_oper);
@@ -79,10 +79,10 @@ public class KMBookmarkServiceV2BindingSkeleton implements com.kana.contactcentr
         }
         ((java.util.List)_myOperations.get("getFolder")).add(_oper);
         _params = new org.apache.axis.description.ParameterDesc [] {
-            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType.class, false, false), 
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBodyType"), com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType.class, false, false), 
         };
-        _oper = new org.apache.axis.description.OperationDesc("reorderBookmarkAndFolder", _params, new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBody"));
-        _oper.setReturnType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBodyType"));
+        _oper = new org.apache.axis.description.OperationDesc("reorderBookmarkAndFolder", _params, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBody"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderResponseBodyType"));
         _oper.setElementQName(new javax.xml.namespace.QName("", "ReorderBookmarkAndFolder"));
         _oper.setSoapAction("KMBookmarkServiceV2Service#ReorderBookmarkAndFolder");
         _myOperationsList.add(_oper);

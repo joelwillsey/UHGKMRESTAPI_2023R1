@@ -334,7 +334,7 @@ public class BookmarkedContentV2  implements java.io.Serializable {
         new org.apache.axis.description.TypeDesc(BookmarkedContentV2.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkedContentV2"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "BookmarkedContentV2"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("contentId");
         elemField.setXmlName(new javax.xml.namespace.QName("", "contentId"));

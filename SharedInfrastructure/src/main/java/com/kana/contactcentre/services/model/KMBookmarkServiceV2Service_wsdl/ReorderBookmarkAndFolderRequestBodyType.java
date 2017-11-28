@@ -18,7 +18,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
 
     private java.lang.String password;
 
-    private java.lang.String user;
+    private java.lang.String userName;
 
     private java.math.BigInteger numMoved;
 
@@ -33,7 +33,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
            java.lang.String direction,
            java.math.BigInteger folderID,
            java.lang.String password,
-           java.lang.String user,
+           java.lang.String userName,
            java.math.BigInteger numMoved,
            java.math.BigInteger destinationFolderID) {
            this.applicationID = applicationID;
@@ -41,7 +41,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
            this.direction = direction;
            this.folderID = folderID;
            this.password = password;
-           this.user = user;
+           this.userName = userName;
            this.numMoved = numMoved;
            this.destinationFolderID = destinationFolderID;
     }
@@ -148,22 +148,22 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
 
 
     /**
-     * Gets the user value for this ReorderBookmarkAndFolderRequestBodyType.
+     * Gets the userName value for this ReorderBookmarkAndFolderRequestBodyType.
      * 
-     * @return user
+     * @return userName
      */
-    public java.lang.String getUser() {
-        return user;
+    public java.lang.String getUserName() {
+        return userName;
     }
 
 
     /**
-     * Sets the user value for this ReorderBookmarkAndFolderRequestBodyType.
+     * Sets the userName value for this ReorderBookmarkAndFolderRequestBodyType.
      * 
-     * @param user
+     * @param userName
      */
-    public void setUser(java.lang.String user) {
-        this.user = user;
+    public void setUserName(java.lang.String userName) {
+        this.userName = userName;
     }
 
 
@@ -233,9 +233,9 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
             ((this.password==null && other.getPassword()==null) || 
              (this.password!=null &&
               this.password.equals(other.getPassword()))) &&
-            ((this.user==null && other.getUser()==null) || 
-             (this.user!=null &&
-              this.user.equals(other.getUser()))) &&
+            ((this.userName==null && other.getUserName()==null) || 
+             (this.userName!=null &&
+              this.userName.equals(other.getUserName()))) &&
             ((this.numMoved==null && other.getNumMoved()==null) || 
              (this.numMoved!=null &&
               this.numMoved.equals(other.getNumMoved()))) &&
@@ -268,8 +268,8 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
         if (getPassword() != null) {
             _hashCode += getPassword().hashCode();
         }
-        if (getUser() != null) {
-            _hashCode += getUser().hashCode();
+        if (getUserName() != null) {
+            _hashCode += getUserName().hashCode();
         }
         if (getNumMoved() != null) {
             _hashCode += getNumMoved().hashCode();
@@ -286,7 +286,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
         new org.apache.axis.description.TypeDesc(ReorderBookmarkAndFolderRequestBodyType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBodyType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ReorderBookmarkAndFolderRequestBodyType"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("applicationID");
         elemField.setXmlName(new javax.xml.namespace.QName("", "applicationID"));
@@ -318,8 +318,8 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("user");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "user"));
+        elemField.setFieldName("userName");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "userName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

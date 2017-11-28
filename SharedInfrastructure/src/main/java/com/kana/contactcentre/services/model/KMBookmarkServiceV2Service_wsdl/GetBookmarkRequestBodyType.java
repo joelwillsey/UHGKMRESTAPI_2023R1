@@ -166,7 +166,7 @@ public class GetBookmarkRequestBodyType  implements java.io.Serializable {
         new org.apache.axis.description.TypeDesc(GetBookmarkRequestBodyType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "GetBookmarkRequestBodyType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "GetBookmarkRequestBodyType"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("applicationID");
         elemField.setXmlName(new javax.xml.namespace.QName("", "applicationID"));

@@ -8,7 +8,7 @@
 package com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl;
 
 public class BookmarkFolderContents  implements java.io.Serializable {
-    private com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[][] subFolders;
+    private com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkSubFolderContents[] subFolders;
 
     private com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent bookmarkFolderContent;
 
@@ -16,7 +16,7 @@ public class BookmarkFolderContents  implements java.io.Serializable {
     }
 
     public BookmarkFolderContents(
-           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[][] subFolders,
+           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkSubFolderContents[] subFolders,
            com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent bookmarkFolderContent) {
            this.subFolders = subFolders;
            this.bookmarkFolderContent = bookmarkFolderContent;
@@ -28,7 +28,7 @@ public class BookmarkFolderContents  implements java.io.Serializable {
      * 
      * @return subFolders
      */
-    public com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[][] getSubFolders() {
+    public com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkSubFolderContents[] getSubFolders() {
         return subFolders;
     }
 
@@ -38,7 +38,7 @@ public class BookmarkFolderContents  implements java.io.Serializable {
      * 
      * @param subFolders
      */
-    public void setSubFolders(com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContents[][] subFolders) {
+    public void setSubFolders(com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkSubFolderContents[] subFolders) {
         this.subFolders = subFolders;
     }
 
@@ -114,18 +114,18 @@ public class BookmarkFolderContents  implements java.io.Serializable {
         new org.apache.axis.description.TypeDesc(BookmarkFolderContents.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContents"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContents"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("subFolders");
         elemField.setXmlName(new javax.xml.namespace.QName("", "subFolders"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContentsList"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "BookmarkSubFolderContents"));
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("", "BookmarkFolderContentsList"));
+        elemField.setItemQName(new javax.xml.namespace.QName("", "BookmarkSubFolderContents"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("bookmarkFolderContent");
         elemField.setXmlName(new javax.xml.namespace.QName("", "bookmarkFolderContent"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://localhost:80/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContent"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "BookmarkFolderContent"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
