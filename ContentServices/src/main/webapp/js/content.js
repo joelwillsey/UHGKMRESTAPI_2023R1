@@ -16,6 +16,7 @@ $(document).ready(function() {
 	
     // Setup ratings and rate functions
     $('.rate1').on('click', function() {
+    	log('rate1 clicked');
     	$('#ratingStars').css('width', '1.0em');
     	$.fn.rateContent(contentId, 1);
     });
@@ -281,7 +282,9 @@ $(document).ready(function() {
     	// Store the contentId and viewUUID
     	contentId = data.id;
     	viewId = data.viewUUID;    	
-    	 
+    	log('contentId='+contentId); 
+    	log('viewId='+contentId);
+    	
     	// Setup icon
     	$('.content_header_mobile_top_left').html('<div class="content_header_mobile_top_left_' + data.contentCategory + '">&nbsp;</div>');
     	$('.content_header_left_icon').html('<div class="content_header_left_icon_' + data.contentCategory + '">&nbsp;</div>');
@@ -804,6 +807,14 @@ $(document).ready(function() {
     // Retrieve External Content
     $.fn.retrieveExternalContent = function(data) {
     	log(data);
+    	
+    	//need to set the contentID and ViewId for feedback
+    	contentId = data.contentId;
+    	// There is no viewID in data package to blank it out so it does not use the last viewId
+    	viewId = '';    	
+    	log('contentId='+contentId); 
+    	log('viewId='+viewId);
+    	
     	// Setup icon
     	$('.content_header_mobile_top_left').html('<div class="content_header_mobile_top_left_content_spidereddocument">&nbsp;</div>');
     	$('.content_header_left_icon').html('<div class="content_header_left_icon_content_spidereddocument">&nbsp;</div>');
