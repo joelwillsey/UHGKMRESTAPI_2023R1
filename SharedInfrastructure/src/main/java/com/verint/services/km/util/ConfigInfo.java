@@ -91,7 +91,7 @@ public class ConfigInfo {
 				soapContentservice= prop.getProperty("soap.contentservice");
 				soapTaggingservice= prop.getProperty("soap.taggingservice");
 				soapBookmarkservice= prop.getProperty("soap.bookmarkservice");
-				soapBookmarkservice= prop.getProperty("soap.bookmarkservicev2");
+				soapBookmarkserviceV2= prop.getProperty("soap.bookmarkservicev2");
 				soapRequestanswer= prop.getProperty("soap.requestanswer");
 				soapFeedback= prop.getProperty("soap.feedback");
 				soapLogin= prop.getProperty("soap.login");
