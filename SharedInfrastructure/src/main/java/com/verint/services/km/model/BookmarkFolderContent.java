@@ -44,8 +44,48 @@ public class BookmarkFolderContent implements Serializable{
 	}
 
 	
+	public String getTitle(){
+		return title;
+	}
 	
+	public void setTitle(String ti){
+		this.title = ti;
+	}
+	public String getParentFolderId(){
+		return parentFolderId;
+	}
+	public void setParentFolderId(String par){
+		this.parentFolderId = par;
+	}
 	
+	public int getSequenceNumber(){
+		
+		return sequenceNumber;
+	}
+	
+	public void setSequenceNumber(int seq){
+		this.sequenceNumber=seq;
+	}
+	public String getLocaleName(){
+		return localeName;
+	}
+	public void setLocaleName(String loc){
+		this.localeName = loc;
+	}
+	public String getFolderId(){
+		return folderId;
+	}
+	public void setFolderId(String fol){
+		this.folderId = fol;
+	}
+	
+	public Date getCreatedDate(){
+		return createdDate;
+	}
+	
+	public void setCreatedDate(Date dat){
+		this.createdDate = dat;
+	}
 	
 	@Override
 	public String toString() {
