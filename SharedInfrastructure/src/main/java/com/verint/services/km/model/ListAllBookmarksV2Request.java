@@ -111,7 +111,7 @@ public class ListAllBookmarksV2Request implements Serializable{
 	}
 	
 	/**
-	 * @return the kbase_tags
+	 * @return the getSortOrder
 	 */
 	public String getSortOrder() {
 		return sortOrder;

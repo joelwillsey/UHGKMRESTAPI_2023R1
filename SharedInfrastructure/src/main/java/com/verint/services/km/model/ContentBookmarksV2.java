@@ -26,9 +26,33 @@ public class ContentBookmarksV2 {
 		super();
 	}
 
+	/**
+	 * @return the bookmarks
+	 */
+	public ArrayList<BookmarkedContentV2> getBookmarks() {
+		return bookmarks;
+	}
+
+	/**
+	 * @param bookmarks the bookmarks to set
+	 */
+	public void setBookmarks(ArrayList<BookmarkedContentV2> bookmarks) {
+		this.bookmarks = bookmarks;
+	}
 	
-	
-	
+	/**
+	 * @return the folders
+	 */
+	public ArrayList<BookmarkFolderContent> getFolders() {
+		return folders;
+	}
+
+	/**
+	 * @param folders the folders to set
+	 */
+	public void setFolders(ArrayList<BookmarkFolderContent> folders) {
+		this.folders = folders;
+	}
 	
 	@Override
 	public String toString() {
