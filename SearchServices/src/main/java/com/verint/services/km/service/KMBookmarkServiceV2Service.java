@@ -24,6 +24,9 @@ import com.verint.services.km.dao.BookmarksV2DAO;
 import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
+import com.verint.services.km.model.ListAllBookmarksV2Request;
+import com.verint.services.km.model.ListAllBookmarksV2Response;
+import com.verint.services.km.model.NewOrChangedResponse;
 import com.verint.services.km.service.BaseService;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
@@ -178,10 +181,10 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 
 				
 		}catch (AppException ae) {
-			LOGGER.error("AppException in addFolder()", ae);
+			LOGGER.error("AppException in removeFolder()", ae);
 			throw ae;
 		} catch (Throwable t) {
-			LOGGER.error("Unexpected exception in addFolder()", t);
+			LOGGER.error("Unexpected exception in removeFolder()", t);
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
 					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
 		}
@@ -193,12 +196,12 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 		@Path("/list")
 		@GET
 		@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-		public ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(@Context HttpServletRequest httpRequest,
+		public ListAllBookmarksV2Response listAllBookmarksV2(@Context HttpServletRequest httpRequest,
 				@QueryParam("sortorder") String sortOrder,
 	    		@QueryParam("sortcolumnname") String sortColumnName){
 			LOGGER.info("Entering list all()");		
-			ListAllBookmarksV2ResponseBodyType listAllResponse = new ListAllBookmarksV2ResponseBodyType();
-			final ListAllBookmarksV2RequestBodyType request = new ListAllBookmarksV2RequestBodyType();
+			ListAllBookmarksV2Response listAllResponse = new ListAllBookmarksV2Response();
+			final ListAllBookmarksV2Request request = new ListAllBookmarksV2Request();
 			
 			// Check for a valid request
 			if (sortOrder == null || sortOrder.equals(""))  {
@@ -214,7 +217,7 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 				final String[] credentials = getAuthenticatinCredentials(httpRequest);
 				LOGGER.debug("Username: " + credentials[0]);
 				LOGGER.debug("Password: " + credentials[1]);
-				request.setUserName(credentials[0]);
+				request.setUsername(credentials[0]);
 				request.setPassword(credentials[1]);
 				request.setSortOrder(sortOrder);
 				request.setSortColumnName(sortColumnName);
@@ -222,13 +225,17 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 				//Set APPID done in DAO
 
 				listAllResponse = bookmarksV2DAO.listAllBookmarksV2(request);
-
+				// Do the search and get the response back
+				if (listAllResponse == null){
+					listAllResponse = new ListAllBookmarksV2Response();
+				}
+				
 				
 		}catch (AppException ae) {
-			LOGGER.error("AppException in addFolder()", ae);
+			LOGGER.error("AppException in listAllBookmarksV2()", ae);
 			throw ae;
 		} catch (Throwable t) {
-			LOGGER.error("Unexpected exception in addFolder()", t);
+			LOGGER.error("Unexpected exception in listAllBookmarksV2()", t);
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
 					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
 		}

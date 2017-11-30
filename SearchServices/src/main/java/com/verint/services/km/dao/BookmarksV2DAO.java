@@ -16,6 +16,8 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Reo
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.ContentRequest;
+import com.verint.services.km.model.ListAllBookmarksV2Request;
+import com.verint.services.km.model.ListAllBookmarksV2Response;
 
 /**
  * @author jmiller
@@ -64,7 +66,8 @@ public interface BookmarksV2DAO {
 	public ReorderBookmarkAndFolderResponseBodyType reorderFolderUp(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
 
 	public ReorderBookmarkAndFolderResponseBodyType reorderFolderDown(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
-	public ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(ListAllBookmarksV2RequestBodyType listallRequest) throws RemoteException, AppException;
+	
+	public ListAllBookmarksV2Response listAllBookmarksV2(ListAllBookmarksV2Request listallRequest) throws RemoteException, AppException;
 	/**
 	 * 
 	 * @param bookmarkRequest

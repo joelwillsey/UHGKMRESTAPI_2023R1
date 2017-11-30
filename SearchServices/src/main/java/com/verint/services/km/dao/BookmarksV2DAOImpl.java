@@ -36,8 +36,11 @@ import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.ContentRequest;
 import com.verint.services.km.model.ErrorList;
+import com.verint.services.km.model.ListAllBookmarksV2Request;
+import com.verint.services.km.model.ListAllBookmarksV2Response;
 import com.verint.services.km.model.ManageBookmarkV2Request;
 import com.verint.services.km.model.ManageBookmarkV2Response;
+
 /**
  * @author jmiller
  *
@@ -253,44 +256,43 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		return manageBookmarkResponse;
 	}
 
-	@Override
-	public ManageBookmarksV2ResponseBodyType removeFolder(ManageBookmarksV2RequestBodyType manageBookmarkRequest)
-			throws RemoteException, AppException {
-		LOGGER.info("Entering add folder -");
-		LOGGER.debug("ManageBookmarksV2ResponseBodyType: " + manageBookmarkRequest);
-		manageBookmarkRequest.setUserAction("REMOVEFOLDER");
-		final ManageBookmarksV2ResponseBodyType manageBookmarkResponse = KMBookmarkServiceV2PortType.manageBookmarksV2(manageBookmarkRequest);
-		
-		return manageBookmarkResponse;
-	}
+	 @Override
+	 public ManageBookmarksV2ResponseBodyType removeFolder(ManageBookmarksV2RequestBodyType manageBookmarkRequest)
+	   throws RemoteException, AppException {
+	  LOGGER.info("Entering add folder -");
+	  LOGGER.debug("ManageBookmarksV2ResponseBodyType: " + manageBookmarkRequest);
+	  manageBookmarkRequest.setUserAction("REMOVEFOLDER");
+	  final ManageBookmarksV2ResponseBodyType manageBookmarkResponse = KMBookmarkServiceV2PortType.manageBookmarksV2(manageBookmarkRequest);
+	  
+	  return manageBookmarkResponse;
+	 }
 
 
 	@Override
-	public ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(ListAllBookmarksV2RequestBodyType listallRequest)
+	public ListAllBookmarksV2Response listAllBookmarksV2(ListAllBookmarksV2Request listallRequest)
 			throws RemoteException, AppException {
 		LOGGER.info("Entering listAllBookmarksV2 -");
-		LOGGER.debug("ListAllBookmarksV2RequesteBodyType: " + listallRequest);
+		LOGGER.debug("ListAllBookmarksV2RequestBodyType: " + listallRequest);
 
+		ListAllBookmarksV2RequestBodyType listAllBookmarksV2Request = new  ListAllBookmarksV2RequestBodyType();
 		listallRequest.setApplicationID(AppID);
+		
+		
 		
 		// Call the service
 		Instant start = Instant.now();
-		final ListAllBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.listAllV2(listallRequest);
+		final ListAllBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.listAllBookmarksV2(listAllBookmarksV2Request);
 		Instant end = Instant.now();
-		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+listallRequest.getUserName()+") - listAllBookmarksV2() duration: " + Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+listAllBookmarksV2Request.getUserName()+") - listAllBookmarksV2() duration: " + Duration.between(start, end).toMillis() + "ms");
 
-		if (response != null) {
-			//nothing to do here yet
-			
-		} else {
-			// We have a problem with the service
-			throw new AppException(500, AppErrorCodes.REORDER_BOOKMARK_ERROR,  
-					AppErrorMessage.REORDER_BOOKMARK_ERROR);			
-		}
+		ListAllBookmarksV2Response listAllBookmarksV2Response = new  ListAllBookmarksV2Response();
+					
+		//TODO Map the objects in the return
+		
 		
 		LOGGER.debug("listallBookmarksV2Response: " + listallRequest);
 		LOGGER.info("Exiting listAllBookmarksV2()");
-		return response;
+		return listAllBookmarksV2Response;
 		
 		
 	}
