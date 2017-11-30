@@ -245,27 +245,35 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	@Override
 	public ManageBookmarksV2ResponseBodyType addFolder(ManageBookmarksV2RequestBodyType manageBookmarkRequest)
 			throws RemoteException, AppException {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Entering add folder -");
+		LOGGER.debug("ManageBookmarksV2ResponseBodyType: " + manageBookmarkRequest);
+		manageBookmarkRequest.setUserAction("ADDFOLDER");
+		final ManageBookmarksV2ResponseBodyType manageBookmarkResponse = KMBookmarkServiceV2PortType.manageBookmarksV2(manageBookmarkRequest);
+		
+		return manageBookmarkResponse;
 	}
 
 	@Override
 	public ManageBookmarksV2ResponseBodyType removeFolder(ManageBookmarksV2RequestBodyType manageBookmarkRequest)
 			throws RemoteException, AppException {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Entering add folder -");
+		LOGGER.debug("ManageBookmarksV2ResponseBodyType: " + manageBookmarkRequest);
+		manageBookmarkRequest.setUserAction("REMOVEFOLDER");
+		final ManageBookmarksV2ResponseBodyType manageBookmarkResponse = KMBookmarkServiceV2PortType.manageBookmarksV2(manageBookmarkRequest);
+		
+		return manageBookmarkResponse;
 	}
 
 
 	@Override
 	public ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(ListAllBookmarksV2RequestBodyType listallRequest)
 			throws RemoteException, AppException {
-		LOGGER.info("Entering istAllBookmarksV2 -");
+		LOGGER.info("Entering listAllBookmarksV2 -");
 		LOGGER.debug("ListAllBookmarksV2RequesteBodyType: " + listallRequest);
 
 		ListAllBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.listAllV2(listallRequest);
 		
-		return null;
+		return response;
 	}
 
 	

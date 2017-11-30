@@ -32,7 +32,9 @@ public class KMBookmarkServiceV2BindingImpl implements com.kana.contactcentre.se
     }
 
     public com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderResponseBodyType reorderBookmarkAndFolder(com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType body) throws java.rmi.RemoteException {
-        return null;
+        if (bookmarkServiceV2Port == null)
+        	_initBookmarksV2Port();
+    	return reorderBookmarkAndFolder(body);
     }
     private void _initBookmarksV2Port() {
         try {
@@ -49,6 +51,8 @@ public class KMBookmarkServiceV2BindingImpl implements com.kana.contactcentre.se
       }
 	@Override
 	public ListAllBookmarksV2ResponseBodyType listAllV2(ListAllBookmarksV2RequestBodyType listallRequest) throws RemoteException {
+        if (bookmarkServiceV2Port == null)
+        	_initBookmarksV2Port();
 		return listAllBookmarksV2(listallRequest);
 	}
 
