@@ -1,5 +1,6 @@
 package com.verint.services.km.model;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "ListAllBookmarksV2Request")
 @XmlAccessorType(XmlAccessType.NONE)
-public class ListAllBookmarksV2Request {
+public class ListAllBookmarksV2Request implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
