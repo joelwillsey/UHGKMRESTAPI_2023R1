@@ -271,9 +271,28 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		LOGGER.info("Entering listAllBookmarksV2 -");
 		LOGGER.debug("ListAllBookmarksV2RequesteBodyType: " + listallRequest);
 
-		ListAllBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.listAllV2(listallRequest);
+		listallRequest.setApplicationID(AppID);
 		
+		// Call the service
+		Instant start = Instant.now();
+		final ListAllBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.listAllV2(listallRequest);
+		Instant end = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+listallRequest.getUserName()+") - listAllBookmarksV2() duration: " + Duration.between(start, end).toMillis() + "ms");
+
+		if (response != null) {
+			//nothing to do here yet
+			
+		} else {
+			// We have a problem with the service
+			throw new AppException(500, AppErrorCodes.REORDER_BOOKMARK_ERROR,  
+					AppErrorMessage.REORDER_BOOKMARK_ERROR);			
+		}
+		
+		LOGGER.debug("listallBookmarksV2Response: " + listallRequest);
+		LOGGER.info("Exiting listAllBookmarksV2()");
 		return response;
+		
+		
 	}
 
 	

@@ -193,10 +193,21 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 		@Path("/list")
 		@GET
 		@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-		public ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(@Context HttpServletRequest httpRequest){
+		public ListAllBookmarksV2ResponseBodyType listAllBookmarksV2(@Context HttpServletRequest httpRequest,
+				@QueryParam("sortorder") String sortOrder,
+	    		@QueryParam("sortcolumnname") String sortColumnName){
 			LOGGER.info("Entering list all()");		
 			ListAllBookmarksV2ResponseBodyType listAllResponse = new ListAllBookmarksV2ResponseBodyType();
 			final ListAllBookmarksV2RequestBodyType request = new ListAllBookmarksV2RequestBodyType();
+			
+			// Check for a valid request
+			if (sortOrder == null || sortOrder.equals(""))  {
+				sortOrder = "";
+			}
+			
+			if (sortColumnName == null || sortColumnName.equals(""))  {
+				sortColumnName = "";
+			}
 			
 			try {
 				// Get the authentication information
@@ -205,9 +216,11 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 				LOGGER.debug("Password: " + credentials[1]);
 				request.setUserName(credentials[0]);
 				request.setPassword(credentials[1]);
-				//request.setApplicationID(applicationID);
-				//request.set
-				//request.setApplicationID("en-US");
+				request.setSortOrder(sortOrder);
+				request.setSortColumnName(sortColumnName);
+				
+				//Set APPID done in DAO
+
 				listAllResponse = bookmarksV2DAO.listAllBookmarksV2(request);
 
 				
