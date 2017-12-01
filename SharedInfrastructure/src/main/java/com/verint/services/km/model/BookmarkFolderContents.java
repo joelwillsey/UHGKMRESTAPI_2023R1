@@ -1,7 +1,6 @@
 package com.verint.services.km.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +17,7 @@ public class BookmarkFolderContents implements Serializable{
 	private BookmarkFolderContent bookmarkFolderContent;
 
 	@XmlElement(nillable=true)
-	private ArrayList<BookmarkFolderContent> subFolders = new ArrayList<BookmarkFolderContent>();
+	private BookmarkSubFolderContents[] subFolders;
 
 	/**
 	 * Constructor
@@ -27,9 +26,33 @@ public class BookmarkFolderContents implements Serializable{
 		super();
 	}
 
+	/**
+	 * @return the folders
+	 */
+	public BookmarkFolderContent getbookmarkFolderContent() {
+		return bookmarkFolderContent;
+	}
+
+	/**
+	 * @param folders the folders to set
+	 */
+	public void setBookmarkFolderContent(BookmarkFolderContent bookmarkFolderContent) {
+		this.bookmarkFolderContent = bookmarkFolderContent;
+	}
 	
-	
-	
+	/**
+	 * @return the subfolders
+	 */
+	public BookmarkSubFolderContents[] getSubFolders() {
+		return subFolders;
+	}
+
+	/**
+	 * @param subfolders the subfolders to set
+	 */
+	public void setSubFolders(BookmarkSubFolderContents[] subFolders) {
+		this.subFolders = subFolders;
+	}
 	
 	@Override
 	public String toString() {

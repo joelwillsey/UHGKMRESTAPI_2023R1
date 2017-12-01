@@ -27,4 +27,5 @@ public class AppErrorMessage {
 	public final static String UNEXPECTED_APPLICATION_EXCEPTION = "Unexpected application exception";
 	public final static String HOVERTEXT_HOVERID_ERROR = "Error finding Hover Id for HoverText";
 	public final static String HOVERTEXT_CONTENT_ERROR = "Error finding content for HoverText";
+	public final static String BOOKMARKSV2_LISTALLBOOKMARKSV2_ERROR = "Error retrieving the bookmarks v2";	
 }

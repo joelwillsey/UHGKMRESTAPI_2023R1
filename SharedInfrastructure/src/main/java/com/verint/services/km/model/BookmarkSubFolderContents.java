@@ -17,7 +17,7 @@ public class BookmarkSubFolderContents implements Serializable{
 	private BookmarkFolderContent bookmarkFolderContent;
 
 	@XmlElement(nillable=true)
-	private ArrayList<BookmarkFolderContent> subSubFolders = new ArrayList<BookmarkFolderContent>();
+	private BookmarkFolderContent[] subSubFolders;
 
 	/**
 	 * Constructor
@@ -26,7 +26,33 @@ public class BookmarkSubFolderContents implements Serializable{
 		super();
 	}
 
+	/**
+	 * @return the folders
+	 */
+	public BookmarkFolderContent getBookmarkFolderContent() {
+		return bookmarkFolderContent;
+	}
+
+	/**
+	 * @param folders the folders to set
+	 */
+	public void setBookmarkFolderContent(BookmarkFolderContent bookmarkFolderContent) {
+		this.bookmarkFolderContent = bookmarkFolderContent;
+	}
 	
+	/**
+	 * @return the subfolders
+	 */
+	public BookmarkFolderContent[] getsubSubFolders() {
+		return subSubFolders;
+	}
+
+	/**
+	 * @param subfolders the subfolders to set
+	 */
+	public void setSubSubFolders(BookmarkFolderContent[] subSubFolders) {
+		this.subSubFolders = subSubFolders;
+	}
 	
 	
 	

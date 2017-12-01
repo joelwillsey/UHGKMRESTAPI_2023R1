@@ -28,14 +28,14 @@ public class ListAllBookmarksV2Response implements Serializable{
 	}
 	
 	/**
-	 * @return the maxNumberOfNewOrChanged
+	 * @return the contentBookmarksV2
 	 */
 	public ContentBookmarksV2 getContentBookmarksV2() {
 		return contentBookmarksV2;
 	}
 
 	/**
-	 * @param locale the locale to set
+	 * @param contentBookmarksV2 the contentBookmarksV2 to set
 	 */
 	public void setContentBookmarksV2(ContentBookmarksV2 contentBookmarksV2) {
 		this.contentBookmarksV2 = contentBookmarksV2;

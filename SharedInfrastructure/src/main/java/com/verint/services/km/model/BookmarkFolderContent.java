@@ -1,7 +1,6 @@
 package com.verint.services.km.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,7 +24,7 @@ public class BookmarkFolderContent implements Serializable{
 	private Date createdDate;
 	
 	@XmlElement(nillable=true)
-	private int sequenceNumber;
+	private float sequenceNumber;
 		
 	@XmlElement(nillable=true)
 	private String title;
@@ -34,7 +33,7 @@ public class BookmarkFolderContent implements Serializable{
 	private String parentFolderId;
 
 	@XmlElement(nillable=true)
-	private ArrayList<BookmarkedContentV2> bookmarkContentList = new ArrayList<BookmarkedContentV2>();
+	private BookmarkedContentV2[] bookmarkContentList;
 
 	/**
 	 * Constructor
@@ -42,7 +41,6 @@ public class BookmarkFolderContent implements Serializable{
 	public BookmarkFolderContent() {
 		super();
 	}
-
 	
 	public String getTitle(){
 		return title;
@@ -51,30 +49,35 @@ public class BookmarkFolderContent implements Serializable{
 	public void setTitle(String ti){
 		this.title = ti;
 	}
+	
 	public String getParentFolderId(){
 		return parentFolderId;
 	}
+	
 	public void setParentFolderId(String par){
 		this.parentFolderId = par;
 	}
 	
-	public int getSequenceNumber(){
-		
+	public float getSequenceNumber(){		
 		return sequenceNumber;
 	}
 	
-	public void setSequenceNumber(int seq){
+	public void setSequenceNumber(float seq){
 		this.sequenceNumber=seq;
 	}
+	
 	public String getLocaleName(){
 		return localeName;
 	}
+	
 	public void setLocaleName(String loc){
 		this.localeName = loc;
 	}
+	
 	public String getFolderId(){
 		return folderId;
 	}
+	
 	public void setFolderId(String fol){
 		this.folderId = fol;
 	}
@@ -86,6 +89,15 @@ public class BookmarkFolderContent implements Serializable{
 	public void setCreatedDate(Date dat){
 		this.createdDate = dat;
 	}
+	
+	public BookmarkedContentV2[] getBookmarkContentList(){
+		return bookmarkContentList;
+	}
+	
+	public void setBookmarkContentList(BookmarkedContentV2[] bookmarkContentList){
+		this.bookmarkContentList = bookmarkContentList;
+	}
+	
 	
 	@Override
 	public String toString() {

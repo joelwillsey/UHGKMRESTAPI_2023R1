@@ -30,7 +30,7 @@ public class BookmarkedContentV2 implements Serializable{
 	private Date createdDate;
 	
 	@XmlElement(nillable=true)
-	private int sequenceNumber;
+	private float sequenceNumber;
 	
 	@XmlElement(nillable=true)
 	private boolean isFeatured = false;
@@ -46,6 +46,9 @@ public class BookmarkedContentV2 implements Serializable{
 	
 	@XmlElement(nillable=true)
 	private String parentFolderId;
+	
+	@XmlElement(nillable=true)
+	private String contentType;
 
 
 	/**
@@ -99,12 +102,12 @@ public class BookmarkedContentV2 implements Serializable{
 	
 	}
 	
-	public int getSequenceNumber(){
+	public float getSequenceNumber(){
 		
 		return sequenceNumber;
 	}
 	
-	public void setSequenceNumber(int seq){
+	public void setSequenceNumber(float seq){
 		this.sequenceNumber=seq;
 	}
 	
@@ -119,13 +122,22 @@ public class BookmarkedContentV2 implements Serializable{
 	public String getParentFolderId(){
 		return parentFolderId;
 	}
+	
 	public void setParentFolderId(String par){
 		this.parentFolderId = par;
+	}
+	
+	public String getContentType(){
+		return contentType;
+	}
+	
+	public void setContentType(String contentType){
+		this.contentType = contentType;
 	}
 	@Override
 	public String toString() {
 		return "BookmarkedContentV2 [contentIds=" + contentId + ", title=" + title + ", synopsis=" + synopsis
-				+ ", localeName=" + localeName + ", createdDates=" + createdDate.toString()  
+				+ ", localeName=" + localeName + ", createdDates=" + createdDate.toString()  + ", contentType=" + contentType
 				+ ", isFeatured=" + isFeatured + ", isNewOrChanged=" + isNewOrChanged + ", sequenceNumber=" + sequenceNumber + ", parentFolderId=" + parentFolderId +"]";
 	}
 }

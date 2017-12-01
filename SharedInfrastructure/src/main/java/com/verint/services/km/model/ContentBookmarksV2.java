@@ -14,10 +14,10 @@ public class ContentBookmarksV2 {
 	private static final long serialVersionUID = 1L;
 	
 	@XmlElement(nillable=true)
-	private ArrayList<BookmarkedContentV2> bookmarks = new ArrayList<BookmarkedContentV2>();
+	private BookmarkedContentV2[] bookmarks;
 
 	@XmlElement(nillable=true)
-	private ArrayList<BookmarkFolderContent> folders = new ArrayList<BookmarkFolderContent>();
+	private BookmarkFolderContent[] folders;
 
 	/**
 	 * Constructor
@@ -29,28 +29,28 @@ public class ContentBookmarksV2 {
 	/**
 	 * @return the bookmarks
 	 */
-	public ArrayList<BookmarkedContentV2> getBookmarks() {
+	public BookmarkedContentV2[] getBookmarks() {
 		return bookmarks;
 	}
 
 	/**
 	 * @param bookmarks the bookmarks to set
 	 */
-	public void setBookmarks(ArrayList<BookmarkedContentV2> bookmarks) {
+	public void setBookmarks(BookmarkedContentV2[] bookmarks) {
 		this.bookmarks = bookmarks;
 	}
 	
 	/**
 	 * @return the folders
 	 */
-	public ArrayList<BookmarkFolderContent> getFolders() {
+	public BookmarkFolderContent[] getFolders() {
 		return folders;
 	}
 
 	/**
 	 * @param folders the folders to set
 	 */
-	public void setFolders(ArrayList<BookmarkFolderContent> folders) {
+	public void setFolders(BookmarkFolderContent[] folders) {
 		this.folders = folders;
 	}
 	
