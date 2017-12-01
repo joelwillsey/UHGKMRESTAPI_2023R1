@@ -1,13 +1,7 @@
-/**
- * KMBookmarkServiceV2Service.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
- */
-
 package com.verint.services.km.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -26,15 +20,20 @@ import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.ListAllBookmarksV2Request;
 import com.verint.services.km.model.ListAllBookmarksV2Response;
-import com.verint.services.km.model.NewOrChangedResponse;
 import com.verint.services.km.service.BaseService;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2ResponseBodyType;
-//public interface KMBookmarkServiceV2Service extends javax.xml.rpc.Service {
+
+/**
+ * @author ARumpf
+ *
+ */
+
 	@Path("/bookmarksv2")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Service
 	public class BookmarkV2Service extends BaseService{
 		private final Logger LOGGER = LoggerFactory.getLogger(BookmarkV2Service.class);
@@ -233,8 +232,6 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 			
 			// Get the authentication information			
 			final String[] credentials = getAuthenticatinCredentials(httpRequest);
-			LOGGER.debug("Username: " + credentials[0]);
-			LOGGER.debug("Password: " + credentials[1]);
 			
 			final ListAllBookmarksV2Request listAllBookmarksRequest = new ListAllBookmarksV2Request();
 			listAllBookmarksRequest.setUsername(credentials[0]);
@@ -242,6 +239,7 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 			listAllBookmarksRequest.setSortOrder(sortOrder);
 			listAllBookmarksRequest.setSortColumnName(sortColumnName);
 			listAllBookmarksRequest.setApplicationID(applicationID);
+			listAllBookmarksRequest.setLocale("en-US");
 			LOGGER.debug("ListAllBookmarksRequest: " + listAllBookmarksRequest);
 			
 			//Retrieve all the bookmarks

@@ -6,6 +6,7 @@ package com.verint.services.km.dao;
 import java.rmi.RemoteException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.StringTokenizer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ import com.verint.services.km.model.ManageBookmarkV2Request;
 import com.verint.services.km.model.ManageBookmarkV2Response;
 
 /**
- * @author jmiller
+ * @author ARumpf
  *
  */
 @Repository
@@ -111,7 +112,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		// Setup the request
 		final ReorderBookmarkAndFolderRequestBodyType request = new ReorderBookmarkAndFolderRequestBodyType();
 		request.setApplicationID(AppID);
-		request.setUser(bookmarkRequest.getUsername());
+		request.setUserName(bookmarkRequest.getUsername());
 		request.setPassword(bookmarkRequest.getPassword());
 		//request.(Locale);
 		request.setContentID(bookmarkRequest.getContentId());
@@ -268,28 +269,25 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	public ListAllBookmarksV2Response listAllBookmarksV2(ListAllBookmarksV2Request listAllBookmarksV2Request)
 			throws RemoteException, AppException {
 		LOGGER.info("Entering listAllBookmarksV2 -");
-		LOGGER.debug("ListAllBookmarksV2RequestBodyType: " + listAllBookmarksV2Request.toString());
-
-		ListAllBookmarksV2RequestBodyType request = new  ListAllBookmarksV2RequestBodyType();
+		LOGGER.debug("ListAllBookmarksV2Request: " + listAllBookmarksV2Request.toString());
+		ListAllBookmarksV2Response listAllBookmarksV2Response = new  ListAllBookmarksV2Response();
 		
+		// Setup the request object to the SOAP call
+		final ListAllBookmarksV2RequestBodyType request = new ListAllBookmarksV2RequestBodyType();		
 		request.setApplicationID(AppID);
 		request.setPassword(listAllBookmarksV2Request.getPassword());
 		request.setSortColumnName(listAllBookmarksV2Request.getSortColumnName());
 		request.setSortOrder(listAllBookmarksV2Request.getSortOrder());
 		request.setUserName(listAllBookmarksV2Request.getUsername());
-
-		
-		
+		LOGGER.debug("ListAllBookmarksV2RequestBodyType: " + request.toString());
 		
 		// Call the service
 		Instant start = Instant.now();
 		final ListAllBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.listAllBookmarksV2(request);
 		Instant end = Instant.now();
 		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+request.getUserName()+") - listAllBookmarksV2() duration: " + Duration.between(start, end).toMillis() + "ms");
-
-		ListAllBookmarksV2Response listAllBookmarksV2Response = new  ListAllBookmarksV2Response();
 					
-		//TODO Map the objects in the return
+		//Check Response
 		if (response != null && response.getResponse() != null) {
 			// Valid response
 			
@@ -302,7 +300,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 			throw new AppException(500, AppErrorCodes.BOOKMARKSV2_LISTALLBOOKMARKSV2_ERROR,  
 					AppErrorMessage.BOOKMARKSV2_LISTALLBOOKMARKSV2_ERROR);
 		}
-		
+				
 		LOGGER.debug("listallBookmarksV2Response: " + response.toString());
 		LOGGER.info("Exiting listAllBookmarksV2()");
 		return listAllBookmarksV2Response;
