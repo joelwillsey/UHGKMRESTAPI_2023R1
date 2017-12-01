@@ -36,8 +36,8 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 	@Path("/bookmarksv2")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Service
-	public class KMBookmarkServiceV2Service extends BaseService{
-		private final Logger LOGGER = LoggerFactory.getLogger(KMBookmarkServiceV2Service.class);
+	public class BookmarkV2Service extends BaseService{
+		private final Logger LOGGER = LoggerFactory.getLogger(BookmarkV2Service.class);
 		
 		@Autowired
 		private BookmarksV2DAO bookmarksV2DAO;
@@ -46,10 +46,10 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 		/**
 		 * 
 		 */
-		public KMBookmarkServiceV2Service() {
+		public BookmarkV2Service() {
 			super();
-			LOGGER.debug("Entering KMBookmarkServiceV2Service()");
-			LOGGER.debug("Exiting KMBookmarkServiceV2Service()");
+			LOGGER.debug("Entering BookmarkV2Service()");
+			LOGGER.debug("Exiting BookmarkV2Service()");
 		}
 		
 
@@ -192,43 +192,64 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
  }		
 		
 		
-		
-		@Path("/list")
+
+		/**
+		 * 
+		 * @param sortOrder
+		 * @param sortColumnName
+		 * @param applicationID
+		 * @param httpRequest
+		 * @return
+		 * @throws AppException
+		 */
+		@Path("/listallbookmarks")
 		@GET
 		@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 		public ListAllBookmarksV2Response listAllBookmarksV2(@Context HttpServletRequest httpRequest,
 				@QueryParam("sortorder") String sortOrder,
-	    		@QueryParam("sortcolumnname") String sortColumnName){
-			LOGGER.info("Entering list all()");		
-			ListAllBookmarksV2Response listAllResponse = new ListAllBookmarksV2Response();
-			final ListAllBookmarksV2Request request = new ListAllBookmarksV2Request();
+	    		@QueryParam("sortcolumnname") String sortColumnName,
+				@QueryParam("applicationID") String applicationID){
 			
-			// Check for a valid request
+		LOGGER.info("Entering ListAllBookmarksV2()");		
+		ListAllBookmarksV2Response listAllBookmarksResponse = null;
+			
+		try {
+			LOGGER.debug("sortOrder: "+sortOrder);
+			LOGGER.debug("sortColumnName: "+sortColumnName);
+			LOGGER.debug("applicationID: "+applicationID);
+			
+			
+			// Check for valid fields
 			if (sortOrder == null || sortOrder.equals(""))  {
 				sortOrder = "";
-			}
-			
+			}			
 			if (sortColumnName == null || sortColumnName.equals(""))  {
 				sortColumnName = "";
+			}			
+			if (applicationID == null || applicationID.equals(""))  {
+				applicationID = "AD";
 			}
+		
 			
-			try {
-				// Get the authentication information
-				final String[] credentials = getAuthenticatinCredentials(httpRequest);
-				LOGGER.debug("Username: " + credentials[0]);
-				LOGGER.debug("Password: " + credentials[1]);
-				request.setUsername(credentials[0]);
-				request.setPassword(credentials[1]);
-				request.setSortOrder(sortOrder);
-				request.setSortColumnName(sortColumnName);
-				
-				//Set APPID done in DAO
-
-				listAllResponse = bookmarksV2DAO.listAllBookmarksV2(request);
-				// Do the search and get the response back
-				if (listAllResponse == null){
-					listAllResponse = new ListAllBookmarksV2Response();
-				}
+			// Get the authentication information			
+			final String[] credentials = getAuthenticatinCredentials(httpRequest);
+			LOGGER.debug("Username: " + credentials[0]);
+			LOGGER.debug("Password: " + credentials[1]);
+			
+			final ListAllBookmarksV2Request listAllBookmarksRequest = new ListAllBookmarksV2Request();
+			listAllBookmarksRequest.setUsername(credentials[0]);
+			listAllBookmarksRequest.setPassword(credentials[1]);
+			listAllBookmarksRequest.setSortOrder(sortOrder);
+			listAllBookmarksRequest.setSortColumnName(sortColumnName);
+			listAllBookmarksRequest.setApplicationID(applicationID);
+			LOGGER.debug("ListAllBookmarksRequest: " + listAllBookmarksRequest);
+			
+			//Retrieve all the bookmarks
+			listAllBookmarksResponse = bookmarksV2DAO.listAllBookmarksV2(listAllBookmarksRequest);
+			
+			if (listAllBookmarksResponse == null){
+				listAllBookmarksResponse = new ListAllBookmarksV2Response();
+			}
 				
 				
 		}catch (AppException ae) {
@@ -239,7 +260,10 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
 					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
 		}
-			return listAllResponse;
+		
+		LOGGER.debug("ListAllBookmarksResponse: " + listAllBookmarksResponse);
+		LOGGER.info("Exiting ListAllBookmarksV2()");
+		return listAllBookmarksResponse;
  }
 		
 	}
