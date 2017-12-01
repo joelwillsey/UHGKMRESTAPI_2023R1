@@ -17,7 +17,7 @@ public class ContentBookmarksV2 {
 	private BookmarkedContentV2[] bookmarks;
 
 	@XmlElement(nillable=true)
-	private BookmarkFolderContent[] folders;
+	private BookmarkFolderContents[] folders;
 
 	/**
 	 * Constructor
@@ -43,14 +43,14 @@ public class ContentBookmarksV2 {
 	/**
 	 * @return the folders
 	 */
-	public BookmarkFolderContent[] getFolders() {
+	public BookmarkFolderContents[] getFolders() {
 		return folders;
 	}
 
 	/**
 	 * @param folders the folders to set
 	 */
-	public void setFolders(BookmarkFolderContent[] folders) {
+	public void setFolders(BookmarkFolderContents[] folders) {
 		this.folders = folders;
 	}
 	

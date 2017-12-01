@@ -130,6 +130,6 @@ public class ListAllBookmarksV2Request implements Serializable{
 	 */
 	@Override
 	public String toString() {
-		return "ListAllBookmarksV2Request [locale=" + locale + ", password=" + password + ", username=" + username + ", applicationID=" + applicationID + ", sortOrder=" + sortOrder +  "sortColumnName=" + sortColumnName + "]";
+		return "ListAllBookmarksV2Request [locale=" + locale + ", password=" + password + ", username=" + username + ", applicationID=" + applicationID + ", sortOrder=" + sortOrder +  ", sortColumnName=" + sortColumnName + "]";
 	}
 }
