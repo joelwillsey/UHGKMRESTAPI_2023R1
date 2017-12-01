@@ -1,13 +1,16 @@
 package com.verint.services.km.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * @author PSeifert
+ *
+ */
 @XmlRootElement(name = "ListAllBookmarksV2Request")
 @XmlAccessorType(XmlAccessType.NONE)
 public class ListAllBookmarksV2Request implements Serializable{
@@ -41,14 +44,16 @@ public class ListAllBookmarksV2Request implements Serializable{
 	}
 	
 	/**
-	 * @return the maxNumberOfNewOrChanged
+	 * @return the Locale
 	 */
 	public String getLocale() {
 		return locale;
 	}
 
 	/**
-	 * @param locale the locale to set
+	 * Sets the value for this ListAllBookmarksV2Request
+	 * 
+	 * @param locale 
 	 */
 	public void setLocale(String locale) {
 		this.locale = locale;

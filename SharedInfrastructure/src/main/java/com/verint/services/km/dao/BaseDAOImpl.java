@@ -92,7 +92,7 @@ public class BaseDAOImpl  {
 	        final String ContentV1Port_address = kmConfiguration.getSoapContentservice();
 	        final String TagV1Port_address = kmConfiguration.getSoapTaggingservice();
 	        final String BookmarkV1Port_address = kmConfiguration.getSoapBookmarkservice();
-	        final String BookmarkV2Port_address = kmConfiguration.getSoapBookmarkservice();
+	        final String BookmarkV2Port_address = kmConfiguration.getSoapBookmarkserviceV2();
 	        final String NewOrChangedV1Port_address = kmConfiguration.getSoapNeworchangedservice();
 	        final String FeaturedV1Port_address = kmConfiguration.getSoapFeaturedservice();
 	        final String RequestAnswerV1Port_address = kmConfiguration.getSoapRequestanswer();

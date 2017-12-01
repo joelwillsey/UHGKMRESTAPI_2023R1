@@ -9,7 +9,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-
+/**
+ * @author PSeifert
+ *
+ */
 @XmlRootElement(name = "ListAllBookmarksV2Response")
 @XmlAccessorType(XmlAccessType.NONE)
 public class ListAllBookmarksV2Response implements Serializable{
