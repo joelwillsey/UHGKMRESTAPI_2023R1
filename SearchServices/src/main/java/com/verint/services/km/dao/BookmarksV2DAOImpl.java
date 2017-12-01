@@ -6,16 +6,12 @@ package com.verint.services.km.dao;
 import java.rmi.RemoteException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.StringTokenizer;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ReorderBookmarksRequestBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ReorderBookmarksResponseBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.KMBookmarkServiceV2PortType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2ResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType;
@@ -279,7 +275,6 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		request.setSortColumnName(listAllBookmarksV2Request.getSortColumnName());
 		request.setSortOrder(listAllBookmarksV2Request.getSortOrder());
 		request.setUserName(listAllBookmarksV2Request.getUsername());
-		LOGGER.debug("ListAllBookmarksV2RequestBodyType: " + request.toString());
 		
 		// Call the service
 		Instant start = Instant.now();
@@ -326,6 +321,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 				
 				
 		contentBookmarksV2.setBookmarks(bookmarks);
+		contentBookmarksV2.setFolders(folders);
 		
 		restResponse.setContentBookmarksV2(contentBookmarksV2);
 		
@@ -396,7 +392,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 			
 			BookmarkSubFolderContents restBookmarkSubFolderContents = new BookmarkSubFolderContents();
 			
-			//restBookmarkSubFolderContents.setSubSubFolders(subSubFolders);
+			restBookmarkSubFolderContents.setSubSubFolders(populateBookmarkFolderContentList(soapBookmarkSubFolderContents.getSubSubFolders()));
 			restBookmarkSubFolderContents.setBookmarkFolderContent(populateBookmarkFolderContent(soapBookmarkSubFolderContents.getBookmarkFolderContent()));
 			
 			return restBookmarkSubFolderContents;
