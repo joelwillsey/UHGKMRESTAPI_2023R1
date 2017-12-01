@@ -219,10 +219,10 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Lis
 			
 			
 			// Check for valid fields
-			if (sortOrder == null || sortOrder.equals(""))  {
+			if (sortOrder == null)  {
 				sortOrder = "";
 			}			
-			if (sortColumnName == null || sortColumnName.equals(""))  {
+			if (sortColumnName == null)  {
 				sortColumnName = "";
 			}			
 			if (applicationID == null || applicationID.equals(""))  {

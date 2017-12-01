@@ -5,11 +5,9 @@ package com.verint.services.km.dao;
 
 import java.rmi.RemoteException;
 
-import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkFolderContent;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.BookmarkedContentV2;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2RequestBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ListAllBookmarksV2ResponseBodyType;
+
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2RequestBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ManageBookmarksV2ResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ReorderBookmarkAndFolderRequestBodyType;
@@ -33,7 +31,23 @@ public interface BookmarksV2DAO {
 	 * @throws AppException
 	 */
 	public ManageBookmarksV2ResponseBodyType addBookmark(ManageBookmarksV2RequestBodyType manageBookmarkRequest) throws RemoteException, AppException;
+	
+	/**
+	 * 
+	 * @param bookmarkRequest
+	 * @return
+	 * @throws RemoteException
+	 * @throws AppException
+	 */	
 	public ManageBookmarksV2ResponseBodyType addFolder(ManageBookmarksV2RequestBodyType manageBookmarkRequest) throws RemoteException, AppException;
+	
+	/**
+	 * 
+	 * @param bookmarkRequest
+	 * @return
+	 * @throws RemoteException
+	 * @throws AppException
+	 */	
 	public ManageBookmarksV2ResponseBodyType removeFolder(ManageBookmarksV2RequestBodyType manageBookmarkRequest) throws RemoteException, AppException;
 	
 	/**
@@ -45,9 +59,22 @@ public interface BookmarksV2DAO {
 	 */
 	public ManageBookmarksV2ResponseBodyType removeBookmark(ManageBookmarksV2RequestBodyType manageBookmarkRequest) throws RemoteException, AppException;
 	
-	//returns folder information
+	/**
+	 * 
+	 * @param bookmarkRequest
+	 * @return
+	 * @throws RemoteException
+	 * @throws AppException
+	 */	
 	public BookmarkFolderContent getFolder(java.lang.String folderId);
 	
+	/**
+	 * 
+	 * @param bookmarkRequest
+	 * @return
+	 * @throws RemoteException
+	 * @throws AppException
+	 */	
 	public BookmarkedContentV2 getBookmark(java.lang.String contentId);
 		
 	/**
@@ -57,17 +84,44 @@ public interface BookmarksV2DAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	
-	
 	public boolean isContentBookmarked(ContentRequest contentRequest) throws RemoteException, AppException;
 	
+	/**
+	 * 
+	 * @param bookmarkRequest
+	 * @return
+	 * @throws RemoteException
+	 * @throws AppException
+	 */	
 	public ReorderBookmarkAndFolderResponseBodyType reorderBookmarkUp(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
 
+	/**
+	 * 
+	 * @param bookmarkRequest
+	 * @return
+	 * @throws RemoteException
+	 * @throws AppException
+	 */	
 	public ReorderBookmarkAndFolderResponseBodyType reorderFolderUp(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
 
+	/**
+	 * 
+	 * @param bookmarkRequest
+	 * @return
+	 * @throws RemoteException
+	 * @throws AppException
+	 */	
 	public ReorderBookmarkAndFolderResponseBodyType reorderFolderDown(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
 	
-	public ListAllBookmarksV2Response listAllBookmarksV2(ListAllBookmarksV2Request listallRequest) throws RemoteException, AppException;
+	/**
+	 * 
+	 * @param bookmarkRequest
+	 * @return
+	 * @throws RemoteException
+	 * @throws AppException
+	 */	
+	public ListAllBookmarksV2Response listAllBookmarksV2(ListAllBookmarksV2Request ListAllBookmarksV2Request) throws RemoteException, AppException;
+	
 	/**
 	 * 
 	 * @param bookmarkRequest

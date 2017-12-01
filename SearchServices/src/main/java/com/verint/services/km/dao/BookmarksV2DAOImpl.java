@@ -261,6 +261,10 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	 }
 
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.verint.services.km.dao.BookmarksV2DAO#listAllBookmarksV2(com.verint.services.km.model.ListAllBookmarksV2Request)
+	 */
 	@Override
 	public ListAllBookmarksV2Response listAllBookmarksV2(ListAllBookmarksV2Request listAllBookmarksV2Request)
 			throws RemoteException, AppException {
@@ -285,7 +289,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		//Check Response
 		if (response != null && response.getResponse() != null) {
 			// Valid response
-			
+			LOGGER.debug("listallBookmarksV2Response- Valid response: " + response.toString());
 			// Populate Base Response
 			listAllBookmarksV2Response = populatelistAllBookmarksResponse(response, listAllBookmarksV2Response);
 			
@@ -299,26 +303,18 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		LOGGER.debug("listallBookmarksV2Response: " + response.toString());
 		LOGGER.info("Exiting listAllBookmarksV2()");
 		return listAllBookmarksV2Response;
-		
-		
 	}
 	
 	
 	private ListAllBookmarksV2Response populatelistAllBookmarksResponse(ListAllBookmarksV2ResponseBodyType soapResponse, ListAllBookmarksV2Response restResponse){
 		
-		
-		ListAllBookmarksV2Response newResponse = new ListAllBookmarksV2Response();
-		
-		ContentBookmarksV2 contentBookmarksV2 = new ContentBookmarksV2();
-		
-		
+		ContentBookmarksV2 contentBookmarksV2 = new ContentBookmarksV2();		
 		
 		BookmarkedContentV2[] bookmarks = new BookmarkedContentV2[soapResponse.getResponse().getBookmarks().length];
 		BookmarkFolderContents[] folders = new BookmarkFolderContents[soapResponse.getResponse().getFolders().length];
 		
 		bookmarks = populateBookmarkedContentV2List(soapResponse.getResponse().getBookmarks());
-		folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders()); 
-				
+		folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders()); 				
 				
 		contentBookmarksV2.setBookmarks(bookmarks);
 		contentBookmarksV2.setFolders(folders);
@@ -352,7 +348,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		
 		BookmarkedContentV2[] restBookmarkList = new BookmarkedContentV2[soapBookmarkList.length];
 		
-		for (int i = 0; 1 < soapBookmarkList.length; i++) {
+		for (int i = 0; i < soapBookmarkList.length; i++) {
 			restBookmarkList[i]= populateBookmarkedContentV2(soapBookmarkList[i]);
 		}
 		
@@ -381,7 +377,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		
 		BookmarkFolderContent[] restFolderList = new BookmarkFolderContent[soapFolderList.length];
 		
-		for (int i = 0; 1 < soapFolderList.length; i++) {
+		for (int i = 0; i < soapFolderList.length; i++) {
 			restFolderList[i]= populateBookmarkFolderContent(soapFolderList[i]);
 		}
 		
@@ -402,7 +398,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 			
 			BookmarkSubFolderContents[] restSubSubFolderList = new BookmarkSubFolderContents[soapSubSubFolderList.length];
 			
-			for (int i = 0; 1 < soapSubSubFolderList.length; i++) {
+			for (int i = 0; i < soapSubSubFolderList.length; i++) {
 				restSubSubFolderList[i]= populateBookmarkSubFolderContents(soapSubSubFolderList[i]);
 			}
 			
@@ -423,7 +419,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		
 		BookmarkFolderContents[] restFolderList = new BookmarkFolderContents[soapFolderList.length];
 		
-		for (int i = 0; 1 < soapFolderList.length; i++) {
+		for (int i = 0; i < soapFolderList.length; i++) {
 			restFolderList[i]= populateBookmarkFolderContents(soapFolderList[i]);
 		}
 		
