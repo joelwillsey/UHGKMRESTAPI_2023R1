@@ -4,6 +4,7 @@
 package com.verint.services.km.model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,9 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author jmiller
  *
  */
-@XmlRootElement(name = "ManageBookmarkRequest")
+@XmlRootElement(name = "ReorderBookmarkAndFolderRequest")
 @XmlAccessorType(XmlAccessType.NONE)
-public class ManageBookmarkV2Request implements Serializable {
+public class ReorderBookmarkAndFolderRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement(nillable=true)
@@ -32,7 +33,16 @@ public class ManageBookmarkV2Request implements Serializable {
 	private String password = "";
 
 	@XmlElement(nillable=true)
-	private String folderID = "";
+	private BigInteger destinationFolderID;
+	
+	@XmlElement(nillable=true)
+	private BigInteger folderID;
+	
+	@XmlElement
+	private BigInteger numMoved;
+	
+	@XmlElement(nillable=true)
+	private String direction = "";
 	
 	@XmlElement
 	private String localeName;
@@ -45,7 +55,7 @@ public class ManageBookmarkV2Request implements Serializable {
 	/**
 	 * Constructor
 	 */
-	public ManageBookmarkV2Request() {
+	public ReorderBookmarkAndFolderRequest() {
 		super();
 	}
 
@@ -65,15 +75,23 @@ public class ManageBookmarkV2Request implements Serializable {
 	}
 	
 	//return the folder ID
-	public String getFolderID() {
+	public BigInteger getFolderID() {
 		return folderID;
 		
 	}
 	
-	public void setFolderId(String fol){
+	public void setFolderID(BigInteger fol){
 		this.folderID = fol;
 	}
 
+	public BigInteger getDestinationFolderID() {
+		return destinationFolderID;
+		
+	}
+	
+	public void setDestinationFolderID(BigInteger fol){
+		this.destinationFolderID = fol;
+	}
 
 	
 	public String getLocaleName(){
@@ -100,6 +118,22 @@ public class ManageBookmarkV2Request implements Serializable {
 		return userAction;
 	}
 
+	public String getDirection() {
+		return direction;
+	}
+	
+	public void setDirection(String dir){
+		this.direction = dir;
+	}
+	
+	public BigInteger getNumMoved(){
+		return numMoved;
+	}
+	public void setNumMoved(BigInteger num){
+		this.numMoved = num;
+	}
+	
+	
 	
 	/**
 	 * 
@@ -137,19 +171,12 @@ public class ManageBookmarkV2Request implements Serializable {
 		this.password = pw;
 	}
 
-	public String getFolderName(){
-		return folderName;
-	}
-	
-	public void setFolderName(String fol){
-		this.folderName = fol;
-	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "ManageBookmarkV2Request [contentId=" + contentID + ", userAction=" + userAction + ", username=" + userName + ", password=" + password +", folderId=" + folderID
-				+ "]";
+		return "ReorderBookmarkAndFolderRequest [contentId=" + contentID + ", userAction=" + userAction + ", username=" + userName + ", password=" + password +", folderId=" + folderID
+				+ ", destinationFolderID=" + destinationFolderID + ", direction="+ direction + ", numMoved=" + numMoved +"]";
 	}
 }

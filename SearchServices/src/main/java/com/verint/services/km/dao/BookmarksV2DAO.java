@@ -16,6 +16,10 @@ import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.ContentRequest;
 import com.verint.services.km.model.ListAllBookmarksV2Request;
 import com.verint.services.km.model.ListAllBookmarksV2Response;
+import com.verint.services.km.model.ManageBookmarkV2Request;
+import com.verint.services.km.model.ManageBookmarkV2Response;
+import com.verint.services.km.model.ReorderBookmarkAndFolderRequest;
+import com.verint.services.km.model.ReorderBookmarkAndFolderResponse;
 
 /**
  * @author jmiller
@@ -94,7 +98,8 @@ public interface BookmarksV2DAO {
 	 * @throws AppException
 	 */	
 	public ReorderBookmarkAndFolderResponseBodyType reorderBookmarkUp(ReorderBookmarkAndFolderRequestBodyType bookmarkRequest) throws RemoteException, AppException;
-
+	public ReorderBookmarkAndFolderResponse reorderBookmark(ReorderBookmarkAndFolderRequest bookmarkRequest) throws RemoteException, AppException;
+	public ManageBookmarkV2Response manageBookmarksV2(ManageBookmarkV2Request bookmarkRequest) throws RemoteException, AppException;
 	/**
 	 * 
 	 * @param bookmarkRequest

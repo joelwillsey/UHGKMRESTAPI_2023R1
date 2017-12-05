@@ -33,6 +33,9 @@ import com.verint.services.km.model.ListAllBookmarksV2Request;
 import com.verint.services.km.model.ListAllBookmarksV2Response;
 import com.verint.services.km.model.ManageBookmarkV2Request;
 import com.verint.services.km.model.ManageBookmarkV2Response;
+import com.verint.services.km.model.ReorderBookmarkAndFolderRequest;
+import com.verint.services.km.model.ReorderBookmarkAndFolderResponse;
+
 
 /**
  * @author ARumpf
@@ -100,26 +103,29 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 
 
 	
-	private ManageBookmarkV2Response reorderBookmark(ManageBookmarkV2Request bookmarkRequest, String direction) throws RemoteException, AppException {
+	public ReorderBookmarkAndFolderResponse reorderBookmark(ReorderBookmarkAndFolderRequest bookmarkRequest) throws RemoteException, AppException {
 		LOGGER.info("Entering reorderBookmark()");
 		LOGGER.debug("ManageBookmarkRequest: " + bookmarkRequest);
-		final ManageBookmarkV2Response bookmarkResponse = new ManageBookmarkV2Response();
+		ReorderBookmarkAndFolderResponse bookmarkResponse = new ReorderBookmarkAndFolderResponse();
 
 		// Setup the request
 		final ReorderBookmarkAndFolderRequestBodyType request = new ReorderBookmarkAndFolderRequestBodyType();
 		request.setApplicationID(AppID);
-		request.setUserName(bookmarkRequest.getUsername());
+		request.setUserName(bookmarkRequest.getUserName());
 		request.setPassword(bookmarkRequest.getPassword());
-		//request.(Locale);
-		request.setContentID(bookmarkRequest.getContentId());
-		request.setDirection(direction);
+		request.setDirection(bookmarkRequest.getDirection());
+		request.setDestinationFolderID(bookmarkRequest.getDestinationFolderID());
+		request.setFolderID(bookmarkRequest.getFolderID());
+		request.setNumMoved(bookmarkRequest.getNumMoved());
+		request.setContentID(bookmarkRequest.getContentID());
+		request.setDirection(bookmarkRequest.getDirection());
 		
 		// Call the service
 		Instant start = Instant.now();
 		final ReorderBookmarkAndFolderResponseBodyType response = KMBookmarkServiceV2PortType.reorderBookmarkAndFolder(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+bookmarkRequest.getUsername()+") - manageBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
-
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+bookmarkRequest.getUserName()+") - reorderBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
+		bookmarkResponse = populateReorderBookmarkAndFolderResponse(response, bookmarkResponse);
 		if (response != null && response.getErrorList() != null) {
 			final ErrorMessage[] errors = response.getErrorList();			
 			// Loop through errors if any
@@ -134,7 +140,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 			throw new AppException(500, AppErrorCodes.REORDER_BOOKMARK_ERROR,  
 					AppErrorMessage.REORDER_BOOKMARK_ERROR);			
 		}
-		LOGGER.debug("ManageBookmarkResponse: " + bookmarkResponse);
+		LOGGER.debug("ReorderBookmarkAndFolderResponse: " + bookmarkResponse);
 		LOGGER.info("Exiting reorderBookmark()");
 		return bookmarkResponse;		
 	}
@@ -306,6 +312,29 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	}
 	
 	
+	private ManageBookmarkV2Response populateManageResponse(ManageBookmarksV2ResponseBodyType soapResponse, ManageBookmarkV2Response restResponse){
+
+		restResponse.setToReturn(true);
+		
+		return restResponse;		
+	}
+	
+	private ReorderBookmarkAndFolderResponse populateReorderBookmarkAndFolderResponse(ReorderBookmarkAndFolderResponseBodyType soapResponse, ReorderBookmarkAndFolderResponse restResponse){
+		ContentBookmarksV2 contentBookmarksV2 = new ContentBookmarksV2();		
+		
+		BookmarkedContentV2[] bookmarks = new BookmarkedContentV2[soapResponse.getResponse().getBookmarks().length];
+		BookmarkFolderContents[] folders = new BookmarkFolderContents[soapResponse.getResponse().getFolders().length];
+		
+		bookmarks = populateBookmarkedContentV2List(soapResponse.getResponse().getBookmarks());
+		folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders()); 				
+				
+		contentBookmarksV2.setBookmarks(bookmarks);
+		contentBookmarksV2.setFolders(folders);
+		
+		restResponse.setResponse(contentBookmarksV2);
+		
+		return restResponse;		
+	}
 	private ListAllBookmarksV2Response populatelistAllBookmarksResponse(ListAllBookmarksV2ResponseBodyType soapResponse, ListAllBookmarksV2Response restResponse){
 		
 		ContentBookmarksV2 contentBookmarksV2 = new ContentBookmarksV2();		
@@ -424,5 +453,40 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		}
 		
 		return restFolderList;
+	}
+
+	@Override
+	public ManageBookmarkV2Response manageBookmarksV2(ManageBookmarkV2Request bookmarkRequest)
+			throws RemoteException, AppException {
+		LOGGER.info("Entering reorderBookmark()");
+		LOGGER.debug("ManageBookmarkRequest: " + bookmarkRequest);
+		ManageBookmarkV2Response bookmarkResponse = new ManageBookmarkV2Response();
+
+		// Setup the request
+		final ManageBookmarksV2RequestBodyType request = new ManageBookmarksV2RequestBodyType();
+		request.setApplicationID(AppID);
+		request.setUserName(bookmarkRequest.getUserName());
+		request.setPassword(bookmarkRequest.getPassword());
+		request.setUserAction(bookmarkRequest.getUserAction());
+		request.setFolderID(bookmarkRequest.getFolderID());
+		request.setContentID(bookmarkRequest.getContentID());
+		
+		// Call the service
+		Instant start = Instant.now();
+		final ManageBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.manageBookmarksV2(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+bookmarkRequest.getUserName()+") - reorderBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
+		bookmarkResponse = populateManageResponse(response, bookmarkResponse);
+		if (response != null) {
+			//error handling would go here
+			
+		} else {
+			// We have a problem with the service
+			throw new AppException(500, AppErrorCodes.MANAGE_BOOKMARK_ERROR,  
+					AppErrorMessage.REORDER_BOOKMARK_ERROR);			
+		}
+		LOGGER.debug("Manage bookmark response: " + bookmarkResponse);
+		LOGGER.info("Exiting manageBookmarksV2()");
+		return bookmarkResponse;	
 	}
 }
