@@ -6,7 +6,7 @@
       xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
       xmlns:tns="http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!-- Created by Verint on Tue Nov 28 09:24:15 CST 2017. See http://www.kana.com for more details. -->
+<!-- Created by Verint on Tue Dec 05 12:13:08 CST 2017. See http://www.kana.com for more details. -->
     <types>
       <xsd:schema
           elementFormDefault="unqualified"
@@ -263,7 +263,13 @@
         </xsd:complexType>
         <xsd:complexType
             name="ManageBookmarksV2ResponseBodyType">
-          <xsd:sequence />
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="response"
+                type="tns:ContentBookmarksV2" />
+          </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
             name="ListAllBookmarksV2RequestBodyType">
