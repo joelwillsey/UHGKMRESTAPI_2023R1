@@ -14,15 +14,15 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
 
     private java.lang.String direction;
 
-    private java.math.BigInteger folderID;
+    private java.lang.String folderID;
 
     private java.lang.String password;
 
     private java.lang.String userName;
 
-    private java.math.BigInteger numMoved;
+    private java.lang.String numMoved;
 
-    private java.math.BigInteger destinationFolderID;
+    private java.lang.String destinationFolderID;
 
     public ReorderBookmarkAndFolderRequestBodyType() {
     }
@@ -31,11 +31,11 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
            java.lang.String applicationID,
            java.lang.String contentID,
            java.lang.String direction,
-           java.math.BigInteger folderID,
+           java.lang.String folderID,
            java.lang.String password,
            java.lang.String userName,
-           java.math.BigInteger numMoved,
-           java.math.BigInteger destinationFolderID) {
+           java.lang.String numMoved,
+           java.lang.String destinationFolderID) {
            this.applicationID = applicationID;
            this.contentID = contentID;
            this.direction = direction;
@@ -112,7 +112,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
      * 
      * @return folderID
      */
-    public java.math.BigInteger getFolderID() {
+    public java.lang.String getFolderID() {
         return folderID;
     }
 
@@ -122,7 +122,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
      * 
      * @param folderID
      */
-    public void setFolderID(java.math.BigInteger folderID) {
+    public void setFolderID(java.lang.String folderID) {
         this.folderID = folderID;
     }
 
@@ -172,7 +172,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
      * 
      * @return numMoved
      */
-    public java.math.BigInteger getNumMoved() {
+    public java.lang.String getNumMoved() {
         return numMoved;
     }
 
@@ -182,7 +182,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
      * 
      * @param numMoved
      */
-    public void setNumMoved(java.math.BigInteger numMoved) {
+    public void setNumMoved(java.lang.String numMoved) {
         this.numMoved = numMoved;
     }
 
@@ -192,7 +192,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
      * 
      * @return destinationFolderID
      */
-    public java.math.BigInteger getDestinationFolderID() {
+    public java.lang.String getDestinationFolderID() {
         return destinationFolderID;
     }
 
@@ -202,7 +202,7 @@ public class ReorderBookmarkAndFolderRequestBodyType  implements java.io.Seriali
      * 
      * @param destinationFolderID
      */
-    public void setDestinationFolderID(java.math.BigInteger destinationFolderID) {
+    public void setDestinationFolderID(java.lang.String destinationFolderID) {
         this.destinationFolderID = destinationFolderID;
     }
 

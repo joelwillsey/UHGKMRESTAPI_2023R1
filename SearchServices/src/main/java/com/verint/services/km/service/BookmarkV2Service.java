@@ -286,11 +286,11 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Reo
 		@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 		public ReorderBookmarkAndFolderResponse reorderBookmarkAndFolder(@Context HttpServletRequest httpRequest,
 				@QueryParam("direction") String direction,
-	    		@QueryParam("numMoved") BigInteger numMoved,
+	    		@QueryParam("numMoved") String numMoved,
 				@QueryParam("applicationID") String applicationID,
 				@QueryParam("contentID") String contentID,
-				@QueryParam("folderID") BigInteger folderID,
-				@QueryParam("destFolder") BigInteger destinationFolderID){
+				@QueryParam("folderID") String folderID,
+				@QueryParam("destFolder") String destinationFolderID){
 			
 		LOGGER.info("Entering reorderBookmarkAndFolder()");		
 		ReorderBookmarkAndFolderResponse reorderBookmarkAndFolderResponse = null;
@@ -309,7 +309,24 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Reo
 				applicationID = "AD";
 			}
 		
+			if (numMoved == null || numMoved.equals(""))  {
+				numMoved = "";
+			}
 			
+			if (contentID == null || contentID.equals(""))  {
+				contentID = "";
+			}
+			
+			if (folderID == null || folderID.equals(""))  {
+				folderID = "";
+			}
+			
+			if (direction == null || direction.equals(""))  {
+				direction = "";
+			}
+			if (destinationFolderID == null || destinationFolderID.equals("")){
+				destinationFolderID = "";
+			}
 			// Get the authentication information			
 			final String[] credentials = getAuthenticatinCredentials(httpRequest);
 			
@@ -323,7 +340,7 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Reo
 			reorderRequest.setContentID(contentID);
 			reorderRequest.setApplicationID(applicationID);
 			reorderRequest.setLocaleName("en-US");
-			LOGGER.debug("Reorder request: " + reorderRequest);
+			LOGGER.debug("Reorder request: " + reorderRequest.toString());
 			
 			//Retrieve all the bookmarks
 			

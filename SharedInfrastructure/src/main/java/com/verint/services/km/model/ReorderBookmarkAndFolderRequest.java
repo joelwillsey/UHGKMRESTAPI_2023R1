@@ -4,7 +4,7 @@
 package com.verint.services.km.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,22 +33,22 @@ public class ReorderBookmarkAndFolderRequest implements Serializable {
 	private String password = "";
 
 	@XmlElement(nillable=true)
-	private BigInteger destinationFolderID;
+	private String destinationFolderID="";
 	
 	@XmlElement(nillable=true)
-	private BigInteger folderID;
+	private String folderID="";
 	
 	@XmlElement
-	private BigInteger numMoved;
+	private String numMoved="";
 	
 	@XmlElement(nillable=true)
 	private String direction = "";
 	
-	@XmlElement
-	private String localeName;
+	@XmlElement(nillable=true)
+	private String localeName="";
 	
 	@XmlElement
-	private String applicationID;
+	private String applicationID="";
 	
 	@XmlElement(nillable=true)
 	private String folderName="";
@@ -75,21 +75,21 @@ public class ReorderBookmarkAndFolderRequest implements Serializable {
 	}
 	
 	//return the folder ID
-	public BigInteger getFolderID() {
+	public String getFolderID() {
 		return folderID;
 		
 	}
 	
-	public void setFolderID(BigInteger fol){
+	public void setFolderID(String fol){
 		this.folderID = fol;
 	}
 
-	public BigInteger getDestinationFolderID() {
+	public String getDestinationFolderID() {
 		return destinationFolderID;
 		
 	}
 	
-	public void setDestinationFolderID(BigInteger fol){
+	public void setDestinationFolderID(String fol){
 		this.destinationFolderID = fol;
 	}
 
@@ -126,10 +126,10 @@ public class ReorderBookmarkAndFolderRequest implements Serializable {
 		this.direction = dir;
 	}
 	
-	public BigInteger getNumMoved(){
+	public String getNumMoved(){
 		return numMoved;
 	}
-	public void setNumMoved(BigInteger num){
+	public void setNumMoved(String num){
 		this.numMoved = num;
 	}
 	
@@ -177,6 +177,6 @@ public class ReorderBookmarkAndFolderRequest implements Serializable {
 	@Override
 	public String toString() {
 		return "ReorderBookmarkAndFolderRequest [contentId=" + contentID + ", userAction=" + userAction + ", username=" + userName + ", password=" + password +", folderId=" + folderID
-				+ ", destinationFolderID=" + destinationFolderID + ", direction="+ direction + ", numMoved=" + numMoved +"]";
+				+ ", destinationFolderID=" + destinationFolderID + ", direction="+ direction + ", numMoved=" + numMoved + ", localeName="+localeName+"]";
 	}
 }
