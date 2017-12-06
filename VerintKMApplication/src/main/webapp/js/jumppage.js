@@ -250,24 +250,38 @@ $.fn.setUpJump=function() {
 			// /verintkm/jumppage.html?displayByRefName= + refName 
 			var refName = variables[1];
 
+			var params = '';
+			for (i=0; i < variables.length; i++){
+				if(variables[i] == 'funcName' || variables[i] == 'funcParams' && i+1 < variables.length){
+					params = params + '&' + variables[i] + '=' + variables[i+1];
+				}
+			}
+			
 			//run a search for refName 
 			jQuery.ajaxSetup({async:false});
 			var migratableReferenceId = $.fn.getIsetResponse(refName,"all","");
 			jQuery.ajaxSetup({async:true});
 		//	document.cookie = 'savedurl=' + 'jumppage.html%3F' + variables[0] + '; path=/';
-			var url = contentServiceName + 'content_container.html?id='+migratableReferenceId;
+			var url = contentServiceName + 'content_container.html?id='+migratableReferenceId+params;
 			window.location.replace(url);
 		
 		} else if (variables[0] == "isetDisplayByRefName"){
 			// /verintkm/jumppage.html?isetDisplayByRefName= + refName 
 			var refName = variables[1];
 
+			var params = '';
+			for (i=0; i < variables.length; i++){
+				if(variables[i] == 'funcName' || variables[i] == 'funcParams' && i+1 < variables.length){
+					params = params  + '&' + variables[i] + '=' + variables[i+1];
+				}
+			}
+			
 			//run a search for refName 
 			jQuery.ajaxSetup({async:false});
 			var migratableReferenceId = $.fn.getIsetResponse(refName,"all","");
 			jQuery.ajaxSetup({async:true});
 		//	document.cookie = 'savedurl=' + 'jumppage.html%3F' + variables[0] + '; path=/';
-			var url = contentServiceName + 'iset_content_container.html?id='+migratableReferenceId;
+			var url = contentServiceName + 'iset_content_container.html?id='+migratableReferenceId+params;
 			window.location.replace(url);
 		
 		} else {
