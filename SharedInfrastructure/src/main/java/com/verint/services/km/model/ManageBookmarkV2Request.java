@@ -37,7 +37,7 @@ public class ManageBookmarkV2Request implements Serializable {
 	@XmlElement(nillable=true)
 	private String localeName = "";
 	
-	@XmlElement
+	@XmlElement(nillable=true)
 	private String applicationID;
 	
 	@XmlElement(nillable=true)
@@ -55,7 +55,6 @@ public class ManageBookmarkV2Request implements Serializable {
 	public String getContentID() {
 		return contentID;
 	}
-	
 	
 	/**
 	 * @param contentId the contentId to set
@@ -99,7 +98,6 @@ public class ManageBookmarkV2Request implements Serializable {
 	public String getUserAction() {
 		return userAction;
 	}
-
 	
 	/**
 	 * 
@@ -149,7 +147,7 @@ public class ManageBookmarkV2Request implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "ManageBookmarkV2Request [contentId=" + contentID + ", userAction=" + userAction + ", username=" + userName + ", password=" + password +", folderId=" + folderID
-				+ "]";
+		return "ManageBookmarkV2Request [contentId=" + contentID + ", userAction=" + userAction + ", username=" 
+				+ userName + ", password=" + password +", folderName=" + folderName + ", localeName=" + localeName+ "]";
 	}
 }
