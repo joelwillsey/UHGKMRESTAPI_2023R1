@@ -365,19 +365,37 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Reo
 		ManageBookmarkV2Response manageBookmarkV2Response = null;
 			
 		try {
-			
+						
+			LOGGER.debug("userAction: "+userAction);
+			LOGGER.debug("folderName: "+folderName);
 			LOGGER.debug("applicationID: "+applicationID);
-			
+			LOGGER.debug("contentID: "+applicationID);
+			LOGGER.debug("folderID: "+applicationID);
 			
 			// Check for valid fields
 	
-			if (contentID == null)  {
+			if (contentID == null || contentID.equals(""))  {
 				contentID = "";
 			}			
 			if (applicationID == null || applicationID.equals(""))  {
 				applicationID = "AD";
 			}
 		
+			if (folderName == null || folderName.equals(""))  {
+				folderName = "";
+			}
+			
+			if (contentID == null || contentID.equals(""))  {
+				contentID = "";
+			}
+			
+			if (folderID == null || folderID.equals(""))  {
+				folderID = "";
+			}
+			
+			if (userAction == null || userAction.equals(""))  {
+				userAction = "";
+			}
 			
 			// Get the authentication information			
 			final String[] credentials = getAuthenticatinCredentials(httpRequest);
@@ -392,7 +410,7 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Reo
 			manageRequest.setApplicationID("AD");
 			manageRequest.setLocaleName("en-US");
 			
-			LOGGER.debug("Manage request: " + manageRequest);
+			LOGGER.debug("Manage request: " + manageRequest.toString());
 			
 			//Retrieve all the bookmarks
 			

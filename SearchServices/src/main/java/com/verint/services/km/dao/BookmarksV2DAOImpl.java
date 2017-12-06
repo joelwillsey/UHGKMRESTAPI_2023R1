@@ -265,7 +265,49 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	  
 	  return manageBookmarkResponse;
 	 }
+	
+	
+	@Override
+	public ManageBookmarkV2Response manageBookmarksV2(ManageBookmarkV2Request bookmarkRequest)
+			throws RemoteException, AppException {
+		LOGGER.info("Entering manageBookmarksV2()");
+		LOGGER.debug("ManageBookmarkRequest: " + bookmarkRequest.toString());
+		ManageBookmarkV2Response bookmarkResponse = new ManageBookmarkV2Response();
 
+		// Setup the request
+		final ManageBookmarksV2RequestBodyType request = new ManageBookmarksV2RequestBodyType();
+		request.setApplicationID(AppID);
+		request.setUserName(bookmarkRequest.getUserName());
+		request.setPassword(bookmarkRequest.getPassword());
+		request.setUserAction(bookmarkRequest.getUserAction());
+		request.setFolderID(bookmarkRequest.getFolderID());
+		request.setContentID(bookmarkRequest.getContentID());
+		request.setLocaleName(bookmarkRequest.getLocaleName());
+		request.setFolderName(bookmarkRequest.getFolderName());
+		
+		// Call the service
+		Instant start = Instant.now();
+		final ManageBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.manageBookmarksV2(request);
+		Instant end = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+bookmarkRequest.getUserName()+") - reorderBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");		
+		
+		//check response
+		if (response != null && response.getResponse()!= null) {
+			//valid response
+			LOGGER.debug("ManageBookmarksV2Response- Valid response: " + response.toString());
+			
+			// Populate Base Response
+			bookmarkResponse = populateManageResponse(response, bookmarkResponse);
+			
+		} else {
+			// We have a problem with the service
+			throw new AppException(500, AppErrorCodes.MANAGE_BOOKMARK_ERROR,  
+					AppErrorMessage.MANAGE_BOOKMARK_ERROR);			
+		}
+		LOGGER.debug("Manage bookmark response: " + bookmarkResponse.toString());
+		LOGGER.info("Exiting manageBookmarksV2()");
+		return bookmarkResponse;	
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -466,38 +508,5 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		return restFolderList;
 	}
 
-	@Override
-	public ManageBookmarkV2Response manageBookmarksV2(ManageBookmarkV2Request bookmarkRequest)
-			throws RemoteException, AppException {
-		LOGGER.info("Entering reorderBookmark()");
-		LOGGER.debug("ManageBookmarkRequest: " + bookmarkRequest);
-		ManageBookmarkV2Response bookmarkResponse = new ManageBookmarkV2Response();
-
-		// Setup the request
-		final ManageBookmarksV2RequestBodyType request = new ManageBookmarksV2RequestBodyType();
-		request.setApplicationID(AppID);
-		request.setUserName(bookmarkRequest.getUserName());
-		request.setPassword(bookmarkRequest.getPassword());
-		request.setUserAction(bookmarkRequest.getUserAction());
-		request.setFolderID(bookmarkRequest.getFolderID());
-		request.setContentID(bookmarkRequest.getContentID());
-		
-		// Call the service
-		Instant start = Instant.now();
-		final ManageBookmarksV2ResponseBodyType response = KMBookmarkServiceV2PortType.manageBookmarksV2(request);
-		Instant end = Instant.now();
-		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+bookmarkRequest.getUserName()+") - reorderBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
-		bookmarkResponse = populateManageResponse(response, bookmarkResponse);
-		if (response != null) {
-			//error handling would go here
-			
-		} else {
-			// We have a problem with the service
-			throw new AppException(500, AppErrorCodes.MANAGE_BOOKMARK_ERROR,  
-					AppErrorMessage.REORDER_BOOKMARK_ERROR);			
-		}
-		LOGGER.debug("Manage bookmark response: " + bookmarkResponse);
-		LOGGER.info("Exiting manageBookmarksV2()");
-		return bookmarkResponse;	
-	}
+	
 }
