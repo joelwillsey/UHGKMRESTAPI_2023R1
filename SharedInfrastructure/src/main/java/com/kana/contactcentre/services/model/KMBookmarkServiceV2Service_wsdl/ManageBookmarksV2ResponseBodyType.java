@@ -8,7 +8,34 @@
 package com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl;
 
 public class ManageBookmarksV2ResponseBodyType  implements java.io.Serializable {
+    private com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 response;
+
     public ManageBookmarksV2ResponseBodyType() {
+    }
+
+    public ManageBookmarksV2ResponseBodyType(
+           com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 response) {
+           this.response = response;
+    }
+
+
+    /**
+     * Gets the response value for this ManageBookmarksV2ResponseBodyType.
+     * 
+     * @return response
+     */
+    public com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 getResponse() {
+        return response;
+    }
+
+
+    /**
+     * Sets the response value for this ManageBookmarksV2ResponseBodyType.
+     * 
+     * @param response
+     */
+    public void setResponse(com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.ContentBookmarksV2 response) {
+        this.response = response;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -22,7 +49,10 @@ public class ManageBookmarksV2ResponseBodyType  implements java.io.Serializable 
         }
         __equalsCalc = obj;
         boolean _equals;
-        _equals = true;
+        _equals = true && 
+            ((this.response==null && other.getResponse()==null) || 
+             (this.response!=null &&
+              this.response.equals(other.getResponse())));
         __equalsCalc = null;
         return _equals;
     }
@@ -34,6 +64,9 @@ public class ManageBookmarksV2ResponseBodyType  implements java.io.Serializable 
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
+        if (getResponse() != null) {
+            _hashCode += getResponse().hashCode();
+        }
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -44,6 +77,12 @@ public class ManageBookmarksV2ResponseBodyType  implements java.io.Serializable 
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ManageBookmarksV2ResponseBodyType"));
+        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("response");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "response"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/KMBookmarkServiceV2Service.wsdl", "ContentBookmarksV2"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
     }
 
     /**

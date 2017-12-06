@@ -34,8 +34,8 @@ public class ManageBookmarkV2Request implements Serializable {
 	@XmlElement(nillable=true)
 	private String folderID = "";
 	
-	@XmlElement
-	private String localeName;
+	@XmlElement(nillable=true)
+	private String localeName = "";
 	
 	@XmlElement
 	private String applicationID;

@@ -389,9 +389,10 @@ import com.kana.contactcentre.services.model.KMBookmarkServiceV2Service_wsdl.Reo
 			manageRequest.setUserAction(userAction);
 			manageRequest.setFolderName(folderName);
 			manageRequest.setContentID(contentID);
-			manageRequest.setApplicationID(applicationID);
+			manageRequest.setApplicationID("AD");
 			manageRequest.setLocaleName("en-US");
-			LOGGER.debug("Reorder request: " + manageRequest);
+			
+			LOGGER.debug("Manage request: " + manageRequest);
 			
 			//Retrieve all the bookmarks
 			

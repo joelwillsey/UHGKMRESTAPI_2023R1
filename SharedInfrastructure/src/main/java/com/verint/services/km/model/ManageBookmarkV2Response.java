@@ -21,48 +21,36 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ManageBookmarkV2Response implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	//@XmlElement(nillable=true)
-	//private Set<ErrorList> errorList = new HashSet<ErrorList>();	
-	@XmlElement
-	private boolean toReturn;
+	
+	@XmlElement(nillable=true)
+    private ContentBookmarksV2 response;		
+	
 	/**
-	 * 
+	 * Constructor
 	 */
 	public ManageBookmarkV2Response() {
 		super();
 	}
-public boolean getToReturn(){
-	return this.toReturn;
 	
-}
-public void setToReturn(boolean t){
-	this.toReturn = t;
-}
 	/**
-	 * @return the errorList
+	 * @return the contentBookmarksV2
 	 */
-/*
-public Set<ErrorList> getErrorList() {
-		return errorList;
-
-	public void setErrorList(Set<ErrorList> errorList) {
-		this.errorList = errorList;
+	public ContentBookmarksV2 getResponse() {
+		return response;
 	}
-	*/
-	
 
 	/**
-	 * @param errorList the errorList to set
+	 * @param contentBookmarksV2 the contentBookmarksV2 to set
 	 */
-	//public void addErrorList(ErrorList error) {
-	//	errorList.add(error);
-	//}
-
+	public void setResponse(ContentBookmarksV2 contentBookmarksV2) {
+		this.response = contentBookmarksV2;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "ManageBookmarkV2Response [toReturn=" + toReturn + "]";
+		return "ListAllBookmarksV2Response [" +  response.toString() + "]";
 	}
 }

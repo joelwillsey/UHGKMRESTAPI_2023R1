@@ -313,8 +313,19 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	
 	
 	private ManageBookmarkV2Response populateManageResponse(ManageBookmarksV2ResponseBodyType soapResponse, ManageBookmarkV2Response restResponse){
-
-		restResponse.setToReturn(true);
+		
+		ContentBookmarksV2 contentBookmarksV2 = new ContentBookmarksV2();		
+		
+		BookmarkedContentV2[] bookmarks = new BookmarkedContentV2[soapResponse.getResponse().getBookmarks().length];
+		BookmarkFolderContents[] folders = new BookmarkFolderContents[soapResponse.getResponse().getFolders().length];
+		
+		bookmarks = populateBookmarkedContentV2List(soapResponse.getResponse().getBookmarks());
+		folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders()); 				
+				
+		contentBookmarksV2.setBookmarks(bookmarks);
+		contentBookmarksV2.setFolders(folders);
+		
+		restResponse.setResponse(contentBookmarksV2);
 		
 		return restResponse;		
 	}
