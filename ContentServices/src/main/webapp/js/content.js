@@ -5,6 +5,10 @@ var externalLink = false;
 var contentTitle = '';
 var vccdInstalled = false;
 var addVccdScript = false;
+var runFunction = false;
+var funcName;
+var funcParams;
+var funcDelay = 200;
 
 $(document).ready(function() {	
 	 
@@ -13,6 +17,7 @@ $(document).ready(function() {
 		vccdInstalled = true;
 	}
 	log('VCCD installed: ' + vccdInstalled);
+	
 	
     // Setup ratings and rate functions
     $('.rate1').on('click', function() {
@@ -399,8 +404,62 @@ $(document).ready(function() {
         
     	// Resize the window if necessary
     	$.fn.setupContentWidget();
+    	
+    	
+    	//check for function passed in via url parameters
+    	var tmpfunctionName = $.fn.getParameterByName('funcName');
+    	if (typeof tmpfunctionName != 'undefined' && tmpfunctionName != null && tmpfunctionName != '') {
+    		//There is a function name defined
+    		funcName = tmpfunctionName;
+    		log("Found parameter funcName: " + funcName);
+    		
+    		var tmpfunctionParameters = $.fn.getParameterByName('funcParams');
+    		if (typeof tmpfunctionParameters != 'undefined' && tmpfunctionParameters != null && tmpfunctionParameters != '') {
+    			funcParams = tmpfunctionParameters;
+    			log("Found parameter funcParams: " + funcParams);
+    		}
+    		runFunction = true;
+    		log("Enabling runFunction: " + runFunction);
+    	} 
+    	
+    	//There is a function to be run after the content is displayed
+    	if(runFunction){    		
+	    	$(function(){
+	    		if(document.readyState == 'complete'){
+	    			//load has already fired but text may not be displayed yet lets delay a bit then run the function
+	    			log('load event already fired - delay for ' + funcDelay + 'ms to allow for text to render');
+	    			setTimeout(function(){
+		    			log('Running function name: "' + funcName + '" function Parameters: "' + funcParams + '"');
+		    			if (typeof funcParams != 'undefined' && funcParams != null && funcParams != ''){	    	    	
+	    	    			//Function has parameters
+	    	    			window[funcName](funcParams);
+	    	    		} else {
+	    	    			//no parameters passed
+	    	    			window[funcName]();
+	    	    		}
+	    			}, funcDelay);
+	    		} else {
+		    		$(window).on('load',function(){
+		    			console.log('start $(window).load');
+		    			log('$(window).load - running function name: "' + funcName + '" function Parameters: "' + funcParams + '"');
+		    			if (typeof funcParams != 'undefined' && funcParams != null && funcParams != ''){	    	    	
+	    	    			//Function has parameters
+	    	    			window[funcName](funcParams);
+	    	    		} else {
+	    	    			//no parameters passed
+	    	    			window[funcName]();
+	    	    		}
+		    	    });
+	    		} 
+	    	});	    
+    	}
+    	    	
+
+    	
+
     }
 
+    
     // Setup Public Content
     $.fn.setupPublic = function(data, contentBody) {
     	if ((typeof data.publicBody != 'undefined' && data.publicBody != '') || 
