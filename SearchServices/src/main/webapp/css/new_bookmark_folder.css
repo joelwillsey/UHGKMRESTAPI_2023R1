@@ -1,5 +1,7 @@
 .new_folder_html {
 	padding: 6px;	
+	width: 40%;
+	min-width: 400px;
 }
 .new_folder_exit {
 	float: right;
@@ -27,11 +29,12 @@
 
 .new_folder_buttons {
 			display: inline-block;
-			float: left;
-			margin-right: 5px;
+			float: right;
+			margin-right: 12px;
 			padding-right: 4px;
 			padding-top: 4px;
-			width: auto;
+			width: 100%;
+			text-align: right;
 		}
 	
 .new_folder_button {
@@ -50,7 +53,7 @@
    	height: 24px;
    	line-height: 22px;
 	margin-bottom: 6px;
-    min-width: 100%;
+    min-width: 25%;
    	padding: 0 12px !important;
    	text-align: center;
    	white-space: nowrap;
