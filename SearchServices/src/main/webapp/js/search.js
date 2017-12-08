@@ -129,10 +129,12 @@ $(document).ready(function() {
     	$.fn.toggleSearch('alert');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
     	var kTagParameter = $.fn.getParameterKbaseTag();
-    	console.log("Alert Button Clicked");
+    	$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
+    	$("#srListingResults").removeClass("sr_listing_result_off");
     	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
     		$.fn.sendToResults('Knowledge Alert', data);
     	});
+
 	});
 
 	// Bookmark button
@@ -141,8 +143,12 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('bookmark');
     	$('.dpui-widget').trigger('dpui:showManageButton');
+    	$('#searchResultsTree').removeClass("sr_listing_bookmarks_off");
+    	$('#searchResultsTree').addClass("sr_listing_bookmarks");
+    	$("#srListingResults").addClass("sr_listing_result_off");
     	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
     	$.fn.bookmark(page, size, kTagsParameterStrings);
+
 	});
 
     // Featured Content button
@@ -151,8 +157,11 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('featured');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
+    	$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
+    	$("#srListingResults").removeClass("sr_listing_result_off");
     	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
     	$.fn.featured(page, size, kTagsParameterStrings);
+
 	});
 
 	// New or Changed Button button
@@ -161,11 +170,14 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
     	$.fn.toggleSearch('neworchanged');
     	$('.dpui-widget').trigger('dpui:hideManageButton');
+    	$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
+    	$("#srListingResults").removeClass("sr_listing_result_off");
     	var kTagsParameterStrings = $.fn.getParameterKbaseTag();
 		
 		if (kTagsParameterStrings != null) {
 			$.fn.newOrChanged(page, size, kTagsParameterStrings);
 		 }
+
 	});
 
     // Search button
@@ -175,10 +187,12 @@ $(document).ready(function() {
     	$.fn.toggleMenu(this);
 		$.fn.toggleSearch('search');
 		$('.dpui-widget').trigger('dpui:hideManageButton');
-
+    	$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
+    	$("#srListingResults").removeClass("sr_listing_result_off");
 		$.fn.search("", 1, 20, filterTags, contentTypeTags, "", "", function(data) {
     		$.fn.sendToResults('Search', data);
     	});
+
 		
 		// For now, don't call search
     	//$.fn.search('Search', page, size, '', '');
@@ -276,7 +290,8 @@ $(document).ready(function() {
 
 	// Bookmark function
 	$.fn.bookmark = function(page, size, tags) {
-		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
+		//$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + page + '&size=' + size + '&tags=' + tags, SEARCH_SERVICE_TIMEOUT, function(data) {
+		$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/listallbookmarks', SEARCH_SERVICE_TIMEOUT, function(data){
 			$.fn.sendToResults('My Bookmarks', data);
 		});
 	}

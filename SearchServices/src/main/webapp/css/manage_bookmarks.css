@@ -5,16 +5,33 @@
 }
 .bookmark_exit {
 	float: right;
-	color: #003c71;
+	color: white;
 }
 	.bookmark_exit:hover {
 		cursor: pointer;
 	}
+.bookmark_header h1 {
+	background-color: #003c71;
+	border-bottom: 1px solid #666666;
+	border-image: none;
+	border-style: none none solid;
+	border-width: 0 0 1px;
+	color: #ffffff;
+	display: block;
+	font-size: 14px !important;
+	font-family: 'Lato',sans-serif;
+	font-weight: normal;
+	height: 32px;
+	line-height: 32px;
+	margin: 0;
+	padding: 6px 6px 6px 6px;	
+}
 .bookmark_label {
 	clear: both;
     content: " ";
     display: block;
     padding-bottom: 12px;
+    padding-top: 12px;
 }
 	.bookmark_description {
 		color: #666;
@@ -219,3 +236,4 @@
 			display: none;
 		}
 }
+

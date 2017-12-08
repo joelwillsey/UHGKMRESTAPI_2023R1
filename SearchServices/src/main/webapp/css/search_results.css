@@ -182,7 +182,11 @@ button{
 			color: #000000;
 			height: 100%;
 			margin-bottom: 10px;
+			display: none:
 		}
+			.sr_listing_result_off {
+				display: none;
+			}
 			.sr_listing_result article {
 				position: relative;
 			}
@@ -356,6 +360,11 @@ button{
 					.sr_lr_suggested_results a:link, .sr_lr_suggested_results a:visited {
 						color: #003c71;
 					}
+		.sr_listing_bookmarks {
+			display: inline;
+			padding-top: 20px;}
+			.sr_listing_bookmarks_off {
+				display: none;}
 	.sr_pagination {
 		margin-top: 10px;
 		text-align: center;

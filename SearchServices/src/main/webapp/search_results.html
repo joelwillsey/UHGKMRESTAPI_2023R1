@@ -5,11 +5,17 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 	<link media="screen" type="text/css" href="css/search_results.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/jqtree.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/tree.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/font-awesome.min.css" rel="stylesheet"/>
 	<script type='text/javascript' src="js/search_results.js"></script>
+	<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.js"></script>
+	
 </head>
 <body>
 <!-- Begin Search Results Widget -->
 	<section id="search-results" class="search_results">
+
 		<section id='sr-header-non-search' class="sr_header_non_search_on">
 			<div class="sr_hns_left">
 				<label class="sr_label"></label>
@@ -39,7 +45,9 @@
 			<div class="sr_numbers_showing"></div>
 		</section>
 		<section id="sr-listing" class="sr_listing">
-			<div class="sr_listing_result">
+			<div class="sr_listing_result sr_listing_result_off">
+			</div>
+			<div id="searchResultsBookmarkTree">
 			</div>
 		</section>
 		<section id="sr-pagination" class="sr_pagination">

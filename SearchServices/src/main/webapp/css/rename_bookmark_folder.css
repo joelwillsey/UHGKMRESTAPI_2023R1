@@ -1,0 +1,105 @@
+.rename_folder_html {
+	padding: 6px;	
+}
+.rename_folder_exit {
+	float: right;
+	color: white; 
+}
+	.rename_folder_exit:hover {
+		cursor: pointer;
+	}
+.rename_folder_header h1 {
+	background-color: #003c71;
+	border-bottom: 1px solid #666666;
+	border-image: none;
+	border-style: none none solid;
+	border-width: 0 0 1px;
+	color: #ffffff;
+	display: block;
+	font-size: 14px !important;
+	font-family: 'Lato',sans-serif;
+	font-weight: normal;
+	height: 32px;
+	line-height: 32px;
+	margin: 0;
+	padding: 6px 6px 6px 6px;			
+}
+
+	
+.rename_folder_button {
+    background-color: #eee;
+    background-image: linear-gradient(to bottom, #fff 1%, #dfdfdf 100%);
+    background-repeat: no-repeat;
+    border: 1px solid #888;
+    border-radius: 3px;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #222;
+    display: inline-block;
+   	font-family: "OpenSans",Arial,sans-serif;
+   	font-size: 12px;
+   	height: 24px;
+   	line-height: 22px;
+	margin-bottom: 6px;
+    min-width: 100%;
+   	padding: 0 12px !important;
+   	text-align: center;
+   	white-space: nowrap;
+   	width: auto;
+}	
+.rename_folder_label {
+	clear: both;
+    content: " ";
+    display: block;
+    padding-bottom: 12px;
+    padding-top: 12px;
+}
+	.rename_folder_description {
+		color: #666;
+	    font-style: italic;
+	    font-style: italic;
+	    white-space: normal;
+	    height: auto;
+	    width: 100%;
+	}
+
+.rename_folder_input_wrapper {
+ 	margin: 0px 12px;
+ 	overflow: hidden;
+ 	padding: 12px 6px !important; 
+}
+	.rename_folder_name_wrapper{
+	 	line-height: 24px;
+	 	vertical-align: top; 
+	 	white-space: nowrap;
+		}
+			.rename_folder_name {
+			 	float: left;
+			 	line-height: 24px;
+			 	padding-bottom: 6px;
+				width: 30%;
+			}
+			.rename_folder_name_input_wrapper {
+			 	float: right;
+			 	line-height: 24px;
+			 	overflow: hidden;
+			 	padding-bottom: 6px;
+			 	width: 60%;
+			}
+				.rename_folder_name_input {
+			 	background-color: #ffffff;
+			 	border: 1px solid #a2a2a2;
+			 	border-radius: 3px;
+			 	box-shadow: 1px 1px 1px #dddddd inset;
+			 	box-sizing: border-box;
+				height: 24px;
+			 	overflow:hidden;
+			 	padding-left: 6px;
+			 	padding-right: 6px;
+			 	width: 100%;
+			}
+			.rename_folder_name_input_off {
+				background-color: rgba(0,0,0,0.05);
+			    border-color: rgba(0,0,0,0.1);
+    			box-shadow: none;
+			}

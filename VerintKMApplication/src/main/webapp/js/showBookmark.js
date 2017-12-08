@@ -1,0 +1,5 @@
+if ($.fn.isHideInSearch()){
+	
+} else {
+	
+}

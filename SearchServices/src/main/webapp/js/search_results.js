@@ -369,7 +369,9 @@ $(document).ready(function() {
 			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
 		}
 		results.push('</article>');
-		return results;
+				
+		
+		return results; 
 	}
 	
 	// Setup search results list
@@ -444,8 +446,10 @@ $(document).ready(function() {
 			results.push('    </div>');
 			results.push('  </div>');
 			results.push('</div>');
+			
+			
+						
 		}
-
 		// See if there is regular results
 		if (typeof data.knowledgeGroupUnits != 'undefined' && data.knowledgeGroupUnits != null && data.knowledgeGroupUnits.length > 0) {
 			// Loop through the results
@@ -516,7 +520,7 @@ $(document).ready(function() {
 		} else {			
 			pagination.push('<li class="next"><a class="next active" onclick="$.fn.pageSelected(' + (data.page+1) + ');">&gt;</a></li>');
 		}
-		pagination.push('</ul></nav>');
+		pagination.push('</ul></nav>'); 
 		$('.sr_pagination').html(pagination.join('\n'));
 		pagination.length = 0; // Clear the array
 	}
@@ -542,6 +546,199 @@ $(document).ready(function() {
 		if (typeof $.fn.setupSearchResultsWidget === "function") { 
 			$.fn.setupSearchResultsWidget();
 		}
+	}
+	
+	// Display the search results
+	$.fn.displayBookmarkResults = function(data) {
+		
+		log(data);
+		var bookmarkTreeResults = [];
+		
+		if (typeof data != 'undefined' && data != null && data.contentBookmarksV2 != null) {
+			for (var i=0;(data.contentBookmarksV2.folders != null) && (i < data.contentBookmarksV2.folders.length); i++) {
+				var topFolderChildren = [];	
+				//var subFolders = [];
+				// populate sub folder data
+				if (data.contentBookmarksV2.folders[i].subFolders != null){
+					for (var k=0;(data.contentBookmarksV2.folders[i].subFolders != null) && (k < data.contentBookmarksV2.folders[i].subFolders.length); k++) {
+						var subFolderChildren = [];	
+						
+						// check if sub folders contain bookmarks or folders.
+						if (data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders != null){
+							for (var m=0;(data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders != null) && (m < data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders.length); m++) {
+								var subSubFolderChildren = []
+								if (data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList != null){
+									for (var f=0;(data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList != null) && (f < data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList.length); f++) {
+										subSubFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].title, id: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].contentId, type: 'bookmark', synopsis: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].synopsis, systemTagName: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].contentType, sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].sequenceNumber}); 
+										
+									}
+								}								
+								
+								if (subSubFolderChildren != null){
+									subFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].title, id: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].sequenceNumber, children: subSubFolderChildren});
+								}else{
+									subFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].title, id: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].sequenceNumber});
+								}
+							}
+						}
+						
+						if (data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList != null){
+							for (var n=0;(data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList != null) && (n < data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList.length); n++) {
+								subFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].title, id: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].contentId, type: 'bookmark', synopsis: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].synopsis, systemTagName: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].contentType, sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].sequenceNumber}); 
+								
+							}
+						}
+							
+						// check for sub level folders and bookmarks.
+						if (subFolderChildren != null){
+							topFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.title, id: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.sequenceNumber, children: subFolderChildren});
+						}else{
+							topFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.title, id: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.sequenceNumber});
+						}
+					}
+				}
+				
+				
+					
+					
+					
+					
+					// populate top level folder data
+				if (data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList != null){
+
+					for (var j=0;(data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList != null) && (j < data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList.length); j++) {
+						// populate bookmarks in folders
+						topFolderChildren.push({name: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].title, id: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].contentId, type: 'bookmark', synopsis: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].synopsis, systemTagName: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].contentType, sequenceNumber: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].sequenceNumber}); 
+					}
+				}
+				if (topFolderChildren != null){ 
+					bookmarkTreeResults.push({name: data.contentBookmarksV2.folders[i].bookmarkFolderContent.title, id: data.contentBookmarksV2.folders[i].bookmarkFolderContent.folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].bookmarkFolderContent.sequenceNumber, children: topFolderChildren});						
+				}else{
+					if (data.contentBookmarksV2.folders[i].subFolders == null){
+						bookmarkTreeResults.push({name: data.contentBookmarksV2.folders[i].bookmarkFolderContent.title, id: data.contentBookmarksV2.folders[i].bookmarkFolderContent.folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].bookmarkFolderContent.sequenceNumber});					
+					}
+				}
+			}
+			for (var i=0;(data.contentBookmarksV2.bookmarks != null) && (i < data.contentBookmarksV2.bookmarks.length); i++) {
+				// populate bookmark data
+				bookmarkTreeResults.push({name: data.contentBookmarksV2.bookmarks[i].title, id: data.contentBookmarksV2.bookmarks[i].contentId, type: 'bookmark', synopsis: data.contentBookmarksV2.bookmarks[i].synopsis, systemTagName: data.contentBookmarksV2.bookmarks[i].contentType, sequenceNumber: data.contentBookmarksV2.bookmarks[i].sequenceNumber});	
+			}
+		}
+		
+		$('#searchResultsBookmarkTree').tree('loadData', bookmarkTreeResults);
+		
+		
+		$(function() {
+		    $('#searchResultsBookmarkTree').tree({
+		        data: bookmarkTreeResults,
+				autoOpen: false,
+				dragAndDrop: false,
+				selectable: true,
+			    onCreateLi: function(node, $li, is_selected) {
+			    	if (node.type == "folder"){
+			    		//check for folders with no children and add closed folder icon
+			    		if (node.children.length == 0){
+			    			$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree_EmptyFolder"></span>');
+			    		}
+			    		$li.find('.jqtree-title').css('color', 'black');
+			    		$li.find('.jqtree-title').css('font-size', '14px');
+			    	}
+			    	if (node.type == "bookmark"){
+			    		$li.find('.jqtree-title').after('<a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + node.id + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+			    	}
+			    	// for each content type we need to explicitly state the class to display the icon. Not great code but can't find an alternative.
+			    	if (node.systemTagName == "KnowledgeArticleED"){
+			    		$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeArticleED"></span>');
+			    	}else{
+			    		if (node.systemTagName == "KnowledgeAlertED"){
+			    			$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeAlertED"></span>');
+			    		}else{
+			    			if (node.systemTagName == "KnowledgeFAQED"){
+			    				$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeFAQED"></span>');
+			    			}else{
+			    				if (node.systemTagName == "KnowledgeUploadED"){
+			    					$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeUploadED"></span>');
+			    				}else{
+			    					if (node.systemTagName == "Unstructured"){
+			    						$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_Unstructured"></span>');
+			    					}else{
+			    						if (node.systemTagName == "pageSet"){
+			    							$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_pageSet"></span>');
+			    						}else{
+			    							if (node.systemTagName == "KnowledgeSegmentED"){
+			    								$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeSegmentED"></span>');
+			    							}else{
+			    								if (node.systemTagName == "KnowledgeRemoteDocumentED"){
+			    									$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeRemoteDocumentED"></span>');
+			    								}
+			    							}
+			    						}
+			    					}
+			    				}
+			    			}
+			    		}
+			    	}
+			    }
+		    });
+		});
+		
+		// bind 'tree.click' event
+		$('#searchResultsBookmarkTree').bind(
+		    'tree.click',
+		    function(event) {
+		    	if (event.node.type == "folder"){
+					return false;
+				}else{
+					// The clicked node is 'event.node'
+					var node = event.node;
+					$.fn.viewContent(node.id, node.systemTagName);
+				}
+		    }
+		);
+		
+		// bind 'tree.select' event
+		$('#searchResultsBookmarkTree').bind(
+			'tree.select',
+			function(event) {
+				if (event.node.type == "folder"){
+					return false;
+				}else{
+					if (event.node) {
+						// node was selected
+						var node = event.node;
+						//alert(node.name);
+					}
+					else {
+						// event.node is null
+						// a node was deselected
+						// e.previous_node contains the deselected node
+					}	
+				}
+			}
+		);
+		
+		// Add the synopsis as hover text
+		$('#searchResultsBookmarkTree').on('mouseover', function(e) {
+
+			  var node = $('#searchResultsBookmarkTree').tree('getNodeByHtmlElement', e.target);	
+			  if ($('#searchResultsBookmarkTree').tooltip()) {
+				  $('#searchResultsBookmarkTree').tooltip( "destroy" );
+			  }
+				$( '#searchResultsBookmarkTree' ).tooltip({
+				      items: "span, a",
+				      content: function() {
+				        var element = $( this );
+				        if ( element.is( "a" ) ) {
+				          return 'Click me to expand/collapse.';
+				        }
+				        if ( element.is( "span" ) ) {
+				          return node.synopsis;
+				        }
+				      }
+				    });
+				$('input').tooltip();
+		});
+		
 	}
 	
 	// checks the current date of the content and whether or no it should have the new or changed label
@@ -637,7 +834,15 @@ $(document).ready(function() {
             	$('#sr-listing').scrollTop(0);
 
             	// Display the results
-            	$.fn.displayResults(data.data);
+            	if (typeof data != 'undefined' && 
+            			data != null && 
+            			typeof data.label != 'undefined' && 
+            			data.label != '' && 
+            			data.label === 'My Bookmarks') {
+            		$.fn.displayBookmarkResults(data.data);
+            	}else{
+            		$.fn.displayResults(data.data);
+            	}
             });
 	    },
 	    destroy: function(){

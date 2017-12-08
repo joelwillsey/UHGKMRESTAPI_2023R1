@@ -4,7 +4,12 @@
 	<title>Manage Bookmarks</title>
 	<meta charset="UTF-8">
 	<link media="screen" type="text/css" href="css/ionicons.css" rel="stylesheet"/>
-	<link media="screen" type="text/css" href="css/manage_bookmarks.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="css/font-awesome.min.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/manage_bookmarks.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/jqtree.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/tree.css" rel="stylesheet"/>
+	
+			  	
 </head>
 <body>
 <!-- Begin Manage Bookmarks -->
@@ -12,16 +17,18 @@
 		<div class="bookmark_exit" onclick="$.fn.bookmarkExit();">
 			<i class="icon ion-close"></i>
 		</div>
+		<div class="bookmark_header">
+			<h1>Manage Bookmarks</h1>
+		</div>
 		<div class="bookmark_label">
 			<div class="bookmark_description" style="" title="">Below are
 				the list of bookmarked contents for this agent. To remove a
 				bookmark, select an item and click 'Remove' button. You can also
-				multiple select to remove bookmarked content. Click 'Move Up' or
-				'Move Down' button to reorder the list.</div>
+				drag content around to reorder the list.</div>
 		</div>
 		<div class="bookmark_table">
-			<div class="bookmark_table_wrapper">
-				<div class="bookmark_table_header">
+			<!-- <div class="bookmark_table_wrapper"> -->
+				<!-- <div class="bookmark_table_header">
 					<div class="bookmark_table_header_col bookmark_col1">
 						<span>Type</span>
 					</div>
@@ -35,12 +42,16 @@
 						<span>Synopsis</span>
 					</div>
 				</div>
-				<div class="bookmark_list">
-				</div>
-			</div>
+				-->
+				
+				
+				<div id="bookmarkTree"></div>		
+
+				
+			<!-- </div> -->
 			<div class="bookmark_move_buttons" align="center">
 				<div class="bookmark_move_buttons_block">
-					<div>
+	<!--  				<div>
 						<button id="bookmark-button-up" class="bookmark_button" onclick="$.fn.bookmarkButtonUp();" accesskey="U" tabindex="6" title="Move Up" type="button" name="bookmark-button-up">
 							<span>Move <span style="text-decoration: underline;">U</span>p</span>
 						</button>
@@ -50,13 +61,35 @@
 							<span>Move <span style="text-decoration: underline;">D</span>own</span>
 						</button>
 					</div>
+					
+					
+					
 					<div>
-						<button id="bookmark-button-view" class="bookmark_button" onclick="$.fn.bookmarkButtonView();" accesskey="V" tabindex="8" title="View" type="button" name="bookmark-button-view">
+						<button id="bookmark-button-reassign" class="bookmark_button" onclick="$.fn.bookmarkButtonReassignFolder();" accesskey="A" tabindex="8" title="Reassign Folder" type="button" name="bookmark-button-reassign">
+							<span>Reassign <span style="text-decoration: underline;">F</span>older</span>
+						</button>
+					</div>
+					
+	-->
+					<div>
+						<button id="bookmark-button-new-folder" class="bookmark_button bookmark_action_button_active" onclick="$.fn.bookmarkButtonNewFolder();" accesskey="F" tabindex="9" title="New Folder" type="button" name="bookmark-button-new">
+							<span><span style="text-decoration: underline;">N</span>ew Folder</span>
+						</button>
+					</div>
+					<div>
+						<button id="bookmark-button-rename" class="bookmark_button" onclick="$.fn.bookmarkButtonRenameFolder();" accesskey="N" tabindex="10" title="Rename Folder" type="button" name="bookmark-button-rename">
+							<span>Rename <span style="text-decoration: underline;">F</span>older</span>
+						</button>
+					</div>
+					
+					
+					<div>
+						<button id="bookmark-button-view" class="bookmark_button" onclick="$.fn.bookmarkButtonView();" accesskey="V" tabindex="11" title="View" type="button" name="bookmark-button-view">
 							<span><span style="text-decoration: underline;">V</span>iew</span>
 						</button>
 					</div>
 					<div>
-						<button id="bookmark-button-remove" class="bookmark_button" onclick="$.fn.bookmarkButtonRemove();" accesskey="R" tabindex="9" title="Remove" type="button" name="bookmark-button-view">
+						<button id="bookmark-button-remove" class="bookmark_button" onclick="$.fn.bookmarkButtonRemove();" accesskey="R" tabindex="12" title="Remove" type="button" name="bookmark-button-view">
 							<span><span style="text-decoration: underline;">R</span>emove</span>
 						</button>
 					</div>
@@ -64,6 +97,12 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<section id="widgets" style="display: none;">
+		<div id="rename-bookmark-folder-widget"></div>
+		<div id="new-bookmark-folder-widget"></div>
+	</section>
 <!-- End Manage Bookmarks -->
 </body>
 </html>

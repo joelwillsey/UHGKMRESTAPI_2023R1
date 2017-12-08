@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>New Bookmark Folder</title>
+<meta charset="UTF-8">
+<link media="screen" type="text/css" href="css/ionicons.css" rel="stylesheet"/>
+<link media="screen" type="text/css" href="css/new_bookmark_folder.css" rel="stylesheet"/>
+
+</head>
+<body>
+
+	<div id="new-bookmark-folder-html" class="new_folder_html" style="width: 25%;">
+		<div class="new_folder_header">
+			<h1>Create Folder</h1>
+		</div>
+		<div class="new_folder_label">
+			<div class="new_folder_description" style="" title="">Please enter a new folder name.</div>
+		</div>
+		<div class="new_folder_input_wrapper">
+			<div class="new_folder_name_wrapper">
+				<div class="new_folder_name" style="display: inline-block;">
+					<label for="new-folder-name-input">New Folder: *</label>
+				</div>
+				<div class="new_folder_name_input_wrapper" style="display: inline-block;">
+					<input id="new_folder-name-input" class="new_folder_name_input new_folder_name_input_off" type="text" maxlength="100" size="10" value="" name="new_folder-name-input" title="New Folder Name" tabindex=""/>
+				</div>
+			</div>
+		</div>
+		<div class="new_folder_buttons">
+			<button id="new-folder-button-cancel" class="new_folder_button" onclick="$.fn.newFolderButtonCancel();" accesskey="O" tabindex="11" title="Cancel" type="button" name="new-folder-button-cancel">
+				<span><span style="text-decoration: underline;">C</span>ancel</span>
+			</button>
+			<button id="new-folder-button-accept" class="new_folder_button" onclick="$.fn.newFolderButtonConfirm();" accesskey="O" tabindex="12" title="Accept" type="button" name="new-folder-button-accept">
+				<span><span style="text-decoration: underline;">A</span>ccept</span>
+			</button>
+		</div>
+	</div>
+</body>
+</html>

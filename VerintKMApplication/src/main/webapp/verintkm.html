@@ -4,6 +4,7 @@
 	<title>Verint Knowledge</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<link media="screen" type="text/css" href="css/ionicons.min.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/font-awesome.min.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/jquery-ui/11.4.1/jquery-ui.min.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/common.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="css/KnowledgeCentral.css" rel="stylesheet" id="knowledgeCentralTheme"/>
@@ -12,6 +13,10 @@
 	<link media="screen" type="text/css" href="/searchservices/css/search_results.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/searchservices/css/request_answer.css" rel="stylesheet" />
 	<link media="screen" type="text/css" href="/searchservices/css/manage_bookmarks.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="/searchservices/css/rename_bookmark_folder.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="/searchservices/css/new_bookmark_folder.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="/searchservices/css/jqtree.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="/searchservices/css/tree.css" rel="stylesheet" />
 	<link media="screen" type="text/css" href="/searchservices/css/jquery.typeahead.css" rel="stylesheet"/>	
 	<link media="screen" type="text/css" href="/filterservices/css/filters.css" rel="stylesheet"/>
 	<link media="screen" type="text/css" href="/filterservices/css/add_filter.css" rel="stylesheet"/>
@@ -29,7 +34,9 @@
      <script type="text/javascript" src="js/login.js"></script> 
 <!-- <script type="text/javascript" src="js/samlv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
-	<script type="text/javascript" src="js/siteminder.js"></script> 
+	<script type="text/javascript" src="js/siteminder.js"></script>
+	<script type='text/javascript' src="js/showBookmark.js"></script> 
+	<script type='text/javascript' src="js/tree.jquery.js"></script>
 	<script type='text/javascript' > 
 	    
 		var contentServiceName = '/contentservices/';
@@ -80,6 +87,8 @@
 	<script type='text/javascript' src="/searchservices/js/search_results.js"></script>
 	<script type='text/javascript' src="/searchservices/js/request_answer.js"></script>
 	<script type='text/javascript' src="/searchservices/js/manage_bookmarks.js"></script>
+	<script type='text/javascript' src="/searchservices/js/rename_bookmark_folder.js"></script>
+	<script type='text/javascript' src="/searchservices/js/new_bookmark_folder.js"></script>
 	<script type='text/javascript' src="/searchservices/js/jquery.typeahead.js"></script>
 	<script type='text/javascript' src="/filterservices/js/browse_widget.js"></script>
 	<script type='text/javascript' src="/filterservices/js/filters.js"></script>
@@ -220,7 +229,13 @@
 			<div class="sr_numbers_showing"></div>
 		</section>
 		<section id="sr-listing" class="sr_listing">
-			<div class="sr_listing_result">
+			<div id="srListingResults" class="sr_listing_result">
+			</div>
+			<div>
+			<div id="searchResultsTree" class="sr_listing_bookmarks_off">
+				<div id="searchResultsBookmarkTree">
+				</div>
+			</div>
 			</div>
 		</section>
 		<section id="sr-pagination" class="sr_pagination">

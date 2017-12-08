@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rename Bookmark Folder</title>
+	<meta charset="UTF-8">
+	<link media="screen" type="text/css" href="css/ionicons.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="css/rename_bookmark_folder.css" rel="stylesheet"/>
+	
+
+	<script type="text/javascript">
+
+		$( document ).ready(function() {
+			$.fn.getCurrentFolderName();
+		});
+
+	</script>
+
+</head>
+<body>
+
+	<div id="rename-bookmark-folder-html" class="rename_folder_html" style="width: 25%;">
+		<div class="rename_folder_header">
+			<h1>Rename Folder</h1>
+		</div>
+		<div class="rename_folder_label">
+			<div class="rename_folder_description" style="" title="">Please enter a new folder name.</div>
+		</div>
+		<div class="rename_folder_input_wrapper">
+			<div class="rename_folder_name_wrapper">
+				<div class="rename_folder_name" style="display: inline-block;">
+					<label for="rename-folder-name-input">New Folder Name: *</label>
+				</div>
+				<div class="rename_folder_name_input_wrapper" style="display: inline-block;">
+					<input id="rename_folder-name-input" class="rename_folder_name_input rename_folder_name_input_off" type="text" maxlength="100" size="10" name="rename_folder-name-input" title="Rename Folder Name" tabindex=""/>
+				</div>
+			</div>
+		</div>
+		<div>
+			<button id="rename-folder-button-cancel" class="rename_folder_button" style="display: inline-block;" onclick="$.fn.renameFolderButtonCancel();" accesskey="O" tabindex="11" title="Confirm" type="button" name="rename-folder-button-cancel">
+				<span><span style="text-decoration: underline;">C</span>ancel</span>
+			</button>
+			<button id="rename-folder-button-accept" class="rename_folder_button" style="display: inline-block;" onclick="$.fn.renameFolderButtonConfirm();" accesskey="O" tabindex="12" title="Confirm" type="button" name="rename-folder-button-accept">
+				<span><span style="text-decoration: underline;">A</span>ccept</span>
+			</button>
+		</div>
+	</div>
+</body>
+</html>
