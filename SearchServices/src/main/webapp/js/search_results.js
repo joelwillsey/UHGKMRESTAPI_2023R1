@@ -625,7 +625,7 @@ $(document).ready(function() {
 			}
 		}
 		
-		$('#searchResultsBookmarkTree').tree('loadData', bookmarkTreeResults);
+		//$('#searchResultsBookmarkTree').tree('loadData', bookmarkTreeResults);
 		
 		
 		$(function() {
@@ -681,6 +681,8 @@ $(document).ready(function() {
 			    }
 		    });
 		});
+		
+		$('#searchResultsBookmarkTree').tree('loadData', bookmarkTreeResults);
 		
 		// bind 'tree.click' event
 		$('#searchResultsBookmarkTree').bind(

@@ -47,7 +47,7 @@
 		
 		// remove a folder
 		if (node.type == "folder"){
-			$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/manage?folderID='+node.Id+'&userAction=REMOVEFOLDER', SEARCH_SERVICE_TIMEOUT);
+			$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/manage?folderID='+node.id+'&userAction=REMOVEFOLDER', SEARCH_SERVICE_TIMEOUT);
 		}else{
 			
 			//$('.bookmark_list div.bookmark_item').each(
