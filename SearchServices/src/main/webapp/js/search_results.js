@@ -734,7 +734,19 @@ $(document).ready(function() {
 				          return 'Click me to expand/collapse.';
 				        }
 				        if ( element.is( "span" ) ) {
-				          return node.synopsis;
+				        	if (typeof node != 'undefined' && node != null) {
+					        	//log(node);
+					        	if (node.type == 'bookmark'){
+					        		//hovering over bookmark return synopsis
+					        		return node.synopsis;
+						          } else {
+						        	//hovering over folder return nothing				  
+						        	  return "";
+						          }
+				        	} else {
+				        		//node is null return empty
+				        		return "";
+				        	}
 				        }
 				      }
 				    });
