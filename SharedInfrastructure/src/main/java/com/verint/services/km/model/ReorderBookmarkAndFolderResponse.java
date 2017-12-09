@@ -24,7 +24,7 @@ public class ReorderBookmarkAndFolderResponse implements Serializable {
 	
 	
 	@XmlElement(nillable=true)
-    private ContentBookmarksV2 response;		
+    private ContentBookmarksV2 contentBookmarksV2;		
 	
 	@XmlElement(nillable=true)
 	private Set<ErrorList> errorList = new HashSet<ErrorList>();	
@@ -39,15 +39,15 @@ public class ReorderBookmarkAndFolderResponse implements Serializable {
 	/**
 	 * @return the errorList
 	 */
-	public ContentBookmarksV2 getResponse() {
-		return response;
+	public ContentBookmarksV2 getContentBookmarksV2() {
+		return contentBookmarksV2;
 	}
 
 	/**
 	 * @param contentBookmarksV2 the contentBookmarksV2 to set
 	 */
-	public void setResponse(ContentBookmarksV2 contentBookmarksV2) {
-		this.response = contentBookmarksV2;
+	public void setContentBookmarksV2(ContentBookmarksV2 contentBookmarksV2) {
+		this.contentBookmarksV2 = contentBookmarksV2;
 	}
 	
 	
@@ -72,6 +72,6 @@ public Set<ErrorList> getErrorList() {
 	 */
 	@Override
 	public String toString() {
-		return "ManageBookmarkV2Response [response=" + response.toString() + "]";
+		return "ManageBookmarkV2Response [contentBookmarksV2=" + contentBookmarksV2.toString() + "]";
 	}
 }

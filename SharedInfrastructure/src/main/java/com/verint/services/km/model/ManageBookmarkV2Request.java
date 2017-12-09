@@ -42,6 +42,7 @@ public class ManageBookmarkV2Request implements Serializable {
 	
 	@XmlElement(nillable=true)
 	private String folderName="";
+	
 	/**
 	 * Constructor
 	 */
@@ -73,8 +74,6 @@ public class ManageBookmarkV2Request implements Serializable {
 		this.folderID = fol;
 	}
 
-
-	
 	public String getLocaleName(){
 		return this.localeName;
 	}

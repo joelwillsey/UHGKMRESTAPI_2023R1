@@ -23,7 +23,7 @@ public class ManageBookmarkV2Response implements Serializable {
 
 	
 	@XmlElement(nillable=true)
-    private ContentBookmarksV2 response;		
+    private ContentBookmarksV2 contentBookmarksV2;		
 	
 	/**
 	 * Constructor
@@ -35,15 +35,15 @@ public class ManageBookmarkV2Response implements Serializable {
 	/**
 	 * @return the contentBookmarksV2
 	 */
-	public ContentBookmarksV2 getResponse() {
-		return response;
+	public ContentBookmarksV2 getContentBookmarksV2() {
+		return contentBookmarksV2;
 	}
 
 	/**
 	 * @param contentBookmarksV2 the contentBookmarksV2 to set
 	 */
-	public void setResponse(ContentBookmarksV2 contentBookmarksV2) {
-		this.response = contentBookmarksV2;
+	public void setContentBookmarksV2(ContentBookmarksV2 contentBookmarksV2) {
+		this.contentBookmarksV2 = contentBookmarksV2;
 	}
 	
 	/* (non-Javadoc)
@@ -51,6 +51,6 @@ public class ManageBookmarkV2Response implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "ListAllBookmarksV2Response [" +  response.toString() + "]";
+		return "ListAllBookmarksV2Response [" +  contentBookmarksV2.toString() + "]";
 	}
 }
