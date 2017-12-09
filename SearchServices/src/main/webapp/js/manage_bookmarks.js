@@ -216,7 +216,7 @@
 			$('#bookmark-button-view').removeClass('bookmark_action_button_active');
 			$("#bookmark-button-view").removeAttr("disabled");
 			$('#bookmark-button-remove').removeClass('bookmark_action_button_active');
-			$("#bookmark-button-remove").removeAttr("disabled");
+			$("#bookmark-button-remove").attr("disabled", "true");
 			$('#bookmark-button-new-folder').addClass('bookmark_action_button_active');
 			$("#bookmark-button-new-folder").removeAttr("disabled");
 			$('#bookmark-button-rename').removeClass('bookmark_action_button_active');
