@@ -1,7 +1,7 @@
-$(document).ready(function(){
-	log('Started');
-	$('input').change( function() {	    
-		    	log('This is text');
+$.fn.startNewFolderEvents = function(){
+	console.log('Started new folder events');
+	$('#new_folder-name-input').change( function() {	    
+		    	console.log('This is text');
 		    	$("#new-folder-button-accept").attr("disabled", "true"); 
 		    	if ($(this).val() != initVal && $(this).val() != "") {
 		            $("#new-folder-button-accept").removeAttr("disabled");
@@ -9,7 +9,7 @@ $(document).ready(function(){
 		            $("#new-folder-button-accept").attr("disabled", "true");        
 		        }
 		    });
-});
+}
 
 // launch new folder pop up
 $.fn.newFolderButtonConfirm = function() {

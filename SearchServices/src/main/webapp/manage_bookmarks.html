@@ -8,6 +8,8 @@
 		<link media="screen" type="text/css" href="css/manage_bookmarks.css" rel="stylesheet"/>
 		<link media="screen" type="text/css" href="css/jqtree.css" rel="stylesheet"/>
 		<link media="screen" type="text/css" href="css/tree.css" rel="stylesheet"/>
+		<script type='text/javascript' src="/searchservices/js/new_bookmark_folder.js"></script>
+		<script type='text/javascript' src="/searchservices/js/rename_bookmark_folder.js"></script>
 		
 				  	
 	</head>
@@ -67,5 +69,12 @@
 			<div id="new-bookmark-folder-widget"></div>
 		</section>
 	<!-- End Manage Bookmarks -->
+	
+		<script>
+		//disable the buttons they are re-enabled when somethinin is selected
+		$("#bookmark-button-view").attr("disabled", "true");
+		$('#bookmark-button-rename').attr("disabled", "true");
+		$("#bookmark-button-remove").attr("disabled", "true");
+		</script>
 	</body>
 </html>
