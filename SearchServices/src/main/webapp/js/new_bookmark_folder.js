@@ -1,3 +1,16 @@
+$(document).ready(function(){
+	log('Started');
+	$('input').change( function() {	    
+		    	log('This is text');
+		    	$("#new-folder-button-accept").attr("disabled", "true"); 
+		    	if ($(this).val() != initVal && $(this).val() != "") {
+		            $("#new-folder-button-accept").removeAttr("disabled");
+		        } else {
+		            $("#new-folder-button-accept").attr("disabled", "true");        
+		        }
+		    });
+});
+
 // launch new folder pop up
 $.fn.newFolderButtonConfirm = function() {
 	var folderName = document.getElementById('new_folder-name-input');
@@ -18,7 +31,6 @@ $.fn.newFolderButtonCancel= function() {
 		$.fn.getBookmarks($.fn.manageBookmarkCallback);
 		$('#popup').html($('#manage-bookmarks-widget').html());
 		$('#manage-bookmarks-widget').html('');
-		//$('#popup').removeClass('popup');
 		$('#popup-manage-bookmarks').removeClass('new_folder_popup_on');
 		$('#manage-bookmarks-background').removeClass('background_on');
 		$('#popup').addClass('popup_on'); 

@@ -4,7 +4,7 @@
 	<title>Rename Bookmark Folder</title>
 	<meta charset="UTF-8">
 	<link media="screen" type="text/css" href="css/ionicons.css" rel="stylesheet"/>
-	<link media="screen" type="text/css" href="css/rename_bookmark_folder.css" rel="stylesheet"/>
+	<link media="screen" type="text/css" href="/searchservices/css/rename_bookmark_folder.css" rel="stylesheet"/>
 	
 
 	<script type="text/javascript">
@@ -18,7 +18,7 @@
 </head>
 <body>
 
-	<div id="rename-bookmark-folder-html" class="rename_folder_html" style="width: 25%;">
+	<div id="rename-bookmark-folder-html" class="rename_folder_html" >
 		<div class="rename_folder_header">
 			<h1>Rename Folder</h1>
 		</div>
@@ -35,13 +35,19 @@
 				</div>
 			</div>
 		</div>
-		<div>
-			<button id="rename-folder-button-cancel" class="rename_folder_button" style="display: inline-block;" onclick="$.fn.renameFolderButtonCancel();" accesskey="O" tabindex="11" title="Confirm" type="button" name="rename-folder-button-cancel">
-				<span><span style="text-decoration: underline;">C</span>ancel</span>
-			</button>
-			<button id="rename-folder-button-accept" class="rename_folder_button" style="display: inline-block;" onclick="$.fn.renameFolderButtonConfirm();" accesskey="O" tabindex="12" title="Confirm" type="button" name="rename-folder-button-accept">
-				<span><span style="text-decoration: underline;">A</span>ccept</span>
-			</button>
+		<div class="rename_folder_footer">
+			<div class="rename_folder_buttons">
+				<div class="rename_folder_cancel">
+					<button id="rename-folder-button-cancel" class="rename_folder_button" style="display: inline-block;" onclick="$.fn.renameFolderButtonCancel();" accesskey="O" tabindex="11" title="Confirm" type="button" name="rename-folder-button-cancel">
+						<span><span style="text-decoration: underline;">C</span>ancel</span>
+					</button>
+				</div>
+				<div class="rename_folder_accept">
+					<button id="rename-folder-button-accept" class="rename_folder_button" style="display: inline-block;" onclick="$.fn.renameFolderButtonConfirm();" accesskey="O" tabindex="12" title="Confirm" type="button" name="rename-folder-button-accept">
+						<span><span style="text-decoration: underline;">A</span>ccept</span>
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

@@ -17,6 +17,19 @@
 	display: block;
 }
 
+.new_folder_cancel {
+	float: left;
+	overflow: hidden;
+}
+
+.new_folder_accept {
+	float: right;
+}
+
+.new_folder_footer {
+	display: block;
+}
+
 .new_folder_html {
 	padding: 6px;	
 	width: 40%;
@@ -47,8 +60,7 @@
 }
 
 .new_folder_buttons {
-			display: inline-block;
-			float: right;
+			display: inline-block;			
 			margin-right: 12px;
 			padding-right: 4px;
 			padding-top: 4px;
@@ -72,7 +84,7 @@
    	height: 24px;
    	line-height: 22px;
 	margin-bottom: 6px;
-    min-width: 25%;
+    min-width: 40px;
    	padding: 0 12px !important;
    	text-align: center;
    	white-space: nowrap;

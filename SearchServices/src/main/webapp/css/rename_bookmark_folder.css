@@ -1,5 +1,39 @@
+.rename_folder_popup {
+	background-color: #ffffff;
+	border: 2px solid #666666;
+	display: none;
+	left: 50%;
+	min-width: 320px;
+	position: fixed;
+	top: 25%;
+  	transform: translate(-50%, -50%);
+	z-index: 3000;
+	width: auto;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.rename_folder_popup_on {
+	display: block;
+}
+
+.rename_folder_cancel {
+	float: left;
+	overflow: hidden;
+}
+
+.rename_folder_accept {
+	float: right;
+}
+
+.rename_folder_footer {
+	display: block;
+}
+
 .rename_folder_html {
-	padding: 6px;	
+	padding: 6px;
+	width: 40%;
+	min-width: 400px;	
 }
 .rename_folder_exit {
 	float: right;
@@ -25,7 +59,15 @@
 	padding: 6px 6px 6px 6px;			
 }
 
-	
+.rename_folder_buttons {
+			display: inline-block;			
+			margin-right: 12px;
+			padding-right: 4px;
+			padding-top: 4px;
+			width: 100%;
+			text-align: right;
+		}
+			
 .rename_folder_button {
     background-color: #eee;
     background-image: linear-gradient(to bottom, #fff 1%, #dfdfdf 100%);
@@ -41,7 +83,7 @@
    	height: 24px;
    	line-height: 22px;
 	margin-bottom: 6px;
-    min-width: 100%;
+    min-width: 40px;
    	padding: 0 12px !important;
    	text-align: center;
    	white-space: nowrap;

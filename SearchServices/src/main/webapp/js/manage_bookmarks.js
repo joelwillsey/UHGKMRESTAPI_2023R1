@@ -119,14 +119,11 @@
 //		}popup-manage-bookmarks
 		$.get(searchServiceName + 'new_bookmark_folder.html', function(data) {
 			$('#new-bookmark-folder-widget').html(data);
-			//$('#popup').html($('#new-bookmark-folder-widget').html());
 			$('#popup-manage-bookmarks').html($('#new-bookmark-folder-widget').html());
 			$('#new-bookmark-folder-widget').html('');
 			$('#manage-bookmarks-background').addClass('background_on');
-			//$('#popup').addClass('popup_on');
 			$('#popup-manage-bookmarks').addClass('new_folder_popup_on');
-			//$('#popup').addClass('popup_full');
-			//$("#popup").css("overflow", "scroll");
+
 		});
 		//var node = $('#bookmarkTree').tree('getSelectedNode');
 		//document.getElementById("rename_folder-name-input").value = node.name;
@@ -153,12 +150,11 @@
 	$.fn.launchRenameFolder = function() {
 		$.get(searchServiceName + 'rename_bookmark_folder.html', function(data) {
 			$('#rename-bookmark-folder-widget').html(data);
-			$('#popup').html($('#rename-bookmark-folder-widget').html());
+			$('#popup-manage-bookmarks').html($('#rename-bookmark-folder-widget').html());
 			$('#rename-bookmark-folder-widget').html('');
-			$('#background').addClass('background_on');
-			$('#popup').addClass('popup_on');
-			//$('#popup').addClass('popup_full');
-			//$("#popup").css("overflow", "scroll");
+			$('#manage-bookmarks-background').addClass('background_on');
+			$('#popup-manage-bookmarks').addClass('rename_folder_popup_on');
+
 		});
 	};
 	
@@ -174,10 +170,30 @@
 			}
 		);
 		$('#' + id).addClass('bookmark_item_selected');
-		$('#bookmark-button-view').addClass('bookmark_action_button_active');
-		$('#bookmark-button-remove').addClass('bookmark_action_button_active');
-		$('#bookmark-button-new-folder').addClass('bookmark_action_button_active');
-		$('#bookmark-button-rename').addClass('bookmark_action_button_active');
+		log("id= #" + id);
+		var node = $('#bookmarkTree').tree('getSelectedNode');
+		log("Node Type selected: " + node.type + " node name: " + node.name);
+		if (typeof node != 'undefined' && node != null){
+			if (node.type == "folder") {
+				//folder action
+				$('#bookmark-button-view').removeClass('bookmark_action_button_active');
+				$('#bookmark-button-remove').addClass('bookmark_action_button_active');
+				$('#bookmark-button-new-folder').addClass('bookmark_action_button_active');
+				$('#bookmark-button-rename').addClass('bookmark_action_button_active');
+			} else {
+				//bookmark action
+				$('#bookmark-button-view').addClass('bookmark_action_button_active');
+				$('#bookmark-button-remove').addClass('bookmark_action_button_active');
+				$('#bookmark-button-new-folder').addClass('bookmark_action_button_active');
+				$('#bookmark-button-rename').removeClass('bookmark_action_button_active');
+			}
+		} else {
+			//this was a click event nothing was selected yet so just enable new folder
+			$('#bookmark-button-view').removeClass('bookmark_action_button_active');
+			$('#bookmark-button-remove').removeClass('bookmark_action_button_active');
+			$('#bookmark-button-new-folder').addClass('bookmark_action_button_active');
+			$('#bookmark-button-rename').removeClass('bookmark_action_button_active');
+		}
 	}
 
 	
@@ -330,7 +346,7 @@
 		    function(event) {
 					// The clicked node is 'event.node'
 				var node = event.node;
-				$.fn.bookmarkSelection();
+				//$.fn.bookmarkSelection();
 			
 		    }
 		);
@@ -343,6 +359,7 @@
 						// node was selected
 						var node = event.node;
 						//alert(node.name);
+						$.fn.bookmarkSelection();
 					}
 					else {
 						// event.node is null
