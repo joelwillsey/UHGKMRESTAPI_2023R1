@@ -18,7 +18,9 @@ $.fn.newFolderButtonCancel= function() {
 		$.fn.getBookmarks($.fn.manageBookmarkCallback);
 		$('#popup').html($('#manage-bookmarks-widget').html());
 		$('#manage-bookmarks-widget').html('');
-		$('#popup').removeClass('popup');
+		//$('#popup').removeClass('popup');
+		$('#popup-manage-bookmarks').removeClass('new_folder_popup_on');
+		$('#manage-bookmarks-background').removeClass('background_on');
 		$('#popup').addClass('popup_on'); 
 		$('#popup').addClass('popup_full');
 		$("#popup").css("overflow", "scroll");

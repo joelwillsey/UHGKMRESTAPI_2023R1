@@ -116,13 +116,15 @@
 			//alert('level = ' + level);
 ///		}else{
 //			alert('Ok to remove.')
-//		}
+//		}popup-manage-bookmarks
 		$.get(searchServiceName + 'new_bookmark_folder.html', function(data) {
 			$('#new-bookmark-folder-widget').html(data);
-			$('#popup').html($('#new-bookmark-folder-widget').html());
+			//$('#popup').html($('#new-bookmark-folder-widget').html());
+			$('#popup-manage-bookmarks').html($('#new-bookmark-folder-widget').html());
 			$('#new-bookmark-folder-widget').html('');
-			$('#background').addClass('background_on');
-			$('#popup').addClass('popup_on');
+			$('#manage-bookmarks-background').addClass('background_on');
+			//$('#popup').addClass('popup_on');
+			$('#popup-manage-bookmarks').addClass('new_folder_popup_on');
 			//$('#popup').addClass('popup_full');
 			//$("#popup").css("overflow", "scroll");
 		});
