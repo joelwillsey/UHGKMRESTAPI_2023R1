@@ -296,8 +296,7 @@ $.fn.deleteClass = function(name) {
 						if (typeof sheet != 'undefined' && sheet != null
 								&& typeof sheet.cssRules != 'undefined'
 								&& sheet.cssRules != null 
-								&& sheet.cssRules.length > 0) {
-							log("sheet.cssRules.length[" + sheet.cssRules.length + "]");
+								&& sheet.cssRules.length > 0) {							
 							if (typeof sheet.cssRules[0].selectorText != 'undefined'
 									&& sheet.cssRules[0].selectorText != null) {
 								var cssEle = sheet.cssRules[0].selectorText;
