@@ -20,8 +20,12 @@
 	$.fn.bookmarkButtonView = function() {
 		
 		var node = $('#bookmarkTree').tree('getSelectedNode');
-		//alert('node id = ' + node.id + ', type = ' + node.type);
-		$.fn.launchViewContent(node.id);
+		// only enable view for bookmarks, not folders.
+		if (node.type == "folder"){
+			alert('Please select a bookmark to view.');
+		}else{
+			$.fn.launchViewContent(node.id);
+		}
 		
 		/*$('.bookmark_list div.bookmark_item').each(
 			function(index) {
@@ -37,32 +41,37 @@
 	$.fn.bookmarkButtonRemove = function() {
 		var node = $('#bookmarkTree').tree('getSelectedNode');
 		if (node.children.length > 0){
-			alert('Please empty folder before removing.')
+			alert('Please empty folder before removing.');
 		}else{
-			alert('Ok to remove.')
-		}
+		
 		//for (var i=0; i < node.children.length; i++) {
 		//    var child = node.children[i];
 		//}
 		
 		// remove a folder
-		if (node.type == "folder"){
-			$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/manage?folderID='+node.id+'&userAction=REMOVEFOLDER', SEARCH_SERVICE_TIMEOUT);
-		}else{
+			if (node.type == "folder"){
+				$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/manage?folderID='+node.id+'&userAction=REMOVEFOLDER', SEARCH_SERVICE_TIMEOUT, function(data){
+					$.fn.populateBookmarks(data);
+				});
+			}else{
 			
 			//$('.bookmark_list div.bookmark_item').each(
 			//		function(index) {
 			//			var div = $(this);
 			//			if (div.hasClass('bookmark_item_selected')) {
-							$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + node.id, SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback);
+							$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + node.id, SEARCH_SERVICE_TIMEOUT, function(data){
+								$.fn.populateBookmarks(data);
+							});
+							
 			//				$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + div.attr('id'), SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback);
 			//				div.remove();
 			//			}
 			//		}
 			//);
+			}
+			
 		}
-		
-		$.fn.getBookmarks();
+		//$.fn.getBookmarks();
 		
 	}
 
@@ -185,6 +194,12 @@
 			}
 		);
 		$('#' + id).addClass('bookmark_item_selected');
+
+		$('#bookmark-button-view').addClass('bookmark_action_button_active');
+		$('#bookmark-button-remove').addClass('bookmark_action_button_active');
+		$('#bookmark-button-new-folder').addClass('bookmark_action_button_active');
+		$('#bookmark-button-rename').addClass('bookmark_action_button_active');
+
 		log("id= #" + id);
 		var node = $('#bookmarkTree').tree('getSelectedNode');
 		log("Node Type selected: " + node.type + " node name: " + node.name);
@@ -296,8 +311,6 @@
 				results.push({name: data.contentBookmarksV2.bookmarks[i].title, id: data.contentBookmarksV2.bookmarks[i].contentId, type: 'bookmark', synopsis: data.contentBookmarksV2.bookmarks[i].synopsis, systemTagName: data.contentBookmarksV2.bookmarks[i].contentType, sequenceNumber: data.contentBookmarksV2.bookmarks[i].sequenceNumber});	
 			}
 		}
-		
-		$('#searchResultsBookmarkTree').tree('loadData', results);
 
 		// Build the tree, adding any options we need.
 		$(function() {
@@ -368,6 +381,9 @@
 		    });
 		});
 				
+		$('#searchResultsBookmarkTree').tree('loadData', results);
+		$('#bookmarkTree').tree('loadData', results);
+		
 		// bind 'tree.click' event
 		$('#bookmarkTree').bind(
 		    'tree.click',
@@ -399,7 +415,7 @@
 		);
 		
 		// Add the synopsis as hover text
-		/*$('#bookmarkTree').on('mouseover', function(e) {
+		$('#bookmarkTree').on('mouseover', function(e) {
 
 			  var node = $('#bookmarkTree').tree('getNodeByHtmlElement', e.target);	
 			  if ($('#bookmarkTree').tooltip()) {
@@ -420,23 +436,65 @@
 				      }
 				    });
 				$('input').tooltip();
-			});*/
+			});
 		
 		//check level that's being dropped to to prevent more than 3 levels deep
 		$('#bookmarkTree').bind(
 				'tree.move',
 				function(event) {				    
 					var level = event.move_info.target_node.getLevel();
+					var moveDirection;
+					var noOfMoveSpaces;
+					var id;
+					var type;
+					var parentFolderId;
+					
+
 					
 					if (level >= 4){
 						alert('Unable to add further folder levels');
 						return null;
 					}
 					
-					event.preventDefault();
+					event.preventDefault(); 
 					event.move_info.do_move();
 					
-									
+					id = event.move_info.moved_node.id;
+					type = event.move_info.moved_node.type;
+					//parentFolderId = event.move_info.target_node.parebt
+					
+					// call reorder on every move
+					////////alert('oroginal sequence number = ' + event.move_info.moved_node.sequenceNumber + ', position = ' + event.move_info.position + ', this sequence number: ' + event.move_info.target_node.sequenceNumber);
+					
+					if (event.move_info.target_node.sequenceNumber > event.move_info.moved_node.sequenceNumber){
+						moveDirection = "DOWN";
+						noOfMoveSpaces = event.move_info.target_node.sequenceNumber - event.move_info.moved_node.sequenceNumber;
+						//noOfMoveSpaces = noOfMoveSpaces + 1; 
+						////////alert ('move dowm '+noOfMoveSpaces+' spaces.');
+					}else{
+						moveDirection = "UP";
+						noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - event.move_info.target_node.sequenceNumber;
+						if (event.move_info.position == "after"){
+							noOfMoveSpaces = noOfMoveSpaces - 1;
+						}
+						alert ('move up '+noOfMoveSpaces+' spaces.');
+					}
+					
+					if (type == "folder"){
+						$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/reorder?direction='+moveDirection+'&numMoved='+noOfMoveSpaces+'&folderID='+id, SEARCH_SERVICE_TIMEOUT, function(data){
+							$.fn.populateBookmarks(data);
+						});
+					}else{
+						$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/reorder?direction='+moveDirection+'&numMoved='+noOfMoveSpaces+'&contentID='+id, SEARCH_SERVICE_TIMEOUT, function(data){
+							$.fn.populateBookmarks(data);
+						});
+						
+					}
+					
+					
+					
+					//http://localhost:8090/searchservices/km/bookmarksv2/reorder?direction=DOWN&numMoved=1&contentID=LUqYkJ0iIe3CYj101aJ2l6
+					
 					//alert('oroginal sequence number = ' + event.move_info.moved_node.sequenceNumber + ', position = ' + event.move_info.position + ', this sequence number: ' + event.move_info.target_node.sequenceNumber);
 					//alert('target Node Type = ' + event.move_info.target_node.type);
 					//alert('Move Info Position = ' + event.move_info.position + ', Move Info Previous Parent = ' + event.move_info.previous_parent);
