@@ -240,6 +240,8 @@ $(document).ready(function() {
 	$.fn.checkEnter = function(e) {
 		if (e.which === 13) {
 			$.fn.toggleMenu($('#tab-search-button'));
+			$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
+	    	$("#srListingResults").removeClass("sr_listing_result_off");
 			$(".dpui-widget").trigger("dpui:runSearch");
 		}
 	}
