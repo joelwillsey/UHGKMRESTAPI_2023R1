@@ -110,13 +110,7 @@ public class ReorderBookmarkAndFolderRequest implements Serializable {
 		this.applicationID = app;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getUserAction() {
-		return userAction;
-	}
+
 
 	public String getDirection() {
 		return direction;
@@ -133,7 +127,13 @@ public class ReorderBookmarkAndFolderRequest implements Serializable {
 		this.numMoved = num;
 	}
 	
-	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getUserAction() {
+		return userAction;
+	}
 	
 	/**
 	 * 
