@@ -496,6 +496,10 @@ var reorderEvent = null;
 					log("tree.move event below:");
 					log (event);
 					
+					var targetNode = event.move_info.target_node;
+					var currentNode = event.move_info.moved_node;
+					var seqNbrs = $.fn.getSequenceNumbers(currentNode, targetNode);
+					
 					// prevent the default and create a move info event so that we can grab the details.
 					event.preventDefault(); 
 					event.move_info.do_move();
@@ -649,3 +653,113 @@ var reorderEvent = null;
 		//$('#bookmark-button-down').attr('disabled', 'disabled');
 	}
 	
+	$.fn.getSequenceNumbers = function(currentNode, targetNode){
+		//TODO  Not sure if this is working yet
+		
+		var nextSequenceBookmark =  null;
+		var nextSequenceFolder =  null;
+		var nextSequenceBookmarkId =  null;
+		var nextSequenceFolderId =  null;
+		var nextParentFolderId =  null;
+		var foundNextSequenceBookmark = false;
+		var foundNextSequenceFolder = false;
+		var previousSequenceBookmark =  null;
+		var previousSequenceFolder =  null;
+		var previousSequenceBookmarkId =  null;
+		var previousSequenceFolderId =  null;
+		var previousParentFolderId =  null;
+		var foundPreviousSequenceBookmark = false;
+		var foundPreviousSequenceFolder = false;
+		
+		log('currentNode type: ' +  currentNode.type + " id: " + currentNode.id + ' sequenceNumber: ' + currentNode.sequenceNumber);
+		log('targetNode type: ' +  targetNode.type + " id: " + targetNode.id + ' sequenceNumber: ' + targetNode.sequenceNumber);
+		var nextNode = targetNode.getNextNode();
+	
+		while ((!foundNextSequenceBookmark || !foundNextSequenceFolder) && nextNode != null){			
+			log('nextNode type: ' +  nextNode.type + " id: " + nextNode.id + ' sequenceNumber: ' + nextNode.sequenceNumber);
+			if (nextNode == currentNode){
+				//we found the current node no need to search any more
+				if (!foundNextSequenceBookmark && nextNode.type == 'bookmark'){
+					nextSequenceBookmark = nextNode.sequenceNumber;;
+					nextSequenceBookmarkId =  nextNode.id;
+					foundNextSequenceBookmark = true;
+					log('End of the node list no next bookmark sequenceNumber');
+				}
+				if (!foundNextSequenceFolder && nextNode.type == 'folder'){
+					nextSequenceFolder =  nextNode.sequenceNumber;
+					nextParentFolderId - nextNode.parent.id;;
+					nextSequenceFolderId =  nextNode.id;
+					foundNextSequenceFolder = true;
+				}
+			}				
+			if (nextNode.type == "folder" && !foundNextSequenceFolder) {
+				//this is the next folder
+				nextSequenceFolder =  nextNode.sequenceNumber;
+				nextSequenceFolderId =  nextNode.id;
+				nextParentFolderId = nextNode.parent.id;
+				foundNextSequenceFolder = true;
+				log('Found next folder - sequenceNumber: ' + nextNode.sequenceNumber);
+			} else if (nextNode.type == "bookmark" && !foundNextSequenceBookmark){
+				//this is the next bookmark
+				nextSequenceBookmark =  nextNode.sequenceNumber;
+				nextSequenceBookmarkId =  nextNode.id;
+				foundNextSequenceBookmark = true;
+				log('Found next bookmark - sequenceNumber: ' + nextNode.sequenceNumber);
+			}
+			
+			nextNode = nextNode.getNextNode();
+		}
+		
+		var previousNode = targetNode.getPreviousNode();
+		
+		while ((!foundPreviousSequenceBookmark || !foundPreviousSequenceFolder) && previousNode != null){			
+			log('previousNode type: ' +  previousNode.type + " id: " + previousNode.id + ' sequenceNumber: ' + previousNode.sequenceNumber);
+			if (previousNode == currentNode){
+				//we found the current node no need to search any more
+				if (!foundPreviousSequenceBookmark  && previousNode.type == 'bookmark'){
+					previousSequenceBookmark = previousNode.sequenceNumber;
+					previousSequenceBookmarkId = previousNode.id;
+					foundPreviousSequenceBookmark = true;
+					log('End of the node list no next bookmark sequenceNumber');
+				}
+				if (!foundPreviousSequenceFolder  && previousNode.type == 'folder'){
+					previousSequenceFolder =  previousNode.sequenceNumber;
+					previousSequenceFolderId =  previousNode.id;
+					previousParentFolderId = previousNode.parent.id;
+					foundPreviousSequenceFolder = true;
+
+				}
+			}					
+			if (previousNode.type == "folder" && !foundPreviousSequenceFolder) {
+				//this is the next folder
+				previousSequenceFolder =  previousNode.sequenceNumber;
+				previousSequenceFolderId =  previousNode.id;
+				previousParentFolderId = previousNode.parent.id;
+				foundPreviousSequenceFolder = true;
+				log('Found previous folder - sequenceNumber: ' + previousNode.sequenceNumber);
+			} else if (previousNode.type == "bookmark" && !foundPreviousSequenceBookmark){
+				//this is the next bookmark
+				previousSequenceBookmark =  previousNode.sequenceNumber;
+				previousSequenceBookmarkId =  previousNode.id;
+				foundPreviousSequenceBookmark = true;
+				log('Found previous bookmark - sequenceNumber: ' + previousNode.sequenceNumber);
+			}
+			
+			previousNode = previousNode.getPreviousNode();
+		}		
+				
+		var data = {
+				nextSequenceBookmark: nextSequenceBookmark,
+				nextSequenceBookmarkId: nextSequenceBookmarkId,
+				nextSequenceFolder: nextSequenceFolder,
+				nextSequenceFolderId: nextSequenceFolderId,
+				nextParentFolderId: nextParentFolderId,
+				previousSequenceBookmark:  previousSequenceBookmark,
+				previousSequenceBookmarkId:  previousSequenceBookmarkId,
+				previousSequenceFolder: previousSequenceFolder,
+				previousSequenceFolderId: previousSequenceFolderId,
+				previousParentFolderId: previousParentFolderId
+			};		
+		log(data);
+		return data;
+	}
