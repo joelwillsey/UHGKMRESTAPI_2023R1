@@ -654,7 +654,7 @@ var reorderEvent = null;
 	}
 	
 	$.fn.getSequenceNumbers = function(currentNode, targetNode){
-		//TODO  Not sure if this is working yet
+		//TODO  Not sure if this is working yet it appears to be going to the next node that is showing so i skipping over the non expanded nodes
 		
 		var nextSequenceBookmark =  null;
 		var nextSequenceFolder =  null;
