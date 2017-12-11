@@ -110,6 +110,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 
 		// Setup the request
 		final ReorderBookmarkAndFolderRequestBodyType request = new ReorderBookmarkAndFolderRequestBodyType();
+		LOGGER.debug("ReorderBookmarkAndFolderRequestBodyType class: " + ReorderBookmarkAndFolderRequestBodyType.class.getResource("ReorderBookmarkAndFolderRequestBodyType.class").toString());
 		request.setApplicationID(AppID);
 		request.setUserName(bookmarkRequest.getUserName());
 		request.setPassword(bookmarkRequest.getPassword());
@@ -119,7 +120,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		request.setNumMoved(bookmarkRequest.getNumMoved());
 		request.setContentID(bookmarkRequest.getContentID());
 		request.setDirection(bookmarkRequest.getDirection());
-
+		
 		// Call the service
 		Instant start = Instant.now();
 		final ReorderBookmarkAndFolderResponseBodyType response = KMBookmarkServiceV2PortType.reorderBookmarkAndFolder(request);
