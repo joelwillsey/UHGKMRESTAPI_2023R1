@@ -63,6 +63,8 @@ $(document).ready(function() {
 
 	// Search button
 	$('#search-button').on('click', function() {
+    	$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
+    	$("#srListingResults").removeClass("sr_listing_result_off");
 		$.fn.toggleMenu($('#tab-search-button'));
 		$.fn.toggleSearch('search');
 		$('.dpui-widget').trigger('dpui:hideManageButton');
