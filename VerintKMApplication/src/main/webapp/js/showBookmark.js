@@ -1,5 +1,5 @@
-if ($.fn.isHideInSearch()){
-	
-} else {
-	
-}
+//if ($.fn.isHideInSearch()){
+//	
+//} else {
+//	
+//}
