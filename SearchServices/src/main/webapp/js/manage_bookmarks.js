@@ -1,3 +1,4 @@
+var reorderEvent = null;
 
 	// Launch content ID window
 	$.fn.launchViewContent = function(data) {
@@ -244,6 +245,7 @@
 	$.fn.populateBookmarks = function(data) {
 		var results = [];
 
+		log("Populating Bookmarks");
 		
 		if (typeof data != 'undefined' && data != null && data.contentBookmarksV2 != null) {
 			for (var i=0;(data.contentBookmarksV2.folders != null) && (i < data.contentBookmarksV2.folders.length); i++) {
@@ -497,6 +499,8 @@
 					var parentFolderId;
 					var position;
 					var parameterString = null;
+					log("tree.move event below:");
+					log (event);
 					
 					// prevent the default and create a move info event so that we can grab the details.
 					event.preventDefault(); 
@@ -557,9 +561,20 @@
 					
 					if (parameterString != null){
 						/////alert('parameterString = '+ parameterString);
-						$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/reorder?'+parameterString, SEARCH_SERVICE_TIMEOUT, function(data){
-							$.fn.populateBookmarks(data);
-						});
+						log("km/bookmarksv2/reorder?" + parameterString);
+						
+						//check to see if this is the same event (sometimes the same event gets fired multiple times) if not let it through
+						if (typeof reorderEvent == 'undefined' || reorderEvent == null || reorderEvent != event){
+							//store the event for comaparsion
+							reorderEvent = event;
+							$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/reorder?'+parameterString, SEARCH_SERVICE_TIMEOUT, function(data){								
+								$.fn.populateBookmarks(data);
+								//we are done processing clear the event
+								reorderEvent = null;
+							});
+						} else {
+							log('Received same event that is already processing, ignoring it.')
+						}
 					}
 					
 				}	
