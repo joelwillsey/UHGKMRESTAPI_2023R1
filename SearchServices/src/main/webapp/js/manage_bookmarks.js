@@ -420,13 +420,7 @@ var reorderEvent = null;
 						return true;
 					}
 				}
-			    
 
-			    
-			    
-				// the icons are set in the tree.css as images in the class associated with the state of the jqtree.toggle.	
-			    //openedIcon: $('<i class="ui-icon ui-icon-folder-open"></i>'),
-			    //closedIcon: $('<i class="ui-icon ui-icon-folder-collapsed"></i>') 
 		    });
 		});
 				
@@ -492,7 +486,7 @@ var reorderEvent = null;
 				'tree.move',
 				function(event) {				    
 					var level = event.move_info.target_node.getLevel();
-					var moveDirection;
+					var moveDirection = null;
 					var noOfMoveSpaces;
 					var id;
 					var type;
@@ -514,6 +508,46 @@ var reorderEvent = null;
 					// call reorder on every move
 					//////alert('oroginal sequence number = ' + event.move_info.moved_node.sequenceNumber + ', position = ' + event.move_info.position + ', this sequence number: ' + event.move_info.target_node.sequenceNumber);
 					
+					// If position is inside then we are either dumping in a folder for the first time, or we are dumping the bookmark at the top of the folder
+					//either way we need to get the next bookmark to see work out the move direction and move spaces.
+					if (type == "bookmark" && position == "inside"){
+						// get selected node so we can 
+						var nextNode = event.move_info.moved_node.getNextNode();
+						// now check if it's a folder or bookmark.
+						/////alert('next node type = ' + nextNode.type);
+						if (nextNode.type == "bookmark"){
+							if (nextNode.sequenceNumber > event.move_info.moved_node.sequenceNumber){
+								moveDirection = "DOWN";
+								noOfMoveSpaces = nextNode.sequenceNumber - event.move_info.moved_node.sequenceNumber;
+							}else{
+								moveDirection = "UP";
+								noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - nextNode.sequenceNumber;
+								if (event.move_info.position == "after"){
+									noOfMoveSpaces = noOfMoveSpaces - 1;
+								}
+							}
+						} else{
+							// try again for next bookmark.
+							var nextNextNode = nextNode.getNextNode();
+							////alert('next next node type = ' + nextNextNode.type);
+							if (nextNextNode.type == "bookmark"){
+								if (nextNextNode.sequenceNumber > event.move_info.moved_node.sequenceNumber){
+									moveDirection = "DOWN";
+									noOfMoveSpaces = nextNextNode.sequenceNumber - event.move_info.moved_node.sequenceNumber;
+								}else{
+									moveDirection = "UP";
+									noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - nextNextNode.sequenceNumber;
+									if (event.move_info.position == "after"){
+										noOfMoveSpaces = noOfMoveSpaces - 1;
+									}
+								}
+							}
+						}
+					}
+					
+					
+					
+					
 					// first add the id of the item we are moving to the parameterString.
 					if (type == "folder"){
 						parameterString = "folderID="+id;
@@ -534,18 +568,20 @@ var reorderEvent = null;
 			
 					
 					// figure out direction and amount of spaces moved
-					if (event.move_info.target_node.sequenceNumber > event.move_info.moved_node.sequenceNumber){
-						moveDirection = "DOWN";
-						noOfMoveSpaces = event.move_info.target_node.sequenceNumber - event.move_info.moved_node.sequenceNumber;
-						//noOfMoveSpaces = noOfMoveSpaces + 1; 
-						/////alert ('move dowm '+noOfMoveSpaces+' spaces.');
-					}else{
-						moveDirection = "UP";
-						noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - event.move_info.target_node.sequenceNumber;
-						if (event.move_info.position == "after"){
-							noOfMoveSpaces = noOfMoveSpaces - 1;
+					if (moveDirection == null){
+						if (event.move_info.target_node.sequenceNumber > event.move_info.moved_node.sequenceNumber){
+							moveDirection = "DOWN";
+							noOfMoveSpaces = event.move_info.target_node.sequenceNumber - event.move_info.moved_node.sequenceNumber;
+							//noOfMoveSpaces = noOfMoveSpaces + 1; 
+							/////alert ('move dowm '+noOfMoveSpaces+' spaces.');
+						}else{
+							moveDirection = "UP";
+							noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - event.move_info.target_node.sequenceNumber;
+							if (event.move_info.position == "after"){
+								noOfMoveSpaces = noOfMoveSpaces - 1;
+							}
+							/////alert ('move up '+noOfMoveSpaces+' spaces.');
 						}
-						/////alert ('move up '+noOfMoveSpaces+' spaces.');
 					}
 					
 					// add move direction to the parameter string
