@@ -561,11 +561,12 @@ var reorderEvent = null;
 					
 					if (parameterString != null){
 						/////alert('parameterString = '+ parameterString);
-						log("km/bookmarksv2/reorder?" + parameterString);
+						
 						
 						//check to see if this is the same event (sometimes the same event gets fired multiple times) if not let it through
 						if (typeof reorderEvent == 'undefined' || reorderEvent == null || reorderEvent != event){
 							//store the event for comaparsion
+							log("Calling km/bookmarksv2/reorder?" + parameterString);
 							reorderEvent = event;
 							$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/reorder?'+parameterString, SEARCH_SERVICE_TIMEOUT, function(data){								
 								$.fn.populateBookmarks(data);
