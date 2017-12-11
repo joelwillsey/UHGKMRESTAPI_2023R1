@@ -112,8 +112,8 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		final ReorderBookmarkAndFolderRequestBodyType request = new ReorderBookmarkAndFolderRequestBodyType();
 		LOGGER.debug("ReorderBookmarkAndFolderRequestBodyType class: " + ReorderBookmarkAndFolderRequestBodyType.class.getResource("ReorderBookmarkAndFolderRequestBodyType.class").toString());
 		request.setApplicationID(AppID);
-		request.setUserName(bookmarkRequest.getUserName());
 		request.setPassword(bookmarkRequest.getPassword());
+		request.setUserName(bookmarkRequest.getUserName());
 		request.setDirection(bookmarkRequest.getDirection());
 		request.setDestinationFolderID(bookmarkRequest.getDestinationFolderID());
 		request.setFolderID(bookmarkRequest.getFolderID());
