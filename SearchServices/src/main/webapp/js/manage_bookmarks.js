@@ -318,7 +318,7 @@ var reorderEvent = null;
 		$(function() {
 		    $('#bookmarkTree').tree({
 		        data: results,
-				autoOpen: false,
+				autoOpen: true,
 				dragAndDrop: true,
 				selectable: true,
 			    onCreateLi: function(node, $li, is_selected) {
