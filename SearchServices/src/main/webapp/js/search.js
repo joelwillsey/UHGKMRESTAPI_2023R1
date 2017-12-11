@@ -63,8 +63,6 @@ $(document).ready(function() {
 
 	// Search button
 	$('#search-button').on('click', function() {
-    	$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
-    	$("#srListingResults").removeClass("sr_listing_result_off");
 		$.fn.toggleMenu($('#tab-search-button'));
 		$.fn.toggleSearch('search');
 		$('.dpui-widget').trigger('dpui:hideManageButton');
@@ -240,8 +238,6 @@ $(document).ready(function() {
 	$.fn.checkEnter = function(e) {
 		if (e.which === 13) {
 			$.fn.toggleMenu($('#tab-search-button'));
-			$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
-	    	$("#srListingResults").removeClass("sr_listing_result_off");
 			$(".dpui-widget").trigger("dpui:runSearch");
 		}
 	}
@@ -455,6 +451,8 @@ $(document).ready(function() {
                 $.fn.toggleMenu('#tab-search-button.search_search');
                 $.fn.toggleSearch('search');
             	$('.dpui-widget').trigger('dpui:hideManageButton');
+            	$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
+    	    	$("#srListingResults").removeClass("sr_listing_result_off");
                 var search_text = $('#search-text').val();
                 if (typeof data != 'undefined' && data != null) {
                 	$.fn.search(search_text, data.page, size, filterTags, contentTypeTags, data.sort, publishedid, function(data) {
