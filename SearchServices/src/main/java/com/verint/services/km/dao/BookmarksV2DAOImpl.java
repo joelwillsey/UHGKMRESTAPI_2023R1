@@ -105,7 +105,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	
 	public ReorderBookmarkAndFolderResponse reorderBookmark(ReorderBookmarkAndFolderRequest bookmarkRequest) throws RemoteException, AppException {
 		LOGGER.info("Entering reorderBookmark()");
-		LOGGER.debug("ManageBookmarkRequest: " + bookmarkRequest);
+		LOGGER.debug("ReorderBookmarkAndFolderRequest: " + bookmarkRequest);
 		ReorderBookmarkAndFolderResponse bookmarkResponse = new ReorderBookmarkAndFolderResponse();
 
 		// Setup the request
@@ -119,7 +119,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		request.setNumMoved(bookmarkRequest.getNumMoved());
 		request.setContentID(bookmarkRequest.getContentID());
 		request.setDirection(bookmarkRequest.getDirection());
-		
+
 		// Call the service
 		Instant start = Instant.now();
 		final ReorderBookmarkAndFolderResponseBodyType response = KMBookmarkServiceV2PortType.reorderBookmarkAndFolder(request);
