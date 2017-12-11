@@ -363,11 +363,58 @@
 				onCanMoveTo: function(moved_node, target_node, position) {
 					// don't allow more than 3 folders deep on the tree or allow users to drop bookmarks into other bookmarks to create folders.
 					
-					if ((target_node.getLevel() == 4) || (target_node.type == "bookmark")) {
-						// not alowwed inside a bookmark but before and after ok.
+					// Can only drop into folders
+					if (moved_node.type == "bookmark" && target_node.type == "folder"){
+						return (position != 'before');
+					}
+					
+					// only allow folders to ne dropped before bookmarks.
+					if ((target_node.type == "bookmark" && moved_node.type == "folder") && position != 'before'){
+						return false;
+					}
+					
+					
+					// prevent more than 4 tiers
+					if (moved_node.type == "folder" && target_node.getLevel() == 3){ 
+						return false;
+					} 
+					if (moved_node.type == "folder" && target_node.getLevel() == 2){ 
+						if (moved_node.children != null){
+							for (var w=0;(moved_node.children != null) && (w < moved_node.children.length); w++) {
+								// if moving to level 2 and the folder's children have children then they will be level 4 so not allowed.
+								if (moved_node.children[w].children.length >0){
+									return false;
+								}
+							}
+						}
+					}
+					if (moved_node.type == "folder" && target_node.getLevel() == 1){ 
+						if (moved_node.children != null){
+							for (var y=0;(moved_node.children != null) && (y < moved_node.children.length); y++) {
+								// if moving to level 2 and the folder's children have children then they will be level 4 so not allowed.
+								if (moved_node.children[y].children != null){
+									for (var x=0;(moved_node.children[y].children != null) && (x < moved_node.children[y].children.length); x++) {
+										if (moved_node.children[y].children[x].children.length > 0){
+											return false;
+										}
+									}	
+								}
+							}
+						}
+					}
+					
+					// just setting up a true return for folders writing to above, below and inside other folders once we have made it through the above checks.
+					if (moved_node.type == "folder" && target_node.type == "folder") {
+						return true;
+					}
+					
+					
+					// do not allow a bookmark to be dropped inside another bookmark
+					if (moved_node.type == "bookmark" && target_node.type == "bookmark") {
+							// not alowwed inside a bookmark but before and after ok.
 						return (position != 'inside');
 					}
-					else {
+						else {
 						return true;
 					}
 				}
@@ -448,58 +495,73 @@
 					var id;
 					var type;
 					var parentFolderId;
+					var position;
+					var parameterString = null;
 					
-
-					
-					if (level >= 4){
-						alert('Unable to add further folder levels');
-						return null;
-					}
-					
+					// prevent the default and create a move info event so that we can grab the details.
 					event.preventDefault(); 
 					event.move_info.do_move();
 					
 					id = event.move_info.moved_node.id;
 					type = event.move_info.moved_node.type;
-					//parentFolderId = event.move_info.target_node.parebt
+					position = event.move_info.position;
+
 					
 					// call reorder on every move
-					////////alert('oroginal sequence number = ' + event.move_info.moved_node.sequenceNumber + ', position = ' + event.move_info.position + ', this sequence number: ' + event.move_info.target_node.sequenceNumber);
+					//////alert('oroginal sequence number = ' + event.move_info.moved_node.sequenceNumber + ', position = ' + event.move_info.position + ', this sequence number: ' + event.move_info.target_node.sequenceNumber);
 					
+					// first add the id of the item we are moving to the parameterString.
+					if (type == "folder"){
+						parameterString = "folderID="+id;
+					}else{
+						parameterString = "contentID="+id;
+					}
+					
+					
+					// if we are puting a bookmark into a folder then the destination position is inside, we can then grab the destination Id.
+					if (position == "inside"){
+						parameterString = parameterString + "&destFolder=" + event.move_info.target_node.id;
+					}else{
+						//if position is not inside then check for a parent folder so we have a dest folder id
+						if (event.move_info.target_node.parent.id != null){
+							parameterString = parameterString + "&destFolder=" + event.move_info.target_node.parent.id;
+						}
+					}
+			
+					
+					// figure out direction and amount of spaces moved
 					if (event.move_info.target_node.sequenceNumber > event.move_info.moved_node.sequenceNumber){
 						moveDirection = "DOWN";
 						noOfMoveSpaces = event.move_info.target_node.sequenceNumber - event.move_info.moved_node.sequenceNumber;
 						//noOfMoveSpaces = noOfMoveSpaces + 1; 
-						////////alert ('move dowm '+noOfMoveSpaces+' spaces.');
+						/////alert ('move dowm '+noOfMoveSpaces+' spaces.');
 					}else{
 						moveDirection = "UP";
 						noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - event.move_info.target_node.sequenceNumber;
 						if (event.move_info.position == "after"){
 							noOfMoveSpaces = noOfMoveSpaces - 1;
 						}
-						alert ('move up '+noOfMoveSpaces+' spaces.');
+						/////alert ('move up '+noOfMoveSpaces+' spaces.');
 					}
 					
-					if (type == "folder"){
-						$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/reorder?direction='+moveDirection+'&numMoved='+noOfMoveSpaces+'&folderID='+id, SEARCH_SERVICE_TIMEOUT, function(data){
-							$.fn.populateBookmarks(data);
-						});
-					}else{
-						$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/reorder?direction='+moveDirection+'&numMoved='+noOfMoveSpaces+'&contentID='+id, SEARCH_SERVICE_TIMEOUT, function(data){
-							$.fn.populateBookmarks(data);
-						});
-						
+					// add move direction to the parameter string
+					if (moveDirection != null){
+						parameterString = parameterString + "&direction=" + moveDirection;
+					}
+					
+					// add moved amount of spaces to the parameter string
+					if (noOfMoveSpaces != null){
+						parameterString = parameterString + "&numMoved=" + noOfMoveSpaces
 					}
 					
 					
+					if (parameterString != null){
+						/////alert('parameterString = '+ parameterString);
+						$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/reorder?'+parameterString, SEARCH_SERVICE_TIMEOUT, function(data){
+							$.fn.populateBookmarks(data);
+						});
+					}
 					
-					//http://localhost:8090/searchservices/km/bookmarksv2/reorder?direction=DOWN&numMoved=1&contentID=LUqYkJ0iIe3CYj101aJ2l6
-					
-					//alert('oroginal sequence number = ' + event.move_info.moved_node.sequenceNumber + ', position = ' + event.move_info.position + ', this sequence number: ' + event.move_info.target_node.sequenceNumber);
-					//alert('target Node Type = ' + event.move_info.target_node.type);
-					//alert('Move Info Position = ' + event.move_info.position + ', Move Info Previous Parent = ' + event.move_info.previous_parent);
-					//alert('moved node = ' + event.move_info.moved_node + ', target node = ' + event.move_info.target_node); 
-					//alert('moved node index = ' + event.move_info.moved_node.index + ', target node index = ' + event.move_info.target_node.index);
 				}	
 		);
 		
