@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Feedback</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+	<link media="screen" type="text/css" href="css/add_filter.css" rel="stylesheet" />
+	<script type='text/javascript' src="js/add_filter.js"></script>
+</head>
+<body>
+<!-- Begin Add Filter Widget -->
+	<div id="add-filter-html" style="width: 100%;">
+		<div class="add_filter_header">
+			<h1>Select Tags</h1>
+		</div>
+		<div class="add_filter_body">
+			<div class="add_filter_body_find">
+				<div class="add_filter_body_find_left">
+					<div class="add_filter_body_find_wrapper">
+						<input id="find-input" type="text" maxlength="1024" size="10" onkeydown="$.fn.findInput();" name="find-input" title="Please enter the tag to find." tabindex="">
+					</div>
+				</div>
+				<div class="add_filter_body_find_right">
+					<div class="add_filter_body_find_buttons">
+						<div id="add-filter-clear" class="add_filter_body_find_buttons_clear">
+							<button id="find-button-clear" onclick="$.fn.findButtonClear();">Clea<span style="text-decoration: underline;">r</span></button>
+						</div>
+						<div id="add-filter-find" class="add_filter_body_find_buttons_find">
+							<button id="find-button-find" onclick="$.fn.findButtonFind();"><span style="text-decoration: underline;">F</span>ind</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="add_filter_tree">
+			<div id="add-filter-tree">
+			</div>
+			<div id="searchlist" style="display: none;">
+			</div>
+		</div>
+		<div class="add_filter_footer">
+			<div class="add_filter_footer_wrapper">
+				<div class="add_filter_footer_right">
+					<button id="add-filter-done" onclick="$.fn.addFilterDone();"><span style="text-decoration: underline;">D</span>one</button>
+				</div>
+				<div class="add_filter_footer_left">
+					<button id="add-filter-cancel" onclick="$.fn.addFilterCancel();"><span style="text-decoration: underline;">C</span>ancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- End Add Filter Widget -->
+</body>
+</html>

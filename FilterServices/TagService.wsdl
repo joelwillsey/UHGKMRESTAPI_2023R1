@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <definitions
+      name="TagV1Service"
+      targetNamespace="http://model.services.contactcentre.kana.com/TagV1Service.wsdl"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="http://model.services.contactcentre.kana.com/TagV1Service.wsdl"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Created by KANA Software (a Verint company) on Sat Mar 26 20:10:44 PDT 2016. See http://www.kana.com for more details. -->
+    <types>
+      <xsd:schema
+          elementFormDefault="unqualified"
+          targetNamespace="http://model.services.contactcentre.kana.com/TagV1Service.wsdl">
+        <xsd:complexType
+            name="TagDescriptor">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="parentTagName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="systemTagName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="displayTagName"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="TagDescriptorList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="TagDescriptor"
+                type="tns:TagDescriptor" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetTagSetRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="tagSetName"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="tagDisplayNameType"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetTagSetResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="tagDescriptors"
+                type="tns:TagDescriptorList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetAllTagSetRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="tagDisplayNameType"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetAllTagSetResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="tagDescriptors"
+                type="tns:TagDescriptorList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:element
+            name="GetTagSetRequestBody"
+            type="tns:GetTagSetRequestBodyType" />
+        <xsd:element
+            name="GetTagSetResponseBody"
+            type="tns:GetTagSetResponseBodyType" />
+        <xsd:element
+            name="GetAllTagSetRequestBody"
+            type="tns:GetAllTagSetRequestBodyType" />
+        <xsd:element
+            name="GetAllTagSetResponseBody"
+            type="tns:GetAllTagSetResponseBodyType" />
+      </xsd:schema>
+    </types>
+    <message
+        name="GetTagSetRequest">
+      <part
+          element="tns:GetTagSetRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="GetTagSetResponse">
+      <part
+          element="tns:GetTagSetResponseBody"
+          name="body" />
+    </message>
+    <message
+        name="GetAllTagSetRequest">
+      <part
+          element="tns:GetAllTagSetRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="GetAllTagSetResponse">
+      <part
+          element="tns:GetAllTagSetResponseBody"
+          name="body" />
+    </message>
+    <portType
+        name="TagV1PortType">
+      <operation
+          name="GetTagSet">
+        <input
+            message="tns:GetTagSetRequest" />
+        <output
+            message="tns:GetTagSetResponse" />
+      </operation>
+      <operation
+          name="GetAllTagSet">
+        <input
+            message="tns:GetAllTagSetRequest" />
+        <output
+            message="tns:GetAllTagSetResponse" />
+      </operation>
+    </portType>
+    <binding
+        name="TagV1Binding"
+        type="tns:TagV1PortType">
+      <soap:binding
+          style="document"
+          transport="http://schemas.xmlsoap.org/soap/http" />
+      <operation
+          name="GetTagSet">
+        <soap:operation
+            soapAction="TagV1Service#GetTagSet" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+      <operation
+          name="GetAllTagSet">
+        <soap:operation
+            soapAction="TagV1Service#GetAllTagSet" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+    </binding>
+    <service
+        name="TagV1Service">
+      <documentation>
+        Provides web services to interact with tags
+      </documentation>
+      <port
+          binding="tns:TagV1Binding"
+          name="TagV1Port">
+        <soap:address
+            location="http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=FrameworkEVAServices.API.Tag.TagV1" />
+      </port>
+    </service>
+  </definitions>

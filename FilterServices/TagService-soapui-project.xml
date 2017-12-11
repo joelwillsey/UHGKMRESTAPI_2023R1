@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="dc7d8a12-3c36-4693-857b-f386e734066a" activeEnvironment="Default" name="TagService" resourceRoot="" soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="2834e7f8-b484-412c-859f-0317d219ab56" wsaVersion="NONE" name="TagV1Binding" type="wsdl" bindingName="{http://model.services.contactcentre.kana.com/TagV1Service.wsdl}TagV1Binding" soapVersion="1_1" anonymous="optional" definition="file:/Users/jmiller/Documents/workspace/VerintKM/TagService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/jmiller/Documents/workspace/VerintKM/TagService.wsdl"><con:part><con:url>file:/Users/jmiller/Documents/workspace/VerintKM/TagService.wsdl</con:url><con:content><![CDATA[<definitions name="TagV1Service" targetNamespace="http://model.services.contactcentre.kana.com/TagV1Service.wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://model.services.contactcentre.kana.com/TagV1Service.wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!--Created by KANA Software (a Verint company) on Sat Mar 26 20:10:44 PDT 2016. See http://www.kana.com for more details.-->
+  <types>
+    <xsd:schema elementFormDefault="unqualified" targetNamespace="http://model.services.contactcentre.kana.com/TagV1Service.wsdl">
+      <xsd:complexType name="TagDescriptor">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="parentTagName" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="systemTagName" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="displayTagName" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TagDescriptorList">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="TagDescriptor" type="tns:TagDescriptor"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetTagSetRequestBodyType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="password" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="tagSetName" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="username" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="tagDisplayNameType" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="applicationID" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="locale" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetTagSetResponseBodyType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="tagDescriptors" type="tns:TagDescriptorList"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetAllTagSetRequestBodyType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="password" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="username" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="applicationID" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="tagDisplayNameType" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="locale" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetAllTagSetResponseBodyType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="tagDescriptors" type="tns:TagDescriptorList"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="GetTagSetRequestBody" type="tns:GetTagSetRequestBodyType"/>
+      <xsd:element name="GetTagSetResponseBody" type="tns:GetTagSetResponseBodyType"/>
+      <xsd:element name="GetAllTagSetRequestBody" type="tns:GetAllTagSetRequestBodyType"/>
+      <xsd:element name="GetAllTagSetResponseBody" type="tns:GetAllTagSetResponseBodyType"/>
+    </xsd:schema>
+  </types>
+  <message name="GetTagSetRequest">
+    <part element="tns:GetTagSetRequestBody" name="body"/>
+  </message>
+  <message name="GetTagSetResponse">
+    <part element="tns:GetTagSetResponseBody" name="body"/>
+  </message>
+  <message name="GetAllTagSetRequest">
+    <part element="tns:GetAllTagSetRequestBody" name="body"/>
+  </message>
+  <message name="GetAllTagSetResponse">
+    <part element="tns:GetAllTagSetResponseBody" name="body"/>
+  </message>
+  <portType name="TagV1PortType">
+    <operation name="GetTagSet">
+      <input message="tns:GetTagSetRequest"/>
+      <output message="tns:GetTagSetResponse"/>
+    </operation>
+    <operation name="GetAllTagSet">
+      <input message="tns:GetAllTagSetRequest"/>
+      <output message="tns:GetAllTagSetResponse"/>
+    </operation>
+  </portType>
+  <binding name="TagV1Binding" type="tns:TagV1PortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetTagSet">
+      <soap:operation soapAction="TagV1Service#GetTagSet"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetAllTagSet">
+      <soap:operation soapAction="TagV1Service#GetAllTagSet"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="TagV1Service">
+    <documentation>Provides web services to interact with tags</documentation>
+    <port binding="tns:TagV1Binding" name="TagV1Port">
+      <soap:address location="http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=FrameworkEVAServices.API.Tag.TagV1"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=FrameworkEVAServices.API.Tag.TagV1</con:endpoint></con:endpoints><con:operation id="922cc754-5b32-4fdf-b0af-46b20117223b" isOneWay="false" action="TagV1Service#GetAllTagSet" name="GetAllTagSet" bindingOperationName="GetAllTagSet" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="468f111e-1ea1-493a-8e00-3ab741721e9e" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=FrameworkEVAServices.API.Tag.TagV1</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tag="http://model.services.contactcentre.kana.com/TagV1Service.wsdl">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tag:GetAllTagSetRequestBody>
+         <password>?</password>
+         <username>?</username>
+         <applicationID>?</applicationID>
+         <tagDisplayNameType>?</tagDisplayNameType>
+         <locale>?</locale>
+      </tag:GetAllTagSetRequestBody>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="TagV1Service#GetAllTagSet"/></con:call></con:operation><con:operation id="008be658-33bc-4573-8795-25551c3486d4" isOneWay="false" action="TagV1Service#GetTagSet" name="GetTagSet" bindingOperationName="GetTagSet" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="bdf74425-7924-4451-a1c1-29ca54ce519c" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=FrameworkEVAServices.API.Tag.TagV1</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tag="http://model.services.contactcentre.kana.com/TagV1Service.wsdl">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tag:GetTagSetRequestBody>
+         <password>?</password>
+         <tagSetName>?</tagSetName>
+         <username>?</username>
+         <tagDisplayNameType>?</tagDisplayNameType>
+         <applicationID>?</applicationID>
+         <locale>?</locale>
+      </tag:GetTagSetRequestBody>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="TagV1Service#GetTagSet"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>
