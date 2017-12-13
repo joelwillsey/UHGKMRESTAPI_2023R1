@@ -1,7 +1,6 @@
 $.fn.startNewFolderEvents = function(){
 	console.log('Started new folder events');
-	$('#new_folder-name-input').change( function() {	    
-		    	console.log('This is text');
+	$('#new_folder-name-input').change( function() {	    		    	
 		    	$("#new-folder-button-accept").attr("disabled", "true"); 
 		    	if ($(this).val() != initVal && $(this).val() != "") {
 		            $("#new-folder-button-accept").removeAttr("disabled");

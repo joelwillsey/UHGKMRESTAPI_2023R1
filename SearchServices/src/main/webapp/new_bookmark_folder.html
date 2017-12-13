@@ -45,9 +45,7 @@
 	$("#new-folder-button-accept").attr("disabled", "true"); 
 	$('#new-folder-button-accept').addClass('new_folder_button_off');	
 	
-	$('#new_folder-name-input').keyup( function() {	    
-    	console.log('This is text');
-    				    	
+	$('#new_folder-name-input').keyup( function() {	        				    	
     	if ($(this).val() != "" && $(this).val() != "") {
             $("#new-folder-button-accept").removeAttr("disabled");
             $('#new-folder-button-accept').removeClass('new_folder_button_off')

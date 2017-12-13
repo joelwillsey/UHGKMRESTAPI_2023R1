@@ -11,6 +11,7 @@
 <body>
 <!-- Begin Search Results Widget -->
 	<section id="search-results" class="search_results">
+		<!-- <section id='sr-header-non-search' class="sr_header_non_search_on"> -->
 		<section id='sr-header-non-search' class="sr_header_non_search_on">
 			<div class="sr_hns_left">
 				<label class="sr_label"></label>
@@ -23,7 +24,7 @@
 		<section id="sr-numbers-mobile" class="sr_numbers_mobile">
 			<div class="sr_numbers_showing"></div>
 		</section>
-		<section id='sr-header-search' class="sr_header_search_on">
+		<!--  <section id='sr-header-search' class="sr_header_search_on">
 			<button id="sr-request" class="sr_hs_request" title="Request Answer">&nbsp;</button>
 			<div class="sr_hs_sort">
 				<div class="sr_hs_sort_by"><label>Sort by:</label></div>
@@ -35,7 +36,7 @@
 					<a id="sr-sort-by-relevance" class="active" href="javascript:void(0);" title="Sort By Relevance">Relevance</a>
 				</div>
 			</div>
-		</section>
+		</section> -->
 		<section id="sr-numbers" class="sr_numbers">
 			<div class="sr_numbers_showing"></div>
 		</section>
@@ -62,7 +63,7 @@
 	// Search resize
 	//
 	$.fn.setupSearchWidget = function() {
-		if ($(window).outerWidth(true) < 1025) {
+		if ($(window).outerWidth(true) < 500) {
 			$('#search-menu').insertBefore('#search-wrapper');
 		} else {
 			$('#search-wrapper').removeClass('off');
@@ -82,7 +83,7 @@
 		// **NOTE: For IE9/10 the deleteClass and createClass functions will cause access exceptions
 		//
 	    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 500) {
 				$('#search-results').css('height', '100%');
 				$('#sr-listing').css('height', '100%');
 			} else {	    		
@@ -92,7 +93,7 @@
 				$('#sr-listing').css('height', searchResultsListing);
 			}
 	    } else {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 500) {
 				$('#search-results').removeClass('search_results_resize');
 				$.fn.deleteClass('.search_results_resize');
 				$('#search-results').removeClass('sr_list_resize');
@@ -114,7 +115,7 @@
 
 	// Setup the resize as appropriate
 	$(window).resize(function() {
-		if ($(window).outerWidth(true) < 1025) {
+		if ($(window).outerWidth(true) < 500) {
 			$('.search_menu').removeClass('open');
 			$('.search_menu').addClass('close');
 			$('#search-menu-toggle-icon').removeClass('ion-chevron-down');
@@ -129,12 +130,12 @@
 		$.fn.setupSearchWidget();
 
 		// Search results widget
-		$.fn.setupSearchResultsWidget();
+		//$.fn.setupSearchResultsWidget();
 	});
 
 	// Setup initial sizes
 	$.fn.setupSearchWidget();
-	$.fn.setupSearchResultsWidget();
+	//$.fn.setupSearchResultsWidget();
 </script>
 
 </html>

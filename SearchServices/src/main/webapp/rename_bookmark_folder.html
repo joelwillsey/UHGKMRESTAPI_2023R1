@@ -56,8 +56,6 @@
 	$('#rename-folder-button-accept').addClass('rename_folder_button_off');	
 	
 	$('#rename_folder-name-input').keyup( function() {	    
-    	console.log('This is text');
-    				    	
     	if ($(this).val() != "" && $(this).val() != "") {
             $("#rename-folder-button-accept").removeAttr("disabled");
             $('#rename-folder-button-accept').removeClass('rename_folder_button_off')

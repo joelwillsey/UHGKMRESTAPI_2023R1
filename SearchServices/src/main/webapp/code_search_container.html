@@ -73,17 +73,17 @@
 			</div>
 		</div>
 	</div>
-	<section id="widgetHeader" style="position: relative; height: 45px;">
-		<div id="widgetHeader-logo">
+<!--	<section id="widgetHeader" style="position: relative; height: 45px;">
+ 		<div id="widgetHeader-logo">
 			<div style="float: right; height: 45px; line-height: 45px; text-align: center; ">
 				<button id="widget-help" style="background-image: url(images/iconHelp.png);height: 24px;width: 24px;display: inline-block;vertical-align: middle;line-height: normal;background-color: #666666;"></button>
 				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>
 				<span id="widgetHeader-name" style="display: inline-block; vertical-align: middle; line-height: normal; color: #ffffff"></span>
-				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>	
+				<span style="display: inline-block; vertical-align: middle; line-height: normal;">&nbsp;&nbsp;&nbsp;</span>	-->
 				<!--  <button id="widget-logout" style="background-image: url(images/Logout_btn.png); height: 22px; width: 22px; display: inline-block; margin-right: 5px; vertical-align: middle; line-height: normal; background-color: #666666"></button> -->			
-			</div>
+<!-- 			</div>
 		</div>
-	</section>
+	</section> -->
 	</section>
 	<section id="code-search-area">
 
@@ -106,7 +106,7 @@
 	// Search resize
 	//
 	$.fn.setupSearchWidget = function() {
-		if ($(window).outerWidth(true) < 1025) {
+		if ($(window).outerWidth(true) < 500) {
 			$('#search-menu').insertBefore('#search-wrapper');
 		} else {
 			$('#search-wrapper').removeClass('off');
@@ -153,7 +153,7 @@
 		// **NOTE: For IE9/10 the deleteClass and createClass functions will cause access exceptions
 		//
 	    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 500) {
 				$('#search-results').css('height', '100%');
 				$('#sr-listing').css('height', '100%');
 			} else {	    		
@@ -163,7 +163,7 @@
 				$('#sr-listing').css('height', searchResultsListing);
 			}
 	    } else {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 500) {
 				$('#search-results').removeClass('search_results_resize');
 				$.fn.deleteClass('.search_results_resize');
 				$('#search-results').removeClass('sr_list_resize');
@@ -185,7 +185,7 @@
 
 	// Setup the resize as appropriate
 	$(window).resize(function() {
-		if ($(window).outerWidth(true) < 1025) {
+		if ($(window).outerWidth(true) < 500) {
 			$('.search_menu').removeClass('open');
 			$('.search_menu').addClass('close');
 			$('#search-menu-toggle-icon').removeClass('ion-chevron-down');
@@ -210,7 +210,7 @@
 </script>
 <style>
 	/* Media Queries */
-	@media screen and (max-width: 1024px) {
+	@media screen and (max-width: 499px) {
 		body {
 			margin: 0px;
 		}

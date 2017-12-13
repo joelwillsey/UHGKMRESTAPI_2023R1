@@ -124,7 +124,6 @@ var reorderEvent = null;
 //		$('#popup-manage-bookmarks').ready( function(){
 //			console.log('Started new folder events');
 //			$('#new_folder-name-input').change( function() {	    
-//				    	console.log('This is text');
 //				    	$("#new-folder-button-accept").attr("disabled", "true"); 
 //				    	if ($(this).val() != initVal && $(this).val() != "") {
 //				            $("#new-folder-button-accept").removeAttr("disabled");
