@@ -110,7 +110,7 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 
 		// Setup the request
 		final ReorderBookmarkAndFolderRequestBodyType request = new ReorderBookmarkAndFolderRequestBodyType();
-		LOGGER.debug("ReorderBookmarkAndFolderRequestBodyType class: " + ReorderBookmarkAndFolderRequestBodyType.class.getResource("ReorderBookmarkAndFolderRequestBodyType.class").toString());
+		
 		request.setApplicationID(AppID);
 		request.setPassword(bookmarkRequest.getPassword());
 		request.setUserName(bookmarkRequest.getUserName());
@@ -126,23 +126,37 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		final ReorderBookmarkAndFolderResponseBodyType response = KMBookmarkServiceV2PortType.reorderBookmarkAndFolder(request);
 		Instant end = Instant.now();
 		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+bookmarkRequest.getUserName()+") - reorderBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
-		bookmarkResponse = populateReorderBookmarkAndFolderResponse(response, bookmarkResponse);
-		if (response != null && response.getErrorList() != null) {
-			final ErrorMessage[] errors = response.getErrorList();			
-			// Loop through errors if any
-			for (int x = 0; (errors != null && x < errors.length); x++) {
-				final ErrorList errorList = new ErrorList();
-				errorList.setCode(errors[x].getCode());
-				errorList.setMessage(errors[x].getMessage());
-				bookmarkResponse.addErrorList(errorList);
+		
+		
+		//check response
+		if (response != null && response.getResponse()!= null) {
+			//valid response
+			LOGGER.debug("ManageBookmarksV2Response- Valid response: " + response.toString());
+			
+			// Populate Base Response
+			bookmarkResponse = populateReorderBookmarkAndFolderResponse(response, bookmarkResponse);
+			
+			if (response != null && response.getErrorList() != null) {
+				final ErrorMessage[] errors = response.getErrorList();			
+				// Loop through errors if any
+				for (int x = 0; (errors != null && x < errors.length); x++) {
+					final ErrorList errorList = new ErrorList();
+					errorList.setCode(errors[x].getCode());
+					errorList.setMessage(errors[x].getMessage());
+					bookmarkResponse.addErrorList(errorList);
+				}
 			}
+				
 		} else {
 			// We have a problem with the service
+			// We have a problem with the service
 			throw new AppException(500, AppErrorCodes.REORDER_BOOKMARK_ERROR,  
-					AppErrorMessage.REORDER_BOOKMARK_ERROR);			
+					AppErrorMessage.REORDER_BOOKMARK_ERROR);		
 		}
+				
 		LOGGER.debug("ReorderBookmarkAndFolderResponse: " + bookmarkResponse);
 		LOGGER.info("Exiting reorderBookmark()");
+		
 		return bookmarkResponse;		
 	}
 
@@ -362,12 +376,17 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		BookmarkedContentV2[] bookmarks = new BookmarkedContentV2[soapResponse.getResponse().getBookmarks().length];
 		BookmarkFolderContents[] folders = new BookmarkFolderContents[soapResponse.getResponse().getFolders().length];
 		
-		bookmarks = populateBookmarkedContentV2List(soapResponse.getResponse().getBookmarks());
-		folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders()); 				
-				
-		contentBookmarksV2.setBookmarks(bookmarks);
-		contentBookmarksV2.setFolders(folders);		
+		if(bookmarks != null){
+			bookmarks = populateBookmarkedContentV2List(soapResponse.getResponse().getBookmarks());
+			contentBookmarksV2.setBookmarks(bookmarks);
+		}
+
+		if (folders != null){
+			folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders()); 
+			contentBookmarksV2.setFolders(folders);
+		}
 		
+				
 		restResponse.setContentBookmarksV2(contentBookmarksV2);
 		
 		return restResponse;		
@@ -376,14 +395,20 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 	private ReorderBookmarkAndFolderResponse populateReorderBookmarkAndFolderResponse(ReorderBookmarkAndFolderResponseBodyType soapResponse, ReorderBookmarkAndFolderResponse restResponse){
 		ContentBookmarksV2 contentBookmarksV2 = new ContentBookmarksV2();		
 		
-		BookmarkedContentV2[] bookmarks = new BookmarkedContentV2[soapResponse.getResponse().getBookmarks().length];
-		BookmarkFolderContents[] folders = new BookmarkFolderContents[soapResponse.getResponse().getFolders().length];
+		LOGGER.debug("populateReorderBookmarkAndFolderResponse() " + soapResponse.getResponse().toString());
 		
-		bookmarks = populateBookmarkedContentV2List(soapResponse.getResponse().getBookmarks());
-		folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders()); 				
+		if(soapResponse.getResponse().getBookmarks() != null){
+			BookmarkedContentV2[] bookmarks = new BookmarkedContentV2[soapResponse.getResponse().getBookmarks().length];
+			bookmarks = populateBookmarkedContentV2List(soapResponse.getResponse().getBookmarks());
+			contentBookmarksV2.setBookmarks(bookmarks);
+		}
+		
+		if (soapResponse.getResponse().getFolders() != null){
+			BookmarkFolderContents[] folders = new BookmarkFolderContents[soapResponse.getResponse().getFolders().length];
+			folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders());
+			contentBookmarksV2.setFolders(folders);
+		}
 				
-		contentBookmarksV2.setBookmarks(bookmarks);
-		contentBookmarksV2.setFolders(folders);
 		
 		ErrorMessage[] errorMessages = soapResponse.getErrorList();
 
@@ -401,11 +426,15 @@ public class BookmarksV2DAOImpl extends BaseDAOImpl implements BookmarksV2DAO {
 		BookmarkedContentV2[] bookmarks = new BookmarkedContentV2[soapResponse.getResponse().getBookmarks().length];
 		BookmarkFolderContents[] folders = new BookmarkFolderContents[soapResponse.getResponse().getFolders().length];
 		
-		bookmarks = populateBookmarkedContentV2List(soapResponse.getResponse().getBookmarks());
-		folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders()); 				
-				
-		contentBookmarksV2.setBookmarks(bookmarks);
-		contentBookmarksV2.setFolders(folders);
+		if(bookmarks != null){
+			bookmarks = populateBookmarkedContentV2List(soapResponse.getResponse().getBookmarks());
+			contentBookmarksV2.setBookmarks(bookmarks);
+		}
+		
+		if (folders != null){
+			folders = populateBookmarkFolderContentsList(soapResponse.getResponse().getFolders());
+			contentBookmarksV2.setFolders(folders);
+		}
 		
 		restResponse.setContentBookmarksV2(contentBookmarksV2);
 		
