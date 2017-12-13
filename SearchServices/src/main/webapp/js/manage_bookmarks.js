@@ -44,35 +44,20 @@ var reorderEvent = null;
 		if (node.children.length > 0){
 			alert('Please empty folder before removing.');
 		}else{
-		
-		//for (var i=0; i < node.children.length; i++) {
-		//    var child = node.children[i];
-		//}
-		
+				
 		// remove a folder
 			if (node.type == "folder"){
 				$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/manage?folderID='+node.id+'&userAction=REMOVEFOLDER', SEARCH_SERVICE_TIMEOUT, function(data){
 					$.fn.populateBookmarks(data);
 				});
 			}else{
-			
-			//$('.bookmark_list div.bookmark_item').each(
-			//		function(index) {
-			//			var div = $(this);
-			//			if (div.hasClass('bookmark_item_selected')) {
-							$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + node.id, SEARCH_SERVICE_TIMEOUT, function(data){
-								$.fn.populateBookmarks(data);
-							});
-							
-			//				$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + div.attr('id'), SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback);
-			//				div.remove();
-			//			}
-			//		}
-			//);
+				$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + node.id, SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback); 
+				$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/listallbookmarks', SEARCH_SERVICE_TIMEOUT, function(data){
+					$.fn.populateBookmarks(data);
+				});
 			}
 			
 		}
-		//$.fn.getBookmarks();
 		
 	}
 
@@ -462,7 +447,8 @@ var reorderEvent = null;
 
 			  var node = $('#bookmarkTree').tree('getNodeByHtmlElement', e.target);	
 			  if ($('#bookmarkTree').tooltip()) {
-				  $('#bookmarkTree').tooltip( "destroy" );
+				  $('#bookmarkTree').tooltip( "destroy" );  
+				  //$("#bookmarkTree").parents('div').remove();  
 			  }
 				$( '#bookmarkTree' ).tooltip({
 				      items: "span, a",
@@ -485,6 +471,13 @@ var reorderEvent = null;
 		$('#bookmarkTree').bind(
 				'tree.move',
 				function(event) {				    
+					
+					// remove tooltip if any exists on move
+					  if ($('#bookmarkTree').tooltip()) {
+						  $('#bookmarkTree').tooltip( "destroy" );  
+						  //$("#bookmarkTree").parents('div').remove();  
+					  } 
+					
 					var level = event.move_info.target_node.getLevel();
 					var moveDirection = null;
 					var noOfMoveSpaces;
@@ -506,8 +499,92 @@ var reorderEvent = null;
 					
 					id = event.move_info.moved_node.id;
 					type = event.move_info.moved_node.type;
-					position = event.move_info.position;
+					position = event.move_info.position; 
 
+					
+					// Iain Vize - commented this out for the moment, please do not remove.
+					/*
+					var match = false;
+					var nextFound = false;
+					var nextBookmarkSequenceNumber;
+					var targetId = event.move_info.target_node.id;
+					loop1: for (var res=0;(results != null) && (res < results.length); res++) {
+						
+							if (match){
+						// see if next in the loop is a bookmark
+								if (results[res].type == "bookmark"){
+									alert('1. next bookmark title is '+results[res].name);
+									match = false;
+									break loop1;
+								}
+							}
+							if (results[res].id == targetId){ 
+								alert ('1. target id matched');
+								alert ('1. found matching bookmark res id = '+results[res].id+', target id ='+targetId);
+								match = true;
+
+							}else{
+								// check for children
+								if (results[res].children != null){
+									// loop round any children
+									for (var resChildren=0;(results[res].children != null) && (resChildren < results[res].children.length); resChildren++) {
+										if (match){
+											// see if next in the loop is a bookmark
+											if (results[res].children[resChildren].type == "bookmark"){
+												alert('2. next bookmark title is '+results[res].children[resChildren].name);
+												match = false;
+												break loop1;
+											}
+										}
+										if (results[res].children[resChildren].id == targetId){ 
+											alert ('2. target id matched');
+											alert ('2. found matching bookmark res id = '+results[res].children[resChildren].id+'target id ='+targetId);
+											match = true;
+										}else{
+											// check for children of children
+											if (results[res].children[resChildren].children != null){
+												for (var resChildrenChildren=0;(results[res].children[resChildren].children != null) && (resChildrenChildren < results[res].children[resChildren].children.length); resChildrenChildren++) {
+													if (match){
+														// see if next in the loop is a bookmark
+														if (results[res].children[resChildren].children[resChildrenChildren].type == "bookmark"){
+															alert('3. next bookmark title is '+results[res].children[resChildren].children[resChildrenChildren].name);
+															match = false;
+															break loop1;
+														}
+													}													
+													if (results[res].children[resChildren].children[resChildrenChildren].id == targetId){ 
+														alert ('3. target id matched');
+														alert ('3. found matching bookmark res id = '+results[res].children[resChildren].children[resChildrenChildren].id+'target id ='+targetId);
+														match = true;
+													}else{
+														// last children check due to constraints on the table limiting the number of nodes.
+														if (results[res].children[resChildren].children[resChildrenChildren].children != null){
+															for (var resChildrenChildrenChildren=0;(results[res].children[resChildren].children[resChildrenChildren].children != null) && (resChildrenChildrenChildren < results[res].children[resChildren].children[resChildrenChildren].children.length); resChildrenChildrenChildren++) {
+																if (match){
+																	// see if next in the loop is a bookmark
+																	if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].type == "bookmark"){
+																		alert('4. next bookmark title is '+results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].name);
+																		match = false;
+																		break loop1;
+																	}
+																}			
+																if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id == targetId){
+																	alert ('4. target id matched');		
+																	alert ('4. found matching bookmark res id = '+results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id+'target id ='+targetId);
+																	match = true;
+																}
+															}		
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						 
+					*/
 					
 					// call reorder on every move
 					//////alert('oroginal sequence number = ' + event.move_info.moved_node.sequenceNumber + ', position = ' + event.move_info.position + ', this sequence number: ' + event.move_info.target_node.sequenceNumber);
@@ -519,33 +596,39 @@ var reorderEvent = null;
 						var nextNode = event.move_info.moved_node.getNextNode();
 						// now check if it's a folder or bookmark.
 						/////alert('next node type = ' + nextNode.type);
-						if (nextNode.type == "bookmark"){
-							if (nextNode.sequenceNumber > event.move_info.moved_node.sequenceNumber){
-								moveDirection = "DOWN";
-								noOfMoveSpaces = nextNode.sequenceNumber - event.move_info.moved_node.sequenceNumber;
-							}else{
-								moveDirection = "UP";
-								noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - nextNode.sequenceNumber;
-								if (event.move_info.position == "after"){
-									noOfMoveSpaces = noOfMoveSpaces - 1;
-								}
-							}
-						} else{
-							// try again for next bookmark.
-							var nextNextNode = nextNode.getNextNode();
-							////alert('next next node type = ' + nextNextNode.type);
-							if (nextNextNode.type == "bookmark"){
-								if (nextNextNode.sequenceNumber > event.move_info.moved_node.sequenceNumber){
+						if (nextNode != null){
+							if (nextNode.type == "bookmark"){
+								if (nextNode.sequenceNumber > event.move_info.moved_node.sequenceNumber){
 									moveDirection = "DOWN";
-									noOfMoveSpaces = nextNextNode.sequenceNumber - event.move_info.moved_node.sequenceNumber;
+									noOfMoveSpaces = nextNode.sequenceNumber - event.move_info.moved_node.sequenceNumber;
 								}else{
 									moveDirection = "UP";
-									noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - nextNextNode.sequenceNumber;
+									noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - nextNode.sequenceNumber;
 									if (event.move_info.position == "after"){
 										noOfMoveSpaces = noOfMoveSpaces - 1;
 									}
 								}
+							} else{
+								// try again for next bookmark.
+								var nextNextNode = nextNode.getNextNode();
+								////alert('next next node type = ' + nextNextNode.type);
+								if (nextNextNode.type == "bookmark"){
+									if (nextNextNode.sequenceNumber > event.move_info.moved_node.sequenceNumber){
+										moveDirection = "DOWN";
+										noOfMoveSpaces = nextNextNode.sequenceNumber - event.move_info.moved_node.sequenceNumber;
+									}else{
+										moveDirection = "UP";
+										noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - nextNextNode.sequenceNumber;
+										if (event.move_info.position == "after"){
+											noOfMoveSpaces = noOfMoveSpaces - 1;
+										}
+									}
+								}
 							}
+						}else{
+							// only one bookmark so we can set the direction to up and the move nummber to zero
+							moveDirection = "UP";
+							noOfMoveSpaces = 0;
 						}
 					}
 					
