@@ -41,12 +41,13 @@ $(document).ready(function() {
 */
 $.fn.copyToVariable = function() {
 	var autoDocText = (document.all) ? document.selection.createRange().text : document.getSelection();
+	var contentTitle = $(".content_header_left_title").text();	
 	
 	if(autoDocText == ""){
 		alert("Please select text to copy to Comment.");
 	}else{
 		if(window.opener){
-			var isetresponse = window.opener.addKMComments("[" + document.addSolsForm.Title.value + "] - " + autoDocText);
+			var isetresponse = window.opener.addKMComments("[" + contentTitle + "] - " + autoDocText);
 			
 			if(isetResponse!="ok"){
 				alert(isetResponse);

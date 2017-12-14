@@ -119,5 +119,9 @@
 	
 	// Setup initial sizes
 	$.fn.setupContentWidget();
+	
+	window.resizeTo(512,440);
+	var ow =  screen.width - window.outerWidth;	
+	window.moveTo(ow,0);
 </script>
 </html>
