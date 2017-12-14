@@ -55,7 +55,7 @@ public class FeaturedDAOImpl extends BaseDAOImpl implements FeaturedDAO{
 		try {
 			FeaturedDAO featuredDAO = new FeaturedDAOImpl();
 			FeaturedRequest featuredRequest = new FeaturedRequest();
-			featuredRequest.setUsername("kmagent");
+			//featuredRequest.setUsername("kmagent");
 			featuredRequest.setKBaseTags("");
 			FeaturedResponse featuredResponse = featuredDAO.featuredQuery(featuredRequest);
 			LOGGER.info("FeaturedResponse", featuredResponse);

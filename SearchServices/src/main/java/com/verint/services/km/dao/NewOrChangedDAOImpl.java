@@ -53,7 +53,7 @@ public class NewOrChangedDAOImpl extends BaseDAOImpl implements NewOrChangedDAO{
 		try {
 			NewOrChangedDAO newOrChangedDAO = new NewOrChangedDAOImpl();
 			NewOrChangedRequest newOrChangedRequest = new NewOrChangedRequest();
-			newOrChangedRequest.setUsername("kmagent");
+			//newOrChangedRequest.setUsername("kmagent");
 			newOrChangedRequest.setKBaseTags("");
 			NewOrChangedResponse newOrChangedResponse = newOrChangedDAO.newOrChangedQuery(newOrChangedRequest);
 			LOGGER.info("NewOrChangedResponse", newOrChangedResponse);

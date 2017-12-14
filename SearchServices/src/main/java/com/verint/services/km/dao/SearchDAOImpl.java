@@ -68,7 +68,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 			SearchDAO searchDAO = new SearchDAOImpl();
 			SearchRequest searchRequest = new SearchRequest();
 			searchRequest.setQuery("vernt");
-			searchRequest.setUsername("kmagent");
+			//searchRequest.setUsername("kmagent");
 			SearchResponse searchResponse = searchDAO.searchQuery(searchRequest);
 			LOGGER.info("SearchResponse: " + searchResponse);
 		} catch (Throwable t) {
