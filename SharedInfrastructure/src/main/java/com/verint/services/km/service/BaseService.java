@@ -65,9 +65,9 @@ public class BaseService {
 		//credentials[0] = (String)httpRequest.getAttribute("kmuser");
 		//credentials[1] = (String)httpRequest.getAttribute("kmpassword");
 		//
-		if (credentials != null && credentials[0] != null && "john.miller@verint.com".equals(credentials[0])) {
-			credentials[0] = "kmagent";
-		}
+//		if (credentials != null && credentials[0] != null && "john.miller@verint.com".equals(credentials[0])) {
+//			credentials[0] = "kmagent";
+//		}
 		LOGGER.debug("Username: " + credentials[0]);
 		LOGGER.debug("Password: " + credentials[1]);
 
