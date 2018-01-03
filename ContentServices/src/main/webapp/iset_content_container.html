@@ -75,6 +75,9 @@
 </body>
 <script type="text/javascript">
 	// Content resize
+	window.resizeTo(512,440);
+	
+	
 	$.fn.setupContentWidget = function() {
 	    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
 			var sizeOfContentWidget = $(window).outerHeight(true) - $('#widgetHeader').outerHeight(true) - 25;
@@ -120,7 +123,7 @@
 	// Setup initial sizes
 	$.fn.setupContentWidget();
 	
-	window.resizeTo(512,440);
+	//Move window to top right corner
 	var ow =  screen.width - window.outerWidth;	
 	window.moveTo(ow,0);
 </script>
