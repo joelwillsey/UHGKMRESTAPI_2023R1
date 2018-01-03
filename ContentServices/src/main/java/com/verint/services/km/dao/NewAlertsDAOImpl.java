@@ -30,9 +30,9 @@ import com.verint.services.km.model.ReadAlert;
  */
 @Repository
 public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
-	private static final Logger LOGGER = LoggerFactory.getLogger(NewAlertsDAO.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NewAlertsDAOImpl.class);
 	
-	@Autowired
+	//@Autowired
 	
 	/**
 	 * 
