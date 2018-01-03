@@ -101,6 +101,10 @@
 	</section>
 </body>
 <script type="text/javascript">
+
+	//Resize Window
+	window.resizeTo(1024,440);
+
 	//
 	// Setup the search results widget for desktop vs. mobile
 	// Search resize
@@ -206,6 +210,11 @@
 	// Setup initial sizes
 	$.fn.setupSearchWidget();
 	$.fn.setupSearchResultsWidget();
+	
+
+	//Move window to top right corner
+	var ow =  screen.width - window.outerWidth;	
+	window.moveTo(ow,0);
 	
 </script>
 <style>
