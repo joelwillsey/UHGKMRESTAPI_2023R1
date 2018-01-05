@@ -348,13 +348,13 @@ var reorderEvent = null;
 			    },
 				onCanMoveTo: function(moved_node, target_node, position) {
 					// don't allow more than 3 folders deep on the tree or allow users to drop bookmarks into other bookmarks to create folders.
-					
+										
 					// Can only drop into folders
 					if (moved_node.type == "bookmark" && target_node.type == "folder"){
 						return (position != 'before');
 					}
 					
-					// only allow folders to ne dropped before bookmarks.
+					// only allow folders to be dropped before bookmarks.
 					if ((target_node.type == "bookmark" && moved_node.type == "folder") && position != 'before'){
 						return false;
 					}
@@ -426,6 +426,10 @@ var reorderEvent = null;
 		$('#bookmarkTree').bind(
 				'tree.select',
 				function(event) {
+					if ($('#bookmarkTree').tooltip()) {
+					  $('#bookmarkTree').tooltip( "destroy" );  
+					  //$("#bookmarkTree").parents('div').remove();  
+					}
 					if (event.node) {
 						// node was selected
 						var node = event.node;
@@ -496,98 +500,175 @@ var reorderEvent = null;
 					event.preventDefault(); 
 					event.move_info.do_move();
 					
+					//alert('target_node.type = ' + event.move_info.target_node.type + ', moved_node.type = ' + event.move_info.moved_node.type + ', position = ' + event.move_info.position);
+					
 					id = event.move_info.moved_node.id;
 					type = event.move_info.moved_node.type;
 					position = event.move_info.position; 
 
-					
+///////////////////////////////**************************************///////////////////////////////
 					// Iain Vize - commented this out for the moment, please do not remove.
-					/*
+					
 					var match = false;
 					var nextFound = false;
 					var nextBookmarkSequenceNumber;
 					var targetId = event.move_info.target_node.id;
+					var targetName = event.move_info.target_node.name;
+					var nextSequenceNumber = null;
+					var previousSequenceNumber = null;
+					
 					loop1: for (var res=0;(results != null) && (res < results.length); res++) {
-						
+
 							if (match){
 						// see if next in the loop is a bookmark
-								if (results[res].type == "bookmark"){
-									alert('1. next bookmark title is '+results[res].name);
+								if (results[res].type == type && results[res].id != id && position != "before"){
+									//alert('1. next bookmark title is '+results[res].name+', Next Sequence Num = '+nextSequenceNumber);
+									nextSequenceNumber = results[res].sequenceNumber;
 									match = false;
 									break loop1;
 								}
 							}
+							
+							// capture current bookmark sequence number as this will be the previous one to the next
+							if (results[res].type == type && results[res].id != id && position != "before"){
+								previousSequenceNumber = results[res].sequenceNumber;
+								//alert('1. previousSequenceNumber = '+previousSequenceNumber);  
+							}
+							
 							if (results[res].id == targetId){ 
-								alert ('1. target id matched');
-								alert ('1. found matching bookmark res id = '+results[res].id+', target id ='+targetId);
+								//alert ('1. target id matched res id = '+results[res].id+', target id ='+targetId+', target name = '+targetName); 
 								match = true;
+								if (position == "before"){
+									//only time position is before is if the bookmark is being put to the top of the list so we need to set the next 
+									// sequence number as the target sequence number.
+									nextSequenceNumber = results[res].sequenceNumber; 
+									match = false;
+									break loop1;
+								}
 
-							}else{
+							}
 								// check for children
 								if (results[res].children != null){
 									// loop round any children
 									for (var resChildren=0;(results[res].children != null) && (resChildren < results[res].children.length); resChildren++) {
+
 										if (match){
 											// see if next in the loop is a bookmark
-											if (results[res].children[resChildren].type == "bookmark"){
-												alert('2. next bookmark title is '+results[res].children[resChildren].name);
+											if (results[res].children[resChildren].type == type && results[res].children[resChildren].id != id){
+												//alert('2. next bookmark title is '+results[res].children[resChildren].name);
+												nextSequenceNumber = results[res].children[resChildren].sequenceNumber;
 												match = false;
 												break loop1;
 											}
 										}
+										
+										// capture current bookmark sequence number as this will be the previous one to the next
+										if (results[res].children[resChildren].type == type && results[res].children[resChildren].id != id){
+											previousSequenceNumber = results[res].children[resChildren].sequenceNumber;
+											//alert('2. previousSequenceNumber = '+previousSequenceNumber);
+										}
+										
 										if (results[res].children[resChildren].id == targetId){ 
-											alert ('2. target id matched');
-											alert ('2. found matching bookmark res id = '+results[res].children[resChildren].id+'target id ='+targetId);
+											//alert ('2. target id matched res id = '+results[res].children[resChildren].id+'target id ='+targetId+', target name = '+targetName);
 											match = true;
-										}else{
+										}
 											// check for children of children
 											if (results[res].children[resChildren].children != null){
 												for (var resChildrenChildren=0;(results[res].children[resChildren].children != null) && (resChildrenChildren < results[res].children[resChildren].children.length); resChildrenChildren++) {
+													
 													if (match){
 														// see if next in the loop is a bookmark
-														if (results[res].children[resChildren].children[resChildrenChildren].type == "bookmark"){
-															alert('3. next bookmark title is '+results[res].children[resChildren].children[resChildrenChildren].name);
+														if (results[res].children[resChildren].children[resChildrenChildren].type == type && results[res].children[resChildren].children[resChildrenChildren].id != id){
+															//alert('3. next bookmark title is '+results[res].children[resChildren].children[resChildrenChildren].name);
+															nextSequenceNumber = results[res].children[resChildren].children[resChildrenChildren].sequenceNumber;
 															match = false;
 															break loop1;
 														}
-													}													
+													}
+													
+													// capture current bookmark sequence number as this will be the previous one to the next
+													if (results[res].children[resChildren].children[resChildrenChildren].type == type && results[res].children[resChildren].children[resChildrenChildren].id != id){
+														previousSequenceNumber = results[res].children[resChildren].children[resChildrenChildren].sequenceNumber;
+														//alert('3. previousSequenceNumber = '+previousSequenceNumber);
+													}
+													
 													if (results[res].children[resChildren].children[resChildrenChildren].id == targetId){ 
-														alert ('3. target id matched');
-														alert ('3. found matching bookmark res id = '+results[res].children[resChildren].children[resChildrenChildren].id+'target id ='+targetId);
+														//alert ('3. target id matched res id = '+results[res].children[resChildren].children[resChildrenChildren].id+'target id ='+targetId+', target name = '+targetName); 
 														match = true;
-													}else{
+													}
 														// last children check due to constraints on the table limiting the number of nodes.
 														if (results[res].children[resChildren].children[resChildrenChildren].children != null){
 															for (var resChildrenChildrenChildren=0;(results[res].children[resChildren].children[resChildrenChildren].children != null) && (resChildrenChildrenChildren < results[res].children[resChildren].children[resChildrenChildren].children.length); resChildrenChildrenChildren++) {
 																if (match){
 																	// see if next in the loop is a bookmark
-																	if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].type == "bookmark"){
-																		alert('4. next bookmark title is '+results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].name);
+																	if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].type == type && results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id != id	){
+																		//alert('4. next bookmark title is '+results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].name);
+																		nextSequenceNumber = results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].sequenceNumber;
 																		match = false;
 																		break loop1;
 																	}
-																}			
-																if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id == targetId){
-																	alert ('4. target id matched');		
-																	alert ('4. found matching bookmark res id = '+results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id+'target id ='+targetId);
+																}
+																
+																// capture current bookmark sequence number as this will be the previous one to the next
+																if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].type == type && results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id != id){
+																	previousSequenceNumber = results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].sequenceNumber;
+																	//alert('4. previousSequenceNumber = '+previousSequenceNumber);
+																}
+																
+																if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id == targetId){		
+																	//alert ('4. target id matched res id = '+results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id+'target id ='+targetId+', target name = '+targetName);
 																	match = true;
 																}
 															}		
 														}
-													}
+													
 												}
 											}
-										}
+										
 									}
 								}
-							}
+						
 						}
 						 
-					*/
 					
-					// call reorder on every move
-					//////alert('oroginal sequence number = ' + event.move_info.moved_node.sequenceNumber + ', position = ' + event.move_info.position + ', this sequence number: ' + event.move_info.target_node.sequenceNumber);
+					// if no next sequence number then this is the last bookmark in the tree.
+					//alert('end previousSequenceNumber = '+previousSequenceNumber);
+					//alert('end nextSequenceNumber = '+nextSequenceNumber);
+					//if (nextSequenceNumber == null){
+					//	alert ('bookmark is being moved to be the last bookmark in the tree, move position will always be down. Even if only one bookmark and we are moving *up* into a folder. Reorder does not care at this point.');
+						
+					//}
 					
+					//now figure out direction and number moved
+					if (nextSequenceNumber != null){
+						if (nextSequenceNumber > event.move_info.moved_node.sequenceNumber){
+							moveDirection = "DOWN"; 
+							noOfMoveSpaces = previousSequenceNumber - event.move_info.moved_node.sequenceNumber;
+						}else{
+							moveDirection = "UP";
+							noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - previousSequenceNumber;
+							//if (event.move_info.position == "before"){
+								noOfMoveSpaces = noOfMoveSpaces - 1; 
+							//}
+						}
+					}else{
+						moveDirection = "DOWN";
+						if (event.move_info.position == "inside"){ 
+							noOfMoveSpaces = 0; 
+						}else{
+							noOfMoveSpaces = previousSequenceNumber - event.move_info.moved_node.sequenceNumber;
+						}
+					}
+					
+					//alert('Direction = ' + moveDirection + ', Spaces = ' + noOfMoveSpaces);
+					//alert('previousSequenceNumber = ' + previousSequenceNumber + ', nextSequenceNumber = ' + nextSequenceNumber + ', event.move_info.moved_node.sequenceNumber = ' + event.move_info.moved_node.sequenceNumber);
+					//moveDirection = null; 
+					//noOfMoveSpaces = null;
+					
+///////////////////////////////**************************************/////////////////////////////// 
+					
+		///////////////////////////////////////////////////////////////////////////////////////////////			
+		/*								
 					// If position is inside then we are either dumping in a folder for the first time, or we are dumping the bookmark at the top of the folder
 					//either way we need to get the next bookmark to see work out the move direction and move spaces.
 					if (type == "bookmark" && position == "inside"){
@@ -631,7 +712,8 @@ var reorderEvent = null;
 						}
 					}
 					
-					
+		*/
+		///////////////////////////////////////////////////////////////////////////////////////////////
 					
 					
 					// first add the id of the item we are moving to the parameterString.
@@ -700,6 +782,9 @@ var reorderEvent = null;
 						}
 					}
 					
+					if (moveDirection != null){
+						$('#bookmarkTree').unbind(event); 
+					} 
 				}	
 		);
 		
