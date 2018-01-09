@@ -13,73 +13,15 @@
 	<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.js"></script>
 	<script type='text/javascript' src="js/jumppage.js"></script>
 	<script type="text/javascript" src="js/basicauth.js"></script>
-<!-- 	<script type="text/javascript" src="js/samlv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
 	<script type='text/javascript' src="js/login.js"></script>
 	<script type="text/javascript" src="js/siteminder.js"></script> 
 
-	<script type="text/javascript">
-    
-	var contentServiceName = '/contentservices/';
-	var searchServiceName = '/searchservices/';
-	var filtersServiceName = '/filterservices/';
-	var verintKmServiceName = '/verintkm/';	
-	var LOGIN_SERVICE_TIMEOUT = 21000;
-	var FEEDBACK_SERVICE_TIMEOUT = 21000;
-	var REQUEST_ANSWER_SERVICE_TIMEOUT = 21000;
-	var TAG_SERVICE_TIMEOUT = 21000;
-	var CONTENT_SERVICE_TIMEOUT = 41000;
-	var NEW_OR_CHANGED_SERVICE_TIMEOUT = 21000;
-	var BOOKMARK_SERVICE_TIMEOUT = 21000;
-	var SEARCH_SERVICE_TIMEOUT = 120000;
 	
-	var historyPushEnabled = false;
-		var defaultTitle = 'Verint Content Widget';
-		
-		// Setup cookie to store the initial URL
-		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
-		document.cookie = 'savedurl=' + 'jumppage.html%3F' + urlToSend + '; path=/';
-		
-		// Check if authenticated
-		if (!$.fn.isUserAuthenticated())
-		 $.fn.ssoLoginService();
-		
-		//do not want to call 
-		if ($.fn.isUserAuthenticated())
-			  $.fn.setUpJump();
-		
-		
-	</script>
 </head>
 <body style="position: relative; overflow-y: auto; margin: 0px; background-color: white;">
 
-
 	<div id="overlay-back" class="overlay_back">
-			<img alt="PageLoading" src="images/glassLoadingAnimation.gif">
-		</div>
-		<div id="background" class="background"></div>
-		<div id="popup" class="popup"></div>
-		<div id="background-popup-error" class="background_popup_error"></div>
-		<div id="error-message" class="error_message">
-			<div class="error_header">
-				<h1>Message</h1>
-			</div>
-		<div class="error_body">
-			<h1 id="error-body"></h1>
-		</div>
-		<div class="error_button">
-			<div class="float_right">
-				<button id="error-button" class="km_button" onclick="$.fn.errorButtonFunc();" tabindex="1" type="button" name="error-button-message" title="Ok" accesskey="S">
-					<span>
-						<span class="error_underline">O</span>k
-					</span>
-				</button>
-			</div>
-		</div>
-	</div>
-
-<!-- 
-	<div id="overlay-back" class="overlay_back" style="margin: auto; margin-top: 26%; margin-left: 45%;">
 		<img alt="PageLoading" src="images/glassLoadingAnimation.gif">
 	</div>
 	<div id="background" class="background"></div>
@@ -102,7 +44,42 @@
 			</div>
 		</div>
 	</div>
-	-->
+	<div>
+		<span>ISET Jump Page</span>
+	</div>
+
+	<script type="text/javascript">    
+			var contentServiceName = '/contentservices/';
+			var searchServiceName = '/searchservices/';
+			var filtersServiceName = '/filterservices/';
+			var verintKmServiceName = '/verintkm/';	
+			var LOGIN_SERVICE_TIMEOUT = 21000;
+			var FEEDBACK_SERVICE_TIMEOUT = 21000;
+			var REQUEST_ANSWER_SERVICE_TIMEOUT = 21000;
+			var TAG_SERVICE_TIMEOUT = 21000;
+			var CONTENT_SERVICE_TIMEOUT = 41000;
+			var NEW_OR_CHANGED_SERVICE_TIMEOUT = 21000;
+			var BOOKMARK_SERVICE_TIMEOUT = 21000;
+			var SEARCH_SERVICE_TIMEOUT = 120000;
+			
+			var historyPushEnabled = false;
+			var defaultTitle = 'Verint Content Widget';
+			
+			// Setup cookie to store the initial URL
+			var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
+			document.cookie = 'savedurl=' + 'jumppage.html%3F' + urlToSend + '; path=/';
+			
+			// Check if authenticated
+			if (!$.fn.isUserAuthenticated())
+			 $.fn.ssoLoginService();
+			
+			//TODO Remove this
+			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\nCurrent window location: ' + window.location + '\n\nCLICK OK TO CONTINUE');
+			
+			//do not want to call 
+			if ($.fn.isUserAuthenticated())
+				  $.fn.setUpJump();				
+		</script>
 </body>
 
 </html>

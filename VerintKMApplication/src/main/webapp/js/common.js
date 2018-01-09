@@ -75,7 +75,7 @@ $.fn.handleError = function(jqXHR, textStatus, errorThrown) {
 
 //Handle the error(s) in a uniform way for now service call errors
 $.fn.handleErrorText = function(textStatus) {
-	log('HandleErrorText()');
+	log('HandleErrorText(' + textStatus + ')');
 	if (typeof textStatus != 'undefined' && textStatus != null) {
 			$('#background').addClass('background_on');
 			$('#error-body').html('Error: ' + textStatus);
