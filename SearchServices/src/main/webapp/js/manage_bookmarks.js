@@ -27,15 +27,6 @@ var reorderEvent = null;
 		}else{
 			$.fn.launchViewContent(node.id);
 		}
-		
-		/*$('.bookmark_list div.bookmark_item').each(
-			function(index) {
-				var div = $(this);
-				if (div.hasClass('bookmark_item_selected')) {
-					$.fn.launchViewContent(div.attr('id'));
-				}
-			}
-		);*/
 	}
 
 	// Remove bookmark button
@@ -89,29 +80,15 @@ var reorderEvent = null;
 	// New Folder bookmark button
 	$.fn.bookmarkButtonNewFolder = function() {
 		$.fn.launchNewFolder();
-		
-		
-		/*$('.bookmark_list div.bookmark_item').each(
-			function(index) {
-				var div = $(this);
-				if (div.hasClass('bookmark_item_selected')) {
-					alert('New Folder Button clicked');
-					$.fn.launchNewFolder();}
-			}
-		);*/
 	}
 	
 	// launch new folder pop up
 	$.fn.launchNewFolder = function() {
 		var node = $('#bookmarkTree').tree('getSelectedNode');
-//		if (node.children.length > 0){
 		if (node){
 			var level = node.getLevel();
 		}
-			//alert('level = ' + level);
-///		}else{
-//			alert('Ok to remove.')
-//		}popup-manage-bookmarks
+
 		$.get(searchServiceName + 'new_bookmark_folder.html', function(data) {
 			$('#new-bookmark-folder-widget').html(data);
 			$('#popup-manage-bookmarks').html($('#new-bookmark-folder-widget').html());
@@ -121,21 +98,6 @@ var reorderEvent = null;
 
 		});
 		
-//		$('#popup-manage-bookmarks').ready( function(){
-//			console.log('Started new folder events');
-//			$('#new_folder-name-input').change( function() {	    
-//				    	$("#new-folder-button-accept").attr("disabled", "true"); 
-//				    	if ($(this).val() != initVal && $(this).val() != "") {
-//				            $("#new-folder-button-accept").removeAttr("disabled");
-//				        } else {
-//				            $("#new-folder-button-accept").attr("disabled", "true");        
-//				        }
-//				    });
-//		});
-		
-		
-		//var node = $('#bookmarkTree').tree('getSelectedNode');
-		//document.getElementById("rename_folder-name-input").value = node.name;
 	};
 
 	
@@ -234,7 +196,6 @@ var reorderEvent = null;
 		if (typeof data != 'undefined' && data != null && data.contentBookmarksV2 != null) {
 			for (var i=0;(data.contentBookmarksV2.folders != null) && (i < data.contentBookmarksV2.folders.length); i++) {
 				var topFolderChildren = [];	
-				//var subFolders = [];
 				// populate sub folder data
 				if (data.contentBookmarksV2.folders[i].subFolders != null){
 					for (var k=0;(data.contentBookmarksV2.folders[i].subFolders != null) && (k < data.contentBookmarksV2.folders[i].subFolders.length); k++) {
@@ -417,7 +378,6 @@ var reorderEvent = null;
 		    function(event) {
 					// The clicked node is 'event.node'
 				var node = event.node;
-				//$.fn.bookmarkSelection();
 			
 		    }
 		);
@@ -427,13 +387,11 @@ var reorderEvent = null;
 				'tree.select',
 				function(event) {
 					if ($('#bookmarkTree').tooltip()) {
-					  $('#bookmarkTree').tooltip( "destroy" );  
-					  //$("#bookmarkTree").parents('div').remove();  
+					  $('#bookmarkTree').tooltip( "destroy" );   
 					}
 					if (event.node) {
 						// node was selected
 						var node = event.node;
-						//alert(node.name);
 						$.fn.bookmarkSelection();
 					}
 					else {
@@ -450,8 +408,7 @@ var reorderEvent = null;
 
 			  var node = $('#bookmarkTree').tree('getNodeByHtmlElement', e.target);	
 			  if ($('#bookmarkTree').tooltip()) {
-				  $('#bookmarkTree').tooltip( "destroy" );  
-				  //$("#bookmarkTree").parents('div').remove();  
+				  $('#bookmarkTree').tooltip( "destroy" );    
 			  }
 				$( '#bookmarkTree' ).tooltip({
 				      items: "span, a",
@@ -478,7 +435,6 @@ var reorderEvent = null;
 					// remove tooltip if any exists on move
 					  if ($('#bookmarkTree').tooltip()) {
 						  $('#bookmarkTree').tooltip( "destroy" );  
-						  //$("#bookmarkTree").parents('div').remove();  
 					  } 
 					
 					var level = event.move_info.target_node.getLevel();
@@ -498,17 +454,13 @@ var reorderEvent = null;
 					
 					// prevent the default and create a move info event so that we can grab the details.
 					event.preventDefault(); 
-					event.move_info.do_move();
-					
-					//alert('target_node.type = ' + event.move_info.target_node.type + ', moved_node.type = ' + event.move_info.moved_node.type + ', position = ' + event.move_info.position);
-					
+					event.move_info.do_move(); 
+										
 					id = event.move_info.moved_node.id;
 					type = event.move_info.moved_node.type;
 					position = event.move_info.position; 
 
-///////////////////////////////**************************************///////////////////////////////
-					// Iain Vize - commented this out for the moment, please do not remove.
-					
+					// loop round the whole tree to figure out the position of where the bookmark is being dropped.
 					var match = false;
 					var nextFound = false;
 					var nextBookmarkSequenceNumber;
@@ -522,7 +474,6 @@ var reorderEvent = null;
 							if (match){
 						// see if next in the loop is a bookmark
 								if (results[res].type == type && results[res].id != id && position != "before"){
-									//alert('1. next bookmark title is '+results[res].name+', Next Sequence Num = '+nextSequenceNumber);
 									nextSequenceNumber = results[res].sequenceNumber;
 									match = false;
 									break loop1;
@@ -531,12 +482,10 @@ var reorderEvent = null;
 							
 							// capture current bookmark sequence number as this will be the previous one to the next
 							if (results[res].type == type && results[res].id != id && position != "before"){
-								previousSequenceNumber = results[res].sequenceNumber;
-								//alert('1. previousSequenceNumber = '+previousSequenceNumber);  
+								previousSequenceNumber = results[res].sequenceNumber;  
 							}
 							
-							if (results[res].id == targetId){ 
-								//alert ('1. target id matched res id = '+results[res].id+', target id ='+targetId+', target name = '+targetName); 
+							if (results[res].id == targetId){  
 								match = true;
 								if (position == "before"){
 									//only time position is before is if the bookmark is being put to the top of the list so we need to set the next 
@@ -555,7 +504,6 @@ var reorderEvent = null;
 										if (match){
 											// see if next in the loop is a bookmark
 											if (results[res].children[resChildren].type == type && results[res].children[resChildren].id != id){
-												//alert('2. next bookmark title is '+results[res].children[resChildren].name);
 												nextSequenceNumber = results[res].children[resChildren].sequenceNumber;
 												match = false;
 												break loop1;
@@ -565,11 +513,9 @@ var reorderEvent = null;
 										// capture current bookmark sequence number as this will be the previous one to the next
 										if (results[res].children[resChildren].type == type && results[res].children[resChildren].id != id){
 											previousSequenceNumber = results[res].children[resChildren].sequenceNumber;
-											//alert('2. previousSequenceNumber = '+previousSequenceNumber);
 										}
 										
 										if (results[res].children[resChildren].id == targetId){ 
-											//alert ('2. target id matched res id = '+results[res].children[resChildren].id+'target id ='+targetId+', target name = '+targetName);
 											match = true;
 										}
 											// check for children of children
@@ -579,7 +525,6 @@ var reorderEvent = null;
 													if (match){
 														// see if next in the loop is a bookmark
 														if (results[res].children[resChildren].children[resChildrenChildren].type == type && results[res].children[resChildren].children[resChildrenChildren].id != id){
-															//alert('3. next bookmark title is '+results[res].children[resChildren].children[resChildrenChildren].name);
 															nextSequenceNumber = results[res].children[resChildren].children[resChildrenChildren].sequenceNumber;
 															match = false;
 															break loop1;
@@ -589,11 +534,9 @@ var reorderEvent = null;
 													// capture current bookmark sequence number as this will be the previous one to the next
 													if (results[res].children[resChildren].children[resChildrenChildren].type == type && results[res].children[resChildren].children[resChildrenChildren].id != id){
 														previousSequenceNumber = results[res].children[resChildren].children[resChildrenChildren].sequenceNumber;
-														//alert('3. previousSequenceNumber = '+previousSequenceNumber);
 													}
 													
-													if (results[res].children[resChildren].children[resChildrenChildren].id == targetId){ 
-														//alert ('3. target id matched res id = '+results[res].children[resChildren].children[resChildrenChildren].id+'target id ='+targetId+', target name = '+targetName); 
+													if (results[res].children[resChildren].children[resChildrenChildren].id == targetId){  
 														match = true;
 													}
 														// last children check due to constraints on the table limiting the number of nodes.
@@ -602,7 +545,6 @@ var reorderEvent = null;
 																if (match){
 																	// see if next in the loop is a bookmark
 																	if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].type == type && results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id != id	){
-																		//alert('4. next bookmark title is '+results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].name);
 																		nextSequenceNumber = results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].sequenceNumber;
 																		match = false;
 																		break loop1;
@@ -612,11 +554,9 @@ var reorderEvent = null;
 																// capture current bookmark sequence number as this will be the previous one to the next
 																if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].type == type && results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id != id){
 																	previousSequenceNumber = results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].sequenceNumber;
-																	//alert('4. previousSequenceNumber = '+previousSequenceNumber);
 																}
 																
 																if (results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id == targetId){		
-																	//alert ('4. target id matched res id = '+results[res].children[resChildren].children[resChildrenChildren].children[resChildrenChildrenChildren].id+'target id ='+targetId+', target name = '+targetName);
 																	match = true;
 																}
 															}		
@@ -629,16 +569,7 @@ var reorderEvent = null;
 								}
 						
 						}
-						 
-					
-					// if no next sequence number then this is the last bookmark in the tree.
-					//alert('end previousSequenceNumber = '+previousSequenceNumber);
-					//alert('end nextSequenceNumber = '+nextSequenceNumber);
-					//if (nextSequenceNumber == null){
-					//	alert ('bookmark is being moved to be the last bookmark in the tree, move position will always be down. Even if only one bookmark and we are moving *up* into a folder. Reorder does not care at this point.');
-						
-					//}
-					
+						 			
 					//now figure out direction and number moved
 					if (nextSequenceNumber != null){
 						if (nextSequenceNumber > event.move_info.moved_node.sequenceNumber){
@@ -647,9 +578,7 @@ var reorderEvent = null;
 						}else{
 							moveDirection = "UP";
 							noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - previousSequenceNumber;
-							//if (event.move_info.position == "before"){
 								noOfMoveSpaces = noOfMoveSpaces - 1; 
-							//}
 						}
 					}else{
 						moveDirection = "DOWN";
@@ -659,62 +588,7 @@ var reorderEvent = null;
 							noOfMoveSpaces = previousSequenceNumber - event.move_info.moved_node.sequenceNumber;
 						}
 					}
-					
-					//alert('Direction = ' + moveDirection + ', Spaces = ' + noOfMoveSpaces);
-					//alert('previousSequenceNumber = ' + previousSequenceNumber + ', nextSequenceNumber = ' + nextSequenceNumber + ', event.move_info.moved_node.sequenceNumber = ' + event.move_info.moved_node.sequenceNumber);
-					//moveDirection = null; 
-					//noOfMoveSpaces = null;
-					
-///////////////////////////////**************************************/////////////////////////////// 
-					
-		///////////////////////////////////////////////////////////////////////////////////////////////			
-		/*								
-					// If position is inside then we are either dumping in a folder for the first time, or we are dumping the bookmark at the top of the folder
-					//either way we need to get the next bookmark to see work out the move direction and move spaces.
-					if (type == "bookmark" && position == "inside"){
-						// get selected node so we can 
-						var nextNode = event.move_info.moved_node.getNextNode();
-						// now check if it's a folder or bookmark.
-						/////alert('next node type = ' + nextNode.type);
-						if (nextNode != null){
-							if (nextNode.type == "bookmark"){
-								if (nextNode.sequenceNumber > event.move_info.moved_node.sequenceNumber){
-									moveDirection = "DOWN";
-									noOfMoveSpaces = nextNode.sequenceNumber - event.move_info.moved_node.sequenceNumber;
-								}else{
-									moveDirection = "UP";
-									noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - nextNode.sequenceNumber;
-									if (event.move_info.position == "after"){
-										noOfMoveSpaces = noOfMoveSpaces - 1;
-									}
-								}
-							} else{
-								// try again for next bookmark.
-								var nextNextNode = nextNode.getNextNode();
-								////alert('next next node type = ' + nextNextNode.type);
-								if (nextNextNode.type == "bookmark"){
-									if (nextNextNode.sequenceNumber > event.move_info.moved_node.sequenceNumber){
-										moveDirection = "DOWN";
-										noOfMoveSpaces = nextNextNode.sequenceNumber - event.move_info.moved_node.sequenceNumber;
-									}else{
-										moveDirection = "UP";
-										noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - nextNextNode.sequenceNumber;
-										if (event.move_info.position == "after"){
-											noOfMoveSpaces = noOfMoveSpaces - 1;
-										}
-									}
-								}
-							}
-						}else{
-							// only one bookmark so we can set the direction to up and the move nummber to zero
-							moveDirection = "UP";
-							noOfMoveSpaces = 0;
-						}
-					}
-					
-		*/
-		///////////////////////////////////////////////////////////////////////////////////////////////
-					
+										
 					
 					// first add the id of the item we are moving to the parameterString.
 					if (type == "folder"){
@@ -741,14 +615,12 @@ var reorderEvent = null;
 							moveDirection = "DOWN";
 							noOfMoveSpaces = event.move_info.target_node.sequenceNumber - event.move_info.moved_node.sequenceNumber;
 							//noOfMoveSpaces = noOfMoveSpaces + 1; 
-							/////alert ('move dowm '+noOfMoveSpaces+' spaces.');
 						}else{
 							moveDirection = "UP";
 							noOfMoveSpaces = event.move_info.moved_node.sequenceNumber - event.move_info.target_node.sequenceNumber;
 							if (event.move_info.position == "after"){
 								noOfMoveSpaces = noOfMoveSpaces - 1;
 							}
-							/////alert ('move up '+noOfMoveSpaces+' spaces.');
 						}
 					}
 					
@@ -764,7 +636,6 @@ var reorderEvent = null;
 					
 					
 					if (parameterString != null){
-						/////alert('parameterString = '+ parameterString);
 						
 						
 						//check to see if this is the same event (sometimes the same event gets fired multiple times) if not let it through
@@ -813,11 +684,6 @@ var reorderEvent = null;
 		//$.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/bookmarks?page=' + 1 + '&size=' + 100, SEARCH_SERVICE_TIMEOUT, callBack);
 		$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/listallbookmarks', SEARCH_SERVICE_TIMEOUT, callBack); 
 
-
-		//$('#bookmark-button-up').removeClass('bookmark_button_active');
-		//$('#bookmark-button-down').removeClass('bookmark_button_active');
-		//$('#bookmark-button-up').attr('disabled', 'disabled');
-		//$('#bookmark-button-down').attr('disabled', 'disabled');
 	}
 	
 	$.fn.getSequenceNumbers = function(currentNode, targetNode){
