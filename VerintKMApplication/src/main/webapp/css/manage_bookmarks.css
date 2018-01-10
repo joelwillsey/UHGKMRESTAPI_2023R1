@@ -229,7 +229,7 @@
 
 /* Media Queries */
 /* @media screen and (max-width: 1024px) { */
-@media screen and (max-width: 57em) {
+@media screen and (max-width: 912px) {
 		#bookmark-table-header-end {
 			display: none;
 		}
