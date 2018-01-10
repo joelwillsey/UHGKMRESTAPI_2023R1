@@ -51,20 +51,22 @@ $.fn.getIsetResponse = function(refName, objType, objId) {
 		if (typeof data.migratableReferenceId != 'undefined' && data.migratableReferenceId != null && data.migratableReferenceId.length > 0){
 			migratableReferenceId = data.migratableReferenceId["0"].migratableReferenceId;
 			log("migratableReferenceId=" + migratableReferenceId);
+			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' data [' + data.migratableReferenceId.length + ']: ' + migratableReferenceId + '\n\nCLICK OK TO CONTINUE');
 		} else {
 			log("migratableReferenceId=");
 			log(data);
+			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' data [' + data.migratableReferenceId.length + ']: ' + migratableReferenceId + '\n\nCLICK OK TO CONTINUE');
 		}
 	});
+	
+	
+	
 	return migratableReferenceId;
 }
 	
 $.fn.callingRespectiveService = function( variables) {
-	
-	
-	log("ISET Variables: " + variables);
-	
-	
+		
+	log("ISET Variables: " + variables);	
 	
 	//we want to check that the first element is create
 	if( variables[0] == "create"){
