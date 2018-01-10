@@ -840,6 +840,15 @@ $(document).ready(function() {
 			async : true
 		});
 		log ('Agent result of $.fn.checkKBaseTags(' + systemTagName + ') = '+ result);
+		
+		//TODO Remove these alerts
+		if (!result ){
+			if (typeof data.tags != 'undefined' && data.tags != null){
+				alert('Service call to ' + url + ' has returned null or undefined');
+			} else {
+				alert('Failed knowledge base check for ' + systemTagName + ' data.tags.length = ' + data.tags.length);
+			}
+		}
 		return result;
 	}
 	
