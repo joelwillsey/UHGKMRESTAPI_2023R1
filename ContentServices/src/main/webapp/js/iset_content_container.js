@@ -41,22 +41,35 @@ $(document).ready(function() {
 */
 $.fn.copyToVariable = function() {
 	var autoDocText = (document.all) ? document.selection.createRange().text : document.getSelection();
-	var contentTitle = $(".content_header_left_title").text();	
+	var contentTitle = $(".content_header_left_title").text();
+	var isetDomain = 'uhc.com';
+	var currentDomain = document.domain;
 	
-	if(autoDocText == ""){
-		alert("Please select text to copy to Comment.");
-	}else{
-		if(window.opener){
-			var isetresponse = window.opener.addKMComments("[" + contentTitle + "] - " + autoDocText);			
-			
-			if(isetResponse!="ok"){
-				alert(isetResponse);
-			}else{
-				window.opener.focus();
-			}
+	log('CopyToComments current domain is ' + currentDomain + ' setting domain to ' + isetDomain);
+	//Set domain to main domain, current domain is probably the sub domain
+	try {
+		document.domain = isetDomain;
+		
+		if(autoDocText == ""){
+			alert("Please select text to copy to Comment.");
 		}else{
-			alert("Unable to communicate with ISET.");
+			if(window.opener){
+				var isetresponse = window.opener.addKMComments("[" + contentTitle + "] - " + autoDocText);			
+				
+				if(isetResponse!="ok"){
+					alert(isetResponse);
+				}else{
+					window.opener.focus();
+				}
+			}else{
+				alert("Unable to communicate with ISET.");
+			}
+			autoDocText="";
 		}
-		autoDocText="";
+		//Set domain back to sub domain
+		document.domain = currentDomain;
+	} catch (ex) {
+		log(ex);
+		$.fn.handleErrorText('Copy to comments exception, ' + ex);
 	}
 }
