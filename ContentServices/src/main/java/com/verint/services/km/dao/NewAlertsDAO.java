@@ -17,15 +17,12 @@ public interface NewAlertsDAO {
 
 	/**
 	 * 
-	 * @param username
-	 * @param password
-	 * @param sourcetag
-	 * @param targettagset
-	 * @param targettagset2 
-	 * @param targettagset1 
+	 * @param username 
 	 * @return
 	 * @throws SQLException
 	 * @throws IOException
 	 */
 	public AlertsResponse getReadAlerts(String userName) throws SQLException, IOException;
+	public void recordReadStatus(String content_id, String migRefId, String userName) throws SQLException, IOException;
+		
 }
