@@ -788,7 +788,9 @@
 		float: none;
 	}
 
-	@media screen and (max-width: 1024px) {
+	<!-- conver to em 1024 / 16 = 64em -->
+	<!-- @media screen and (max-width: 1024px) {-->
+	@media screen and (max-width: 57em) {
 	body {
 		margin: 0px;
 		overflow-y: auto;
@@ -853,7 +855,7 @@
 
 	// Search resize
 	$.fn.setupSearchWidget = function() {
-		if ($(window).outerWidth(true) < 1025) {
+		if ($(window).outerWidth(true) < 912) {
 			$('#search-menu').insertBefore('#search-wrapper');
 		} else {
 			$('#search-wrapper').removeClass('off');
@@ -873,7 +875,7 @@
 		// **NOTE: For IE9/10 the deleteClass and createClass functions will cause access exceptions
 		//
 	    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 912) {
 				$('#search-results').css('height', '100%');
 				$('#sr-listing').css('height', '100%');
 			} else {	    		
@@ -883,7 +885,7 @@
 				$('#sr-listing').css('height', searchResultsListing);
 			}
 	    } else {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 800) {
 				if ($('#content-area').hasClass('content_area_on')) {
 					$('#search-area').addClass('search_area_off');
 				} else {
@@ -912,7 +914,7 @@
 	// Filters resize
 	$.fn.setupFiltersWidget = function() {
 	    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 912) {
 				$('#filter-container').css('height', '100%');
 				$('#div-topic-tags').insertAfter('#topic-arrow');
 				$('#div-topic-tags').removeClass('tag_tree_on');
@@ -933,7 +935,7 @@
 				$('#div-topic-tags').insertAfter('#tags-topic');
 			}
 	    } else {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 912) {
 				if ($('#content-area').hasClass('content_area_on')) {
 					$('#filters-area').addClass('filters_area_off');
 				}
@@ -967,7 +969,7 @@
 	$.fn.setupContentWidget = function() {
 		$('#content-area').removeClass('content_area_off');
 	    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 912) {
 				$('#content-container').css('height', '100%');
 			} else {	    		
 				var sizeOfContentWidget = $(window).outerHeight(true) - $('#widgetHeader').outerHeight(true) - 25;
@@ -975,7 +977,7 @@
 				$('#content-container').addClass('content_container_on');
 			}
 	    } else {
-			if ($(window).outerWidth(true) < 1025) {
+			if ($(window).outerWidth(true) < 800) {
 				$('#content-container').removeClass('content_resize');
 				$.fn.deleteClass('.content_resize');
 			} else {

@@ -55,7 +55,11 @@ $.fn.getIsetResponse = function(refName, objType, objId) {
 		} else {
 			log("migratableReferenceId=");
 			log(data);
-			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' data [' + data.migratableReferenceId.length + ']: ' + migratableReferenceId + '\n\nCLICK OK TO CONTINUE');
+			if (typeof data.migratableReferenceId != 'undefined' && data.migratableReferenceId != null){
+				alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' returned null or undefined\n\nCLICK OK TO CONTINUE');
+			} else {
+				alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' data [' + data.migratableReferenceId.length + ']: ' + migratableReferenceId + '\n\nCLICK OK TO CONTINUE');
+			}
 		}
 	});
 	
@@ -330,6 +334,14 @@ $.fn.checkKBaseTags = function(systemTagName) {
 		async : true
 	});
 	log ('Agent result of $.fn.checkKBaseTags(' + systemTagName + ') = '+ result);
+	//TODO Remove these alerts
+	if (!result ){
+		if (typeof data.tags != 'undefined' && data.tags != null){
+			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\nService call to ' + url + ' has returned null or undefined');
+		} else {
+			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\nFailed knowledge base check for ' + systemTagName + ' data.tags.length = ' + data.tags.length);
+		}
+	}
 	return result
 }	
 	

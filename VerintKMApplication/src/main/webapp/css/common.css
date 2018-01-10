@@ -186,7 +186,9 @@ i {
 	display: block;
 }
 
-@media screen and (max-width: 1024px) {
+/** 
+/**@media screen and (max-width: 1024px) {**/
+@media screen and (max-width: 57em) {
 	.popup {
 	    top: 0;
 	    transform: translate(-50%, 0%);

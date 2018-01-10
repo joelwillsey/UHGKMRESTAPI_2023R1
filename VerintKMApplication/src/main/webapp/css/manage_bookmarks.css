@@ -228,7 +228,8 @@
 		}
 
 /* Media Queries */
-@media screen and (max-width: 1024px) {
+/* @media screen and (max-width: 1024px) { */
+@media screen and (max-width: 57em) {
 		#bookmark-table-header-end {
 			display: none;
 		}
