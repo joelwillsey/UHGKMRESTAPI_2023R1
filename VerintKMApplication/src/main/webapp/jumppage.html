@@ -44,8 +44,20 @@
 			</div>
 		</div>
 	</div>
-	<div>
-		<span>ISET Jump Page</span>
+	<div style="text-align:center">
+		<p>
+			<span>ISET Jump Page</span>
+		</p>
+	</div>
+	<div style="text-align:center">   
+		<p>Please press the Continue button to view your content</p>
+		<button id="debug-button" class="km_button" onclick="debugPause();" tabindex="1" type="button" name="error-button-message" title="Continue" accesskey="S">
+		<span>Continue</span>
+		</button> 
+	</div>
+	<div style="text-align:center">   
+		<p></p>
+		<p>To start debugging simply press the F12 button on your keyboard to bring up the dev tools</p>
 	</div>
 
 	<script type="text/javascript">    
@@ -78,7 +90,13 @@
 			
 			//do not want to call 
 			if ($.fn.isUserAuthenticated())
-				  $.fn.setUpJump();				
+				//  $.fn.setUpJump();		
+			
+			function debugPause() {
+				if ($.fn.isUserAuthenticated())
+					  $.fn.setUpJump();	
+			}
+			
 		</script>
 </body>
 
