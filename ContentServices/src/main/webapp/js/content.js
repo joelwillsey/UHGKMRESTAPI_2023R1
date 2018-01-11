@@ -134,6 +134,7 @@ $(document).ready(function() {
 
 	// Feedback link
 	$('#feedback').on('click', function() {
+		log('Init feedback contentId=' + contentId + ' viewId='+viewId );
 		$.fn.initFeedbackData(contentId, 0, viewId);
 		$('#popup').html($('#feedback-widget').html());
 		$('#feedback-widget').html('');

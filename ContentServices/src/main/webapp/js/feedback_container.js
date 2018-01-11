@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	// Load Content HTML
 	if ($.fn.isDraftContent()){
-		// Draft content might not be in the contentServiceName path because it is proxied so we need to get teh proxy path to bypass Siteminder 
+		// Draft content might not be in the contentServiceName path because it is proxied so we need to get the proxy path to bypass Siteminder 
 		var contextPath = window.location.pathname.split('/');		 
 		/**When we split the pathname the first array element will be blank because it looks like this /verintkm/verintkm.html
 		contextPath[0]="", contextPath[1]="verintkm", contextPath[2]="verintkm.html", **/
