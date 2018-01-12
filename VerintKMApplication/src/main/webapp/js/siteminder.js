@@ -1,6 +1,7 @@
 var authToken;
 var authenticated = false;
 var errorMessage;
+var username;
 
 var debug = true;
 var params = $.fn.getAllParametersString();
@@ -12,7 +13,7 @@ $.fn.setupHeader = function(jqXHR) {
 	document.cookie = 'CSRF-TOKEN=' + token + '; path=/';
 	jqXHR.setRequestHeader('X-CSRF-TOKEN', token);
 	jqXHR.setRequestHeader('x-km-authorization', authToken);
-	jqXHR.setRequestHeader('USERNAME', "kmmanager");
+	jqXHR.setRequestHeader('USERNAME', username);
 }
     
 
@@ -153,6 +154,7 @@ $.fn.ssoLoginService = function() {
     if (ssousername == null){
         window.document.location = "/verintkm/login.html";        
 	} else {
+			username = ssousername;
 	  		jQuery.ajaxSetup({
 	  			async : false
 	  		});    

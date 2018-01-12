@@ -47,23 +47,33 @@ $.fn.getIsetResponse = function(refName, objType, objId) {
 	var migratableReferenceId = "";
 	
 	var url = contentServiceName + 'km/iset/migref?refName='+refName+'&objType='+objType+'&objID='+objId;
-	$.fn.serviceCall('GET', '', url, 15000, function(data) {
-		if (typeof data.migratableReferenceId != 'undefined' && data.migratableReferenceId != null && data.migratableReferenceId.length > 0){
-			migratableReferenceId = data.migratableReferenceId["0"].migratableReferenceId;
-			log("migratableReferenceId=" + migratableReferenceId);
-			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' data [' + data.migratableReferenceId.length + ']: ' + migratableReferenceId + '\n\nCLICK OK TO CONTINUE');
-		} else {
-			log("migratableReferenceId=");
-			log(data);
-			if (typeof data.migratableReferenceId != 'undefined' && data.migratableReferenceId != null){
-				alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' returned null or undefined\n\nCLICK OK TO CONTINUE');
-			} else {
-				alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' data [' + data.migratableReferenceId.length + ']: ' + migratableReferenceId + '\n\nCLICK OK TO CONTINUE');
-			}
-		}
+	
+	jQuery.ajaxSetup({
+		async : false
 	});
 	
+	try {		
+		$.fn.serviceCall('GET', '', url, 15000, function(data) {
+			if (typeof data.migratableReferenceId != 'undefined' && data.migratableReferenceId != null && data.migratableReferenceId.length > 0){
+				migratableReferenceId = data.migratableReferenceId["0"].migratableReferenceId;
+				log("migratableReferenceId=" + migratableReferenceId);			
+			} else {
+				log("migratableReferenceId=");
+				log(data);
+				if (typeof data.migratableReferenceId != 'undefined' && data.migratableReferenceId != null){
+					alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' returned null or undefined\n\nCLICK OK TO CONTINUE');
+				} else {
+					alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' data [' + data.migratableReferenceId.length + ']: ' + migratableReferenceId + '\n\nCLICK OK TO CONTINUE');
+				}
+			}
+		});
+	} catch(err) {
+		log('$.fn.getIsetResponse Exception: ' +err.messagee);
+		}
 	
+	jQuery.ajaxSetup({
+		async : true
+	});
 	
 	return migratableReferenceId;
 }
@@ -262,9 +272,9 @@ $.fn.callingRespectiveService = function( variables) {
 		}
 		
 		//run a search for refName 
-		jQuery.ajaxSetup({async:false});
+		//jQuery.ajaxSetup({async:false});
 		var migratableReferenceId = $.fn.getIsetResponse(refName,"all","");
-		jQuery.ajaxSetup({async:true});
+		//jQuery.ajaxSetup({async:true});
 	//	document.cookie = 'savedurl=' + 'jumppage.html%3F' + variables[0] + '; path=/';
 		if (typeof migratableReferenceId != 'undefined' && migratableReferenceId != null && migratableReferenceId !='') {
 			var url = contentServiceName + 'content_container.html?id='+migratableReferenceId+params;
@@ -285,9 +295,7 @@ $.fn.callingRespectiveService = function( variables) {
 		}
 		
 		//run a search for refName 
-		jQuery.ajaxSetup({async:false});
 		var migratableReferenceId = $.fn.getIsetResponse(refName,"all","");
-		jQuery.ajaxSetup({async:true});
 	//	document.cookie = 'savedurl=' + 'jumppage.html%3F' + variables[0] + '; path=/';
 		if (typeof migratableReferenceId != 'undefined' && migratableReferenceId != null && migratableReferenceId !='') {
 			var url = contentServiceName + 'iset_content_container.html?id='+migratableReferenceId+params;
@@ -310,11 +318,9 @@ $.fn.checkKBaseTags = function(systemTagName) {
 	var url = filtersServiceName + 'km/kbasetags';		
 	var result = false;
 	
-	jQuery.ajaxSetup({
-		async : false
-	});
+	jQuery.ajaxSetup({async : false});
 	
-	$.fn.serviceCall('GET', '', url, 15000, function(data) {
+	$.fn.serviceCallAsyncFalse('GET', '', url, 15000, function(data) {
 		
 		var kbaseData = '';
 		if (typeof data.tags != 'undefined' && data.tags != null && data.tags.length > 0) {
@@ -330,10 +336,10 @@ $.fn.checkKBaseTags = function(systemTagName) {
 			}
 	});
 
-	jQuery.ajaxSetup({
-		async : true
-	});
+	jQuery.ajaxSetup({async : true});
+	
 	log ('Agent result of $.fn.checkKBaseTags(' + systemTagName + ') = '+ result);
+	
 	//TODO Remove these alerts
 	if (!result ){
 		if (typeof data.tags != 'undefined' && data.tags != null){
