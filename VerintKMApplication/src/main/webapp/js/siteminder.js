@@ -1,7 +1,7 @@
 var authToken;
 var authenticated = false;
 var errorMessage;
-var username;
+var userName;
 
 var debug = true;
 var params = $.fn.getAllParametersString();
@@ -13,7 +13,7 @@ $.fn.setupHeader = function(jqXHR) {
 	document.cookie = 'CSRF-TOKEN=' + token + '; path=/';
 	jqXHR.setRequestHeader('X-CSRF-TOKEN', token);
 	jqXHR.setRequestHeader('x-km-authorization', authToken);
-	jqXHR.setRequestHeader('USERNAME', username);
+	jqXHR.setRequestHeader('USERNAME', userName);
 }
     
 
@@ -67,6 +67,7 @@ $.fn.setupToken = function(username, password) {
 	}
     authToken = ' Basic ' + encodedCredentials;
     document.cookie = 'AuthToken=' + authToken + '; path=/';
+    userName = username;
 }
 
 // Setup the user information
@@ -154,7 +155,7 @@ $.fn.ssoLoginService = function() {
     if (ssousername == null){
         window.document.location = "/verintkm/login.html";        
 	} else {
-			username = ssousername;
+			userName = ssousername;
 	  		jQuery.ajaxSetup({
 	  			async : false
 	  		});    
