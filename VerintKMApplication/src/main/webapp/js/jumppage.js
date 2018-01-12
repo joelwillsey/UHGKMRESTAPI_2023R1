@@ -318,9 +318,11 @@ $.fn.checkKBaseTags = function(systemTagName) {
 	var url = filtersServiceName + 'km/kbasetags';		
 	var result = false;
 	
-	jQuery.ajaxSetup({async : false});
+	jQuery.ajaxSetup({
+		async : false
+	});
 	
-	$.fn.serviceCallAsyncFalse('GET', '', url, 15000, function(data) {
+	$.fn.serviceCall('GET', '', url, 15000, function(data) {
 		
 		var kbaseData = '';
 		if (typeof data.tags != 'undefined' && data.tags != null && data.tags.length > 0) {
@@ -336,7 +338,9 @@ $.fn.checkKBaseTags = function(systemTagName) {
 			}
 	});
 
-	jQuery.ajaxSetup({async : true});
+	jQuery.ajaxSetup({
+		async : true
+	});
 	
 	log ('Agent result of $.fn.checkKBaseTags(' + systemTagName + ') = '+ result);
 	
