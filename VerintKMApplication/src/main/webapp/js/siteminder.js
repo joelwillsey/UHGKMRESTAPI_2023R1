@@ -1,7 +1,7 @@
 var authToken;
 var authenticated = false;
 var errorMessage;
-var userName;
+var userName = 'kmagent';
 
 var debug = true;
 var params = $.fn.getAllParametersString();
@@ -154,8 +154,7 @@ $.fn.ssoLoginService = function() {
 
     if (ssousername == null){
         window.document.location = "/verintkm/login.html";        
-	} else {
-			userName = ssousername;
+	} else {			
 	  		jQuery.ajaxSetup({
 	  			async : false
 	  		});    
