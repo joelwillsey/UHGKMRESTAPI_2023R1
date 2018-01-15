@@ -21,6 +21,10 @@ public class PropertyUtil {
 		return GetBasePath() + "connectionPool.properties";
 	}
 	
+	public static String getConnectionPoolRSPath() {
+		return GetBasePath() + "connectionPoolRS.properties";
+	}
+	
 	public static String getSoapConnectionPath() {
 		return GetBasePath() + "soapConnection.properties";
 	}

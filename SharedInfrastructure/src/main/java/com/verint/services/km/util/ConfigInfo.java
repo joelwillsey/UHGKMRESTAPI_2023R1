@@ -25,6 +25,13 @@ public class ConfigInfo {
 	private String connectionMaxtotal="2";
 	private String connectionMaxidle="1";
 	
+	//ConnectionRS
+	private String connectionRSDriverclassname = "";		
+	private String connectionRSUrl="";
+	private String connectionRSUsername="";
+	private String connectionRSPassword="";
+	private String connectionRSMaxtotal="2";
+	private String connectionRSMaxidle="1";
 	//SOAP Properties
 	private String soapSearchservice="";
 	private String soapContentservice="";
@@ -46,22 +53,25 @@ public class ConfigInfo {
 	private String staticcontentServerurl="";
 	
 	private String solrAutosuggestURI = "";
+	private String alertsNumDays = "";
 	
 	private String connectionPoolFile;
 	private String systemFile;
 	private String readerFile;
-	
+	private String connectionPoolRSFile;
 
 
 	public ConfigInfo() {
 		
 		final String OSName = System.getProperty("os.name");
 		connectionPoolFile = getConfigLocation() + "/" + getEnvironmentName() + "/connectionPool.properties";
+		connectionPoolRSFile = getConfigLocation() + "/" + getEnvironmentName() + "/connectionPoolRS.properties";
 		systemFile = getConfigLocation() + "/" + getEnvironmentName() + "/" + getMachineName() + "/" + getContainerName() + "/system.properties";
 		readerFile = getConfigLocation() + "/" + getEnvironmentName() + "/propertyReader.properties";
 		
 		if (OSName != null && OSName.length() > 0 && OSName.startsWith("Windows")) {
 			connectionPoolFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\connectionPool.properties";
+			connectionPoolRSFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\connectionPoolRS.properties";
 			systemFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\" + getMachineName() + "\\" + getContainerName() + "\\system.properties";
 			readerFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\propertyReader.properties";
 		}
@@ -81,6 +91,17 @@ public class ConfigInfo {
 				connectionPassword= prop.getProperty("connection.password");
 				connectionMaxtotal= prop.getProperty("connection.maxtotal");
 				connectionMaxidle= prop.getProperty("connection.maxidle");
+				
+				final InputStream inConnectionRS = new FileInputStream(connectionPoolRSFile);
+				prop.load(inConnectionRS);
+				inConnectionRS.close();
+
+				connectionRSDriverclassname = prop.getProperty("connection.driverclassname");		
+				connectionRSUrl= prop.getProperty("connection.url");
+				connectionRSUsername= prop.getProperty("connection.username");
+				connectionRSPassword= prop.getProperty("connection.password");
+				connectionRSMaxtotal= prop.getProperty("connection.maxtotal");
+				connectionRSMaxidle= prop.getProperty("connection.maxidle");
 				
 				//Read the system.properties
 				final InputStream inSystem = new FileInputStream(systemFile);
@@ -107,6 +128,7 @@ public class ConfigInfo {
 				staticcontentServerurl= prop.getProperty("staticcontent.serverurl");
 				
 				solrAutosuggestURI = prop.getProperty("solr.autosuggestURI");
+				alertsNumDays=prop.getProperty("alerts.numDays");
 				
 			} catch (FileNotFoundException fnfe) {
 				LOGGER.error("FileNotFoundException", fnfe);
@@ -139,6 +161,32 @@ public class ConfigInfo {
 	public String getConnectionMaxidle() {
 		return connectionMaxidle;
 	}
+	
+	
+	
+	public String getConnectionRSDriverclassname() {
+		return connectionRSDriverclassname;
+	}
+	public String getConnectionRSUrl() {
+		return connectionRSUrl;
+	}
+	public String getConnectionRSUsername() {
+		return connectionRSUsername;
+	}
+	public String getConnectionRSPassword() {
+		return connectionRSPassword;
+	}
+	public String getConnectionRSMaxtotal() {
+		return connectionRSMaxtotal;
+	}
+	public String getConnectionRSMaxidle() {
+		return connectionRSMaxidle;
+	}
+	
+	
+	
+	
+	
 	public String getSoapSearchservice() {
 		return soapSearchservice;
 	}
@@ -193,6 +241,9 @@ public class ConfigInfo {
 	public String getsolrAutosuggestURI() {
 		return solrAutosuggestURI;
 	}
+	public String getalertsNumDays(){
+		return alertsNumDays;
+	}
 	public String getSystemFile() {
 		return systemFile;
 	}
@@ -203,7 +254,9 @@ public class ConfigInfo {
 	public String getConnectionPoolFile() {
 		return connectionPoolFile;
 	}
-	
+	public String getConnectionPoolRSFile() {
+		return connectionPoolRSFile;
+	}
 	public String getEnvironmentName() {
 		
 		String result = "";

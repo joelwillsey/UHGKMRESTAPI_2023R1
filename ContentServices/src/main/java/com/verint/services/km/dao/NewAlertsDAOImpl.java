@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -18,10 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.verint.services.km.dbcp.ConnectionPool;
+import com.verint.services.km.dbcp.ConnectionPoolRS;
 
 import com.verint.services.km.model.AlertsResponse;
 import com.verint.services.km.model.ReadAlert;
+import com.verint.services.km.model.RecordReadResponse;
 
 
 /**
@@ -57,18 +59,24 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 	public AlertsResponse getReadAlerts(String userName) throws SQLException, IOException {
 		LOGGER.info("Entering getReadAlerts()");
 		LOGGER.debug("userName: " + userName);
-
+		//Integer numDays = prop.getProperty("alertsNumDays");
+		Integer numDays = 30;
 		final AlertsResponse response = new AlertsResponse();
 		
 		// Get the connection and statement
-		final Connection connection = ConnectionPool.getConnection();
+		final Connection connection = ConnectionPoolRS.getConnection();
 		PreparedStatement stmt = null;
 
 		try {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.DATE, -(numDays));
+			Date dateBeforeXDays = cal.getTime();
 		
-				final String query = "SELECT a.content_id, a.migratable_reference, a.first_viewed_date from UHG_READ_ALERT a where a.USERNAME = ?";
+				final String query = "SELECT a.content_id, a.migratable_reference, a.first_viewed_date from UHG_READ_ALERT a where a.USERNAME = ? and a.first_viewed_date > ?";
 				stmt = connection.prepareStatement(query);
 				stmt.setString(1, userName);
+				stmt.setString(2, dateBeforeXDays.toString());
 
 				// Execute query
 				Instant start = Instant.now();
@@ -112,13 +120,14 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 	}
 	
 	
-	public void recordReadStatus(String content_id, String migRefId, String userName) throws SQLException, IOException {
+	public RecordReadResponse recordReadStatus(String content_id, String migRefId, String userName) throws SQLException, IOException {
 		LOGGER.info("Entering recordReadStatus()");
 		LOGGER.debug("userName: " + userName);
 
 	
 		// Get the connection and statement
-		final Connection connection = ConnectionPool.getConnection();
+		final Connection connection = ConnectionPoolRS.getConnection();
+		final RecordReadResponse response = new RecordReadResponse();
 		PreparedStatement stmt = null;
 		Date today = new Date();
 	
@@ -135,10 +144,11 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 				
 				Instant end = Instant.now();
 				LOGGER.debug("SERVICE_CALL_PERFORMANCE("+userName+") - getReadAlerts() duration: " + Duration.between(start, end).toMillis() + "ms");
-
+				response.setdidComplete(true);
 	
 	} catch (SQLException sqle) {
 		LOGGER.error("SQLException", sqle);
+		response.setdidComplete(false);
 		throw sqle;
 	} finally {
 		if (stmt != null)
@@ -146,6 +156,8 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 		if (connection != null)
 			connection.close();
 	}
+	
+	return response;
 	}
 }
 	

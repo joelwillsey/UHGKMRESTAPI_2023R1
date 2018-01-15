@@ -21,7 +21,8 @@ public class AlertsResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
-	//private Set<CrossTag> readAlerts = new HashSet<CrossTag>();
+	
+	//getReadAlerts is called once, on entry - the response will contain all read alerts within the date range
 	private ArrayList readAlerts = new ArrayList();
 	/**
 	 * Constructor 

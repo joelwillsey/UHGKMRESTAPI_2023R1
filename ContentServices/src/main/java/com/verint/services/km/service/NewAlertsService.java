@@ -68,8 +68,7 @@ public class NewAlertsService extends BaseService {
 	 * @return
 	 */
 	@Path("/getread")
-	@POST
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public AlertsResponse getReadAlerts(
     		@Context HttpServletRequest httpRequest) {
@@ -119,7 +118,7 @@ public class NewAlertsService extends BaseService {
     		@QueryParam("migRefId") String migRefId,
     		@Context HttpServletRequest httpRequest) {
 		LOGGER.info("Entering setReadAlerts()");
-
+//TODO: create response object
 		AlertsResponse newAlertsResponse = new AlertsResponse();
 
 		try {
