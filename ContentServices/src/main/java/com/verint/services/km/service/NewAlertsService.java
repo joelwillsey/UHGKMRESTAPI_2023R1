@@ -35,7 +35,7 @@ import com.verint.services.km.model.CrossTagResponse;
  * @author jmiller
  *
  */
-@Path("/crosstags")
+@Path("/alerts")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Service
