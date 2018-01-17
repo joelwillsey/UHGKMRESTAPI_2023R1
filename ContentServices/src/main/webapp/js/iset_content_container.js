@@ -54,7 +54,7 @@ $.fn.copyToVariable = function() {
 			alert("Please select text to copy to Comment.");
 		}else{
 			if(window.opener){
-				var isetresponse = window.opener.addKMComments("[" + contentTitle + "] - " + autoDocText);			
+				var isetResponse = window.opener.addKMComments("[" + contentTitle + "] - " + autoDocText);			
 				
 				if(isetResponse!="ok"){
 					alert(isetResponse);
@@ -66,8 +66,9 @@ $.fn.copyToVariable = function() {
 			}
 			autoDocText="";
 		}
-		//Set domain back to sub domain
-		document.domain = currentDomain;
+		//Set domain back to sub domain, this causing issue
+		//document.domain = currentDomain;
+		
 	} catch (ex) {
 		log(ex);
 		$.fn.handleErrorText('Copy to comments exception, ' + ex);
