@@ -24,6 +24,7 @@ import com.verint.services.km.dbcp.ConnectionPoolRS;
 import com.verint.services.km.model.AlertsResponse;
 import com.verint.services.km.model.ReadAlert;
 import com.verint.services.km.model.RecordReadResponse;
+import com.verint.services.km.util.ConfigInfo;
 
 
 /**
@@ -59,8 +60,9 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 	public AlertsResponse getReadAlerts(String userName) throws SQLException, IOException {
 		LOGGER.info("Entering getReadAlerts()");
 		LOGGER.debug("userName: " + userName);
-		//Integer numDays = prop.getProperty("alertsNumDays");
-		Integer numDays = 30;
+		ConfigInfo prop = new ConfigInfo();
+		Integer numDays = Integer.parseInt(prop.getalertsNumDays());
+
 		final AlertsResponse response = new AlertsResponse();
 		
 		// Get the connection and statement
