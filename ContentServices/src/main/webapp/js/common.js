@@ -79,6 +79,7 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 		url : url,
 		async: false,
 		dataType : 'json',
+		cache: false,
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
 			$.fn.setupHeader(jqXHR);
@@ -126,6 +127,7 @@ $.fn.serviceCallText = function(type, data, url, timeout, successCallback) {
 		url : url,
 		async: false,
 		dataType : 'text',
+		cache: false,
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
 			$.fn.setupHeader(jqXHR);
