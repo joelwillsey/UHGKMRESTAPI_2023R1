@@ -73,12 +73,12 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date());
 			cal.add(Calendar.DATE, -(numDays));
-			Date dateBeforeXDays = cal.getTime();
+			long dateBeforeXDays = cal.getTimeInMillis();
 		
 				final String query = "SELECT a.content_id, a.migratable_reference, a.first_viewed_date from UHG_READ_ALERT a where a.USERNAME = ? and a.first_viewed_date > ?";
 				stmt = connection.prepareStatement(query);
 				stmt.setString(1, userName);
-				stmt.setString(2, dateBeforeXDays.toString());
+				stmt.setDate(2, new java.sql.Date(dateBeforeXDays));
 
 				// Execute query
 				Instant start = Instant.now();
