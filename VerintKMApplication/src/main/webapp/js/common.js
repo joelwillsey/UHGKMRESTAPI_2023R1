@@ -85,13 +85,14 @@ $.fn.handleErrorText = function(textStatus) {
 
 // Service call function
 $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
-	// Call the search service
+	// Call the service
 	$.ajax({
 		type : type,
 		contentType : 'application/json',
 		data : data,
 		url : url,
 		dataType : 'json',
+		cache: false,
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
 			log('beforeSend');
@@ -142,6 +143,7 @@ $.fn.serviceCallAsyncFalse = function(type, data, url, timeout, successCallback)
     		data : data,
     		url : url,
     		dataType : 'json',
+    		cache: false,
     		timeout : timeout,
     		beforeSend : function(jqXHR, settings) {
     			log('beforeSend');
@@ -193,6 +195,7 @@ $.fn.serviceCallNoSpin = function(type, data, url, timeout, successCallback) {
 		data : data,
 		url : url,
 		dataType : 'json',
+		cache: false,
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
 			$.fn.setupHeader(jqXHR);
@@ -237,6 +240,7 @@ $.fn.serviceCallText = function(type, data, url, timeout, successCallback) {
 		url : url,
 		async: false,
 		dataType : 'text',
+		cache: false,
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
 			$.fn.setupHeader(jqXHR);
