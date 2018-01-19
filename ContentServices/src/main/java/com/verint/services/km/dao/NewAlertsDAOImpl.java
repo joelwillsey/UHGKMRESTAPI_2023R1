@@ -134,19 +134,41 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 		Date today = new Date();
 	
 		try {
-		
-				final String statement = "INSERT INTO UHG_READ_ALERT (CONTENT_ID, MIGRATABLE_REFERENCE, FIRST_VIEWED_DATE, USERNAME) VALUES ('?', '?', '?', '?')";
-				stmt = connection.prepareStatement(statement);
-				stmt.setString(1, content_id);
-				stmt.setString(2, migRefId);
-				stmt.setString(3, today.toString());
-				stmt.setString(4, userName);
-				Instant start = Instant.now();
-				final Boolean rs = stmt.execute();
+			
+			final String query = "SELECT a.NEXT_ID from RES_NEXT_ID_HOLDER where a.TABLE_NAME = 'UHG_READ_ALERT'";
+			stmt = connection.prepareStatement(query);
+			Instant start = Instant.now();
+			final ResultSet results = stmt.executeQuery();
+			
+			Instant end = Instant.now();
+			LOGGER.debug("Getting ID - getReadAlerts() duration: " + Duration.between(start, end).toMillis() + "ms");
+			Integer nextId = 0;
+			//there should only be one result hereS
+			while (results != null && results.next()) {
+				 nextId = results.getInt("NEXT_ID");
+			}
+			
+			results.close();
+			stmt.close();
+			final String updateIDstatement = "UPDATE RES_NEXT_ID_HOLDER SET (NEXT_ID) = (?) WHERE TABLE_NAME = 'UHG_READ_ALERT'";
+			PreparedStatement stmt2 = connection.prepareStatement(updateIDstatement);
+			stmt2.setInt(1, nextId + 1);
+			final Boolean updateID = stmt2.execute();
+			stmt2.close();
+				final String statement = "INSERT INTO UHG_READ_ALERT (CONTENT_ID, MIGRATABLE_REFERENCE, FIRST_VIEWED_DATE, USERNAME, ID) VALUES (?, ?, ?, ?, ?)";
+				PreparedStatement stmt3 = connection.prepareStatement(statement);
+				stmt3.setString(1, content_id);
+				stmt3.setString(2, migRefId);
+				stmt3.setDate(3, new java.sql.Date(today.getTime()));
+				stmt3.setString(4, userName);
+				stmt3.setInt(5, nextId);
+				start = Instant.now();
+				final Boolean rs = stmt3.execute();
 				
-				Instant end = Instant.now();
+				end = Instant.now();
 				LOGGER.debug("SERVICE_CALL_PERFORMANCE("+userName+") - getReadAlerts() duration: " + Duration.between(start, end).toMillis() + "ms");
 				response.setdidComplete(true);
+				stmt3.close();
 	
 	} catch (SQLException sqle) {
 		LOGGER.error("SQLException", sqle);
