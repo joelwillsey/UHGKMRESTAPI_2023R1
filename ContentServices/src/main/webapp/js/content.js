@@ -871,7 +871,17 @@ $(document).ready(function() {
     	//need to set the contentID and ViewId for feedback
     	contentId = data.contentId;
     	// There is no viewID in data package to blank it out so it does not use the last viewId
-    	viewId = '';    	
+    	viewId = '';    
+    	
+    	//need to mark this content as viewed, normally done in the GetContent API but external content does not go through this
+    	var dataPackage = '{"contentId":"' + data.contentId  + '"}';
+    	$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/markasviewed', CONTENT_SERVICE_TIMEOUT, function(data) {    		
+			log('Get View ID for External Content: ' + data.viewUUID);
+		    if (typeof data != 'undefined' && data != null && data != '') {
+		    	viewId = data.viewUUID;
+		    }
+    	});
+		    
     	log('contentId='+contentId); 
     	log('viewId='+viewId);
     	
