@@ -176,7 +176,8 @@ button{
 
 	.sr_listing {
     	margin-bottom: 10px;
-    	overflow-y: auto;
+    	overflow-y: scroll;
+    	/* overflow-y: auto; */
 	}
 		.sr_listing_result {
 			color: #000000;

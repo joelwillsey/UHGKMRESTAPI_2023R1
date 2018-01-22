@@ -16,7 +16,7 @@ $(document).ready(function() {
             var self = this;
             self.element.addClass("dpui-widget");
             self.element.bind("dpui:startWidget", function(e) {
-                log("startWidget -iset_search");
+                log("startWidget - iset_search");
                 $(".dpui-widget").trigger("dpui:registerSearch");
             });
             self.element.bind("dpui:registerSearchResults", function(e) {
@@ -309,6 +309,7 @@ $(document).ready(function() {
 				"query": $('#search-text').val()
 		}
 		// Send to Search Results Widget
+		log('trigger dpui:resultData');
 		$(".dpui-widget").trigger("dpui:resultData", packagedData);			
 	}
 
@@ -455,8 +456,11 @@ $(document).ready(function() {
     		if (typeof sQuery != 'undefined' && sQuery != null && sQuery != '') {
     			$.fn.addToSearchCloud('search_term', sQuery)
     		}    
+    		
+    		log('Call Search');
     		// Call the search
         	$.fn.search(sQuery, sPage, sSize, sTags, sCategories, sSort, sPublishedid, function(data) {
+        		log(data);
         		$.fn.sendToResults('Search', data);
         	});
         	
@@ -652,7 +656,7 @@ $(document).ready(function() {
 
 	// Add to search cloud
 	$.fn.addToSearchCloud = function(type, element) {
-		log('addToSearchCloud: ' + element);
+		//log('addToSearchCloud: ' + element);
 		$('.fs_dt_info_label').css('display', 'none');
 		var n = $('.ul_all_tags li').length;
 		if (n === 0) {
