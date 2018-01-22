@@ -95,7 +95,7 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 		cache: false,
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
-			log('beforeSend');
+			//log('beforeSend');
 			$.fn.setupHeader(jqXHR);
 			$.fn.setupSpinner();
 		},
