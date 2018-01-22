@@ -135,7 +135,7 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 	
 		try {
 			
-			final String query = "SELECT a.NEXT_ID from RES_NEXT_ID_HOLDER where a.TABLE_NAME = 'UHG_READ_ALERT'";
+			final String query = "SELECT NEXT_ID from RES_NEXT_ID_HOLDER where TABLE_NAME = 'UHG_READ_ALERT'";
 			stmt = connection.prepareStatement(query);
 			Instant start = Instant.now();
 			final ResultSet results = stmt.executeQuery();
@@ -147,10 +147,10 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 			while (results != null && results.next()) {
 				 nextId = results.getInt("NEXT_ID");
 			}
-			
+			LOGGER.debug("nextId: " + nextId);
 			results.close();
 			stmt.close();
-			final String updateIDstatement = "UPDATE RES_NEXT_ID_HOLDER SET (NEXT_ID) = (?) WHERE TABLE_NAME = 'UHG_READ_ALERT'";
+			final String updateIDstatement = "UPDATE RES_NEXT_ID_HOLDER SET NEXT_ID = (?) WHERE TABLE_NAME = 'UHG_READ_ALERT'";
 			PreparedStatement stmt2 = connection.prepareStatement(updateIDstatement);
 			stmt2.setInt(1, nextId + 1);
 			final Boolean updateID = stmt2.execute();
