@@ -89,11 +89,10 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 				String contentId = "";
 				String migRefId = "";
 				String firstViewedDate = "";
-				ReadAlert temp = new ReadAlert();
-				
+				ReadAlert temp; 
 				// loop through all records
 				while (rs != null && rs.next()) {
-					
+					temp = new ReadAlert();
 					 contentId = rs.getString("content_id");
 					 migRefId = rs.getString("migratable_reference");
 					 firstViewedDate = rs.getString("first_viewed_date");
