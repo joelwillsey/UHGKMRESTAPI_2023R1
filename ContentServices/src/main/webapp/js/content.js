@@ -1248,6 +1248,18 @@ $(document).ready(function() {
 					//no external files to load, just setup content
 					$.fn.setupContent(data);
 				}	
+		    	
+		    	// if the content type is an alert then we need to make the setread call to mark it as read.
+		    	if (data.contentType === 'KnowledgeAlertED'){
+		    		// Strip the first two characters from the content ID as we don't want to pass the KM part down.
+		    		var contentID = data.publishedId;
+		    		contentID = contentID.replace('KM', '');
+		    		
+		    		// make the setread call
+		    		$.fn.serviceCall('POST', '', contentServiceName + 'km/alerts/setread?contentId='+contentID+'&migRefId='+data.id, SEARCH_SERVICE_TIMEOUT,null);   
+		    	}
+		    	 
+		    	
 		    } else {
 		    	//no data found
 		    	$.fn.setupContent(data);

@@ -335,7 +335,7 @@ $(document).ready(function() {
 	}
 	
 	// Setup results links
-	$.fn.setupResultsLinks = function(data, results) {
+	$.fn.setupResultsLinks = function(data, results, alertDetailsContentIds) {
 		results.push('<article>');
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
@@ -344,7 +344,26 @@ $(document).ready(function() {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');">');
 		}
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
-		results.push('    <div class="sr_lr_title">' + data.title);
+		
+		
+		if (alertDetailsContentIds && (data.contentType === 'KnowledgeAlertED')){
+			var len;
+			var bold = false;
+			len = alertDetailsContentIds.length;  
+			for (i = 0; i < len; i++) {
+				if (alertDetailsContentIds[i] === data.contentID){
+					bold = true;
+					break;
+				}
+			}
+			if (bold === true){
+				results.push('    <div class="sr_lr_title">' + data.title);
+			}else{
+				results.push('    <div class="sr_lr_title_bold">' + data.title);
+			}
+		}else{
+			results.push('    <div class="sr_lr_title">' + data.title);
+		}
 		if (data.isFeatured) {
 			results.push('  <img src="images/AKCBFeatured14x14.png" />');
 		}
@@ -376,13 +395,16 @@ $(document).ready(function() {
 	
 	// Setup search results list
 	$.fn.setupResultsListing = function(data) {
+		
 		var results = [];
 		// First check if we have suggested content
 		if (typeof data != 'undefined' && data != null && typeof data.suggestedQueries != 'undefined' && data.suggestedQueries != null && data.suggestedQueries.length > 0) {
 			// Check for 0 results
 			if (data.numberOfResults === 0) {
 				$('.sr_numbers_showing').html('Showing 0 of 0 results');
-			}
+			}	
+				
+			
 			var queryText = '';
 			// Check for a REPLACED_SPECIFIC_TERMS first
 			for (var i=0; i < data.suggestedQueries.length; i++) {
@@ -462,7 +484,12 @@ $(document).ready(function() {
 						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results);
 					} else {
 						// "regular" content
-						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results);
+						// Need to make the alerts read REST call here. 
+						//Unfortunately at this stage we don;t know if there are actually alerts so just have to call it anyway.
+						var alertDetails = [];
+						//var alertDetailsContentIds = [];
+						alertDetails = $.fn.getAlertDetails();
+						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, alertDetails);
 					}
 				}
 			}
@@ -470,6 +497,49 @@ $(document).ready(function() {
 		$('.sr_listing_result').html(results.join('\n'));
 		results.length = 0; // Clear the array
 	}
+	
+	$.fn.getAlertDetails = function(alertDetailsContentIds){
+		var datareturned = []; 
+		var alertDetailsContentIds = [];
+		var alertDetails = [];
+		jQuery.ajaxSetup({async:false});
+		 $.fn.serviceCall('GET', '', contentServiceName + 'km/alerts/getread', SEARCH_SERVICE_TIMEOUT, function(datareturned){
+			 alertDetails = datareturned;
+			 
+			 //alertDetailsContentIds = $.fn.getContentIdFromAlertDetails(datareturned);
+		 });  
+		 jQuery.ajaxSetup({async:true});
+		 
+		 var adlen;
+			adlen = alertDetails.readAlerts.length;  
+			for (i = 0; i < adlen; i++) {
+				// get rid of content ID from string as we need migration Id which is matched to data.contactId
+				var string = alertDetails.readAlerts[i].substring(alertDetails.readAlerts[i].indexOf(",") + 1);
+				var contactId;
+				contactId = string.substring(string.indexOf("=") + 1, string.indexOf(','));
+				alertDetailsContentIds[alertDetailsContentIds.length] = contactId;
+			}
+		 
+		 return alertDetailsContentIds;
+		 
+	}
+	
+	$.fn.getContentIdFromAlertDetails = function(alertDetails, contentIdsFromAlertDetails) {
+		var adlen;
+		adlen = alertDetails.readAlerts.length; 
+		var contentIdsFromAlertDetails = []; 
+
+		
+		for (i = 0; i < adlen; i++) {
+			// get rid of content ID from string as we need migration Id which is matched to data.contactId
+			var string = alertDetails.readAlerts[i].substring(alertDetails.readAlerts[i].indexOf(",") + 1);
+			var contactId;
+			contactId = string.substring(string.indexOf("=") + 1, string.indexOf(','));
+			contentIdsFromAlertDetails[contentIdsFromAlertDetails.length] = contactId;
+		}
+		return contentIdsFromAlertDetails;
+	}
+	
 	
 	// Setup pagination view
 	$.fn.setupPagination = function(data) {

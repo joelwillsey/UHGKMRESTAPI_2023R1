@@ -286,6 +286,15 @@ button{
     			vertical-align: middle;
     			width: 80%;
 			}
+			.sr_lr_title_bold {
+				color: #003c71;
+				display: inline-block;
+				font: bold 14px/18px "OpenSans",Arial,sans-serif;
+				line-height: 20px;
+				padding-left: 5px;
+    			vertical-align: middle;
+    			width: 80%;
+			}
 			.sr_listing_result img {
 				display: inline-block;
 				line-height: 20px;
