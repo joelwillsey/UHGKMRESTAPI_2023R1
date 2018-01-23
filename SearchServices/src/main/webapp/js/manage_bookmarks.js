@@ -451,6 +451,7 @@ var reorderEvent = null;
 					// remove tooltip if any exists on move
 					  if ($('#bookmarkTree').tooltip()) {
 						  $('#bookmarkTree').tooltip( "destroy" );  
+						  $('#bookmarkTree').unbind("mouseover");
 					  } 
 					
 					var level = event.move_info.target_node.getLevel();
@@ -672,6 +673,8 @@ var reorderEvent = null;
 					if (moveDirection != null){
 						$('#bookmarkTree').unbind(event); 
 					} 
+					
+					$('#bookmarkTree').bind("mouseover");
 				}	
 		);
 		
