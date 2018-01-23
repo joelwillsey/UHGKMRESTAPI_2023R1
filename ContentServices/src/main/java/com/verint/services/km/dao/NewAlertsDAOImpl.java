@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
-
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,8 +130,8 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 		final Connection connection = ConnectionPoolRS.getConnection();
 		final RecordReadResponse response = new RecordReadResponse();
 		PreparedStatement stmt = null;
-		Date today = new Date();
-	
+		DateTime today = new DateTime();
+		today = DateTime.now();
 		try {
 			
 			final String query = "SELECT NEXT_ID from RES_NEXT_ID_HOLDER where TABLE_NAME = 'UHG_READ_ALERT'";
@@ -158,7 +158,7 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 				PreparedStatement stmt3 = connection.prepareStatement(statement);
 				stmt3.setString(1, content_id);
 				stmt3.setString(2, migRefId);
-				stmt3.setDate(3, new java.sql.Date(today.getTime()));
+				stmt3.setDate(3, new java.sql.Date(today.getMillis()));  //new java.sql.Date(today.getTime()));
 				stmt3.setString(4, userName);
 				stmt3.setInt(5, nextId);
 				start = Instant.now();
