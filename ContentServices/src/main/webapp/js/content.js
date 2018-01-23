@@ -16,6 +16,7 @@ $(document).ready(function() {
 	
 	
     // Setup ratings and rate functions
+	log('add onClick event to ratings');
     $('.rate1').on('click', function() {
     	log('rate1 clicked');
     	$('#ratingStars').css('width', '1.0em');
@@ -1258,7 +1259,9 @@ $(document).ready(function() {
 		    		contentID = contentID.replace('KM', '');
 		    		
 		    		// make the setread call
-		    		$.fn.serviceCall('POST', '', contentServiceName + 'km/alerts/setread?contentId='+contentID+'&migRefId='+data.id, SEARCH_SERVICE_TIMEOUT,null);   
+		    		$.fn.serviceCall('POST', '', contentServiceName + 'km/alerts/setread?contentId='+contentID+'&migRefId='+data.id, SEARCH_SERVICE_TIMEOUT,function(data){
+		    			log('Sent read alert update for content id:' + contentID);
+		    		});   
 		    	}
 		    	 
 		    	
