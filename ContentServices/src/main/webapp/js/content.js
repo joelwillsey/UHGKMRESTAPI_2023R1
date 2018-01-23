@@ -12,11 +12,7 @@ var funcDelay = 200;
 
 $(document).ready(function() {	
 	 
-	//check if vccd is installed for agent
-	if (isIE() && VCCDorNull()){	
-		vccdInstalled = true;
-	}
-	log('VCCD installed: ' + vccdInstalled);
+	
 	
 	
     // Setup ratings and rate functions
@@ -41,6 +37,12 @@ $(document).ready(function() {
     	$('#ratingStars').css('width', '5.0em');
     	$.fn.rateContent(contentId, 5);
     });
+    
+  //check if vccd is installed for agent
+	if (isIE() && VCCDorNull()){	
+		vccdInstalled = true;
+	}
+	log('VCCD installed: ' + vccdInstalled);
 
     // Email link
     $('#content-email-link').on('click', function() {
