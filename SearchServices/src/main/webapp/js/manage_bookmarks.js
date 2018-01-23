@@ -32,23 +32,31 @@ var reorderEvent = null;
 	// Remove bookmark button
 	$.fn.bookmarkButtonRemove = function() {
 		var node = $('#bookmarkTree').tree('getSelectedNode');
-		if (node.children.length > 0){
-			alert('Please empty folder before removing.');
-		}else{
-				
-		// remove a folder
-			if (node.type == "folder"){
-				$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/manage?folderID='+node.id+'&userAction=REMOVEFOLDER', SEARCH_SERVICE_TIMEOUT, function(data){
-					$.fn.populateBookmarks(data);
-				});
+		if (node){
+			if (node.children.length > 0){
+				alert('Please empty folder before removing.');
 			}else{
-				$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + node.id, SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback); 
-				$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/listallbookmarks', SEARCH_SERVICE_TIMEOUT, function(data){
-					$.fn.populateBookmarks(data);
-				});
-			}
+				
+				// remove a folder
+				if (node.type == "folder"){
+					$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/manage?folderID='+node.id+'&userAction=REMOVEFOLDER', SEARCH_SERVICE_TIMEOUT, function(data){
+						$.fn.populateBookmarks(data);
+					});
+				}else{
+					$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + node.id, SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback); 
+					$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/listallbookmarks', SEARCH_SERVICE_TIMEOUT, function(data){
+						$.fn.populateBookmarks(data);
+					});
+				}
 			
+			}
+		}else{
+			alert('Please select an item to remove.');
 		}
+		
+		// disable remove button again until an item has been selected.
+		$('#bookmark-button-remove').removeClass('bookmark_action_button_active');
+		$("#bookmark-button-remove").attr("disabled", "true");
 		
 	}
 
@@ -378,6 +386,9 @@ var reorderEvent = null;
 		    function(event) {
 					// The clicked node is 'event.node'
 				var node = event.node;
+				if ($('#bookmarkTree').tooltip()) {
+					$('#bookmarkTree').tooltip( "destroy" );    
+				}
 			
 		    }
 		);
@@ -405,11 +416,14 @@ var reorderEvent = null;
 		
 		// Add the synopsis as hover text
 		$('#bookmarkTree').on('mouseover', function(e) {
-
+			
 			  var node = $('#bookmarkTree').tree('getNodeByHtmlElement', e.target);	
+			  
 			  if ($('#bookmarkTree').tooltip()) {
 				  $('#bookmarkTree').tooltip( "destroy" );    
 			  }
+			  
+			  if (node){
 				$( '#bookmarkTree' ).tooltip({
 				      items: "span, a",
 				      content: function() {
@@ -425,7 +439,9 @@ var reorderEvent = null;
 				      }
 				    });
 				$('input').tooltip();
-			});
+			  }
+			
+		});
 		
 		//check level that's being dropped to to prevent more than 3 levels deep
 		$('#bookmarkTree').bind(
