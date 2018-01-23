@@ -138,6 +138,10 @@ $(document).ready(function() {
 			"contentId" : contentId,
 			"contentType" : contentType
 		}
+		
+		// change the alert header from bold to normal text. Used the contendId as the ID for the <div> element so we could find only that one that was selected.
+		document.getElementById(contentId).className = "sr_lr_title"; 
+		
     	// put the scroll bar back to the top
 		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
     	//$('#sr-listing').scrollTop(0);
@@ -357,9 +361,9 @@ $(document).ready(function() {
 				}
 			}
 			if (bold === true){
-				results.push('    <div class="sr_lr_title">' + data.title);
+				results.push('    <div id=' + data.contentID + ' class="sr_lr_title">' + data.title);
 			}else{
-				results.push('    <div class="sr_lr_title_bold">' + data.title);
+				results.push('    <div id=' + data.contentID + ' class="sr_lr_title_bold">' + data.title);
 			}
 		}else{
 			results.push('    <div class="sr_lr_title">' + data.title);
