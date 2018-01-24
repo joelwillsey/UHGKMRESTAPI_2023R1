@@ -154,13 +154,12 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 			stmt2.setInt(1, nextId + 1);
 			final Boolean updateID = stmt2.execute();
 			stmt2.close();
-				final String statement = "INSERT INTO UHG_READ_ALERT (CONTENT_ID, MIGRATABLE_REFERENCE, FIRST_VIEWED_DATE, USERNAME, ID) VALUES (?, ?, ?, ?, ?)";
+				final String statement = "INSERT INTO UHG_READ_ALERT (CONTENT_ID, MIGRATABLE_REFERENCE, FIRST_VIEWED_DATE, USERNAME, ID) VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?)";
 				PreparedStatement stmt3 = connection.prepareStatement(statement);
 				stmt3.setString(1, content_id);
 				stmt3.setString(2, migRefId);
-				stmt3.setDate(3, new java.sql.Date(today.getMillis()));  //new java.sql.Date(today.getTime()));
-				stmt3.setString(4, userName);
-				stmt3.setInt(5, nextId);
+				stmt3.setString(3, userName);
+				stmt3.setInt(4, nextId);
 				start = Instant.now();
 				final Boolean rs = stmt3.execute();
 				
