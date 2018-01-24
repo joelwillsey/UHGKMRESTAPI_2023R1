@@ -769,7 +769,6 @@ $(document).ready(function() {
 				}else{
 					// The clicked node is 'event.node'
 					var node = event.node;
-					$.fn.viewContent(node.id, node.systemTagName);
 				}
 		    }
 		);
@@ -778,19 +777,17 @@ $(document).ready(function() {
 		$('#searchResultsBookmarkTree').bind(
 			'tree.select',
 			function(event) {
-				if (event.node.type == "folder"){
-					return false;
-				}else{
-					if (event.node) {
+				if (event.node) {
+					if (event.node.type == "folder"){
+						return false;
+					}else{
 						// node was selected
 						var node = event.node;
-						//alert(node.name);
+
+						$.fn.viewContent(node.id, node.systemTagName);
+
 					}
-					else {
-						// event.node is null
-						// a node was deselected
-						// e.previous_node contains the deselected node
-					}	
+
 				}
 			}
 		);

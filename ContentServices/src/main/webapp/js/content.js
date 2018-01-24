@@ -11,14 +11,14 @@ var funcParams;
 var funcDelay = 200;
 
 $(document).ready(function() {	
-	 
 	
 	
+	$('li').on('click', function() {
+		//alert('clicked');
+	});
 	
     // Setup ratings and rate functions
-	log('add onClick event to ratings');
     $('.rate1').on('click', function() {
-    	log('rate1 clicked');
     	$('#ratingStars').css('width', '1.0em');
     	$.fn.rateContent(contentId, 1);
     });
@@ -1259,11 +1259,48 @@ $(document).ready(function() {
 		    		contentID = contentID.replace('KM', '');
 		    		
 		    		// make the setread call
-		    		$.fn.serviceCall('POST', '', contentServiceName + 'km/alerts/setread?contentId='+contentID+'&migRefId='+data.id, SEARCH_SERVICE_TIMEOUT,function(data){
-		    			log('Sent read alert update for content id:' + contentID);
-		    		});   
+		    		//check if the alert has already been read before we add it to the database
+		 
+		    		var datareturned = []; 
+		    		var alertDetailsContentIds = [];
+		    		var alertDetails = [];
+		    		jQuery.ajaxSetup({async:false});
+		    		 $.fn.serviceCall('GET', '', contentServiceName + 'km/alerts/getread', SEARCH_SERVICE_TIMEOUT, function(datareturned){
+		    			 alertDetails = datareturned;
+		    			 
+		    			 //alertDetailsContentIds = $.fn.getContentIdFromAlertDetails(datareturned);
+		    		 });  
+		    		 jQuery.ajaxSetup({async:true});
+		    		 
+		    		 var adlen;
+		    			adlen = alertDetails.readAlerts.length;  
+		    			for (i = 0; i < adlen; i++) {
+		    				// get rid of content ID from string as we need migration Id which is matched to data.contactId
+		    				var string = alertDetails.readAlerts[i].substring(alertDetails.readAlerts[i].indexOf(",") + 1);
+		    				var contactId;
+		    				contactId = string.substring(string.indexOf("=") + 1, string.indexOf(','));
+		    				alertDetailsContentIds[alertDetailsContentIds.length] = contactId;
+		    			}
+		    		
+		    			var len;
+		    			var bold = false;
+		    			len = alertDetailsContentIds.length;  
+		    			for (i = 0; i < len; i++) {
+		    				if (alertDetailsContentIds[i] === data.id){
+		    					bold = true;
+		    					break;
+		    				}
+		    			}
+		    			if (bold !== true){
+		    				$.fn.serviceCall('POST', '', contentServiceName + 'km/alerts/setread?contentId='+contentID+'&migRefId='+data.id, SEARCH_SERVICE_TIMEOUT,function(data){
+								log('Sent read alert update for content id:' + contentID);
+		    				});
+		    			}
+		    		
+
+		    		
+    				
 		    	}
-		    	 
 		    	
 		    } else {
 		    	//no data found
