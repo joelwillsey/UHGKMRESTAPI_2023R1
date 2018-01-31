@@ -317,7 +317,12 @@ var reorderEvent = null;
 			    },
 				onCanMoveTo: function(moved_node, target_node, position) {
 					// don't allow more than 3 folders deep on the tree or allow users to drop bookmarks into other bookmarks to create folders.
-										
+															
+					 if ($('#bookmarkTree').tooltip()) {
+						 $('#bookmarkTree').tooltip( "destroy" );    
+					 }
+					
+					
 					// Can only drop into folders
 					if (moved_node.type == "bookmark" && target_node.type == "folder"){
 						return (position != 'before');
@@ -440,7 +445,7 @@ var reorderEvent = null;
 				    });
 				$('input').tooltip();
 			  }
-			
+			  			
 		});
 		
 		//check level that's being dropped to to prevent more than 3 levels deep
@@ -453,7 +458,7 @@ var reorderEvent = null;
 						  $('#bookmarkTree').tooltip( "destroy" );  
 						  $('#bookmarkTree').unbind("mouseover");
 					  } 
-					
+					 					
 					var level = event.move_info.target_node.getLevel();
 					var moveDirection = null;
 					var noOfMoveSpaces;
