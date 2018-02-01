@@ -344,14 +344,15 @@ $.fn.checkKBaseTags = function(systemTagName) {
 	
 	log ('Agent result of $.fn.checkKBaseTags(' + systemTagName + ') = '+ result);
 	
-	//TODO Remove these alerts
-	if (!result ){
-		if (typeof data.tags != 'undefined' && data.tags != null){
-			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\nService call to ' + url + ' has returned null or undefined');
-		} else {
-			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\nFailed knowledge base check for ' + systemTagName + ' data.tags.length = ' + data.tags.length);
-		}
-	}
+	//Debugging Remove these alerts
+//	if (!result ){
+//		if (typeof data.tags != 'undefined' && data.tags != null){
+//			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\nService call to ' + url + ' has returned null or undefined');
+//		} else {
+//			alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\nFailed knowledge base check for ' + systemTagName + ' data.tags.length = ' + data.tags.length);
+//		}
+//	}
+	
 	return result
 }	
 	
