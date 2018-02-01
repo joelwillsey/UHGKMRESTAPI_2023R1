@@ -284,7 +284,7 @@ h4 {
 
 /* Media Queries */
 /* reduced from 1024 to 499 to allow scroll bars on code search */
-@media screen and (max-width: 259px) {
+@media screen and (max-width: 229px) {
 .search {
 	margin-bottom: 3px;	
 }
@@ -353,7 +353,7 @@ h4 {
 						border-left: none;
 					}
 		#search-tab-menu {
-			display: inline-block;
+			 /* display: inline-block; */
 		}
 	.search_filter_section {
 		display: none;

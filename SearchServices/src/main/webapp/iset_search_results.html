@@ -17,7 +17,7 @@
 			</div>
 			<div class="sr_hns_right">
 				<button id="sr-hns-manage" class="sr_hns_right_button sr_hns_right_off" title="Manage">Manage</button>
-				<button id="sr-hns-refresh" class="sr_hns_right_button" title="Refresh">Refresh</button>
+				<button id="sr-hns-refresh" class="sr_hns_right_button sr_hns_right_off" title="Refresh">Refresh</button>
 			</div>
 		</section>
 		<section id="sr-numbers-mobile" class="sr_numbers_mobile">
@@ -62,7 +62,7 @@
 		// Search resize
 		//
 		$.fn.setupSearchWidget = function() {
-			if ($(window).outerWidth(true) < 260) {
+			if ($(window).outerWidth(true) < 225) {
 				$('#search-menu').insertBefore('#search-wrapper');
 			} else {
 				//$('#search-wrapper').removeClass('off');
@@ -82,7 +82,7 @@
 			// **NOTE: For IE9/10 the deleteClass and createClass functions will cause access exceptions
 			//
 		    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
-				if ($(window).outerWidth(true) < 260) {
+				if ($(window).outerWidth(true) < 225) {
 					$('#search-results').css('height', '100%');
 					$('#sr-listing').css('height', '100%');
 				} else {	    		
@@ -92,7 +92,7 @@
 					$('#sr-listing').css('height', searchResultsListing);
 				}
 		    } else {
-				if ($(window).outerWidth(true) < 260) {
+				if ($(window).outerWidth(true) < 225) {
 					$('#search-results').removeClass('search_results_resize');
 					$.fn.deleteClass('.search_results_resize');
 					$('#search-results').removeClass('sr_list_resize');
@@ -114,7 +114,7 @@
 	
 		// Setup the resize as appropriate
 		$(window).resize(function() {
-			if ($(window).outerWidth(true) < 260) {
+			if ($(window).outerWidth(true) < 225) {
 				$('.search_menu').removeClass('open');
 				$('.search_menu').addClass('close');
 				$('#search-menu-toggle-icon').removeClass('ion-chevron-down');
@@ -138,7 +138,7 @@
 	</script>
 	<style>
 		/* Media Queries */
-		@media screen and (max-width: 259px) {
+		@media screen and (max-width: 229px) {
 			body {
 				margin: 0px;
 			}

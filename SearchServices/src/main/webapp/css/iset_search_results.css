@@ -442,7 +442,7 @@ button{
 				}
 /* Media Queries */
 /* reduced from 1024 to 259 to allow scroll bars on iset search */
-@media screen and (max-width: 259px) {
+@media screen and (max-width: 229px) {
 .search_results {
 	border: none;
 	height: 100%;
@@ -475,7 +475,7 @@ button{
 			visibility: hidden;
 		}
 	.sr_listing {
-		overflow-y: hidden;
+		/* overflow-y: hidden; */
 	}
 		.sr_listing_result article a.sr_lr_link {
 			display: none;
