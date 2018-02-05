@@ -483,7 +483,8 @@ button{
 			visibility: hidden;
 		}
 	.sr_listing {
-		overflow-y: hidden;
+		/* overflow-y: hidden; */
+		overflow-y: scroll;
 	}
 		.sr_listing_result article a.sr_lr_link {
 			display: none;
