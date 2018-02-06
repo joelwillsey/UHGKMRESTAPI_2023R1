@@ -3,6 +3,7 @@ var sortBy;
 var query;
 
 $(document).ready(function() {
+	
 
 	// Setup package data
 	var setupPackage = function(toSortBy) {
@@ -341,7 +342,7 @@ $(document).ready(function() {
 	}
 	
 	// Setup results links
-	$.fn.setupResultsLinks = function(data, results, alertDetailsContentIds) {
+	$.fn.setupResultsLinks = function(data, results, alertDetailsContentIds, isAlert) {
 		results.push('<article>');
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
@@ -365,7 +366,15 @@ $(document).ready(function() {
 			if (bold === true){
 				results.push('    <div id=' + data.contentID + ' class="sr_lr_title">' + data.title);
 			}else{
-				results.push('    <div id=' + data.contentID + ' class="sr_lr_title_bold">' + data.title);
+				if (isAlert){
+					if (isAlert === true){
+						results.push('    <div id=' + data.contentID + ' class="sr_lr_title_bold">' + data.title);
+					}else{
+						results.push('    <div id=' + data.contentID + ' class="sr_lr_title">' + data.title);
+					}
+				}else{
+					results.push('    <div id=' + data.contentID + ' class="sr_lr_title">' + data.title);
+				}
 			}
 		}else{
 			results.push('    <div class="sr_lr_title">' + data.title);
@@ -400,7 +409,7 @@ $(document).ready(function() {
 	}
 	
 	// Setup search results list
-	$.fn.setupResultsListing = function(data) {
+	$.fn.setupResultsListing = function(data, isAlert) {
 		
 		var results = [];
 		// First check if we have suggested content
@@ -495,7 +504,7 @@ $(document).ready(function() {
 						var alertDetails = [];
 						//var alertDetailsContentIds = [];
 						alertDetails = $.fn.getAlertDetails();
-						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, alertDetails);
+						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, alertDetails, isAlert);
 					}
 				}
 			}
@@ -549,6 +558,7 @@ $(document).ready(function() {
 	
 	// Setup pagination view
 	$.fn.setupPagination = function(data) {
+		
 		if($('#tab-bookmarks-button').hasClass('sel')) {
 			data.totalPages = 1;
 		}
@@ -599,18 +609,30 @@ $(document).ready(function() {
 		pagination.push('</ul></nav>'); 
 		$('.sr_pagination').html(pagination.join('\n'));
 		pagination.length = 0; // Clear the array
+		
 	}
 	
 	// Display the search results
 	$.fn.displayResults = function(data) {
 		// Check for more than one result
 		if (typeof data != 'undefined' && data != null &&data.numberOfResults > 0) {
+			// check if we have clicked the alert tab at this stage as the data object has been overwritten when we get to pushing the results.
+			var isAlert = false;
+			if (data.isAlert){
+				if(data.isAlert === true){
+					isAlert = true;
+				}
+			}
+			
+			
 			// Setup search results numbers
 			$.fn.setupResultsNumbers(data);
 			// Setup search results list
-			$.fn.setupResultsListing(data);
+			$.fn.setupResultsListing(data, isAlert);
 			// Setup pagination results
 			$.fn.setupPagination(data);
+			
+			
 		} else {
 			// No results to show, so clear out everything
 			$('.sr_numbers_showing').html('No results can be found');
@@ -626,7 +648,7 @@ $(document).ready(function() {
 	
 	// Display the search results
 	$.fn.displayBookmarkResults = function(data) {
-		
+
 		log(data);
 		var bookmarkTreeResults = [];
 		

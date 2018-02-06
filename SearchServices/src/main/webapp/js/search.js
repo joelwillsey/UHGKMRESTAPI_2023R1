@@ -131,7 +131,7 @@ $(document).ready(function() {
     	var kTagParameter = $.fn.getParameterKbaseTag();
     	$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
     	$("#srListingResults").removeClass("sr_listing_result_off");
-    	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
+    	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {		
     		$.fn.sendToResults('Knowledge Alert', data);
     	});
 
@@ -244,6 +244,9 @@ $(document).ready(function() {
 
 	// Handle search results
 	$.fn.sendToResults = function(label, data) {
+		if(label === "Knowledge Alert"){
+        	data.isAlert = true;
+		}
 		var packagedData = [];
 		packagedData = {
 				"label": label,
