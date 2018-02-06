@@ -58,12 +58,12 @@ $.fn.getIsetResponse = function(refName, objType, objId) {
 				migratableReferenceId = data.migratableReferenceId["0"].migratableReferenceId;
 				log("migratableReferenceId=" + migratableReferenceId);			
 			} else {
-				log("migratableReferenceId=");
+				log("migratableReferenceId=(see next line)");
 				log(data);
 				if (typeof data.migratableReferenceId != 'undefined' && data.migratableReferenceId != null){
-					alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' returned null or undefined\n\nCLICK OK TO CONTINUE');
+					//alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' returned null or undefined\n\nCLICK OK TO CONTINUE');
 				} else {
-					alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' data [' + data.migratableReferenceId.length + ']: ' + migratableReferenceId + '\n\nCLICK OK TO CONTINUE');
+					//alert('PLEASE NOTE THIS ALERT IS TEMPORARY FOR DEBUGGING PURPOSE\n\ngetIsetResponse url: ' + url + ' data [' + data.migratableReferenceId.length + ']: ' + migratableReferenceId + '\n\nCLICK OK TO CONTINUE');
 				}
 			}
 		});
