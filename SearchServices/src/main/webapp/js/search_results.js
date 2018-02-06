@@ -848,6 +848,9 @@ $(document).ready(function() {
 				$('input').tooltip();
 		});
 		
+		// set up pagination for bookmarks.
+		$.fn.setupPagination(data);
+		
 	}
 	
 	// checks the current date of the content and whether or no it should have the new or changed label
