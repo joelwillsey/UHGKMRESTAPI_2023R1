@@ -14,8 +14,6 @@
 	<script type='text/javascript' src="js/jquery.typeahead.js"></script>
 	<script type='text/javascript' src="js/jquery-ui/11.4.1/jquery-ui.min.js"></script>
 	<script type='text/javascript' src='js/respond.min.js'></script>
-<!-- <script type="text/javascript" src="js/basicauth.js"></script> -->
-<!-- <script type="text/javascript" src="js/smalv2.js"></script> -->
 	<script type='text/javascript' src="js/common.js"></script>
 	<script type='text/javascript' src="js/siteminder.js"></script>
 	<script type="text/javascript">
@@ -42,9 +40,6 @@
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
 		 $.fn.ssoLoginService();
-
-		
-
 	</script>
 	<script type='text/javascript' src="js/manage_bookmarks.js"></script>
 	<script type='text/javascript' src="js/request_answer.js"></script>
@@ -84,7 +79,6 @@
 <!-- 			</div>
 		</div>
 	</section> -->
-	</section>
 	<section id="code-search-area">
 
 		<div id="code-search-widget">
@@ -102,8 +96,7 @@
 
 	<script type="text/javascript">
 	
-		//Resize Window
-		window.resizeTo(1024,440);
+		
 	
 		//
 		// Setup the search results widget for desktop vs. mobile
@@ -187,6 +180,8 @@
 		    }
 		}
 	
+		//Resize Window
+		window.resizeTo(1024,440);
 		
 		// Setup the resize as appropriate
 		$(window).resize(function() {
