@@ -1,4 +1,11 @@
 $(document).ready(function() {
+	// Content resize
+	window.resizeTo(512,440);
+	
+	//Move window to top right corner
+	var ow =  screen.width - window.outerWidth;	
+	window.moveTo(ow,0);
+	
 	// Load content widget
 	if ($.fn.isDraftContent()){
 		// Draft content might not be in the contentServiceName path because it is proxied so we need to get the proxy path to bypass Siteminder 
