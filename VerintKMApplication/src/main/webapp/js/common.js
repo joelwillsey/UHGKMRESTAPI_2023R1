@@ -22,7 +22,7 @@ $.fn.errorButtonFunc = function() {
 
 // Show the spinner
 $.fn.setupSpinner = function() {
-	log('setupSpinner');
+	//log('setupSpinner');
 	$('#background').addClass('background_on');
 	$('#overlay-back').addClass('overlay_back_on');
 //	if (typeof document.getElementById("overlay-back") != 'undefined' && document.getElementById("overlay-back") != null) {
@@ -35,7 +35,7 @@ $.fn.setupSpinner = function() {
 
 // Disable spinner
 $.fn.disableSpinner = function() {
-	log('disableSpinner');
+	//log('disableSpinner');
 	$('#background').removeClass('background_on');
 	$('#overlay-back').removeClass('overlay_back_on');
 //	if (typeof document.getElementById("overlay-back") != 'undefined' && document.getElementById("overlay-back") != null) {
