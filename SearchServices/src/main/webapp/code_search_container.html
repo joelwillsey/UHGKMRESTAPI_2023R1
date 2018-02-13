@@ -96,24 +96,6 @@
 
 	<script type="text/javascript">
 	
-		
-	
-		//
-		// Setup the search results widget for desktop vs. mobile
-		// Search resize
-		//
-		$.fn.setupSearchWidget = function() {
-			if ($(window).outerWidth(true) < 500) {
-				$('#search-menu').insertBefore('#search-wrapper');
-			} else {
-				$('#search-wrapper').removeClass('off');
-				$('#search-wrapper').addClass('on');
-				$('#search-cloud-wrapper').removeClass('on');
-				$('#search-cloud-wrapper').addClass('off');			
-				$('#search-wrapper').insertBefore('#search-menu');
-			}		
-		}
-	
 		var agentInfo = $.fn.getCookie('AgentInfo');
 		if (agentInfo != null && agentInfo != '') {
 			$('#widgetHeader-name').html('Hi ' + agentInfo);
@@ -141,6 +123,22 @@
 			$('#widgetHeader-name').html('');		
 			window.document.location = 'logout.html';
 		});
+		
+
+		// Setup the search results widget for desktop vs. mobile
+		// Search resize
+		$.fn.setupSearchWidget = function() {
+			if ($(window).outerWidth(true) < 500) {
+				$('#search-menu').insertBefore('#search-wrapper');
+			} else {
+				$('#search-wrapper').removeClass('off');
+				$('#search-wrapper').addClass('on');
+				$('#search-cloud-wrapper').removeClass('on');
+				$('#search-cloud-wrapper').addClass('off');			
+				$('#search-wrapper').insertBefore('#search-menu');
+			}		
+		}
+		
 		// Search Results resize
 		$.fn.setupSearchResultsWidget = function() {
 			// 
@@ -180,8 +178,9 @@
 		    }
 		}
 	
-		//Resize Window
-		window.resizeTo(1024,440);
+		// Setup initial sizes
+		$.fn.setupSearchWidget();
+		$.fn.setupSearchResultsWidget();
 		
 		// Setup the resize as appropriate
 		$(window).resize(function() {
@@ -203,15 +202,7 @@
 			$.fn.setupSearchResultsWidget();
 		});
 	
-		// Setup initial sizes
-		$.fn.setupSearchWidget();
-		$.fn.setupSearchResultsWidget();
-		
-	
-		//Move window to top right corner
-		var ow =  screen.width - window.outerWidth;	
-		window.moveTo(ow,0);
-		
+
 	</script>
 	<style>
 		/* Media Queries */

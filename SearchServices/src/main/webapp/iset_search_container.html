@@ -33,7 +33,6 @@
 		var NEW_OR_CHANGED_SERVICE_TIMEOUT = 21000;
 		var BOOKMARK_SERVICE_TIMEOUT = 21000;
 		var SEARCH_SERVICE_TIMEOUT = 41000;
-
 		var historyPushEnabled = false;
 		var defaultTitle = 'Verint Search Widget';
 
@@ -44,8 +43,6 @@
 		// Check if authenticated
 		if (!$.fn.isUserAuthenticated())
 		 $.fn.ssoLoginService();
-
-		
 
 	</script>
 	<script type='text/javascript' src="js/manage_bookmarks.js"></script>
@@ -95,12 +92,8 @@
 		</div>
 	</section>
 	
-
 	<script type="text/javascript">
-	
-		//Resize Window
-		window.resizeTo(530,440);
-	
+
 		//Get the Agent name to display in widget header
 		var agentInfo = $.fn.getCookie('AgentInfo');
 		if (agentInfo != null && agentInfo != '') {
@@ -117,10 +110,8 @@
 			}
 		});
 		
-		//
 		// Setup the search results widget for desktop vs. mobile
 		// Search resize
-		//
 		$.fn.setupSearchWidget = function() {
 			if ($(window).outerWidth(true) < 230) {
 				$('#search-menu').insertBefore('#search-wrapper');
@@ -172,6 +163,10 @@
 		    }
 		}
 	
+		// Setup initial sizes
+		$.fn.setupSearchWidget();
+		$.fn.setupSearchResultsWidget();
+		
 		// Setup the resize as appropriate
 		$(window).resize(function() {
 			if ($(window).outerWidth(true) < 230) {
@@ -191,15 +186,6 @@
 			// Search results widget
 			$.fn.setupSearchResultsWidget();
 		});
-	
-		// Setup initial sizes
-		$.fn.setupSearchWidget();
-		$.fn.setupSearchResultsWidget();
-		
-		//Move window to top right corner
-		var ow =  screen.width - window.outerWidth;	
-		window.moveTo(ow,0);
-		
 	</script>
 	<style>
 		/* Media Queries */
