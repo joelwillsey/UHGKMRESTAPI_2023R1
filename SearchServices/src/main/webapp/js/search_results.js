@@ -218,7 +218,8 @@ $(document).ready(function() {
 	
 	
 	$.fn.addslashes = function( str ) {
-	    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+		// added the .replace(/\\"/g, "&quot;") because the highlighting of search terms broke the format of the function when the " was in the string
+	    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0').replace(/\\"/g, "&quot;");
 	}
 	
 	
