@@ -1170,6 +1170,31 @@ $(document).ready(function() {
 		jQuery.ajaxSetup({async:true});
 	}
 
+	
+	//Check for Hide in Search. If this is present then we do not show the bookmark option.
+	$.fn.showHideBookmarkIcon = function(data) {
+		var name;
+		if ( data != 'undefined' && data != null && data != '') {
+			if ( data.tagSets != 'undefined' && data.tagSets != null && data.tagSets != '') {
+				for (var i = 0; i < data.tagSets.length; i++) {
+					if ( data.tagSets[i].tags != 'undefined' && data.tagSets[i].tags != null && data.tagSets[i].tags != '') {
+						name = data.tagSets[i].tags[0].systemTagName; 
+						if (name == "search_hideinsearch"){
+							log('Hiding bookmark icon for search_hideinsearch content')
+							$('#content-bookmark-header').hide();
+						}  else if (name == "search_showinsearch") {
+							 if (document.getElementById("content-bookmark-header").style.display == "none")
+							  {
+								 log('Showing bookmark icon, is currently hidden');
+								 $('#content-bookmark-header').show();							 
+							  }						
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	// Retrieve content
 	$.fn.retrieveContent = function(id) {
 		log('Retrieve Content: ' + id);
@@ -1301,6 +1326,8 @@ $(document).ready(function() {
 		    		
     				
 		    	}
+		    	
+		    	$.fn.showHideBookmarkIcon(data);
 		    	
 		    } else {
 		    	//no data found
