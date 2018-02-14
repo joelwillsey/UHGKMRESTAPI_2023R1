@@ -493,7 +493,7 @@ $.fn.showHideBookmarkIcon = function(data) {
 			for (var i = 0; i < data.tagSets.length; i++) {
 				if ( data.tagSets[i].tags != 'undefined' && data.tagSets[i].tags != null && data.tagSets[i].tags != '') {
 				name = data.tagSets[i].tags[0].systemTagName; 
-					if (name != "search_hideinsearch"){
+					if (name == "search_hideinsearch"){
 						var x = document.getElementById("content-bookmark-header");
 						x.style.display = "none";
 					}
