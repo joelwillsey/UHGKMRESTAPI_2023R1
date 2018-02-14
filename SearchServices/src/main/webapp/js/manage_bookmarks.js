@@ -54,9 +54,11 @@ var reorderEvent = null;
 			alert('Please select an item to remove.');
 		}
 		
-		// disable remove button again until an item has been selected.
+		// disable remove and view buttons again until an item has been selected.
 		$('#bookmark-button-remove').removeClass('bookmark_action_button_active');
 		$("#bookmark-button-remove").attr("disabled", "true");
+		$('#bookmark-button-view').removeClass('bookmark_action_button_active');
+		$("#bookmark-button-view").attr("disabled", "true");		
 		
 	}
 
