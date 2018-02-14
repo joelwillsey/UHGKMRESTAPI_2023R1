@@ -452,6 +452,7 @@ $(document).ready(function() {
                 log("runSearch");
                 log(data);
                 $.fn.toggleMenu('#tab-search-button.search_search');
+                $('#sr-numbers').show();
                 $.fn.toggleSearch('search');
             	$('.dpui-widget').trigger('dpui:hideManageButton');
             	$("#searchResultsTree").addClass("sr_listing_bookmarks_off");
