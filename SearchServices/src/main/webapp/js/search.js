@@ -431,7 +431,7 @@ $(document).ready(function() {
             });
 	        self.element.bind("dpui:blankSearch", function(e, data) {
 	            log("blankSearch");
-	            /*  Commented out as blank search is always follwed by alert search but we still need to populate the URL
+	            /*  Commented out as blank search is always followed by alert search but we still need to populate the URL
            	   $.fn.serviceCall('GET', '', searchServiceName + 'km/knowledge/blankResponse' , SEARCH_SERVICE_TIMEOUT, function(data) {
             		$.fn.sendToResults('Search', data);
             	}) */
