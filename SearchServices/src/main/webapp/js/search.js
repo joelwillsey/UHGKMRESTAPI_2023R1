@@ -439,10 +439,13 @@ $(document).ready(function() {
             });
 	        self.element.bind("dpui:alertSearch", function(e, data) {
 	            log("alertSearch");
-	            	$.fn.toggleMenu('#tab-alert-button.left.search_alerts');
-	            	$.fn.toggleSearch('alert');
-	            	$('.dpui-widget').trigger('dpui:hideManageButton');
+	            $.fn.toggleMenu('#tab-alert-button.left.search_alerts');
+	            $.fn.toggleSearch('alert');
+	            $('.dpui-widget').trigger('dpui:hideManageButton');
+	            $('#sr-numbers').show();
 	            var kTagParameter = $.fn.getParameterKbaseTag();
+	            $("#searchResultsTree").addClass("sr_listing_bookmarks_off");
+	        	$("#srListingResults").removeClass("sr_listing_result_off");
 	            console.log("Alert Search Trigger");
 	        	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
 	        		$.fn.sendToResults('Knowledge Alert', data);
