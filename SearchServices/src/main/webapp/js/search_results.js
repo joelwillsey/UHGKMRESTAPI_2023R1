@@ -2,6 +2,7 @@ var pageSelected;
 var sortBy;
 var query;
 
+
 $(document).ready(function() {
 	
 
@@ -413,14 +414,14 @@ $(document).ready(function() {
 	$.fn.setupResultsListing = function(data, isAlert) {
 		
 		var results = [];
+		
 		// First check if we have suggested content
 		if (typeof data != 'undefined' && data != null && typeof data.suggestedQueries != 'undefined' && data.suggestedQueries != null && data.suggestedQueries.length > 0) {
 			// Check for 0 results
 			if (data.numberOfResults === 0) {
 				$('.sr_numbers_showing').html('Showing 0 of 0 results');
 			}	
-				
-			
+							
 			var queryText = '';
 			// Check for a REPLACED_SPECIFIC_TERMS first
 			for (var i=0; i < data.suggestedQueries.length; i++) {
@@ -488,8 +489,18 @@ $(document).ready(function() {
 			
 						
 		}
+		
 		// See if there is regular results
 		if (typeof data.knowledgeGroupUnits != 'undefined' && data.knowledgeGroupUnits != null && data.knowledgeGroupUnits.length > 0) {
+			
+			var alertDetails = [];
+			
+			if(isAlert){
+				//if this is an alert search we need updated alert details
+				// Need to make the alerts read REST call here. 				
+				alertDetails = $.fn.getAlertDetails();
+			}
+			
 			// Loop through the results
 			for (var i=0;(data.knowledgeGroupUnits != null) && (i < data.knowledgeGroupUnits.length); i++) {
 				if (data.knowledgeGroupUnits[i].knowledgeUnits != null && data.knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
@@ -499,12 +510,7 @@ $(document).ready(function() {
 					if (data.knowledgeGroupUnits[i].contentType === 'Unstructured') {
 						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results);
 					} else {
-						// "regular" content
-						// Need to make the alerts read REST call here. 
-						//Unfortunately at this stage we don;t know if there are actually alerts so just have to call it anyway.
-						var alertDetails = [];
-						//var alertDetailsContentIds = [];
-						alertDetails = $.fn.getAlertDetails();
+						// "regular" content						
 						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, alertDetails, isAlert);
 					}
 				}
