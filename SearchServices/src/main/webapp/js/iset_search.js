@@ -68,7 +68,7 @@ $(document).ready(function() {
 	            	$.fn.toggleSearch('alert');
 	            	$('.dpui-widget').trigger('dpui:hideManageButton');
 	            var kTagParameter = $.fn.getParameterKbaseTag();
-	            console.log("Alert Search Trigger");
+	            log("Alert Search Trigger");
 	        	$.fn.search('', page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
 	        		$.fn.sendToResults('Knowledge Alert', data);
 	        	});            	

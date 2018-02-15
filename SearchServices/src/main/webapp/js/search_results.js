@@ -118,7 +118,7 @@ $(document).ready(function() {
 	    	
     	} else if($('#tab-alert-button').hasClass('sel')) {
     		var kTagParameter = $.fn.getParameterKbaseTag();
-    		console.log("Pagination Clicked on Alert");
+    		log("Pagination Clicked on Alert");
         	$.fn.search('', packagedData.page, size, kTagParameter, 'content_knowledgealert', 'publishedDate', '', function(data) {
         		$.fn.sendToResults('Knowledge Alert', data);
         	});
