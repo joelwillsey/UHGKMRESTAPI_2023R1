@@ -131,6 +131,6 @@
 
 	// Post suggested content
 	$.fn.suggestContent = function(postObject, callBack) {
-		console.log(postObject);
+		log(postObject);
 		$.fn.serviceCall('POST', postObject, searchServiceName + 'km/suggestcontent/', SEARCH_SERVICE_TIMEOUT, callBack);
 	}
