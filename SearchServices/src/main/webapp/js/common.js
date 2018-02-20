@@ -68,7 +68,6 @@ $.fn.serviceCall = function(type, data, url, timeout, successCallback) {
 		url : url,
 		async: false,
 		dataType : 'json',
-		cache: false,
 		timeout : timeout,
 		beforeSend : function(jqXHR, settings) {
 			$.fn.setupHeader(jqXHR);
@@ -118,7 +117,6 @@ $.fn.serviceCallAsyncFalse = function(type, data, url, timeout, successCallback)
     		data : data,
     		url : url,
     		dataType : 'json',
-    		cache: false,
     		timeout : timeout,
     		beforeSend : function(jqXHR, settings) {
     			//log('beforeSend');
