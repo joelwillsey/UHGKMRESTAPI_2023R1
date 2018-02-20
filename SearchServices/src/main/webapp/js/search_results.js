@@ -798,28 +798,49 @@ $(document).ready(function() {
 				}else{
 					// The clicked node is 'event.node'
 					var node = event.node;
+			
+					if ( event.click_event.target.localName === "img" ) {
+						// just leave at this point as we've already caused the external link to kick off, no need to run it twice.
+						return;
+			        }else{
+					
+			        	$.fn.viewContent(node.id, node.systemTagName);
+			        }
 				}
 		    }
 		);
 		
 		// bind 'tree.select' event
-		$('#searchResultsBookmarkTree').bind(
+/*		$('#searchResultsBookmarkTree').bind(
 			'tree.select',
 			function(event) {
 				if (event.node) {
 					if (event.node.type == "folder"){
 						return false;
 					}else{
-						// node was selected
-						var node = event.node;
+						
+			        	// node was selected
+			        	var node = event.node;
+			        	var element = $( this );
 
-						$.fn.viewContent(node.id, node.systemTagName);
+						
+						if ( element.is( "a" ) ) {
+				        	alert('Clicked open in external link')
+				        	$.fn.launchViewContent(node.id);
+				        }else{
+						
+				        	$.fn.viewContent(node.id, node.systemTagName);
+				        }
 
 					}
 
 				}
+				
+//				$('#searchResultsBookmarkTree').unbind(event); 
 			}
 		);
+		*/
+		
 		
 		// Add the synopsis as hover text
 		$('#searchResultsBookmarkTree').on('mouseover', function(e) {
@@ -833,7 +854,7 @@ $(document).ready(function() {
 				      content: function() {
 				        var element = $( this );
 				        if ( element.is( "a" ) ) {
-				          return 'Click me to expand/collapse.';
+				          return 'Open in new window.';
 				        }
 				        if ( element.is( "span" ) ) {
 				        	if (typeof node != 'undefined' && node != null) {
