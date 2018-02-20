@@ -3,6 +3,7 @@ var size = 20;
 var contentTypeTags = ''; //'content_article,content_remotedocument,content_decisiontree,content_faq,content_knowledgealert,content_spidereddocument';
 var filterTags = '';
 var publishedid = '';
+var recievedRegisterSearchResults = false;
 
 $(document).ready(function() {
 
@@ -21,6 +22,25 @@ $(document).ready(function() {
             });
             self.element.bind("dpui:registerSearchResults", function(e) {
                 log("registerSearchResults");
+              //Need to make sure that the dpui:registerSearchResults has fired so the results can be displayed, 
+              //we may get two of these events so only fire on the first one                
+                if (!recievedRegisterSearchResults){
+                	// Check if the parameters passed in required a search
+                	recievedRegisterSearchResults = true;
+	            	if ($.fn.checkKBaseTags(kbaseTag)){
+	            	    if (!$.fn.checkForContentId()) {            	    	
+	            		    $.fn.checkForUrlSearch() 
+	            	    }
+	                } else {
+	            		//not authorized for code KB
+	            		log('Show error message: Error: You are not authorized for searching the knowledge base');
+	            		$('#background').addClass('background_on');
+	            		$('#error-body').html('Error: You are not authorized for searching the knowledge base');
+	            		$('#error-message').addClass('error_message_on');
+	            	}
+            	} else {
+            		log("registerSearchResults -duplicate ignore");
+            	}
             });
 	        self.element.bind("dpui:registerFilter", function(e, data) {
 	            log("registerFilter");
@@ -689,7 +709,7 @@ $(document).ready(function() {
 			buildLi += '<span>' + value + '</span>';
 			//buildLi += '<a class="search_choice_close" rel="0" tagtype="' + type + '"></a>';
 			buildLi += '</li>';
-			log(buildLi);
+			//log(buildLi);
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
 		} else if (type === 'topic') {
 			// Replace existing topic
@@ -706,7 +726,7 @@ $(document).ready(function() {
 			var value = element;
 			buildLi += '<span>' + value + '</span>';
 			buildLi += '</li>';
-			log(buildLi);
+			//log(buildLi);
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
 		} else if (type === 'publishedid') {
 			// Do nothing for now
@@ -733,7 +753,7 @@ $(document).ready(function() {
 			//buildLi += '<span>' + $('#' + element).text() + '</span>';
 			buildLi += '<span>' + element + '</span>';
 			buildLi += '</li>';
-			log(buildLi);
+			//log(buildLi);
 
 			// inserts the html code at the designated spot
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
@@ -744,7 +764,7 @@ $(document).ready(function() {
 			buildLi += '<span>' + $('#' + element).text() + '</span>';
 			buildLi += '<a class="search_choice_close" rel="' + $('#' + element).attr('rel') + ' tagtype="' + type + '"></a>';
 			buildLi += '</li>';
-			log(buildLi);
+			//log(buildLi);
 			$(buildLi).insertAt(1, $('.ul_all_tags'));
 		}
 		
@@ -873,13 +893,10 @@ $(document).ready(function() {
 	}
 	
     // Check if the parameters passed in required a search
-	if ($.fn.checkKBaseTags(kbaseTag)){
+	/*if ($.fn.checkKBaseTags(kbaseTag)){
 	    if (!$.fn.checkForContentId()) {
-		    if (!$.fn.checkForUrlSearch()) {
-		    	// Setup initial sizes
-		    	//$.fn.setupSearchWidget();
-		    	//$.fn.setupSearchResultsWidget();
-		    }
+	    	//Need to make sure that the dpui:registerSearchResults has fired so the results can be displayed 
+		    $.fn.checkForUrlSearch() 
 	    }
     } else {
 		//not authorized for code KB
@@ -887,6 +904,6 @@ $(document).ready(function() {
 		$('#background').addClass('background_on');
 		$('#error-body').html('Error: You are not authorized for searching the knowledge base');
 		$('#error-message').addClass('error_message_on');
-	}
+	}*/
 	
 });

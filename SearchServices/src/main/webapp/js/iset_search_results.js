@@ -6,7 +6,7 @@ var filterTags;
 var contentType;
 
 $(document).ready(function() {
-
+	
 	// Setup package data
 	var setupPackage = function(toSortBy) {
 		sortBy = toSortBy;
@@ -17,6 +17,74 @@ $(document).ready(function() {
     	}
     	return packagedData;
 	}
+	
+	// Setup the inter-widget communication
+	$.widget("ui.ajaxStatus", {
+	    options: {
+	    },
+	    _create : function() {
+	        var self = this;
+	        self.element.addClass('dpui-widget');
+            self.element.bind('dpui:startWidget', function(e) {
+                log('startWidget - iset_search_results');
+                // register the widget with other widgets
+                $('.dpui-widget').trigger('dpui:registerSearchResults');
+            });
+	        self.element.bind('dpui:registerSearch', function(e) {
+	            log("registerSearch");
+	            //We need to make sure that the widget running dpui:registerSearch is running as the  dpui:registerSearchResults kicks off the search so lets send it again
+	            $('.dpui-widget').trigger('dpui:registerSearchResults');
+	        });
+	        self.element.bind('dpui:registerContentView', function(e) {
+	            log('registerContentView');
+	        });
+	        self.element.bind('dpui:showManageButton', function(e) {
+	            log('showManageButton');
+	            $('#sr-hns-manage').removeClass('sr_hns_right_off');
+	        });
+	        self.element.bind('dpui:hideManageButton', function(e) {
+	            log('hideManageButton');
+	            $('#sr-hns-manage').addClass('sr_hns_right_off');
+	        });
+	        self.element.bind("dpui:resultData", function(e, data) {
+	        	log("resultData below:");
+	        	log(data);
+            	// check for regular search
+            	if (typeof data != 'undefined' && 
+            			data != null && 
+            			typeof data.label != 'undefined' && 
+            			data.label != '' && 
+            			data.label === 'Search') {
+            		$('#sr-header-non-search').removeClass('sr_header_non_search_on');
+            		$('#sr-header-non-search').addClass('sr_header_non_search_off');
+            		$('#sr-header-search').removeClass('sr_header_search_off');
+            		$('#sr-header-search').addClass('sr_header_search_on');
+            	} else {
+            		$('#sr-header-non-search').removeClass('sr_header_non_search_off');
+            		$('#sr-header-non-search').addClass('sr_header_non_search_on');
+            		$('#sr-header-search').removeClass('sr_header_search_on');
+            		$('#sr-header-search').addClass('sr_header_search_off');
+            		$('.sr_label').html(data.label);
+            	}
+            	pageSelected = data.data.page;
+            	
+            	//make sure the base query is always there
+            	if (!data.query == ""){
+            		query = base_query + " " +  data.query;
+            	}
+            	
+
+		    	// put the scroll bar back to the top
+            	$('#sr-listing').scrollTop(0);
+
+            	// Display the results
+            	$.fn.displayResults(data.data);
+            });
+	    },
+	    destroy: function(){
+	        $.widget.prototype.destroy.apply(this, arguments);
+	    },
+	});
 
 	filterTags = $.fn.getParameterByName('tags');
 	log("filterTags:" + filterTags);
@@ -535,71 +603,7 @@ $(document).ready(function() {
 		}
 	}
 
-	// Setup the inter-widget communication
-	$.widget("ui.ajaxStatus", {
-	    options: {
-	    },
-	    _create : function() {
-	        var self = this;
-	        self.element.addClass('dpui-widget');
-            self.element.bind('dpui:startWidget', function(e) {
-                log('startWidget - iset_search_results');
-                // register the widget with other widgets
-                $('.dpui-widget').trigger('dpui:registerSearchResults');
-            });
-	        self.element.bind('dpui:registerSearch', function(e) {
-	            log("registerSearch");
-	        });
-	        self.element.bind('dpui:registerContentView', function(e) {
-	            log('registerContentView');
-	        });
-	        self.element.bind('dpui:showManageButton', function(e) {
-	            log('showManageButton');
-	            $('#sr-hns-manage').removeClass('sr_hns_right_off');
-	        });
-	        self.element.bind('dpui:hideManageButton', function(e) {
-	            log('hideManageButton');
-	            $('#sr-hns-manage').addClass('sr_hns_right_off');
-	        });
-	        self.element.bind("dpui:resultData", function(e, data) {
-	        	log("resultData below:");
-	        	log(data);
-            	// check for regular search
-            	if (typeof data != 'undefined' && 
-            			data != null && 
-            			typeof data.label != 'undefined' && 
-            			data.label != '' && 
-            			data.label === 'Search') {
-            		$('#sr-header-non-search').removeClass('sr_header_non_search_on');
-            		$('#sr-header-non-search').addClass('sr_header_non_search_off');
-            		$('#sr-header-search').removeClass('sr_header_search_off');
-            		$('#sr-header-search').addClass('sr_header_search_on');
-            	} else {
-            		$('#sr-header-non-search').removeClass('sr_header_non_search_off');
-            		$('#sr-header-non-search').addClass('sr_header_non_search_on');
-            		$('#sr-header-search').removeClass('sr_header_search_on');
-            		$('#sr-header-search').addClass('sr_header_search_off');
-            		$('.sr_label').html(data.label);
-            	}
-            	pageSelected = data.data.page;
-            	
-            	//make sure the base query is always there
-            	if (!data.query == ""){
-            		query = base_query + " " +  data.query;
-            	}
-            	
 
-		    	// put the scroll bar back to the top
-            	$('#sr-listing').scrollTop(0);
-
-            	// Display the results
-            	$.fn.displayResults(data.data);
-            });
-	    },
-	    destroy: function(){
-	        $.widget.prototype.destroy.apply(this, arguments);
-	    },
-	});
 
 	// Send out a "ping" to other widgets
 	$.ui.ajaxStatus({}, $("<div></div>").appendTo("body"));
