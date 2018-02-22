@@ -22,8 +22,8 @@ $(document).ready(function() {
             });
             self.element.bind("dpui:registerSearchResults", function(e) {
                 log("registerSearchResults");
-              //Need to make sure that the dpui:registerSearchResults has fired so the results can be displayed, 
-              //we may get two of these events so only fire on the first one                
+                //Need to make sure that the dpui:registerSearchResults has fired so the results can be displayed, 
+                //we may get two of these events so only fire on the first one                
                 if (!recievedRegisterSearchResults){
                 	// Check if the parameters passed in required a search
                 	recievedRegisterSearchResults = true;
@@ -144,7 +144,10 @@ $(document).ready(function() {
         },
     });
 
-	
+	// Send out a "ping" to other widgets
+	$.ui.ajaxStatus( {}, $( "<div></div>" ).appendTo( "body") );
+    $(".dpui-widget").trigger("dpui:startWidget");
+    
 	// Service Cloud arrow link
 	$('#fs-li-cloud').on('click', function() {
 		$.fn.changeArrow('#fs-cloud-data', '#fs-i-cloud');
@@ -439,9 +442,6 @@ $(document).ready(function() {
 
 	}
 
-
-	$.ui.ajaxStatus( {}, $( "<div></div>" ).appendTo( "body") );
-    $(".dpui-widget").trigger("dpui:startWidget");
     
     // Check for all possible search parameters
     $.fn.checkForUrlSearch = function() {
@@ -892,6 +892,8 @@ $(document).ready(function() {
 		} 		
 	}
 	
+
+    
     // Check if the parameters passed in required a search
 	/*if ($.fn.checkKBaseTags(kbaseTag)){
 	    if (!$.fn.checkForContentId()) {
