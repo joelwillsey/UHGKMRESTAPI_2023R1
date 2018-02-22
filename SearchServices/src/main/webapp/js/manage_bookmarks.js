@@ -22,7 +22,7 @@ var reorderEvent = null;
 		
 		var node = $('#bookmarkTree').tree('getSelectedNode');
 		// only enable view for bookmarks, not folders.
-		if (node.type == "folder"){
+		if (node.type === "folder"){
 			alert('Please select a bookmark to view.');
 		}else{
 			$.fn.launchViewContent(node.id);
@@ -38,15 +38,12 @@ var reorderEvent = null;
 			}else{
 				
 				// remove a folder
-				if (node.type == "folder"){
+				if (node.type === "folder"){
 					$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/manage?folderID='+node.id+'&userAction=REMOVEFOLDER', SEARCH_SERVICE_TIMEOUT, function(data){
 						$.fn.populateBookmarks(data);
 					});
 				}else{
-					$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + node.id, SEARCH_SERVICE_TIMEOUT, $.fn.manageCallback); 
-					$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/listallbookmarks', SEARCH_SERVICE_TIMEOUT, function(data){
-						$.fn.populateBookmarks(data);
-					});
+					$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + node.id, SEARCH_SERVICE_TIMEOUT, $.fn.removeCallback); 
 				}
 			
 			}
@@ -142,6 +139,10 @@ var reorderEvent = null;
 	
 	// Row selected
 	$.fn.bookmarkSelection = function(id, index) {
+		
+		log("id= #" + id);
+		var node = $('#bookmarkTree').tree('getSelectedNode');
+		
 		var size = 0;
 		$('.bookmark_list div.bookmark_item').each(
 			function(indx) {
@@ -157,11 +158,9 @@ var reorderEvent = null;
 		$('#bookmark-button-new-folder').addClass('bookmark_action_button_active');
 		$('#bookmark-button-rename').addClass('bookmark_action_button_active');
 
-		log("id= #" + id);
-		var node = $('#bookmarkTree').tree('getSelectedNode');
 		log("Node Type selected: " + node.type + " node name: " + node.name);
 		if (typeof node != 'undefined' && node != null){
-			if (node.type == "folder") {
+			if (node.type === "folder") {
 				//folder action
 				$('#bookmark-button-view').removeClass('bookmark_action_button_active');
 				$("#bookmark-button-view").attr("disabled", "true");				
@@ -197,32 +196,73 @@ var reorderEvent = null;
 	}
 
 	
+	
+	$.fn.bindBookmarkEvents = function() {
+		
+		// bind 'tree.click' event
+		$('#bookmarkTree').bind(
+		    'tree.click',
+		    function(event) {
+					// The clicked node is 'event.node'
+				if ($('#bookmarkTree').tooltip()) {
+					$('#bookmarkTree').tooltip( "destroy" );    
+				}				
+				
+				if (event.node) {
+					// node was selected
+					var node = event.node;
+				}
+				
+		    }
+		);
+		
+		
+		// bind 'tree.select' event
+		$('#bookmarkTree').bind(
+			'tree.select',
+			function(event) {
+				if ($('#bookmarkTree').tooltip()) {
+				  $('#bookmarkTree').tooltip( "destroy" );   
+				}
+				if (event.node) {
+					// node was selected
+					var node = event.node;
+					$.fn.bookmarkSelection();
+				}
+				
+			}
+			
+		);
+		
+	}
+	
+	
 	// Populate bookmark screen
 	$.fn.populateBookmarks = function(data) {
 		var results = [];
 
 		log("Populating Bookmarks");
 		
-		if (typeof data != 'undefined' && data != null && data.contentBookmarksV2 != null) {
+		if (typeof data !== 'undefined' && data !== null && data.contentBookmarksV2 !== null) {
 			for (var i=0;(data.contentBookmarksV2.folders != null) && (i < data.contentBookmarksV2.folders.length); i++) {
 				var topFolderChildren = [];	
 				// populate sub folder data
-				if (data.contentBookmarksV2.folders[i].subFolders != null){
+				if (data.contentBookmarksV2.folders[i].subFolders !== null){
 					for (var k=0;(data.contentBookmarksV2.folders[i].subFolders != null) && (k < data.contentBookmarksV2.folders[i].subFolders.length); k++) {
 						var subFolderChildren = [];	
 						
 						// check if sub folders contain bookmarks or folders.
-						if (data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders != null){
+						if (data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders !== null){
 							for (var m=0;(data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders != null) && (m < data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders.length); m++) {
 								var subSubFolderChildren = []
-								if (data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList != null){
+								if (data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList !== null){
 									for (var f=0;(data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList != null) && (f < data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList.length); f++) {
 										subSubFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].title, id: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].contentId, type: 'bookmark', synopsis: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].synopsis, systemTagName: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].contentType, sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].bookmarkContentList[f].sequenceNumber}); 
 										
 									}
 								}								
 								
-								if (subSubFolderChildren != null){
+								if (subSubFolderChildren !== null){
 									subFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].title, id: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].sequenceNumber, children: subSubFolderChildren});
 								}else{
 									subFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].title, id: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].subSubFolders[m].sequenceNumber});
@@ -230,7 +270,7 @@ var reorderEvent = null;
 							}
 						}
 						
-						if (data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList != null){
+						if (data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList !== null){
 							for (var n=0;(data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList != null) && (n < data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList.length); n++) {
 								subFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].title, id: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].contentId, type: 'bookmark', synopsis: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].synopsis, systemTagName: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].contentType, sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.bookmarkContentList[n].sequenceNumber}); 
 								
@@ -238,7 +278,7 @@ var reorderEvent = null;
 						}
 							
 						// check for sub level folders and bookmarks.
-						if (subFolderChildren != null){
+						if (subFolderChildren !== null){
 							topFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.title, id: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.sequenceNumber, children: subFolderChildren});
 						}else{
 							topFolderChildren.push({name: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.title, id: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].subFolders[k].bookmarkFolderContent.sequenceNumber});
@@ -255,7 +295,7 @@ var reorderEvent = null;
 						topFolderChildren.push({name: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].title, id: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].contentId, type: 'bookmark', synopsis: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].synopsis, systemTagName: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].contentType, sequenceNumber: data.contentBookmarksV2.folders[i].bookmarkFolderContent.bookmarkContentList[j].sequenceNumber}); 
 					}
 				}
-				if (topFolderChildren != null){ 
+				if (topFolderChildren !== null){ 
 					results.push({name: data.contentBookmarksV2.folders[i].bookmarkFolderContent.title, id: data.contentBookmarksV2.folders[i].bookmarkFolderContent.folderId, type: 'folder', sequenceNumber: data.contentBookmarksV2.folders[i].bookmarkFolderContent.sequenceNumber, children: topFolderChildren});						
 				}else{
 					if (data.contentBookmarksV2.folders[i].subFolders == null){
@@ -263,7 +303,7 @@ var reorderEvent = null;
 					}
 				}
 			}
-			for (var i=0;(data.contentBookmarksV2.bookmarks != null) && (i < data.contentBookmarksV2.bookmarks.length); i++) {
+			for (var i=0;(data.contentBookmarksV2.bookmarks !== null) && (i < data.contentBookmarksV2.bookmarks.length); i++) {
 				// populate bookmark data
 				results.push({name: data.contentBookmarksV2.bookmarks[i].title, id: data.contentBookmarksV2.bookmarks[i].contentId, type: 'bookmark', synopsis: data.contentBookmarksV2.bookmarks[i].synopsis, systemTagName: data.contentBookmarksV2.bookmarks[i].contentType, sequenceNumber: data.contentBookmarksV2.bookmarks[i].sequenceNumber});	
 			}
@@ -277,36 +317,36 @@ var reorderEvent = null;
 				dragAndDrop: true,
 				selectable: true,
 			    onCreateLi: function(node, $li, is_selected) {
-			    	if (node.type == "folder"){
-			    		if (node.children.length == 0){
+			    	if (node.type === "folder"){
+			    		if (node.children.length === 0){
 			    			$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree_EmptyFolder"></span>');
 			    		}
 			    		$li.find('.jqtree-title').css('color', 'black');
 			    		$li.find('.jqtree-title').css('font-size', '14px');
 			    	}
 			    	// for each content type we need to explicitly state the class to display the icon. Not great code but can't find an alternative.
-			    	if (node.systemTagName == "KnowledgeArticleED"){
+			    	if (node.systemTagName === "KnowledgeArticleED"){
 			    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeArticleED"></span>');
 			    	}else{
-			    		if (node.systemTagName == "KnowledgeAlertED"){
+			    		if (node.systemTagName === "KnowledgeAlertED"){
 				    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeAlertED"></span>');
 				    	}else{
-				    		if (node.systemTagName == "KnowledgeFAQED"){
+				    		if (node.systemTagName === "KnowledgeFAQED"){
 					    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeFAQED"></span>');
 					    	}else{
-					    		if (node.systemTagName == "KnowledgeUploadED"){
+					    		if (node.systemTagName === "KnowledgeUploadED"){
 						    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeUploadED"></span>');
 						    	}else{
-						    		if (node.systemTagName == "Unstructured"){
+						    		if (node.systemTagName === "Unstructured"){
 							    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_Unstructured"></span>');
 							    	}else{
-							    		if (node.systemTagName == "pageSet"){
+							    		if (node.systemTagName === "pageSet"){
 								    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_pageSet"></span>');
 								    	}else{
-								    		if (node.systemTagName == "KnowledgeSegmentED"){
+								    		if (node.systemTagName === "KnowledgeSegmentED"){
 									    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeSegmentED"></span>');
 									    	}else{
-									    		if (node.systemTagName == "KnowledgeRemoteDocumentED"){
+									    		if (node.systemTagName === "KnowledgeRemoteDocumentED"){
 										    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeRemoteDocumentED"></span>');
 										    	}
 									    	}
@@ -326,23 +366,23 @@ var reorderEvent = null;
 					
 					
 					// Can only drop into folders
-					if (moved_node.type == "bookmark" && target_node.type == "folder"){
-						return (position != 'before');
+					if (moved_node.type === "bookmark" && target_node.type === "folder"){
+						return (position !== 'before');
 					}
 					
 					// only allow folders to be dropped before bookmarks.
-					if ((target_node.type == "bookmark" && moved_node.type == "folder") && position != 'before'){
+					if ((target_node.type === "bookmark" && moved_node.type === "folder") && position !== 'before'){
 						return false;
 					}
 					
 					
 					// prevent more than 4 tiers
-					if (moved_node.type == "folder" && target_node.getLevel() == 3){ 
+					if (moved_node.type === "folder" && target_node.getLevel() === 3){ 
 						return false;
 					} 
-					if (moved_node.type == "folder" && target_node.getLevel() == 2){ 
-						if (moved_node.children != null){
-							for (var w=0;(moved_node.children != null) && (w < moved_node.children.length); w++) {
+					if (moved_node.type === "folder" && target_node.getLevel() === 2){ 
+						if (moved_node.children !== null){
+							for (var w=0;(moved_node.children !== null) && (w < moved_node.children.length); w++) {
 								// if moving to level 2 and the folder's children have children then they will be level 4 so not allowed.
 								if (moved_node.children[w].children.length >0){
 									return false;
@@ -350,12 +390,12 @@ var reorderEvent = null;
 							}
 						}
 					}
-					if (moved_node.type == "folder" && target_node.getLevel() == 1){ 
-						if (moved_node.children != null){
-							for (var y=0;(moved_node.children != null) && (y < moved_node.children.length); y++) {
+					if (moved_node.type === "folder" && target_node.getLevel() === 1){ 
+						if (moved_node.children !== null){
+							for (var y=0;(moved_node.children !== null) && (y < moved_node.children.length); y++) {
 								// if moving to level 2 and the folder's children have children then they will be level 4 so not allowed.
-								if (moved_node.children[y].children != null){
-									for (var x=0;(moved_node.children[y].children != null) && (x < moved_node.children[y].children.length); x++) {
+								if (moved_node.children[y].children !== null){
+									for (var x=0;(moved_node.children[y].children !== null) && (x < moved_node.children[y].children.length); x++) {
 										if (moved_node.children[y].children[x].children.length > 0){
 											return false;
 										}
@@ -366,15 +406,15 @@ var reorderEvent = null;
 					}
 					
 					// just setting up a true return for folders writing to above, below and inside other folders once we have made it through the above checks.
-					if (moved_node.type == "folder" && target_node.type == "folder") {
+					if (moved_node.type === "folder" && target_node.type === "folder") {
 						return true;
 					}
 					
 					
 					// do not allow a bookmark to be dropped inside another bookmark
-					if (moved_node.type == "bookmark" && target_node.type == "bookmark") {
+					if (moved_node.type === "bookmark" && target_node.type === "bookmark") {
 							// not alowwed inside a bookmark but before and after ok.
-						return (position != 'inside');
+						return (position !== 'inside');
 					}
 						else {
 						return true;
@@ -387,68 +427,6 @@ var reorderEvent = null;
 		$('#searchResultsBookmarkTree').tree('loadData', results);
 		$('#bookmarkTree').tree('loadData', results);
 		
-		// bind 'tree.click' event
-		$('#bookmarkTree').bind(
-		    'tree.click',
-		    function(event) {
-					// The clicked node is 'event.node'
-				var node = event.node;
-				if ($('#bookmarkTree').tooltip()) {
-					$('#bookmarkTree').tooltip( "destroy" );    
-				}
-			
-		    }
-		);
-		
-		// bind 'tree.select' event
-		$('#bookmarkTree').bind(
-				'tree.select',
-				function(event) {
-					if ($('#bookmarkTree').tooltip()) {
-					  $('#bookmarkTree').tooltip( "destroy" );   
-					}
-					if (event.node) {
-						// node was selected
-						var node = event.node;
-						$.fn.bookmarkSelection();
-					}
-					else {
-						// event.node is null
-						// a node was deselected
-						// e.previous_node contains the deselected node
-					}	 
-				}
-			
-		);
-		
-		// Add the synopsis as hover text
-		$('#bookmarkTree').on('mouseover', function(e) {
-			
-			  var node = $('#bookmarkTree').tree('getNodeByHtmlElement', e.target);	
-			  
-			  if ($('#bookmarkTree').tooltip()) {
-				  $('#bookmarkTree').tooltip( "destroy" );    
-			  }
-			  
-			  if (node){
-				$( '#bookmarkTree' ).tooltip({
-				      items: "span, a",
-				      content: function() {
-				        var element = $( this );
-				        if ( element.is( "a" ) ) {
-				          return 'Click me to expand/collapse.';
-				        }
-				        if ( element.is( "span" ) ) {
-				        	if (node != null){
-				        		return node.synopsis;
-				        	}
-				        }
-				      }
-				    });
-				$('input').tooltip();
-			  }
-			  			
-		});
 		
 		//check level that's being dropped to to prevent more than 3 levels deep
 		$('#bookmarkTree').bind(
@@ -458,7 +436,7 @@ var reorderEvent = null;
 					// remove tooltip if any exists on move
 					  if ($('#bookmarkTree').tooltip()) {
 						  $('#bookmarkTree').tooltip( "destroy" );  
-						  $('#bookmarkTree').unbind("mouseover");
+						  //$('#bookmarkTree').unbind("mouseover");
 					  } 
 					 					
 					var level = event.move_info.target_node.getLevel();
@@ -482,7 +460,7 @@ var reorderEvent = null;
 										
 					id = event.move_info.moved_node.id;
 					type = event.move_info.moved_node.type;
-					position = event.move_info.position; 
+					position = event.move_info.position;  
 
 					// loop round the whole tree to figure out the position of where the bookmark is being dropped.
 					var match = false;
@@ -681,7 +659,7 @@ var reorderEvent = null;
 						$('#bookmarkTree').unbind(event); 
 					} 
 					
-					$('#bookmarkTree').bind("mouseover");
+					//$('#bookmarkTree').bind("mouseover");
 				}	
 		);
 		
@@ -699,10 +677,27 @@ var reorderEvent = null;
 			$.fn.getBookmarks($.fn.manageBookmarkCallback);
 		}
 	}
+	
+	// Manage remove callback
+	$.fn.removeCallback = function(data) {
+		if (typeof data != 'undefined' && data != null && typeof data.errorList != 'undefined' && data.errorList.length > 0) {
+			for (var i=0; (data.errorList != null) && (i < data.errorList.length); i++) {
+				// TODO; could be more than one error list
+				$('#error-h1').html('Error code: ' + data.errorList[i].code + ' Error message: ' + data.errorList[i].message);
+	        	$('#error-message').show();
+			}
+		} else if (typeof data != 'undefined' && data != null && typeof data.errorList != 'undefined' && data.errorList.length === 0) {
+			$.fn.serviceCall('GET', '', searchServiceName + 'km/bookmarksv2/listallbookmarks', SEARCH_SERVICE_TIMEOUT, function(data){
+				$.fn.populateBookmarks(data);
+			});
+		}
+	}
+	
 
 	// Bookmark callback
 	$.fn.manageBookmarkCallback = function(data) {
 		$.fn.populateBookmarks(data);
+		$.fn.bindBookmarkEvents();
 	}
 
 	// Get all the bookmarks for user
