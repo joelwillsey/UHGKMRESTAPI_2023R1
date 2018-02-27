@@ -653,6 +653,72 @@ $(document).ready(function() {
 		}
 	}
 	
+	
+	$.fn.bindDisplayBookmarkEvents = function() {
+		
+		$('#searchResultsBookmarkTree').unbind('tree.click');
+		$('#searchResultsBookmarkTree').unbind('tree.select');
+		
+		// bind 'tree.click' event
+		$('#searchResultsBookmarkTree').bind(
+		    'tree.click',
+		    function(event) {
+		    	if (event.node.type == "folder"){
+					return false;
+				}else{
+					// The clicked node is 'event.node'
+					var node = event.node;
+			
+					if ( event.click_event.target.localName === "img" ) {
+						// just leave at this point as we've already caused the external link to kick off, no need to run it twice.
+						return;
+			        }else{
+					
+			        	$.fn.viewContent(node.id, node.systemTagName);
+			        }
+				}
+		    }
+		);
+		
+		
+		
+		// Add the synopsis as hover text
+		$('#searchResultsBookmarkTree').on('mouseover', function(e) {
+
+			  var node = $('#searchResultsBookmarkTree').tree('getNodeByHtmlElement', e.target);	
+			  if ($('#searchResultsBookmarkTree').tooltip()) {
+				  $('#searchResultsBookmarkTree').tooltip( "destroy" );
+			  }
+				$( '#searchResultsBookmarkTree' ).tooltip({
+				      items: "span, a",
+				      content: function() {
+				        var element = $( this );
+				        if ( element.is( "a" ) ) {
+				          return 'Open in new window.';
+				        }
+				        if ( element.is( "span" ) ) {
+				        	if (typeof node != 'undefined' && node != null) {
+					        	//log(node);
+					        	if (node.type == 'bookmark'){
+					        		//hovering over bookmark return synopsis
+					        		return node.synopsis;
+						          } else {
+						        	//hovering over folder return nothing				  
+						        	  return "";
+						          }
+				        	} else {
+				        		//node is null return empty
+				        		return "";
+				        	}
+				        }
+				      }
+				    });
+				$('input').tooltip();
+		});
+		
+	}
+	
+	
 	// Display the search results
 	$.fn.displayBookmarkResults = function(data) {
 
@@ -788,94 +854,7 @@ $(document).ready(function() {
 		});
 		
 		$('#searchResultsBookmarkTree').tree('loadData', bookmarkTreeResults);
-		
-		// bind 'tree.click' event
-		$('#searchResultsBookmarkTree').bind(
-		    'tree.click',
-		    function(event) {
-		    	if (event.node.type == "folder"){
-					return false;
-				}else{
-					// The clicked node is 'event.node'
-					var node = event.node;
 			
-					if ( event.click_event.target.localName === "img" ) {
-						// just leave at this point as we've already caused the external link to kick off, no need to run it twice.
-						return;
-			        }else{
-					
-			        	$.fn.viewContent(node.id, node.systemTagName);
-			        }
-				}
-		    }
-		);
-		
-		// bind 'tree.select' event
-/*		$('#searchResultsBookmarkTree').bind(
-			'tree.select',
-			function(event) {
-				if (event.node) {
-					if (event.node.type == "folder"){
-						return false;
-					}else{
-						
-			        	// node was selected
-			        	var node = event.node;
-			        	var element = $( this );
-
-						
-						if ( element.is( "a" ) ) {
-				        	alert('Clicked open in external link')
-				        	$.fn.launchViewContent(node.id);
-				        }else{
-						
-				        	$.fn.viewContent(node.id, node.systemTagName);
-				        }
-
-					}
-
-				}
-				
-//				$('#searchResultsBookmarkTree').unbind(event); 
-			}
-		);
-		*/
-		
-		
-		// Add the synopsis as hover text
-		$('#searchResultsBookmarkTree').on('mouseover', function(e) {
-
-			  var node = $('#searchResultsBookmarkTree').tree('getNodeByHtmlElement', e.target);	
-			  if ($('#searchResultsBookmarkTree').tooltip()) {
-				  $('#searchResultsBookmarkTree').tooltip( "destroy" );
-			  }
-				$( '#searchResultsBookmarkTree' ).tooltip({
-				      items: "span, a",
-				      content: function() {
-				        var element = $( this );
-				        if ( element.is( "a" ) ) {
-				          return 'Open in new window.';
-				        }
-				        if ( element.is( "span" ) ) {
-				        	if (typeof node != 'undefined' && node != null) {
-					        	//log(node);
-					        	if (node.type == 'bookmark'){
-					        		//hovering over bookmark return synopsis
-					        		return node.synopsis;
-						          } else {
-						        	//hovering over folder return nothing				  
-						        	  return "";
-						          }
-				        	} else {
-				        		//node is null return empty
-				        		return "";
-				        	}
-				        }
-				      }
-				    });
-				$('input').tooltip();
-		});
-		
 		// set up pagination for bookmarks.
 		$.fn.setupPagination(data);
 		
@@ -980,6 +959,7 @@ $(document).ready(function() {
             			data.label != '' && 
             			data.label === 'My Bookmarks') {
             		$.fn.displayBookmarkResults(data.data);
+            		$.fn.bindDisplayBookmarkEvents();
             	}else{
             		$.fn.displayResults(data.data);
             	}
