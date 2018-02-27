@@ -450,7 +450,7 @@ button{
 				}
 /* Media Queries */
 /* reduced from 1024 to 499 to allow scroll bars on code search */
-@media screen and (max-width: 499px) {
+@media screen and (max-width: 229px) {
 .search_results {
 	border: none;
 	height: 100%;

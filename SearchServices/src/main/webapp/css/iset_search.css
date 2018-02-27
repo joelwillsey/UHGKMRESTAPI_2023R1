@@ -328,7 +328,7 @@ h4 {
 	display: none;
 }
 	.search_wrapper {
-		 display: none;
+		/* display: none; */
 	}
 	.search_menu  {
 	}

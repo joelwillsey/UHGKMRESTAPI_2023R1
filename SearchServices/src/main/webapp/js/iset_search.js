@@ -149,7 +149,7 @@ $(document).ready(function() {
     $(".dpui-widget").trigger("dpui:startWidget");
     
     
-    // Load Search Results HTML  This is done to ensure the widget defined above has started before the widget coantined the js below starts as it can cause errors
+    // Load Search Results HTML  This is done to ensure the widget defined above has started before the widget contained the js below starts as it can cause errors
 	$.get(searchServiceName + 'iset_search_results.html', function(data) {
 		$('#search-results-widget').html(data);
 	});

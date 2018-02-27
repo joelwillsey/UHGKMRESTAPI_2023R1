@@ -143,9 +143,15 @@ $(document).ready(function() {
         },
     });
 
+	// Send out a "ping" to other widgets
 	$.ui.ajaxStatus( {}, $( "<div></div>" ).appendTo( "body") );
     $(".dpui-widget").trigger("dpui:startWidget");
     
+ // Load Search Results HTML This is done to ensure the widget defined above has started before the widget contained the js below starts as it can cause errors
+	$.get(searchServiceName + 'code_search_results.html', function(data) {
+		$('#search-results-widget').html(data);
+	});
+	
 	kbaseTag = $.fn.getProperty('code.search.kbase');
 	var topicTags = $.fn.getProperty('code.search.topics');
 		

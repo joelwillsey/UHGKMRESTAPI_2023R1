@@ -128,7 +128,7 @@
 		// Setup the search results widget for desktop vs. mobile
 		// Search resize
 		$.fn.setupSearchWidget = function() {
-			if ($(window).outerWidth(true) < 500) {
+			if ($(window).outerWidth(true) < 230) {
 				$('#search-menu').insertBefore('#search-wrapper');
 			} else {
 				$('#search-wrapper').removeClass('off');
@@ -148,7 +148,7 @@
 			// **NOTE: For IE9/10 the deleteClass and createClass functions will cause access exceptions
 			//
 		    if ($.fn.isIE() === 9 || $.fn.isIE() === 10 || $.fn.isIE() === 11) {
-				if ($(window).outerWidth(true) < 500) {
+				if ($(window).outerWidth(true) < 230) {
 					$('#search-results').css('height', '100%');
 					$('#sr-listing').css('height', '100%');
 				} else {	    		
@@ -158,7 +158,7 @@
 					$('#sr-listing').css('height', searchResultsListing);
 				}
 		    } else {
-				if ($(window).outerWidth(true) < 500) {
+				if ($(window).outerWidth(true) < 230) {
 					$('#search-results').removeClass('search_results_resize');
 					$.fn.deleteClass('.search_results_resize');
 					$('#search-results').removeClass('sr_list_resize');
@@ -184,7 +184,7 @@
 		
 		// Setup the resize as appropriate
 		$(window).resize(function() {
-			if ($(window).outerWidth(true) < 500) {
+			if ($(window).outerWidth(true) < 230) {
 				$('.search_menu').removeClass('open');
 				$('.search_menu').addClass('close');
 				$('#search-menu-toggle-icon').removeClass('ion-chevron-down');
@@ -206,7 +206,7 @@
 	</script>
 	<style>
 		/* Media Queries */
-		@media screen and (max-width: 499px) {
+		@media screen and (max-width: 229px) {
 			body {
 				margin: 0px;
 			}
