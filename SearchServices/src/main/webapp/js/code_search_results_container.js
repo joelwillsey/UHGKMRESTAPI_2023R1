@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
 	
+	log("Resizing window and moving it");
 	//Resize Window
 	window.resizeTo(1024,440);
 	

@@ -148,6 +148,14 @@ $(document).ready(function() {
 	$.ui.ajaxStatus( {}, $( "<div></div>" ).appendTo( "body") );
     $(".dpui-widget").trigger("dpui:startWidget");
     
+    
+    // Load Search Results HTML  This is done to ensure the widget defined above has started before the widget coantined the js below starts as it can cause errors
+	$.get(searchServiceName + 'iset_search_results.html', function(data) {
+		$('#search-results-widget').html(data);
+	});
+	
+	
+	
 	// Service Cloud arrow link
 	$('#fs-li-cloud').on('click', function() {
 		$.fn.changeArrow('#fs-cloud-data', '#fs-i-cloud');
