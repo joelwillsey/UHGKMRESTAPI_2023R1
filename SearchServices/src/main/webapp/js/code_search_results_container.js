@@ -10,7 +10,7 @@ $(document).ready(function() {
 	window.moveTo(ow,0);
 	
 	//This is commented out and moved to the code_search.js file to ensure the widget there  has started before the widget contained the js below starts as it can cause errors
-	/*// Load Search Results HTML
+/*	// Load Search Results HTML
 	$.get(searchServiceName + 'code_search_results.html', function(data) {
 		$('#search-results-widget').html(data);
 	});*/
