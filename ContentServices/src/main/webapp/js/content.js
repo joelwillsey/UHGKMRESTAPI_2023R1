@@ -161,8 +161,17 @@ $(document).ready(function() {
 	// Open up new window/tab to view content
 	$.fn.launchViewContent = function(data) {
 		log(data);
-		window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
+		var currentPathName = window.location.pathname;
+		log('currentPathName: ' + currentPathName);
+		//Check if this is an iset_content_container, if it is the pop-out needs to open in a set_content_container
+		if (currentPathName.search('iset_content_container.html') == -1){
+			window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
+		} else {
+			window.open (contentServiceName + 'iset_content_container.html?id=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
+		}
 	}
+	
+	// Open up new window
 	$.fn.launchDTViewContent = function(data) {
 		log(data);
 		window.open (contentServiceName + 'content_container.html?dt=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
