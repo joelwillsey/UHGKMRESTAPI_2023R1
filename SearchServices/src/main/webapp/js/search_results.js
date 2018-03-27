@@ -220,7 +220,7 @@ $(document).ready(function() {
 	
 	$.fn.addslashes = function( str ) {
 		// added the .replace(/\\"/g, "&quot;") because the highlighting of search terms broke the format of the function when the " was in the string
-	    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0').replace(/\\"/g, "&quot;").replace(/\\'/g, "&#39;");
+	    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0').replace(/\\"/g, "&quot;").replace(/\'/g, "&#39;");
 	}
 	
 	
@@ -310,7 +310,7 @@ $(document).ready(function() {
 			data.isFeatured + ',' +
 			data.averageRating + ',' +
 			data.numberOfRatings + ',\'' +
-			data.title + '\',\'' +
+			$.fn.addslashes(data.title) + '\',\'' +
 			data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
 			passTags + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');">');
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
