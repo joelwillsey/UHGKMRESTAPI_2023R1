@@ -336,7 +336,7 @@ $(document).ready(function() {
 			data.isFeatured + ',' +
 			data.averageRating + ',' +
 			data.numberOfRatings + ',\'' +
-			data.title + '\',\'' +
+			$.fn.addslashes(data.title) + '\',\'' +
 			data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
 			passTags + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
 		results.push('</article>');
