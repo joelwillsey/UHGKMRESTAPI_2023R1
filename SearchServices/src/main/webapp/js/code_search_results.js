@@ -175,6 +175,11 @@ $(document).ready(function() {
 		window.open (contentServiceName + 'iset_content_container.html?'+ passedUrl, contentId + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1030,height=750');
 	}
 
+	$.fn.addslashes = function( str ) {
+		// added the .replace(/\\"/g, "&quot;") because the highlighting of search terms broke the format of the function when the " was in the string
+	    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0').replace(/\\"/g, "&quot;").replace(/\'/g, "&#39;");
+	}
+	
 	// Setup search results numbers
 	$.fn.setupResultsNumbers = function(data) {
 		
@@ -209,7 +214,7 @@ $(document).ready(function() {
 	$.fn.setupSlicedContent = function(data, results, addPolicySearch) {
 		results.push('<article>');
 		if (addPolicySearch){
-			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + data.title + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
+			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + $.fn.addslashes(data.title) + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
 		}
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
@@ -256,7 +261,7 @@ $(document).ready(function() {
 		}
 		results.push('<article>');
 		if (addPolicySearch){
-			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + data.title + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
+			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + $.fn.addslashes(data.title) + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
 		}
 		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
 			data.contentID + '\',\'' +
@@ -264,7 +269,7 @@ $(document).ready(function() {
 			data.isFeatured + ',' +
 			data.averageRating + ',' +
 			data.numberOfRatings + ',\'' +
-			data.title + '\',\'' +
+			$.fn.addslashes(data.title) + '\',\'' +
 			data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
 			passTags + '\');">');
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
@@ -290,7 +295,7 @@ $(document).ready(function() {
 			data.isFeatured + ',' +
 			data.averageRating + ',' +
 			data.numberOfRatings + ',\'' +
-			data.title + '\',\'' +
+			$.fn.addslashes(data.title) + '\',\'' +
 			data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
 			passTags + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
 		if (addPolicySearch){
@@ -304,7 +309,7 @@ $(document).ready(function() {
 	$.fn.setupResultsLinks = function(data, results, addPolicySearch) {
 		results.push('<article>');
 		if (addPolicySearch){
-			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + data.title + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
+			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + $.fn.addslashes(data.title) + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
 		}
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
