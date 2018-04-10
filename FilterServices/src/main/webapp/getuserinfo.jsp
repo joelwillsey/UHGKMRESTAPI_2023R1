@@ -47,7 +47,9 @@ else
 			"KM_EnI_Railroad","KM_UHCG_Clinical","KM_UHCG_Insurance","KM_UHCG_Markets","KM_UHCG_Medical","KM_MnR_Provider_Service","KM_EnI_River_Valley",
 			"KM_EnI_NHP","KM_EnI_Natl_Accounts_Advocacy","KM_MnR_Consumer_Service","KM_Test","KM_MnR_Telesales","KM_MnR_Producer_HelpDesk",
 			"KM_MnV_TRICARE","KM_MnV_TRICAREMedMgmt","KIQPolaris_Agent","KM_Polaris","KM_OClaims","KM_Exchange","KM_COB_Processor",
-			"KM_Dental_Vision_Provider_Network","KM_UHG_Authors","KM_UHCG_Assistance","KM_EnI_Navigator_Optum","KM_Quality"};
+			"KM_Dental_Vision_Provider_Network","KM_UHG_Authors","KM_UHCG_Assistance","KM_EnI_Navigator_Optum","KM_Quality","KM_CnS_BCO", 
+			"KM_CnS_ProviderService","KM_Implementations","KM_MnR_Claims","KM_PRISM","KM_ContractManagement","KM_USNetworksSalesAndClients", 
+			"KM_FQHC_RHC_ProviderSupport"};
 		String group = "";
 		if (kmGroup != null) 
 		{
