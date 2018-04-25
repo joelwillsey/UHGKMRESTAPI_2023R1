@@ -231,7 +231,7 @@ $(document).ready(function() {
 					data.numberOfRatings + ',\'' +
 					$.fn.addslashes(data.title) + '\',\'' +
 					data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
-					passTags + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');">');
+					passTags + '\');">');
 		} else {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
 		}		
