@@ -262,6 +262,8 @@ $(document).ready(function() {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')">');
 		} else if (data.contentType === 'Unstructured') {
 			//Spidered Content
+			
+			//Grab the tags for display, only have system name not display names
 			var nTags = data.knowledgeUnits[0].tags;
 			var passTags = '';
 			if (typeof nTags != 'undefined' && nTags != null && nTags.length > 0) {
