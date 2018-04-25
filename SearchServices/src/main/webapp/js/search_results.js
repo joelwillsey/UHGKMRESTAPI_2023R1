@@ -262,6 +262,13 @@ $(document).ready(function() {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')">');
 		} else if (data.contentType === 'Unstructured') {
 			//Spidered Content
+			var nTags = data.knowledgeUnits[0].tags;
+			var passTags = '';
+			if (typeof nTags != 'undefined' && nTags != null && nTags.length > 0) {
+				for (var j=0; j < nTags.length; j++) {
+					passTags += nTags[j].systemTagName + ",";
+				}
+			}
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
 					data.contentID + '\',\'' +
 					data.knowledgeUnits[0].associatedContentURL + '\',' + 
