@@ -212,6 +212,26 @@ $(document).ready(function() {
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+		}  else if (data.contentType === 'Unstructured') {
+			//Spidered Content
+			
+			//Grab the tags for display, only have system name not display names
+			var nTags = data.knowledgeUnits[0].tags;
+			var passTags = '';
+			if (typeof nTags != 'undefined' && nTags != null && nTags.length > 0) {
+				for (var j=0; j < nTags.length; j++) {
+					passTags += nTags[j].systemTagName + ",";
+				}
+			}
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
+					data.contentID + '\',\'' +
+					data.knowledgeUnits[0].associatedContentURL + '\',' + 
+					data.isFeatured + ',' +
+					data.averageRating + ',' +
+					data.numberOfRatings + ',\'' +
+					$.fn.addslashes(data.title) + '\',\'' +
+					data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
+					passTags + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');">');
 		} else {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
 		}		
