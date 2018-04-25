@@ -260,7 +260,19 @@ $(document).ready(function() {
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')">');
+		} else if (data.contentType === 'Unstructured') {
+			//Spidered Content
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
+					data.contentID + '\',\'' +
+					data.knowledgeUnits[0].associatedContentURL + '\',' + 
+					data.isFeatured + ',' +
+					data.averageRating + ',' +
+					data.numberOfRatings + ',\'' +
+					$.fn.addslashes(data.title) + '\',\'' +
+					data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
+					passTags + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');">');
 		} else {
+			//Dynamic Content
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')">');
 		}		
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
