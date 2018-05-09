@@ -49,7 +49,7 @@ else
 			"KM_EnI_NHP","KM_EnI_Natl_Accounts_Advocacy","KM_MnR_Consumer_Service","KM_Test","KM_MnR_Telesales","KM_MnR_Producer_HelpDesk",
 			"KM_MnV_TRICARE","KM_MnV_TRICAREMedMgmt","KIQPolaris_Agent","KM_Polaris","KM_OClaims","KM_Exchange","KM_COB_Processor",
 			"KM_Dental_Vision_Provider_Network","KM_UHG_Authors","KM_UHCG_Assistance","KM_EnI_Navigator_Optum","KM_Quality"
-			,"KM_Natl_Acct_CSI","KM_Medica","KM_MnR_Sup_Con_Services"
+			,"KM_Natl_Acct_CSI","KM_Medica","KM_MnR_Sup_Con_Services","KM_ECS_Advocacy"
 			};
 		String group = "";
 		if (kmGroup != null) 
