@@ -28,6 +28,7 @@
 			"KM_CnS_ProviderService","KM_Implementations","KM_MnR_Claims","KM_PRISM","KM_ContractManagement","KM_USNetworksSalesAndClients", 
 			"KM_FQHC_RHC_ProviderSupport"
 			,"KM_Natl_Acct_CSI","KM_Medica","KM_MnR_Sup_Con_Services","KM_ECS_Advocacy"
+			,"KM_MnR_Cons_Svc_Specialty_Teams"
 			};
 	
 	String parsedGroups=parseKMGroups(kmGroups,GLOBAL_GROUPS );
