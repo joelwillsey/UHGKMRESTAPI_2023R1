@@ -29,6 +29,7 @@
 			"KM_FQHC_RHC_ProviderSupport"
 			,"KM_Natl_Acct_CSI","KM_Medica","KM_MnR_Sup_Con_Services","KM_ECS_Advocacy"
 			,"KM_MnR_Cons_Svc_Specialty_Teams"
+			,"BCS","IHR","ONCE","RMO"
 			};
 	
 	String parsedGroups=parseKMGroups(kmGroups,GLOBAL_GROUPS );
