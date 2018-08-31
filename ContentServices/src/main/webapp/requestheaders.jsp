@@ -30,6 +30,7 @@
 			,"KM_Natl_Acct_CSI","KM_Medica","KM_MnR_Sup_Con_Services","KM_ECS_Advocacy"
 			,"KM_MnR_Cons_Svc_Specialty_Teams"
 			,"KM_BCS","KM_IHR","KM_ONCE","KM_RMO"
+			,"KM_VEM_Author"
 			};
 	
 	String parsedGroups=parseKMGroups(kmGroups,GLOBAL_GROUPS );

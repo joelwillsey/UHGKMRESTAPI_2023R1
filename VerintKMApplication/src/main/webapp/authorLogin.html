@@ -30,7 +30,26 @@
 		<div class="inner_container">
 			<div id="header">
 				<h1>Verint Knowledge</h1>
-				<h1>PRESS F5 to log into Knowledge Central. If problem persists, please contact helpdesk.</h1>
+			</div>
+			<div id="content">
+				<div class="field-group">
+					<label>VEM Authors Username:</label>
+					<input id="username" class="text" type="text" tabindex="1" autocomplete="off" name="gtxUsername"/>
+				</div>
+				<div class="field-group">
+					<label>VEM Authors Password:</label>
+					<input id="password" class="text" type="password" tabindex="2" autocomplete="off" name="gtxUserPassword"/>
+				</div>
+				<div>
+					<button id="loginButton" class="button submit small" tabindex="3" value="Login" type="submit">Login</button>
+				</div>
+				<div class="clear"></div>
+				<div id="show-alert" class="alert">
+					<div class="message">Username or password incorrect.</div>
+				</div>
+				<div id="show-alert-misconfigured" class="alert">
+					<div class="message">Agent is misconfigured.</div>
+				</div>
 			</div>
 			<div class="footer">
 				<div> © 2001 - 2016 Verint | All Rights Reserved </div>				
