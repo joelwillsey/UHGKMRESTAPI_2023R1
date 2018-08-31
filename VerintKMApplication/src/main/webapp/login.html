@@ -25,7 +25,13 @@
 </head>
 <body style="position: relative; overflow-y: auto; margin: 0px;" onkeypress="$.fn.checkEnter(event);">
 	<section class="login_container">
-		<div class="logo"><img src="images/OptumLogo.png"/><a href="authorLogin.html" style="display:block; height:15px; width:15px; position:absolute; left:720px; top:225px" class"center"></a><a href="requestheaders.jsp"><img class="right" src="images/iconInformation.png" title="Single Sign Information"></a></div>
+		<div class="logo">
+			<img src="images/OptumLogo.png" usemap="#imgmap"/>
+			<map name="imgmap">
+                    <area shape="rect" coords="720,16,736,32" href="authorLogin.html">
+            </map>
+			<a href="requestheaders.jsp"><img class="right" src="images/iconInformation.png" title="Single Sign Information"></a>
+		</div>
 		
 		<div class="inner_container">
 			<div id="header">
