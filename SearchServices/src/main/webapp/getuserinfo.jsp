@@ -55,6 +55,7 @@ else
 			,"KM_MnR_Cons_Svc_Specialty_Teams"
 			,"KM_BCS","KM_IHR","KM_ONCE","KM_RMO"
 			,"KM_VEM_Author"
+			,"KM_UHC_Global_Underwriting","KM_CnS_Retention"
 			};
 		String group = "";
 		if (kmGroup != null) 
