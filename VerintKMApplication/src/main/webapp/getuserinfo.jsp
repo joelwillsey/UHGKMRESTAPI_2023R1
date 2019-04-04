@@ -56,7 +56,7 @@ else
 			,"KM_BCS","KM_IHR","KM_ONCE","KM_RMO"
 			,"KM_VEM_Author"
 			,"KM_UHC_Global_Underwriting","KM_CnS_Retention"
-			,"KM_LearningSolutions","KM_UHCBrandedOptum","KM_UHCG_Sales_Demand_Mgmt"
+			,"KM_ProviderAdvocacyCenter","KM_LearningSolutions","KM_UHCBrandedOptum","KM_UHCG_Sales_Demand_Mgmt"
 			};
 		String group = "";
 		if (kmGroup != null) 
