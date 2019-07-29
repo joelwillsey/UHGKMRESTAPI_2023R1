@@ -10,7 +10,12 @@ var reorderEvent = null;
 	$.fn.bookmarkExit = function() {
 		$('.content_body_field_custom_data').show();
 		$("#popup").removeAttr("style");
-		$('#popup').removeClass('popup_full');
+		if ($('#popup').hasClass('popup_full')){
+			$('#popup').removeClass('popup_full');
+		}
+		if ($('#popup').hasClass('popup_on')){
+			$('#popup').removeClass('popup_on');
+		}
 		$('#popup').addClass('popup');
 		$('#bookmark-html').html($('#popup').html());
 		$('#popup').html('');
@@ -25,7 +30,8 @@ var reorderEvent = null;
 		if (node.type === "folder"){
 			alert('Please select a bookmark to view.');
 		}else{
-			$.fn.launchViewContent(node.id);
+			$.fn.validateBookmarkContent(node.id, node.systemTagName);
+			//$.fn.launchViewContent(node.id);
 		}
 	}
 

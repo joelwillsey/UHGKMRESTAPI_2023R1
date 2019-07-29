@@ -71,6 +71,28 @@
 			</div>
 		</div>
 	</div>
+	<div id="error-bookmark-message" class="error_message">
+		<div class="error_header">
+			<h1>Message</h1>
+		</div>
+		<div class="error_body">
+			<h1 id="error-bookmark-body"></h1>		
+		</div>
+		<div class="error_button">
+			<div class="float_right">
+				<button id="error-remove-button" class="km_button" onclick="$.fn.errorButtonFunc();" tabindex="1" type="button" name="error-button-message" title="Remove Bookmark" accesskey="S">
+					<span>
+						<span class="error_underline">R</span>emove Bookmark
+					</span>
+				</button>
+				<button id="error-cancel-button" class="km_button" onclick="$.fn.errorButtonCancel();" tabindex="1" type="button" name="error-button-message" title="Cancel" accesskey="C">
+					<span>
+						<span class="error_underline">C</span>ancel
+					</span>
+				</button>
+			</div>
+		</div>
+	</div>
 	<section id="search-area">
 		<div id="search-widget">
 			<script id="search-info" src="js/search_container.js" type="text/javascript"></script>

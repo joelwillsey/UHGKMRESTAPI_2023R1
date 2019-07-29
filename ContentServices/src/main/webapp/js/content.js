@@ -10,8 +10,25 @@ var funcName;
 var funcParams;
 var funcDelay = 200;
 
+var tagsPathModule = (function(){
+	//This is used to store a map of the tag paths (value) keyed off systemTagName
+	var pathMap;
+	var pub = {}; 	// public object - returned at end of module
+	
+	pub.setMap = function(newMap){
+		pathMap = newMap;
+	}
+	
+	pub.getMap = function(){
+		return pathMap;
+	}
+	
+	return pub;  	// expose externally
+}());
+
 $(document).ready(function() {	
 	
+
 	
 	$('li').on('click', function() {
 		//alert('clicked');
@@ -60,7 +77,7 @@ $(document).ready(function() {
     	emailData.push('Share: ' + contentTitle);
     	emailData.push('&body=');
     	emailData.push('Dear Customer,%0D%0A%0D%0A');
-    	emailData.push('Thank you for contacting Verint Customer Support. My name is ' + agentName + ' and I am here to assist you with your query. Based on our last contact, you may find the information inside the link below to be useful:%0D%0A%0D%0A');
+    	emailData.push('Thank you for contacting Knowledge Central. My name is ' + agentName + ' and I am here to assist you with your query. Based on our last contact, you may find the information inside the link below to be useful:%0D%0A%0D%0A');
     	emailData.push('     ' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + contentServiceName + 'content_container.html?id=' + contentId + '%0D%0A%0D%0A');
     	emailData.push('It is my pleasure to assist you. Please don’t hesitate to contact us again if you need more information.%0D%0A%0D%0A');
     	emailData.push('Sincerely,%0D%0A');
@@ -653,16 +670,23 @@ $(document).ready(function() {
 			contentBody.push('    <div class="content_body_field_tags_data_field">');
 	
 			for (var p = 0; p < data.tagSets.length; p++) {
-			contentBody.push('      <div class="content_body_field_tags_data_field_tags">');
-			contentBody.push('        <div class="content_body_field_tags_data_field_tags_tag">' + data.tagSets[p].displayTagName + ':</div>');
-				if (typeof data.tagSets[p].tags != 'undefined' && data.tagSets[p].tags.length > 0) {
-			contentBody.push('          <div class="content_body_field_tags_data_field_tags_values">');
-	    			for (var t=0; t < data.tagSets[p].tags.length; t++) {
-	    	contentBody.push('            <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + data.tagSets[p].tags[t].systemTagDisplayName + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
-	    			}
-	    	contentBody.push('          </div>');
-				}
-			contentBody.push('      </div>');
+
+				contentBody.push('      <div class="content_body_field_tags_data_field_tags">');
+				contentBody.push('        <div class="content_body_field_tags_data_field_tags_tag">' + data.tagSets[p].displayTagName + ':</div>');
+					if (typeof data.tagSets[p].tags != 'undefined' && data.tagSets[p].tags.length > 0) {
+				contentBody.push('          <div class="content_body_field_tags_data_field_tags_values">');
+		    			for (var t=0; t < data.tagSets[p].tags.length; t++) {
+		    				var tagPath = $.fn.getTagDisplayPath(data.tagSets[p].tags[t].systemTagName);
+		    				if ( tagPath == null || tagPath == 'null' || tagPath == '' ){
+		    					//No path use the default of display name
+		    					tagPath = data.tagSets[p].tags[t].systemTagDisplayName
+		    				}
+		    				log("Tag path for " + data.tagSets[p].tags[t].systemTagName + ' is ' + tagPath);
+		    	contentBody.push('            <div class="content_body_field_tags_data_field_tags_values_value" title="' + tagPath + '">&nbsp;' + data.tagSets[p].tags[t].systemTagDisplayName + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+		    			}
+		    	contentBody.push('          </div>');
+					}
+				contentBody.push('      </div>');
 			}
 			contentBody.push('    </div>');
 			contentBody.push('  </div>');
@@ -1563,6 +1587,99 @@ $(document).ready(function() {
 		}
 	}
 
+	$.fn.getTagPaths = function(requestTagsets) {
+		log('Retrieving tag for tag paths- getTagPaths()')
+		var url = filtersServiceName + 'km/tags/gettagsfortagsets?tagsets=' + requestTagsets;
+
+		
+		$.fn.serviceCall('GET', '', url, 60000, function(data) {
+			$.fn.parseTagPaths(data);
+		});
+
+	}
+	
+	$.fn.parseTagPaths = function(data) {
+		//This function will populate the tagsPathModule with the tags path map
+		log('Creating tag paths - parseTagPaths()')
+		var tagMap = new Map();
+		var tagPathMap = new Map();
+		
+		//Make a map of system_code as key display name as value
+		if (typeof data.tagSets != 'undefined' && data.tagSets != null && data.tagSets.length > 0) {
+			for (var x = 0; x < data.tagSets.length; x++) {
+				if (typeof data.tagSets[x].tags != 'undefined' && data.tagSets[x].tags != null && data.tagSets[x].tags.length > 0) {
+					for (var y = 0; y < data.tagSets[x].tags.length; y++){	
+						var tagDataObj = {parentTagName : data.tagSets[x].tags[y].parentTagName, systemTagDisplayName : data.tagSets[x].tags[y].systemTagDisplayName};
+						tagMap.set(data.tagSets[x].tags[y].systemTagName, tagDataObj);
+					}
+				}
+			}
+		}
+
+		//Make a map of system_code as tag path name as value
+		if (typeof data.tagSets != 'undefined' && data.tagSets != null && data.tagSets.length > 0) {
+			for (var x = 0; x < data.tagSets.length; x++) {
+				if (typeof data.tagSets[x].tags != 'undefined' && data.tagSets[x].tags != null && data.tagSets[x].tags.length > 0) {
+					for (var y = 0; y < data.tagSets[x].tags.length; y++){
+						var path = '';						
+						var tempTag = tagMap.get(data.tagSets[x].tags[y].systemTagName);
+						if (typeof tempTag.parentTagName != 'undefined' && tempTag.parentTagName != null && tempTag.parentTagName != ''){
+							//let it loop to max of 20 times per tag just in case of tag misocnfig and we don't want an infinte loop 
+							var failSafe = 0
+							//has a parent so there will be a path
+							while(typeof tempTag.parentTagName != 'undefined' && tempTag.parentTagName != null && tempTag.parentTagName != '' && failSafe <= 20){
+								if (tagMap.has(tempTag.parentTagName)){
+									if (path === ''){
+										path =  tempTag.systemTagDisplayName
+									} else {
+										path =  tempTag.systemTagDisplayName + ' > ' + path;
+									}									
+									tempTag = tagMap.get(tempTag.parentTagName);
+								} else {
+									log('Error in the tagMap, missing entry: ' + tempTag.parentTagName);
+									break;
+								}
+								failSafe++;
+							}
+							//we have the path now
+							tagPathMap.set(data.tagSets[x].tags[y].systemTagName, path);
+						} else {
+							//no parent so just add tag name to map
+							tagPathMap.set(data.tagSets[x].tags[y].systemTagName, data.tagSets[x].tags[y].systemTagDisplayName);
+						}
+					}
+				}
+			}
+		}
+
+		//This sets the map to the global tagsPathModule
+		tagsPathModule.setMap(tagPathMap);
+
+	}
+	
+	// used to retrieve a tags path 
+	$.fn.getTagDisplayPath = function(systemTagName){
+		
+		var path = '';	
+		var pathMap = tagsPathModule.getMap();
+		
+		if (typeof systemTagName != 'undefined' && systemTagName != null && systemTagName != ''){
+			if (typeof pathMap != 'undefined' && pathMap != null){
+				if(pathMap.has(systemTagName)){
+					path = pathMap.get(systemTagName);
+				} else {
+					//no entry in the map use default logic
+					log('Missing entry in pathMap: ' + systemTagName);
+				}			
+			} else {
+				//we lost the map for some reason
+				log('pathMap is undefined or null');
+			}
+		} else {
+			log('getTagDisplayPath() - systemTagName is not valid: ' + systemTagName);
+		}
+		return path;
+	}
 	
 	// Setup cross widget communication
     $.widget('ui.ajaxStatus', {
@@ -1599,6 +1716,9 @@ $(document).ready(function() {
     // Tell other widgets this widget is starting up
     $.ui.ajaxStatus( {}, $('<div></div>').appendTo('body'));
     $('.dpui-widget').trigger('dpui:startWidget');
+
+    //populate the tagsPathModule object so we can display tag paths
+    $.fn.getTagPaths('topic,product,region,cntnttype,newchange,kbase,search');
 
 	// Check to see if an id was passed in
 	var cId = $.fn.getParameterByName('id');

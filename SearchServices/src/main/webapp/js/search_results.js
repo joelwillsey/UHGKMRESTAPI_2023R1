@@ -694,8 +694,8 @@ $(document).ready(function() {
 						// just leave at this point as we've already caused the external link to kick off, no need to run it twice.
 						return;
 			        }else{
-					
-			        	$.fn.viewContent(node.id, node.systemTagName);
+			        	$.fn.validateBookmarkContent(node.id, node.systemTagName);
+//			        	$.fn.viewContent(node.id, node.systemTagName);
 			        }
 				}
 		    }

@@ -559,6 +559,144 @@ $(document).ready(function() {
     	return retValue;
     }
 
+    // Display the Bookmark error(s) in a uniform way
+    $.fn.handleBookmarkError = function(contentId) {
+    	log('handleBookmarkError()');    	
+		$('#background').addClass('background_on');
+		if ($('#popup').hasClass('popup_full')){
+			//The manage bookmark screen is showing
+			$('#manage-bookmarks-background').addClass('background_on');
+		}
+		$('#error-bookmark-body').html('This content has been archived');
+		$('#error-bookmark-message').addClass('error_message_on'); 
+        $('#error-remove-button').attr('onclick', '$.fn.errorButtonRemove(\'' + contentId + '\');')	
+    }
+    
+    // Bookmark Error message popup Cancel button
+    $.fn.errorButtonCancel = function() {
+    	log('errorButtonCancel()');
+    	if ($('#background-popup-error').hasClass('background_popup_error_on')) {
+    		$('#background-popup-error').removeClass('background_popup_error_on');
+    	} else {
+    		$('#background').removeClass('background_on');
+    	}
+    	//for the manage screen
+    	if($('#manage-bookmarks-background').hasClass('background_on')){
+    		//The manage bookmark screen is showing
+    		$('#manage-bookmarks-background').removeClass('background_on');
+    	}
+    	
+    	$('#error-bookmark-message').removeClass('error_message_on');
+
+    	// If the user is not authenticated make them login
+    	if (!authenticated) {
+    		//window.document.location = "login.html";
+    	}
+    }
+    
+ // Bookmark Error message popup Remove button
+    $.fn.errorButtonRemove = function(contentId) {
+    	log('errorButtonRemove(' + contentId + ')');
+    	if ($('#background-popup-error').hasClass('background_popup_error_on')) {
+    		$('#background-popup-error').removeClass('background_popup_error_on');
+    	} else {
+    		$('#background').removeClass('background_on');
+    	}
+    	//for the manage screen
+    	if($('#manage-bookmarks-background').hasClass('background_on')){
+    		$('#manage-bookmarks-background').removeClass('background_on');
+    	}
+    	$('#error-bookmark-message').removeClass('error_message_on');
+
+    	if (contentId != 'undefined' && contentId != '') {
+			log('Remove bookmark: ' + contentId);
+			if ($('#popup').hasClass('popup_full')){
+				//The manage bookmark screen is showing
+				$.fn.bookmarkButtonRemove();
+			} else {
+				$.fn.serviceCall('POST', '', searchServiceName + 'km/bookmark/remove?contentid=' + contentId, SEARCH_SERVICE_TIMEOUT, function() {
+					$('#tab-bookmarks-button').click();
+				}); 
+			}
+		}
+    	
+    	// If the user is not authenticated make them login
+    	if (!authenticated) {
+    		//window.document.location = "login.html";
+    	}
+    }
+    
+    //Used to validate bookmark before view content
+    $.fn.validateBookmarkContent = function(contentId, contentType) {
+    	var packagedData = [];
+		packagedData = {
+			"contentId" : contentId,
+			"contentType" : contentType
+		};    	
+    	log('Validate bookmark - contentType=' + contentType +  ' contentId=' + contentId);
+    	
+		if (typeof contentType != 'undefined' && contentType != '' && contentType != null) {
+			if (contentType != 'pageSet') {
+				// Call the content service
+				$.ajax({
+					type : 'GET',
+					contentType : 'application/json',
+					data : '',
+					url : contentServiceName + 'km/content/id/' + contentId,
+					async: true,
+					dataType : 'json',
+					timeout : CONTENT_SERVICE_TIMEOUT,
+					beforeSend : function(jqXHR, settings) {
+						$.fn.setupHeader(jqXHR);
+						$.fn.setupSpinner();
+					},
+					success : function(data, textStatus, jqXHR) {
+						// valid content type, send content through retrieve process again
+						log('Bookmark validated - contentType=' + contentType +  ' contentId=' + contentId);
+						if ($('#popup').hasClass('popup_full')){
+							//The manage bookmark screen is showing
+							$.fn.launchViewContent(contentId);
+						} else {
+							$('.dpui-widget').trigger("dpui:viewContent", packagedData);
+						}
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						//This not a valid contentId
+						$.fn.disableSpinner();
+						log('Bookmark validation failed - contentType=' + contentType +  ' contentId=' + contentId);
+						$.fn.handleBookmarkError(contentId);
+					},
+					statusCode : {
+						// Authentication error code
+						401 : function(jqXHR, textStatus, errorThrown) {
+							$.fn.disableSpinner();
+							$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+						},
+						// Authorization error code
+						403 : function(jqXHR, textStatus, errorThrown) {
+							$.fn.disableSpinner();
+							$.fn.handleAuthError(jqXHR, textStatus, errorThrown);
+						},
+						// Not found error code
+						404 : function(jqXHR, textStatus, errorThrown) {
+							$.fn.disableSpinner();
+							$.fn.handleError(jqXHR, textStatus, errorThrown);
+						}
+					},
+				}).then(function(data) {
+					$.fn.disableSpinner();
+				}).responseJSON;					
+			} else {
+				log('No validation for d-trees (pageSet)');
+				$.fn.launchDTContent(contentId, contentType);
+			}
+		}
+	}
+    
+    
+
+    
+    
     // Check if the parameters passed in required a search
     if (!$.fn.checkForContentId()) {
 	    if (!$.fn.checkForUrlSearch()) {
