@@ -1024,7 +1024,13 @@ $(document).ready(function() {
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Knowledge Base:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
 	    		for (var t=0; t < kbaseArray.length; t++) {
-	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + kbaseArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    			var tagPath = $.fn.getTagDisplayPath('kbase_' + kbaseArray[t]);
+    				if ( tagPath == null || tagPath == 'null' || tagPath == '' ){
+    					//No path use the default of display name
+    					tagPath = kbaseArray[t]
+    				}
+    				log("Tag path for " + 'kbase_' + kbaseArray[t] + ' is ' + tagPath);
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value" title="' + tagPath + '">&nbsp;' + kbaseArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
@@ -1035,7 +1041,13 @@ $(document).ready(function() {
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Topic:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
 	    		for (var t=0; t < topicArray.length; t++) {
-	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + topicArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    			var tagPath = $.fn.getTagDisplayPath('topic_' + topicArray[t]);
+    				if ( tagPath == null || tagPath == 'null' || tagPath == '' ){
+    					//No path use the default of display name
+    					tagPath = topicArray[t]
+    				}
+    				log("Tag path for " + 'topic_' + topicArray[t] + ' is ' + tagPath);
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value" title="' + tagPath + '">&nbsp;' + topicArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
@@ -1046,7 +1058,13 @@ $(document).ready(function() {
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Product:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
 	    		for (var t=0; t < productArray.length; t++) {
-	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + productArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    			var tagPath = $.fn.getTagDisplayPath('product_' + productArray[t]);
+    				if ( tagPath == null || tagPath == 'null' || tagPath == '' ){
+    					//No path use the default of display name
+    					tagPath = productArray[t]
+    				}
+    				log("Tag path for " + 'product_' + productArray[t] + ' is ' + tagPath);
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value" title="' + tagPath + '">&nbsp;' + productArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
@@ -1057,7 +1075,13 @@ $(document).ready(function() {
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Region:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
 	    		for (var t=0; t < regionArray.length; t++) {
-	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + regionArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    			var tagPath = $.fn.getTagDisplayPath('region_' + regionArray[t]);
+    				if ( tagPath == null || tagPath == 'null' || tagPath == '' ){
+    					//No path use the default of display name
+    					tagPath = regionArray[t]
+    				}
+    				log("Tag path for " + 'region_' + regionArray[t] + ' is ' + tagPath);
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value" title="' + tagPath + '">&nbsp;' + regionArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
@@ -1068,7 +1092,13 @@ $(document).ready(function() {
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Content SME:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
 	    		for (var t=0; t < cntntsmeArray.length; t++) {
-	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + cntntsmeArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    			var tagPath = $.fn.getTagDisplayPath('cntntsme_' + cntntsmeArray[t]);
+    				if ( tagPath == null || tagPath == 'null' || tagPath == '' ){
+    					//No path use the default of display name
+    					tagPath = cntntsmeArray[t]
+    				}
+    				log("Tag path for " + cntntsmeArray[t] + ' is ' + tagPath);
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value" title="' + tagPath + '">&nbsp;' + cntntsmeArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
@@ -1079,7 +1109,13 @@ $(document).ready(function() {
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Content Type:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
 	    		for (var t=0; t < cntnttypeArray.length; t++) {
-	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + cntnttypeArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    			var tagPath = $.fn.getTagDisplayPath('cntnttype_' + cntnttypeArray[t]);
+    				if ( tagPath == null || tagPath == 'null' || tagPath == '' ){
+    					//No path use the default of display name
+    					tagPath = cntnttypeArray[t]
+    				}
+    				log("Tag path for " + 'cntnttype_' + cntnttypeArray[t] + ' is ' + tagPath);
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value" title="' + tagPath + '">&nbsp;' + cntnttypeArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
@@ -1090,7 +1126,13 @@ $(document).ready(function() {
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">New or Changed:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
 	    		for (var t=0; t < newchangeArray.length; t++) {
-	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' +newchangArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    			var tagPath = $.fn.getTagDisplayPath('newchange_' + newchangeArray[t]);
+    				if ( tagPath == null || tagPath == 'null' || tagPath == '' ){
+    					//No path use the default of display name
+    					tagPath = newchangeArray[t]
+    				}
+    				log("Tag path for " + 'newchange_' + newchangeArray[t] + ' is ' + tagPath);
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value" title="' + tagPath + '">&nbsp;' +newchangArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
@@ -1101,7 +1143,13 @@ $(document).ready(function() {
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_tag">Searchability:</div>');
 				contentBody.push('  <div class="content_body_field_tags_data_field_tags_values">');
 	    		for (var t=0; t < searchArray.length; t++) {
-	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value">&nbsp;' + searchArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
+	    			var tagPath = $.fn.getTagDisplayPath('search_' + searchArray[t]);
+    				if ( tagPath == null || tagPath == 'null' || tagPath == '' ){
+    					//No path use the default of display name
+    					tagPath = searchArray[t]
+    				}
+    				log("Tag path for " + 'search_' + searchArray[t] + ' is ' + tagPath);
+	    			contentBody.push('  <div class="content_body_field_tags_data_field_tags_values_value" title="' + tagPath + '">&nbsp;' + searchArray[t] + '&nbsp;</div><div class="content_body_field_tags_data_field_tags_values_spacer">&nbsp;</div>');
 	    		}
 	    		contentBody.push('  </div>');
 	    		contentBody.push('</div>');
