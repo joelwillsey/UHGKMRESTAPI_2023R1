@@ -31,6 +31,9 @@ public class SuggestedQuery implements Serializable {
 	@XmlElement(nillable = true)
 	private String type = "";
 	
+	@XmlElement(nillable = true)
+	private Float searchPrecision;
+	
 	@XmlElement(nillable=true)
 	private Set<ReplacedTerm> replacedTerms = new HashSet<ReplacedTerm>();
 	
@@ -85,6 +88,20 @@ public class SuggestedQuery implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	/**
+	 * @return the searchPrecision
+	 */     
+    public float getSearchPrecision() {
+        return searchPrecision;
+    }
+	
+	/**
+	 * @param type the type to set
+	 */
+    public void setSearchPrecision(float searchPrecision) {
+        this.searchPrecision = searchPrecision;
+    }
 
 	/**
 	 * @return the replacedTerms
@@ -134,6 +151,6 @@ public class SuggestedQuery implements Serializable {
 	@Override
 	public String toString() {
 		return "SuggestedQuery [numberOfResults=" + numberOfResults + ", queryText=" + queryText + ", type=" + type
-				+ ", replacedTerms=" + replacedTerms + ", knowledgeGroupUnits=" + knowledgeGroupUnits + "]";
+				+ ", searchPrecision=" + searchPrecision + ", replacedTerms=" + replacedTerms + ", knowledgeGroupUnits=" + knowledgeGroupUnits + "]";
 	}
 }

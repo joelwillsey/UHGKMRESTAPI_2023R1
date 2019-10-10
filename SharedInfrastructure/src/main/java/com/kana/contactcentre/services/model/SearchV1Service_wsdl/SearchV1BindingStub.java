@@ -16,7 +16,7 @@ public class SearchV1BindingStub extends org.apache.axis.client.Stub implements 
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[6];
+        _operations = new org.apache.axis.description.OperationDesc[8];
         _initOperationDesc1();
     }
 
@@ -89,6 +89,28 @@ public class SearchV1BindingStub extends org.apache.axis.client.Stub implements 
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[5] = oper;
 
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("ReportSharedTextSearch");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ReportSharedTextSearchRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ReportSharedTextSearchRequestBodyType"), com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchRequestBodyType.class, false, false);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ReportSharedTextSearchResponseBodyType"));
+        oper.setReturnClass(com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchResponseBodyType.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ReportSharedTextSearchResponseBody"));
+        oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[6] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("GetRatingAndViewCount");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "GetRatingAndViewCountRequestBody"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "GetRatingAndViewCountRequestBodyType"), com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountRequestBodyType.class, false, false);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "GetRatingAndViewCountResponseBodyType"));
+        oper.setReturnClass(com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountResponseBodyType.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "GetRatingAndViewCountResponseBody"));
+        oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[7] = oper;
+
     }
 
     public SearchV1BindingStub() throws org.apache.axis.AxisFault {
@@ -127,6 +149,22 @@ public class SearchV1BindingStub extends org.apache.axis.client.Stub implements 
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ErrorList");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.SearchV1Service_wsdl.ErrorMessage[].class;
+            cachedSerClasses.add(cls);
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ErrorMessage");
+            qName2 = new javax.xml.namespace.QName("", "ErrorMessage");
+            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
+            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ErrorMessage");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.SearchV1Service_wsdl.ErrorMessage.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "GetFeaturedContentRequestBodyType");
             cachedSerQNames.add(qName);
             cls = com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetFeaturedContentRequestBodyType.class;
@@ -137,6 +175,20 @@ public class SearchV1BindingStub extends org.apache.axis.client.Stub implements 
             qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "GetFeaturedContentResponseBodyType");
             cachedSerQNames.add(qName);
             cls = com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetFeaturedContentResponseBodyType.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "GetRatingAndViewCountRequestBodyType");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountRequestBodyType.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "GetRatingAndViewCountResponseBodyType");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountResponseBodyType.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -258,6 +310,20 @@ public class SearchV1BindingStub extends org.apache.axis.client.Stub implements 
             qName2 = new javax.xml.namespace.QName("", "ReplacedTerm");
             cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
             cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ReportSharedTextSearchRequestBodyType");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchRequestBodyType.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ReportSharedTextSearchResponseBodyType");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchResponseBodyType.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
 
             qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "SearchDateType");
             cachedSerQNames.add(qName);
@@ -559,6 +625,74 @@ public class SearchV1BindingStub extends org.apache.axis.client.Stub implements 
                 return (com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetTopContentResponseBodyType) _resp;
             } catch (java.lang.Exception _exception) {
                 return (com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetTopContentResponseBodyType) org.apache.axis.utils.JavaUtils.convert(_resp, com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetTopContentResponseBodyType.class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchResponseBodyType reportSharedTextSearch(com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchRequestBodyType body) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[6]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("SearchV1Service#ReportSharedTextSearch");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("", "ReportSharedTextSearch"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {body});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchResponseBodyType) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchResponseBodyType) org.apache.axis.utils.JavaUtils.convert(_resp, com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchResponseBodyType.class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountResponseBodyType getRatingAndViewCount(com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountRequestBodyType body) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[7]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("SearchV1Service#GetRatingAndViewCount");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("", "GetRatingAndViewCount"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {body});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountResponseBodyType) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountResponseBodyType) org.apache.axis.utils.JavaUtils.convert(_resp, com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountResponseBodyType.class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {

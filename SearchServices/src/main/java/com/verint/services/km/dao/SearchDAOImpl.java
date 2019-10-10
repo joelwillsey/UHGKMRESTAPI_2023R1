@@ -42,6 +42,7 @@ import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.SearchRequest;
 import com.verint.services.km.model.SearchResponse;
 import com.verint.services.km.model.Tag;
+import com.verint.services.km.util.ConfigInfo;
 
 /**
  * @author jmiller
@@ -69,7 +70,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 			SearchRequest searchRequest = new SearchRequest();
 			searchRequest.setQuery("vernt");
 			//searchRequest.setUsername("kmagent");
-			SearchResponse searchResponse = searchDAO.searchQuery(searchRequest);
+			SearchResponse searchResponse = searchDAO.searchQuery(searchRequest, null);
 			LOGGER.info("SearchResponse: " + searchResponse);
 		} catch (Throwable t) {
 			LOGGER.error("Search exception", t);
@@ -81,10 +82,11 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 	 * @see com.verint.services.km.dao.SearchDAO#searchQuery(com.verint.services.km.model.SearchRequest)
 	 */
 	@Override
-	public SearchResponse searchQuery(SearchRequest searchRequest) throws RemoteException, AppException {
+	public SearchResponse searchQuery(SearchRequest searchRequest, Float searchPrecision) throws RemoteException, AppException {
 		LOGGER.info("Entering searchKnowledge()");
-		LOGGER.debug("SearchRequest: " + searchRequest);
+		LOGGER.debug("SearchRequest: " + searchRequest);   
 		SearchResponse searchResponse = new SearchResponse();
+		ConfigInfo prop = new ConfigInfo();
 
 		// Setup the request object to the SOAP call
 		final SharedTextSearchRequestBodyType request = new SharedTextSearchRequestBodyType();
@@ -105,6 +107,17 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		request.setExpirationDate(sdt);
 		request.setModifiedDate(sdt);
 		request.setPublishedDate(sdt);
+		request.setContentVersion("");
+		request.setSortFieldOrder(null);
+		      
+		// If search precision is passed in as a parameter then use it, is not, use the system property.
+		if (searchPrecision != null) {
+			request.setSearchPrecision(searchPrecision);
+		}else {
+			searchPrecision = Float.parseFloat(prop.getsearchPrecision()); 
+			request.setSearchPrecision(searchPrecision);
+		}
+		
 
 		// Setup the page# and size# (if any)
 		final ControlData controlData = new ControlData();
@@ -391,6 +404,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 						}
 					}
 					responseKu.setPageIdentifier(knowledgeUnit.getPageIdentifier());
+					responseKu.setPublishedID(knowledgeUnit.getPublishedID());
 					responseKu.setSynopsis(knowledgeUnit.getSynopsis());
 					responseKu.setTitle(knowledgeUnit.getTitle());
 					responseKu.setWorkflowState(knowledgeUnit.getWorkflowState());
@@ -429,6 +443,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 			sq.setNumberOfResults(suggestedQuery[x].getNumberOfGroupResultsFound());
 			sq.setQueryText(suggestedQuery[x].getQueryText());
 			sq.setType(suggestedQuery[x].getType());
+			sq.setSearchPrecision(suggestedQuery[x].getSearchPrecision());
 			final ReplacedTerm[] rt = suggestedQuery[x].getReplacedTermsList();
 			final List<com.verint.services.km.model.ReplacedTerm> replacedTerms = new ArrayList<com.verint.services.km.model.ReplacedTerm>();
 			for (int y = 0; (rt != null) && (y < rt.length); y++) {
@@ -461,6 +476,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 					nKnowledgeUnit.setLastModifiedDate(fku[a].getLastModifiedDate());
 					nKnowledgeUnit.setLastPublishedDate(fku[a].getLastPublishedDate());
 					nKnowledgeUnit.setPageIdentifier(fku[a].getPageIdentifier());
+					nKnowledgeUnit.setPublishedID(fku[a].getPublishedID());
 					nKnowledgeUnit.setRelevanceScore(new Double(fku[a].getRelevanceScore()));
 					nKnowledgeUnit.setSynopsis(fku[a].getSynopsis());
 					nKnowledgeUnit.setContentCategoryTags(parseForTags(fku[a].getContentCategoryTags()));

@@ -6,7 +6,7 @@
       xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
       xmlns:tns="http://model.services.contactcentre.kana.com/SearchV1Service.wsdl"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!-- Created by KANA Software (a Verint company) on Sat Mar 26 20:11:43 PDT 2016. See http://www.kana.com for more details. -->
+<!-- Created by Verint on Thu Oct 03 12:06:26 BST 2019. See http://www.kana.com for more details. -->
     <types>
       <xsd:schema
           elementFormDefault="unqualified"
@@ -132,8 +132,28 @@
             <xsd:element
                 maxOccurs="1"
                 minOccurs="1"
+                name="searchPrecision"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
                 name="numberOfGroupResultsFound"
                 type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ErrorMessage">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="code"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="message"
+                type="xsd:string" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
@@ -197,6 +217,11 @@
             <xsd:element
                 maxOccurs="1"
                 minOccurs="1"
+                name="publishedID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
                 name="tags"
                 type="xsd:string" />
             <xsd:element
@@ -224,6 +249,16 @@
                 minOccurs="0"
                 name="ReplacedTerm"
                 type="tns:ReplacedTerm" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ErrorList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="ErrorMessage"
+                type="tns:ErrorMessage" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
@@ -319,6 +354,11 @@
                 minOccurs="1"
                 name="locale"
                 type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="siteName"
+                type="xsd:string" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
@@ -363,6 +403,11 @@
                 maxOccurs="1"
                 minOccurs="1"
                 name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="siteName"
                 type="xsd:string" />
           </xsd:sequence>
         </xsd:complexType>
@@ -454,6 +499,21 @@
                 minOccurs="1"
                 name="workflowState"
                 type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentVersion"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="sortFieldOrder"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="searchPrecision"
+                type="xsd:float" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
@@ -605,6 +665,105 @@
                 type="tns:KnowledgeResultSet" />
           </xsd:sequence>
         </xsd:complexType>
+        <xsd:complexType
+            name="ReportSharedTextSearchRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="password"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="searchText"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="searchResultCount"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="searchTriggerType"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="searchData"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="searchContextual"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="siteName"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ReportSharedTextSearchResponseBodyType">
+          <xsd:sequence />
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetRatingAndViewCountRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentID"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetRatingAndViewCountResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="viewCount"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="avgRating"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="errorList"
+                type="tns:ErrorList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="ratingCount"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
         <xsd:element
             name="MarkAsViewedRequestBody"
             type="tns:MarkAsViewedRequestBodyType" />
@@ -641,6 +800,18 @@
         <xsd:element
             name="GetTopContentResponseBody"
             type="tns:GetTopContentResponseBodyType" />
+        <xsd:element
+            name="ReportSharedTextSearchRequestBody"
+            type="tns:ReportSharedTextSearchRequestBodyType" />
+        <xsd:element
+            name="ReportSharedTextSearchResponseBody"
+            type="tns:ReportSharedTextSearchResponseBodyType" />
+        <xsd:element
+            name="GetRatingAndViewCountRequestBody"
+            type="tns:GetRatingAndViewCountRequestBodyType" />
+        <xsd:element
+            name="GetRatingAndViewCountResponseBody"
+            type="tns:GetRatingAndViewCountResponseBodyType" />
       </xsd:schema>
     </types>
     <message
@@ -715,6 +886,30 @@
           element="tns:GetTopContentResponseBody"
           name="body" />
     </message>
+    <message
+        name="ReportSharedTextSearchRequest">
+      <part
+          element="tns:ReportSharedTextSearchRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="ReportSharedTextSearchResponse">
+      <part
+          element="tns:ReportSharedTextSearchResponseBody"
+          name="body" />
+    </message>
+    <message
+        name="GetRatingAndViewCountRequest">
+      <part
+          element="tns:GetRatingAndViewCountRequestBody"
+          name="body" />
+    </message>
+    <message
+        name="GetRatingAndViewCountResponse">
+      <part
+          element="tns:GetRatingAndViewCountResponseBody"
+          name="body" />
+    </message>
     <portType
         name="SearchV1PortType">
       <operation
@@ -758,6 +953,20 @@
             message="tns:GetTopContentRequest" />
         <output
             message="tns:GetTopContentResponse" />
+      </operation>
+      <operation
+          name="ReportSharedTextSearch">
+        <input
+            message="tns:ReportSharedTextSearchRequest" />
+        <output
+            message="tns:ReportSharedTextSearchResponse" />
+      </operation>
+      <operation
+          name="GetRatingAndViewCount">
+        <input
+            message="tns:GetRatingAndViewCountRequest" />
+        <output
+            message="tns:GetRatingAndViewCountResponse" />
       </operation>
     </portType>
     <binding
@@ -844,6 +1053,32 @@
               use="literal" />
         </output>
       </operation>
+      <operation
+          name="ReportSharedTextSearch">
+        <soap:operation
+            soapAction="SearchV1Service#ReportSharedTextSearch" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
+      <operation
+          name="GetRatingAndViewCount">
+        <soap:operation
+            soapAction="SearchV1Service#GetRatingAndViewCount" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
     </binding>
     <service
         name="SearchV1Service">
@@ -854,7 +1089,7 @@
           binding="tns:SearchV1Binding"
           name="SearchV1Port">
         <soap:address
-            location="http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowledgeContextAPIServices.API.Search.SearchV1" />
+            location="http://127.0.0.1:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowledgeContextAPIServices.API.Search.SearchV1" />
       </port>
     </service>
   </definitions>

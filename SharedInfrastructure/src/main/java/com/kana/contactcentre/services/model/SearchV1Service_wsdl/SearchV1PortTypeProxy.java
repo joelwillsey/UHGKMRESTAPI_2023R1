@@ -80,5 +80,17 @@ public class SearchV1PortTypeProxy implements com.kana.contactcentre.services.mo
     return searchV1PortType.getTopContent(body);
   }
   
+  public com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchResponseBodyType reportSharedTextSearch(com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchRequestBodyType body) throws java.rmi.RemoteException{
+    if (searchV1PortType == null)
+      _initSearchV1PortTypeProxy();
+    return searchV1PortType.reportSharedTextSearch(body);
+  }
+  
+  public com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountResponseBodyType getRatingAndViewCount(com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountRequestBodyType body) throws java.rmi.RemoteException{
+    if (searchV1PortType == null)
+      _initSearchV1PortTypeProxy();
+    return searchV1PortType.getRatingAndViewCount(body);
+  }
+  
   
 }

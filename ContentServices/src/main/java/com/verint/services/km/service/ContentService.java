@@ -124,7 +124,7 @@ public class ContentService extends BaseService {
 				contentResponse.setBookmarked(bookmarksDAO.isContentBookmarked(contentRequest));
 				
 				// Mark content as viewed
-				contentResponse.setViewUUID(searchDAO.markAsViewed(contentid, credentials[0], credentials[1]));
+				contentResponse.setViewUUID(searchDAO.markAsViewed(contentid, credentials[0], credentials[1], null));
 			}
 			
 			

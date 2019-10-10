@@ -16,6 +16,8 @@ public class SuggestedQuery  implements java.io.Serializable {
 
     private java.lang.String type;
 
+    private float searchPrecision;
+
     private java.math.BigInteger numberOfGroupResultsFound;
 
     public SuggestedQuery() {
@@ -26,11 +28,13 @@ public class SuggestedQuery  implements java.io.Serializable {
            java.lang.String queryText,
            com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReplacedTerm[] replacedTermsList,
            java.lang.String type,
+           float searchPrecision,
            java.math.BigInteger numberOfGroupResultsFound) {
            this.knowledgeGroupUnits = knowledgeGroupUnits;
            this.queryText = queryText;
            this.replacedTermsList = replacedTermsList;
            this.type = type;
+           this.searchPrecision = searchPrecision;
            this.numberOfGroupResultsFound = numberOfGroupResultsFound;
     }
 
@@ -116,6 +120,26 @@ public class SuggestedQuery  implements java.io.Serializable {
 
 
     /**
+     * Gets the searchPrecision value for this SuggestedQuery.
+     * 
+     * @return searchPrecision
+     */
+    public float getSearchPrecision() {
+        return searchPrecision;
+    }
+
+
+    /**
+     * Sets the searchPrecision value for this SuggestedQuery.
+     * 
+     * @param searchPrecision
+     */
+    public void setSearchPrecision(float searchPrecision) {
+        this.searchPrecision = searchPrecision;
+    }
+
+
+    /**
      * Gets the numberOfGroupResultsFound value for this SuggestedQuery.
      * 
      * @return numberOfGroupResultsFound
@@ -158,6 +182,7 @@ public class SuggestedQuery  implements java.io.Serializable {
             ((this.type==null && other.getType()==null) || 
              (this.type!=null &&
               this.type.equals(other.getType()))) &&
+            this.searchPrecision == other.getSearchPrecision() &&
             ((this.numberOfGroupResultsFound==null && other.getNumberOfGroupResultsFound()==null) || 
              (this.numberOfGroupResultsFound!=null &&
               this.numberOfGroupResultsFound.equals(other.getNumberOfGroupResultsFound())));
@@ -200,6 +225,7 @@ public class SuggestedQuery  implements java.io.Serializable {
         if (getType() != null) {
             _hashCode += getType().hashCode();
         }
+        _hashCode += new Float(getSearchPrecision()).hashCode();
         if (getNumberOfGroupResultsFound() != null) {
             _hashCode += getNumberOfGroupResultsFound().hashCode();
         }
@@ -237,6 +263,12 @@ public class SuggestedQuery  implements java.io.Serializable {
         elemField.setFieldName("type");
         elemField.setXmlName(new javax.xml.namespace.QName("", "type"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("searchPrecision");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "searchPrecision"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "float"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();

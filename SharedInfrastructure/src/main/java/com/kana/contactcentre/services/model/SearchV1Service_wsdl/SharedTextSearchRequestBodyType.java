@@ -38,6 +38,12 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
 
     private java.lang.String workflowState;
 
+    private java.lang.String contentVersion;
+
+    private java.math.BigInteger sortFieldOrder;
+
+    private float searchPrecision;
+
     public SharedTextSearchRequestBodyType() {
     }
 
@@ -56,7 +62,10 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
            java.lang.String sortFieldName,
            java.lang.String tags,
            java.lang.String username,
-           java.lang.String workflowState) {
+           java.lang.String workflowState,
+           java.lang.String contentVersion,
+           java.math.BigInteger sortFieldOrder,
+           float searchPrecision) {
            this.applicationID = applicationID;
            this.contentCategory = contentCategory;
            this.contentOwner = contentOwner;
@@ -72,6 +81,9 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
            this.tags = tags;
            this.username = username;
            this.workflowState = workflowState;
+           this.contentVersion = contentVersion;
+           this.sortFieldOrder = sortFieldOrder;
+           this.searchPrecision = searchPrecision;
     }
 
 
@@ -374,6 +386,66 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
         this.workflowState = workflowState;
     }
 
+
+    /**
+     * Gets the contentVersion value for this SharedTextSearchRequestBodyType.
+     * 
+     * @return contentVersion
+     */
+    public java.lang.String getContentVersion() {
+        return contentVersion;
+    }
+
+
+    /**
+     * Sets the contentVersion value for this SharedTextSearchRequestBodyType.
+     * 
+     * @param contentVersion
+     */
+    public void setContentVersion(java.lang.String contentVersion) {
+        this.contentVersion = contentVersion;
+    }
+
+
+    /**
+     * Gets the sortFieldOrder value for this SharedTextSearchRequestBodyType.
+     * 
+     * @return sortFieldOrder
+     */
+    public java.math.BigInteger getSortFieldOrder() {
+        return sortFieldOrder;
+    }
+
+
+    /**
+     * Sets the sortFieldOrder value for this SharedTextSearchRequestBodyType.
+     * 
+     * @param sortFieldOrder
+     */
+    public void setSortFieldOrder(java.math.BigInteger sortFieldOrder) {
+        this.sortFieldOrder = sortFieldOrder;
+    }
+
+
+    /**
+     * Gets the searchPrecision value for this SharedTextSearchRequestBodyType.
+     * 
+     * @return searchPrecision
+     */
+    public float getSearchPrecision() {
+        return searchPrecision;
+    }
+
+
+    /**
+     * Sets the searchPrecision value for this SharedTextSearchRequestBodyType.
+     * 
+     * @param searchPrecision
+     */
+    public void setSearchPrecision(float searchPrecision) {
+        this.searchPrecision = searchPrecision;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof SharedTextSearchRequestBodyType)) return false;
@@ -430,7 +502,14 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
               this.username.equals(other.getUsername()))) &&
             ((this.workflowState==null && other.getWorkflowState()==null) || 
              (this.workflowState!=null &&
-              this.workflowState.equals(other.getWorkflowState())));
+              this.workflowState.equals(other.getWorkflowState()))) &&
+            ((this.contentVersion==null && other.getContentVersion()==null) || 
+             (this.contentVersion!=null &&
+              this.contentVersion.equals(other.getContentVersion()))) &&
+            ((this.sortFieldOrder==null && other.getSortFieldOrder()==null) || 
+             (this.sortFieldOrder!=null &&
+              this.sortFieldOrder.equals(other.getSortFieldOrder()))) &&
+            this.searchPrecision == other.getSearchPrecision();
         __equalsCalc = null;
         return _equals;
     }
@@ -487,6 +566,13 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
         if (getWorkflowState() != null) {
             _hashCode += getWorkflowState().hashCode();
         }
+        if (getContentVersion() != null) {
+            _hashCode += getContentVersion().hashCode();
+        }
+        if (getSortFieldOrder() != null) {
+            _hashCode += getSortFieldOrder().hashCode();
+        }
+        _hashCode += new Float(getSearchPrecision()).hashCode();
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -585,6 +671,24 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
         elemField.setFieldName("workflowState");
         elemField.setXmlName(new javax.xml.namespace.QName("", "workflowState"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("contentVersion");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "contentVersion"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("sortFieldOrder");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "sortFieldOrder"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("searchPrecision");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "searchPrecision"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "float"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

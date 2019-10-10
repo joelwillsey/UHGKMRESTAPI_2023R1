@@ -1,5 +1,5 @@
 /**
- * MarkAsFeaturedResponseBodyType.java
+ * ReportSharedTextSearchResponseBodyType.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,14 +7,14 @@
 
 package com.kana.contactcentre.services.model.SearchV1Service_wsdl;
 
-public class MarkAsFeaturedResponseBodyType  implements java.io.Serializable {
-    public MarkAsFeaturedResponseBodyType() {
+public class ReportSharedTextSearchResponseBodyType  implements java.io.Serializable {
+    public ReportSharedTextSearchResponseBodyType() {
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof MarkAsFeaturedResponseBodyType)) return false;
-        MarkAsFeaturedResponseBodyType other = (MarkAsFeaturedResponseBodyType) obj;
+        if (!(obj instanceof ReportSharedTextSearchResponseBodyType)) return false;
+        ReportSharedTextSearchResponseBodyType other = (ReportSharedTextSearchResponseBodyType) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -40,10 +40,10 @@ public class MarkAsFeaturedResponseBodyType  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(MarkAsFeaturedResponseBodyType.class, true);
+        new org.apache.axis.description.TypeDesc(ReportSharedTextSearchResponseBodyType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "MarkAsFeaturedResponseBodyType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ReportSharedTextSearchResponseBodyType"));
     }
 
     /**

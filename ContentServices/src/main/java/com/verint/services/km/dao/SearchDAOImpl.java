@@ -56,6 +56,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		request.setPassword(rateRequest.getPassword());
 		request.setContentID(rateRequest.getContentId());
 		request.setRating(rateRequest.getRating().floatValue());
+		request.setSiteName(rateRequest.getSiteName());
 
 		// Call the service
 		final RateResponseBodyType response = SearchPortType.rate(request);
@@ -78,7 +79,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 	 * @see com.verint.services.km.dao.SearchDAO#markAsViewed(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String markAsViewed(String contentID, String username, String password) throws RemoteException, AppException {
+	public String markAsViewed(String contentID, String username, String password, String siteName) throws RemoteException, AppException {
 		LOGGER.info("Entering markAsViewed()");
 		LOGGER.debug("ContentID: " + contentID);
 		final MarkAsViewedRequestBodyType request = new MarkAsViewedRequestBodyType();
@@ -87,6 +88,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		request.setContentID(contentID);
 		request.setUsername(username);
 		request.setPassword(password);
+		request.setSiteName(siteName);
 
 		// Call the service
 		final MarkAsViewedResponseBodyType response = SearchPortType.markAsViewed(request);

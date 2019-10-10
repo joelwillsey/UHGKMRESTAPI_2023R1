@@ -32,5 +32,5 @@ public interface SearchDAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	public String markAsViewed(String contentID, String username, String password) throws RemoteException, AppException;
+	public String markAsViewed(String contentID, String username, String password, String siteName) throws RemoteException, AppException;
 }

@@ -53,6 +53,9 @@ public class KnowledgeUnit implements Serializable {
 
 	@XmlElement(nillable = true)
 	private String pageIdentifier = "";
+	
+	@XmlElement(nillable = true)
+    private String publishedID = "";
 
 	@XmlElement(nillable = true)
 	private Set<Tag> tags = new HashSet<Tag>();
@@ -242,7 +245,23 @@ public class KnowledgeUnit implements Serializable {
 		if (pageIdentifier != null)
 			this.pageIdentifier = pageIdentifier;
 	}
+	
+	/**
+	 * @return the publishedID
+	 */
+	public String getPublishedID() {
+		return publishedID;
+	}
 
+	/**
+	 * @param publishedID
+	 *            the publishedID to set
+	 */
+	public void setPublishedID(String publishedID) {
+		if (publishedID != null)
+			this.publishedID = publishedID;
+	}
+	
 	/**
 	 * @return the tags
 	 */
@@ -287,6 +306,6 @@ public class KnowledgeUnit implements Serializable {
 				+ relevanceScore + "\n   lastModifiedDate=" + lastModifiedDate + "\n   associatedContentURL="
 				+ associatedContentURL + "\n   contentUnitID=" + contentUnitID + "\n   title=" + title
 				+ "\n   contentCategoryTags=" + contentCategoryTags + "\n   pageIdentifier=" + pageIdentifier
-				+ "\n   tags=" + tags + "\n   contentVersion=" + contentVersion + "]";
+				+ "\n   publishedID=" + publishedID + "\n   tags=" + tags + "\n   contentVersion=" + contentVersion + "]";
 	}
 }

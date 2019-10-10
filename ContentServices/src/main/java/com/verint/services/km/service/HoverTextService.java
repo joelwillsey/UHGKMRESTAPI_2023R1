@@ -143,7 +143,7 @@ public class HoverTextService extends BaseService{
 				final ContentRequest contentRequest = new ContentRequest();
 				contentRequest.setContentId(contentId);
 				contentRequest.setUsername(credentials[0]);
-				contentRequest.setPassword(credentials[1]);				
+				contentRequest.setPassword(credentials[1]);			
 				
 				// Call the service
 				try{
@@ -151,7 +151,7 @@ public class HoverTextService extends BaseService{
 					contentResponse = contentDAO.getContent(contentRequest);
 										
 					// Mark content as viewed for reporting
-					contentResponse.setViewUUID(searchDAO.markAsViewed(contentId, credentials[0], credentials[1]));
+					contentResponse.setViewUUID(searchDAO.markAsViewed(contentId, credentials[0], credentials[1], null ));
 				
 				} catch(Exception ex){
 					isError =true;

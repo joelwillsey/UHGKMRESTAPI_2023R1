@@ -1,5 +1,5 @@
 /**
- * SearchDateType.java
+ * GetRatingAndViewCountRequestBodyType.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,65 +7,65 @@
 
 package com.kana.contactcentre.services.model.SearchV1Service_wsdl;
 
-public class SearchDateType  implements java.io.Serializable {
-    private java.lang.String toDate;
+public class GetRatingAndViewCountRequestBodyType  implements java.io.Serializable {
+    private java.lang.String applicationID;
 
-    private java.lang.String fromDate;
+    private java.lang.String contentID;
 
-    public SearchDateType() {
+    public GetRatingAndViewCountRequestBodyType() {
     }
 
-    public SearchDateType(
-           java.lang.String toDate,
-           java.lang.String fromDate) {
-           this.toDate = toDate;
-           this.fromDate = fromDate;
-    }
-
-
-    /**
-     * Gets the toDate value for this SearchDateType.
-     * 
-     * @return toDate
-     */
-    public java.lang.String getToDate() {
-        return toDate;
+    public GetRatingAndViewCountRequestBodyType(
+           java.lang.String applicationID,
+           java.lang.String contentID) {
+           this.applicationID = applicationID;
+           this.contentID = contentID;
     }
 
 
     /**
-     * Sets the toDate value for this SearchDateType.
+     * Gets the applicationID value for this GetRatingAndViewCountRequestBodyType.
      * 
-     * @param toDate
+     * @return applicationID
      */
-    public void setToDate(java.lang.String toDate) {
-        this.toDate = toDate;
+    public java.lang.String getApplicationID() {
+        return applicationID;
     }
 
 
     /**
-     * Gets the fromDate value for this SearchDateType.
+     * Sets the applicationID value for this GetRatingAndViewCountRequestBodyType.
      * 
-     * @return fromDate
+     * @param applicationID
      */
-    public java.lang.String getFromDate() {
-        return fromDate;
+    public void setApplicationID(java.lang.String applicationID) {
+        this.applicationID = applicationID;
     }
 
 
     /**
-     * Sets the fromDate value for this SearchDateType.
+     * Gets the contentID value for this GetRatingAndViewCountRequestBodyType.
      * 
-     * @param fromDate
+     * @return contentID
      */
-    public void setFromDate(java.lang.String fromDate) {
-        this.fromDate = fromDate;
+    public java.lang.String getContentID() {
+        return contentID;
+    }
+
+
+    /**
+     * Sets the contentID value for this GetRatingAndViewCountRequestBodyType.
+     * 
+     * @param contentID
+     */
+    public void setContentID(java.lang.String contentID) {
+        this.contentID = contentID;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof SearchDateType)) return false;
-        SearchDateType other = (SearchDateType) obj;
+        if (!(obj instanceof GetRatingAndViewCountRequestBodyType)) return false;
+        GetRatingAndViewCountRequestBodyType other = (GetRatingAndViewCountRequestBodyType) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -74,12 +74,12 @@ public class SearchDateType  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.toDate==null && other.getToDate()==null) || 
-             (this.toDate!=null &&
-              this.toDate.equals(other.getToDate()))) &&
-            ((this.fromDate==null && other.getFromDate()==null) || 
-             (this.fromDate!=null &&
-              this.fromDate.equals(other.getFromDate())));
+            ((this.applicationID==null && other.getApplicationID()==null) || 
+             (this.applicationID!=null &&
+              this.applicationID.equals(other.getApplicationID()))) &&
+            ((this.contentID==null && other.getContentID()==null) || 
+             (this.contentID!=null &&
+              this.contentID.equals(other.getContentID())));
         __equalsCalc = null;
         return _equals;
     }
@@ -91,11 +91,11 @@ public class SearchDateType  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getToDate() != null) {
-            _hashCode += getToDate().hashCode();
+        if (getApplicationID() != null) {
+            _hashCode += getApplicationID().hashCode();
         }
-        if (getFromDate() != null) {
-            _hashCode += getFromDate().hashCode();
+        if (getContentID() != null) {
+            _hashCode += getContentID().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -103,19 +103,19 @@ public class SearchDateType  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(SearchDateType.class, true);
+        new org.apache.axis.description.TypeDesc(GetRatingAndViewCountRequestBodyType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "SearchDateType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "GetRatingAndViewCountRequestBodyType"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("toDate");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "toDate"));
+        elemField.setFieldName("applicationID");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "applicationID"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("fromDate");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "fromDate"));
+        elemField.setFieldName("contentID");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "contentID"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

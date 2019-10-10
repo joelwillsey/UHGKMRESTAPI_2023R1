@@ -20,6 +20,8 @@ public class RateRequestBodyType  implements java.io.Serializable {
 
     private java.lang.String locale;
 
+    private java.lang.String siteName;
+
     public RateRequestBodyType() {
     }
 
@@ -29,13 +31,15 @@ public class RateRequestBodyType  implements java.io.Serializable {
            float rating,
            java.lang.String username,
            java.lang.String password,
-           java.lang.String locale) {
+           java.lang.String locale,
+           java.lang.String siteName) {
            this.applicationID = applicationID;
            this.contentID = contentID;
            this.rating = rating;
            this.username = username;
            this.password = password;
            this.locale = locale;
+           this.siteName = siteName;
     }
 
 
@@ -158,6 +162,26 @@ public class RateRequestBodyType  implements java.io.Serializable {
         this.locale = locale;
     }
 
+
+    /**
+     * Gets the siteName value for this RateRequestBodyType.
+     * 
+     * @return siteName
+     */
+    public java.lang.String getSiteName() {
+        return siteName;
+    }
+
+
+    /**
+     * Sets the siteName value for this RateRequestBodyType.
+     * 
+     * @param siteName
+     */
+    public void setSiteName(java.lang.String siteName) {
+        this.siteName = siteName;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof RateRequestBodyType)) return false;
@@ -185,7 +209,10 @@ public class RateRequestBodyType  implements java.io.Serializable {
               this.password.equals(other.getPassword()))) &&
             ((this.locale==null && other.getLocale()==null) || 
              (this.locale!=null &&
-              this.locale.equals(other.getLocale())));
+              this.locale.equals(other.getLocale()))) &&
+            ((this.siteName==null && other.getSiteName()==null) || 
+             (this.siteName!=null &&
+              this.siteName.equals(other.getSiteName())));
         __equalsCalc = null;
         return _equals;
     }
@@ -212,6 +239,9 @@ public class RateRequestBodyType  implements java.io.Serializable {
         }
         if (getLocale() != null) {
             _hashCode += getLocale().hashCode();
+        }
+        if (getSiteName() != null) {
+            _hashCode += getSiteName().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -256,6 +286,12 @@ public class RateRequestBodyType  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("locale");
         elemField.setXmlName(new javax.xml.namespace.QName("", "locale"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("siteName");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "siteName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

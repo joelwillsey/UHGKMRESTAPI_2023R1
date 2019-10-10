@@ -14,4 +14,6 @@ public interface SearchV1PortType extends java.rmi.Remote {
     public com.kana.contactcentre.services.model.SearchV1Service_wsdl.MarkAsFeaturedResponseBodyType markAsFeatured(com.kana.contactcentre.services.model.SearchV1Service_wsdl.MarkAsFeaturedRequestBodyType body) throws java.rmi.RemoteException;
     public com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetFeaturedContentResponseBodyType getFeaturedContent(com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetFeaturedContentRequestBodyType body) throws java.rmi.RemoteException;
     public com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetTopContentResponseBodyType getTopContent(com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetTopContentRequestBodyType body) throws java.rmi.RemoteException;
+    public com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchResponseBodyType reportSharedTextSearch(com.kana.contactcentre.services.model.SearchV1Service_wsdl.ReportSharedTextSearchRequestBodyType body) throws java.rmi.RemoteException;
+    public com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountResponseBodyType getRatingAndViewCount(com.kana.contactcentre.services.model.SearchV1Service_wsdl.GetRatingAndViewCountRequestBodyType body) throws java.rmi.RemoteException;
 }

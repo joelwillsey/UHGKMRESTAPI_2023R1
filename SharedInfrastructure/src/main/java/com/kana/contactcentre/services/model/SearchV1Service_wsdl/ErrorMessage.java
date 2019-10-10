@@ -1,5 +1,5 @@
 /**
- * MarkAsViewedResponseBodyType.java
+ * ErrorMessage.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,41 +7,65 @@
 
 package com.kana.contactcentre.services.model.SearchV1Service_wsdl;
 
-public class MarkAsViewedResponseBodyType  implements java.io.Serializable {
-    private java.lang.String viewUUID;
+public class ErrorMessage  implements java.io.Serializable {
+    private java.lang.String code;
 
-    public MarkAsViewedResponseBodyType() {
+    private java.lang.String message;
+
+    public ErrorMessage() {
     }
 
-    public MarkAsViewedResponseBodyType(
-           java.lang.String viewUUID) {
-           this.viewUUID = viewUUID;
-    }
-
-
-    /**
-     * Gets the viewUUID value for this MarkAsViewedResponseBodyType.
-     * 
-     * @return viewUUID
-     */
-    public java.lang.String getViewUUID() {
-        return viewUUID;
+    public ErrorMessage(
+           java.lang.String code,
+           java.lang.String message) {
+           this.code = code;
+           this.message = message;
     }
 
 
     /**
-     * Sets the viewUUID value for this MarkAsViewedResponseBodyType.
+     * Gets the code value for this ErrorMessage.
      * 
-     * @param viewUUID
+     * @return code
      */
-    public void setViewUUID(java.lang.String viewUUID) {
-        this.viewUUID = viewUUID;
+    public java.lang.String getCode() {
+        return code;
+    }
+
+
+    /**
+     * Sets the code value for this ErrorMessage.
+     * 
+     * @param code
+     */
+    public void setCode(java.lang.String code) {
+        this.code = code;
+    }
+
+
+    /**
+     * Gets the message value for this ErrorMessage.
+     * 
+     * @return message
+     */
+    public java.lang.String getMessage() {
+        return message;
+    }
+
+
+    /**
+     * Sets the message value for this ErrorMessage.
+     * 
+     * @param message
+     */
+    public void setMessage(java.lang.String message) {
+        this.message = message;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof MarkAsViewedResponseBodyType)) return false;
-        MarkAsViewedResponseBodyType other = (MarkAsViewedResponseBodyType) obj;
+        if (!(obj instanceof ErrorMessage)) return false;
+        ErrorMessage other = (ErrorMessage) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -50,9 +74,12 @@ public class MarkAsViewedResponseBodyType  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.viewUUID==null && other.getViewUUID()==null) || 
-             (this.viewUUID!=null &&
-              this.viewUUID.equals(other.getViewUUID())));
+            ((this.code==null && other.getCode()==null) || 
+             (this.code!=null &&
+              this.code.equals(other.getCode()))) &&
+            ((this.message==null && other.getMessage()==null) || 
+             (this.message!=null &&
+              this.message.equals(other.getMessage())));
         __equalsCalc = null;
         return _equals;
     }
@@ -64,8 +91,11 @@ public class MarkAsViewedResponseBodyType  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getViewUUID() != null) {
-            _hashCode += getViewUUID().hashCode();
+        if (getCode() != null) {
+            _hashCode += getCode().hashCode();
+        }
+        if (getMessage() != null) {
+            _hashCode += getMessage().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -73,13 +103,19 @@ public class MarkAsViewedResponseBodyType  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(MarkAsViewedResponseBodyType.class, true);
+        new org.apache.axis.description.TypeDesc(ErrorMessage.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "MarkAsViewedResponseBodyType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/SearchV1Service.wsdl", "ErrorMessage"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("viewUUID");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "viewUUID"));
+        elemField.setFieldName("code");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "code"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("message");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "message"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

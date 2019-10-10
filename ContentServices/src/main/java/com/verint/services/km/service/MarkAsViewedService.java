@@ -86,7 +86,7 @@ public class MarkAsViewedService extends BaseService {
 			LOGGER.debug("Content Id: " + contentId.getContentId());
 			
 			// Rate the content
-			markAsViewedResponse.setViewUUID(searchDAO.markAsViewed(contentId.getContentId(), credentials[0], credentials[1]));
+			markAsViewedResponse.setViewUUID(searchDAO.markAsViewed(contentId.getContentId(), credentials[0], credentials[1], null));
 			
 		} catch (Throwable t) {
 			LOGGER.error("markAsViewed() Exception", t);

@@ -26,7 +26,7 @@ public class SearchV1ServiceLocator extends org.apache.axis.client.Service imple
     }
 
     // Use to get a proxy class for SearchV1Port
-    private java.lang.String SearchV1Port_address = "http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowledgeContextAPIServices.API.Search.SearchV1";
+    private java.lang.String SearchV1Port_address = "http://127.0.0.1:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowledgeContextAPIServices.API.Search.SearchV1";
 
     public java.lang.String getSearchV1PortAddress() {
         return SearchV1Port_address;

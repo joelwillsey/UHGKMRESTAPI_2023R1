@@ -30,6 +30,9 @@ public class RateRequest implements Serializable {
 
 	@XmlElement
 	private Double rating;
+	
+	@XmlElement(nillable=true)
+	private String siteName = "";
 
 	/**
 	 * Constructor
@@ -93,13 +96,27 @@ public class RateRequest implements Serializable {
 	public void setRating(Double rating) {
 		this.rating = rating;
 	}
+	
+	/**
+	 * @return the siteName
+	 */
+	public String getSiteName() {
+		return siteName;
+	}
+
+	/**
+	 * @param siteName the siteName to set
+	 */
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}	
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "RateRequest [contentId=" + contentId + ", username=" + username + ", password=" + password + ", rating="
+		return "RateRequest [contentId=" + contentId + ", username=" + username + ", password=" + password + ", siteName=" + siteName + ", rating="
 				+ rating + "]";
 	}
 }

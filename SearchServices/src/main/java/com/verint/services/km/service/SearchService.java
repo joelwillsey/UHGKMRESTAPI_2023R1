@@ -128,7 +128,7 @@ public class SearchService extends BaseService {
 
 			// Do the search and get the response back
 			Instant start = Instant.now();
-			searchResponse = searchDAO.searchQuery(searchRequest);
+			searchResponse = searchDAO.searchQuery(searchRequest, null);
 			Instant end = Instant.now();
 			LOGGER.debug("SearchService - search() duration: " + Duration.between(start, end).toMillis() + "ms");
 

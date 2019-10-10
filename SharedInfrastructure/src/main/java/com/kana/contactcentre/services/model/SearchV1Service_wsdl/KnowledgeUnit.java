@@ -30,6 +30,8 @@ public class KnowledgeUnit  implements java.io.Serializable {
 
     private java.lang.String pageIdentifier;
 
+    private java.lang.String publishedID;
+
     private java.lang.String tags;
 
     private java.lang.String contentVersion;
@@ -49,6 +51,7 @@ public class KnowledgeUnit  implements java.io.Serializable {
            java.lang.String title,
            java.lang.String contentCategoryTags,
            java.lang.String pageIdentifier,
+           java.lang.String publishedID,
            java.lang.String tags,
            java.lang.String contentVersion) {
            this.contentOwner = contentOwner;
@@ -62,6 +65,7 @@ public class KnowledgeUnit  implements java.io.Serializable {
            this.title = title;
            this.contentCategoryTags = contentCategoryTags;
            this.pageIdentifier = pageIdentifier;
+           this.publishedID = publishedID;
            this.tags = tags;
            this.contentVersion = contentVersion;
     }
@@ -288,6 +292,26 @@ public class KnowledgeUnit  implements java.io.Serializable {
 
 
     /**
+     * Gets the publishedID value for this KnowledgeUnit.
+     * 
+     * @return publishedID
+     */
+    public java.lang.String getPublishedID() {
+        return publishedID;
+    }
+
+
+    /**
+     * Sets the publishedID value for this KnowledgeUnit.
+     * 
+     * @param publishedID
+     */
+    public void setPublishedID(java.lang.String publishedID) {
+        this.publishedID = publishedID;
+    }
+
+
+    /**
      * Gets the tags value for this KnowledgeUnit.
      * 
      * @return tags
@@ -369,6 +393,9 @@ public class KnowledgeUnit  implements java.io.Serializable {
             ((this.pageIdentifier==null && other.getPageIdentifier()==null) || 
              (this.pageIdentifier!=null &&
               this.pageIdentifier.equals(other.getPageIdentifier()))) &&
+            ((this.publishedID==null && other.getPublishedID()==null) || 
+             (this.publishedID!=null &&
+              this.publishedID.equals(other.getPublishedID()))) &&
             ((this.tags==null && other.getTags()==null) || 
              (this.tags!=null &&
               this.tags.equals(other.getTags()))) &&
@@ -416,6 +443,9 @@ public class KnowledgeUnit  implements java.io.Serializable {
         }
         if (getPageIdentifier() != null) {
             _hashCode += getPageIdentifier().hashCode();
+        }
+        if (getPublishedID() != null) {
+            _hashCode += getPublishedID().hashCode();
         }
         if (getTags() != null) {
             _hashCode += getTags().hashCode();
@@ -496,6 +526,12 @@ public class KnowledgeUnit  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("pageIdentifier");
         elemField.setXmlName(new javax.xml.namespace.QName("", "pageIdentifier"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("publishedID");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "publishedID"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
