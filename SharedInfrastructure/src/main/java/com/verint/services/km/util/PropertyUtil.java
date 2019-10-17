@@ -4,7 +4,7 @@ public class PropertyUtil {
 
 	public static String GetBasePath() {
 		final String OSName = System.getProperty("os.name");
-		String returnValue = "/app_2/verint/projects/uhgiq/restapi/kmservices/";
+		String returnValue = "/app_2/verint/projects/restapi/kmservices/";
 		
 		if (OSName != null && OSName.length() > 0 && OSName.startsWith("Windows")) {
 			returnValue = "C:\\app_2\\verint\\projects\\uhgiq\\restapi\\kmservices\\";

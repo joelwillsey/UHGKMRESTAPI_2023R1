@@ -20,7 +20,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
             classpath:spring.xml
-            <!--  file:/app_2/verint/projects/uhgiq/restapi/kmservices/spring-security-context.xml -->
+            <!--  file:/app_2/verint/projects/restapi/kmservices/spring-security-context.xml -->
             file:${configLocation}/environment.${environment.name}/spring-siteminder-security-context.xml
         </param-value>
 	</context-param>

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export JAVA_HOME=/app_2/verint/products/java/jdk1.8.0_101
-export JBOSS_HOME=/app_2/verint/containers/jboss-eap-6.4
+export JAVA_HOME=/app_2/verint/em/products/java/jdk1.8.0_201
+export JBOSS_HOME=/app_2/verint/em/products/jboss-eap-6.4
 
 cd $(dirname ${0}); SCRIPTHOME=${PWD}
 
