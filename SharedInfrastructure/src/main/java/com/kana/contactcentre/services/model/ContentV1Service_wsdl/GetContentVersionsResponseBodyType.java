@@ -1,5 +1,5 @@
 /**
- * GetContentDetailsResponseBodyType.java
+ * GetContentVersionsResponseBodyType.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,16 +7,16 @@
 
 package com.kana.contactcentre.services.model.ContentV1Service_wsdl;
 
-public class GetContentDetailsResponseBodyType  implements java.io.Serializable {
-    private com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentDetails response;
+public class GetContentVersionsResponseBodyType  implements java.io.Serializable {
+    private com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentVersionsResultSet response;
 
     private com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage[] errorList;
 
-    public GetContentDetailsResponseBodyType() {
+    public GetContentVersionsResponseBodyType() {
     }
 
-    public GetContentDetailsResponseBodyType(
-           com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentDetails response,
+    public GetContentVersionsResponseBodyType(
+           com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentVersionsResultSet response,
            com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage[] errorList) {
            this.response = response;
            this.errorList = errorList;
@@ -24,27 +24,27 @@ public class GetContentDetailsResponseBodyType  implements java.io.Serializable 
 
 
     /**
-     * Gets the response value for this GetContentDetailsResponseBodyType.
+     * Gets the response value for this GetContentVersionsResponseBodyType.
      * 
      * @return response
      */
-    public com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentDetails getResponse() {
+    public com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentVersionsResultSet getResponse() {
         return response;
     }
 
 
     /**
-     * Sets the response value for this GetContentDetailsResponseBodyType.
+     * Sets the response value for this GetContentVersionsResponseBodyType.
      * 
      * @param response
      */
-    public void setResponse(com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentDetails response) {
+    public void setResponse(com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentVersionsResultSet response) {
         this.response = response;
     }
 
 
     /**
-     * Gets the errorList value for this GetContentDetailsResponseBodyType.
+     * Gets the errorList value for this GetContentVersionsResponseBodyType.
      * 
      * @return errorList
      */
@@ -54,7 +54,7 @@ public class GetContentDetailsResponseBodyType  implements java.io.Serializable 
 
 
     /**
-     * Sets the errorList value for this GetContentDetailsResponseBodyType.
+     * Sets the errorList value for this GetContentVersionsResponseBodyType.
      * 
      * @param errorList
      */
@@ -64,8 +64,8 @@ public class GetContentDetailsResponseBodyType  implements java.io.Serializable 
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof GetContentDetailsResponseBodyType)) return false;
-        GetContentDetailsResponseBodyType other = (GetContentDetailsResponseBodyType) obj;
+        if (!(obj instanceof GetContentVersionsResponseBodyType)) return false;
+        GetContentVersionsResponseBodyType other = (GetContentVersionsResponseBodyType) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -111,14 +111,14 @@ public class GetContentDetailsResponseBodyType  implements java.io.Serializable 
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(GetContentDetailsResponseBodyType.class, true);
+        new org.apache.axis.description.TypeDesc(GetContentVersionsResponseBodyType.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentDetailsResponseBodyType"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentVersionsResponseBodyType"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("response");
         elemField.setXmlName(new javax.xml.namespace.QName("", "response"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "ContentDetails"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "ContentVersionsResultSet"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();

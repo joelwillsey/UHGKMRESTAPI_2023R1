@@ -1,5 +1,5 @@
 /**
- * StringItem.java
+ * ErrorMessage.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,41 +7,65 @@
 
 package com.kana.contactcentre.services.model.ContentV1Service_wsdl;
 
-public class StringItem  implements java.io.Serializable {
-    private java.lang.String value;
+public class ErrorMessage  implements java.io.Serializable {
+    private java.lang.String code;
 
-    public StringItem() {
+    private java.lang.String message;
+
+    public ErrorMessage() {
     }
 
-    public StringItem(
-           java.lang.String value) {
-           this.value = value;
-    }
-
-
-    /**
-     * Gets the value value for this StringItem.
-     * 
-     * @return value
-     */
-    public java.lang.String getValue() {
-        return value;
+    public ErrorMessage(
+           java.lang.String code,
+           java.lang.String message) {
+           this.code = code;
+           this.message = message;
     }
 
 
     /**
-     * Sets the value value for this StringItem.
+     * Gets the code value for this ErrorMessage.
      * 
-     * @param value
+     * @return code
      */
-    public void setValue(java.lang.String value) {
-        this.value = value;
+    public java.lang.String getCode() {
+        return code;
+    }
+
+
+    /**
+     * Sets the code value for this ErrorMessage.
+     * 
+     * @param code
+     */
+    public void setCode(java.lang.String code) {
+        this.code = code;
+    }
+
+
+    /**
+     * Gets the message value for this ErrorMessage.
+     * 
+     * @return message
+     */
+    public java.lang.String getMessage() {
+        return message;
+    }
+
+
+    /**
+     * Sets the message value for this ErrorMessage.
+     * 
+     * @param message
+     */
+    public void setMessage(java.lang.String message) {
+        this.message = message;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof StringItem)) return false;
-        StringItem other = (StringItem) obj;
+        if (!(obj instanceof ErrorMessage)) return false;
+        ErrorMessage other = (ErrorMessage) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -50,9 +74,12 @@ public class StringItem  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            ((this.value==null && other.getValue()==null) || 
-             (this.value!=null &&
-              this.value.equals(other.getValue())));
+            ((this.code==null && other.getCode()==null) || 
+             (this.code!=null &&
+              this.code.equals(other.getCode()))) &&
+            ((this.message==null && other.getMessage()==null) || 
+             (this.message!=null &&
+              this.message.equals(other.getMessage())));
         __equalsCalc = null;
         return _equals;
     }
@@ -64,8 +91,11 @@ public class StringItem  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        if (getValue() != null) {
-            _hashCode += getValue().hashCode();
+        if (getCode() != null) {
+            _hashCode += getCode().hashCode();
+        }
+        if (getMessage() != null) {
+            _hashCode += getMessage().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -73,13 +103,19 @@ public class StringItem  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(StringItem.class, true);
+        new org.apache.axis.description.TypeDesc(ErrorMessage.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "StringItem"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "ErrorMessage"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("value");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "value"));
+        elemField.setFieldName("code");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "code"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("message");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "message"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

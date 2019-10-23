@@ -16,7 +16,7 @@ public class ContentV1BindingStub extends org.apache.axis.client.Stub implements
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[1];
+        _operations = new org.apache.axis.description.OperationDesc[2];
         _initOperationDesc1();
     }
 
@@ -33,6 +33,17 @@ public class ContentV1BindingStub extends org.apache.axis.client.Stub implements
         oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[0] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("GetContentVersions");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentVersionsRequest"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentVersionsRequestBodyType"), com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsRequestBodyType.class, false, false);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentVersionsResponseBodyType"));
+        oper.setReturnClass(com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentVersionsResponse"));
+        oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[1] = oper;
 
     }
 
@@ -72,6 +83,38 @@ public class ContentV1BindingStub extends org.apache.axis.client.Stub implements
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "ContentVersionList");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.ContentV1Service_wsdl.Version[].class;
+            cachedSerClasses.add(cls);
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "Version");
+            qName2 = new javax.xml.namespace.QName("", "Version");
+            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
+            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "ContentVersionsResultSet");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentVersionsResultSet.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "ErrorList");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage[].class;
+            cachedSerClasses.add(cls);
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "ErrorMessage");
+            qName2 = new javax.xml.namespace.QName("", "ErrorMessage");
+            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
+            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "ErrorMessage");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentDetailsRequestBodyType");
             cachedSerQNames.add(qName);
             cls = com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsRequestBodyType.class;
@@ -82,6 +125,20 @@ public class ContentV1BindingStub extends org.apache.axis.client.Stub implements
             qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentDetailsResponseBodyType");
             cachedSerQNames.add(qName);
             cls = com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentVersionsRequestBodyType");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsRequestBodyType.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "GetContentVersionsResponseBodyType");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -101,6 +158,13 @@ public class ContentV1BindingStub extends org.apache.axis.client.Stub implements
             qName2 = new javax.xml.namespace.QName("", "StringItem");
             cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
             cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
+            qName = new javax.xml.namespace.QName("http://model.services.contactcentre.kana.com/ContentV1Service.wsdl", "Version");
+            cachedSerQNames.add(qName);
+            cls = com.kana.contactcentre.services.model.ContentV1Service_wsdl.Version.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
 
     }
 
@@ -195,6 +259,40 @@ public class ContentV1BindingStub extends org.apache.axis.client.Stub implements
                 return (com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType) _resp;
             } catch (java.lang.Exception _exception) {
                 return (com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType) org.apache.axis.utils.JavaUtils.convert(_resp, com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType.class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType getContentVersions(com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsRequestBodyType body) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[1]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("ContentV1Service#GetContentVersions");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("", "GetContentVersions"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {body});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType) org.apache.axis.utils.JavaUtils.convert(_resp, com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType.class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {

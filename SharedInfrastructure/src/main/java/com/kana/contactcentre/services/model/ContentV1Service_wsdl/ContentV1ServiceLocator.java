@@ -26,7 +26,7 @@ public class ContentV1ServiceLocator extends org.apache.axis.client.Service impl
     }
 
     // Use to get a proxy class for ContentV1Port
-    private java.lang.String ContentV1Port_address = "http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowContentServices.API.ContentService.ContentV1";
+    private java.lang.String ContentV1Port_address = "http://127.0.0.1:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowContentServices.API.ContentService.ContentV1";
 
     public java.lang.String getContentV1PortAddress() {
         return ContentV1Port_address;

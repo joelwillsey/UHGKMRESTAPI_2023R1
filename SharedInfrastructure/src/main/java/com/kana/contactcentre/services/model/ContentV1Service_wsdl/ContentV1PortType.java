@@ -9,4 +9,5 @@ package com.kana.contactcentre.services.model.ContentV1Service_wsdl;
 
 public interface ContentV1PortType extends java.rmi.Remote {
     public com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType getContentDetails(com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsRequestBodyType body) throws java.rmi.RemoteException;
+    public com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType getContentVersions(com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsRequestBodyType body) throws java.rmi.RemoteException;
 }

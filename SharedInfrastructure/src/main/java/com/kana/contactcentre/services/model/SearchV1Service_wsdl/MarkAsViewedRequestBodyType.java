@@ -18,7 +18,7 @@ public class MarkAsViewedRequestBodyType  implements java.io.Serializable {
 
     private java.lang.String locale;
 
-    private java.lang.String siteName;
+    private java.lang.String siteName = "";
 
     public MarkAsViewedRequestBodyType() {
     }
@@ -261,7 +261,7 @@ public class MarkAsViewedRequestBodyType  implements java.io.Serializable {
         elemField.setFieldName("siteName");
         elemField.setXmlName(new javax.xml.namespace.QName("", "siteName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setNillable(false);
+        elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
     }
 

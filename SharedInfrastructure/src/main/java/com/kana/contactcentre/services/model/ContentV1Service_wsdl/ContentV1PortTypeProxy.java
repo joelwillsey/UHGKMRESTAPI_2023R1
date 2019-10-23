@@ -50,5 +50,11 @@ public class ContentV1PortTypeProxy implements com.kana.contactcentre.services.m
     return contentV1PortType.getContentDetails(body);
   }
   
+  public com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType getContentVersions(com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsRequestBodyType body) throws java.rmi.RemoteException{
+    if (contentV1PortType == null)
+      _initContentV1PortTypeProxy();
+    return contentV1PortType.getContentVersions(body);
+  }
+  
   
 }

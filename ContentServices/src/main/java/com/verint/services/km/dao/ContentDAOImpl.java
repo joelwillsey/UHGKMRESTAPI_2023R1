@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
-
+import java.math.BigInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -25,6 +25,10 @@ import com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentDetail
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsRequestBodyType;
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType;
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.StringItem;
+import com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage;
+import com.kana.contactcentre.services.model.ContentV1Service_wsdl.Version;
+import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsRequestBodyType;
+import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType;
 import com.verint.services.km.dao.parser.ElementParser;
 import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
@@ -36,7 +40,10 @@ import com.verint.services.km.model.CustomField;
 import com.verint.services.km.model.ExternalContent;
 import com.verint.services.km.model.Translated;
 import com.verint.services.km.util.ConfigInfo;
-import com.verint.services.km.model.ScriptSrc;;
+import com.verint.services.km.model.ScriptSrc;
+import com.verint.services.km.model.ContentVersionRequest;
+import com.verint.services.km.model.ContentVersionResponse;
+
 /**
  * @author jmiller
  *
@@ -79,6 +86,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	public static void main(String[] args) {
 		final ContentDAO contentDAO = new ContentDAOImpl();
 		final ContentRequest contentRequest = new ContentRequest();
+		final ContentVersionRequest contentVersionRequest = new ContentVersionRequest();
 		// String body = "<img v:shapes=\"Picture_x0020_1\" height=\"449\"
 		// width=\"624\"
 		// style=\"font-size:10.0pt;line-height:115%;font-family:Verdana,sans-serif;\"
@@ -121,6 +129,42 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	 * com.verint.services.km.dao.ContentDAO#getContent(com.verint.services.km.
 	 * model.ContentRequest)
 	 */
+	
+	@Override
+	public  ContentVersionResponse getContentVersion(ContentVersionRequest contentVersionRequest) 
+			throws AppException, RemoteException {
+		LOGGER.info("Entering getContent()");
+		ContentVersionResponse contentVersionResponse = new ContentVersionResponse();
+		final GetContentVersionsRequestBodyType versionRequest = new GetContentVersionsRequestBodyType();
+		versionRequest.setApplicationID(AppID);
+		versionRequest.setContentID(contentVersionRequest.getContentId());
+		versionRequest.setLocale(Locale);
+		versionRequest.setPageSize(BigInteger.valueOf(10));
+		versionRequest.setStartRow(BigInteger.valueOf(0));
+		versionRequest.setSortAscending(contentVersionRequest.getSortAscending());
+		versionRequest.setShowMinorVersions(contentVersionRequest.getShowMinorVersions());
+		Instant start = Instant.now();
+		final GetContentVersionsResponseBodyType versionResponse = ContentPortType.getContentVersions(versionRequest);	
+		Instant end = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + versionRequest.getUsername() + ") - getContentVersions() duration: "
+				+ Duration.between(start, end).toMillis() + "ms");
+		LOGGER.debug("response: " + versionResponse);
+		
+		if (versionResponse != null) {
+			
+		contentVersionResponse.setResultSet(versionResponse.getResponse());
+		contentVersionResponse.setErrorList(versionResponse.getErrorList());
+		}else {
+			// We have a problem with the service
+			throw new AppException(500, AppErrorCodes.CONTENT_RETRIEVAL_ERROR, AppErrorMessage.CONTENT_RETRIEVAL_ERROR);
+		}
+		LOGGER.debug("ContentVersionResponse: " + contentVersionResponse);
+		LOGGER.info("Exiting getContentVersion()");
+
+		return contentVersionResponse;
+	}
+	
+	
 	@Override
 	public ContentResponse getContent(ContentRequest contentRequest)
 			throws RemoteException, IOException, SQLException, AppException {
@@ -162,7 +206,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			contentResponse.setNumberOfRatings(contentDetails.getNumberOfRatings());
 			contentResponse.setPublishedId(contentDetails.getPublishedId());
 			contentResponse.setTitle(contentDetails.getTitle());
-
+			contentResponse.setErrorList(response.getErrorList());
 			// Translated text
 			final StringItem[] items = contentDetails.getTranslatedTo();
 			for (int x = 0; (items != null) && (x < items.length); x++) {

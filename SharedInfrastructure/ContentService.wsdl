@@ -6,7 +6,7 @@
       xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
       xmlns:tns="http://model.services.contactcentre.kana.com/ContentV1Service.wsdl"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!-- Created by KANA Software (a Verint company) on Sat Mar 26 20:06:39 PDT 2016. See http://www.kana.com for more details. -->
+<!-- Created by Verint on Thu Oct 10 17:17:19 CDT 2019. See http://www.kana.com for more details. -->
     <types>
       <xsd:schema
           elementFormDefault="unqualified"
@@ -102,6 +102,66 @@
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
+            name="ErrorMessage">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="code"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="message"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ContentVersionsResultSet">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="Versions"
+                type="tns:ContentVersionList" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="totalVersions"
+                type="xsd:integer" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ContentVersionList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="Version"
+                type="tns:Version" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="Version">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="version"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="publishedDate"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="title"
+                type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
             name="StringItemList">
           <xsd:sequence>
             <xsd:element
@@ -119,6 +179,16 @@
                 minOccurs="1"
                 name="value"
                 type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="ErrorList">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="unbounded"
+                minOccurs="0"
+                name="ErrorMessage"
+                type="tns:ErrorMessage" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:complexType
@@ -169,6 +239,71 @@
                 minOccurs="1"
                 name="response"
                 type="tns:ContentDetails" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="errorList"
+                type="tns:ErrorList" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetContentVersionsRequestBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="applicationID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="locale"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="username"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="contentID"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="startRow"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="pageSize"
+                type="xsd:integer" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="sortAscending"
+                type="xsd:boolean" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="showMinorVersions"
+                type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+        <xsd:complexType
+            name="GetContentVersionsResponseBodyType">
+          <xsd:sequence>
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="response"
+                type="tns:ContentVersionsResultSet" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="errorList"
+                type="tns:ErrorList" />
           </xsd:sequence>
         </xsd:complexType>
         <xsd:element
@@ -177,6 +312,12 @@
         <xsd:element
             name="GetContentDetailsResponse"
             type="tns:GetContentDetailsResponseBodyType" />
+        <xsd:element
+            name="GetContentVersionsRequest"
+            type="tns:GetContentVersionsRequestBodyType" />
+        <xsd:element
+            name="GetContentVersionsResponse"
+            type="tns:GetContentVersionsResponseBodyType" />
       </xsd:schema>
     </types>
     <message
@@ -191,6 +332,18 @@
           element="tns:GetContentDetailsResponse"
           name="body" />
     </message>
+    <message
+        name="GetContentVersionsRequest">
+      <part
+          element="tns:GetContentVersionsRequest"
+          name="body" />
+    </message>
+    <message
+        name="GetContentVersionsResponse">
+      <part
+          element="tns:GetContentVersionsResponse"
+          name="body" />
+    </message>
     <portType
         name="ContentV1PortType">
       <operation
@@ -199,6 +352,13 @@
             message="tns:GetContentDetailsRequest" />
         <output
             message="tns:GetContentDetailsResponse" />
+      </operation>
+      <operation
+          name="GetContentVersions">
+        <input
+            message="tns:GetContentVersionsRequest" />
+        <output
+            message="tns:GetContentVersionsResponse" />
       </operation>
     </portType>
     <binding
@@ -220,6 +380,19 @@
               use="literal" />
         </output>
       </operation>
+      <operation
+          name="GetContentVersions">
+        <soap:operation
+            soapAction="ContentV1Service#GetContentVersions" />
+        <input>
+          <soap:body
+              use="literal" />
+        </input>
+        <output>
+          <soap:body
+              use="literal" />
+        </output>
+      </operation>
     </binding>
     <service
         name="ContentV1Service">
@@ -230,7 +403,7 @@
           binding="tns:ContentV1Binding"
           name="ContentV1Port">
         <soap:address
-            location="http://10.211.55.8:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowContentServices.API.ContentService.ContentV1" />
+            location="http://127.0.0.1:8280/GTConnect/StatelessSoapAcceptor/?gtxInitialProcess=AddKnowContentServices.API.ContentService.ContentV1" />
       </port>
     </service>
   </definitions>

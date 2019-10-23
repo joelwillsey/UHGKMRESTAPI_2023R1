@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage;
 
 import com.verint.services.km.util.TagSetComp;
 
@@ -135,6 +136,10 @@ public class ContentResponse implements Serializable {
 	
 	@XmlElement(nillable=true)
 	private String viewUUID = "";
+	
+	@XmlElement(nillable=true)
+	private com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage[] errorList;
+ 
 
 	/**
 	 * 
@@ -143,7 +148,13 @@ public class ContentResponse implements Serializable {
 		super();
 	}
 
-
+	   public void setErrorList(com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage[] errorList) {
+	        this.errorList = errorList;
+	    }
+	   
+	   public com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage[] getErrorList() {
+	        return this.errorList;
+	    }
 	/**
 	 * @return the id
 	 */
