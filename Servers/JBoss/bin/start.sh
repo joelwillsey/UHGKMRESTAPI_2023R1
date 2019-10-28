@@ -176,7 +176,7 @@ fi
 export JAVA_HOME=/app_2/verint/em/products/java/jdk1.8.0_201
 export JBOSS_HOME=/app_2/verint/em/products/jboss-eap-6.4
 export CONFIG_HOME=/app_2/verint/em/projects/restapi/${CONTAINER}
-export LOGS_HOME=/app_2/verint/em/projects/logs/${HOSTNAME}-${CONTAINER}
+export LOGS_HOME=/app_2/verint/em/logs/${HOSTNAME}-${CONTAINER}
 export JAVA_OPTS="-XX:+UseConcMarkSweepGC \
   -XX:+DisableExplicitGC \
   -verbose:gc \
