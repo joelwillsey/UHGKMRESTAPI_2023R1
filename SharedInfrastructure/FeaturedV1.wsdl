@@ -6,7 +6,7 @@
       xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
       xmlns:tns="http://localhost:80/FeaturedV1Service.wsdl"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!-- Created by Verint on Tue May 23 12:23:59 CDT 2017. See http://www.kana.com for more details. -->
+<!-- Created by Verint on Mon Oct 28 14:00:14 GMT 2019. See http://www.kana.com for more details. -->
     <types>
       <xsd:schema
           elementFormDefault="unqualified"
@@ -132,6 +132,11 @@
             <xsd:element
                 maxOccurs="1"
                 minOccurs="1"
+                name="searchPrecision"
+                type="xsd:float" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
                 name="numberOfGroupResultsFound"
                 type="xsd:integer" />
           </xsd:sequence>
@@ -193,6 +198,11 @@
                 maxOccurs="1"
                 minOccurs="1"
                 name="pageIdentifier"
+                type="xsd:string" />
+            <xsd:element
+                maxOccurs="1"
+                minOccurs="1"
+                name="publishedID"
                 type="xsd:string" />
             <xsd:element
                 maxOccurs="1"

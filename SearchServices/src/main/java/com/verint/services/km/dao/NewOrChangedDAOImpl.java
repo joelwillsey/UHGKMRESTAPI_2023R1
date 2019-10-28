@@ -164,6 +164,7 @@ public class NewOrChangedDAOImpl extends BaseDAOImpl implements NewOrChangedDAO{
 					responseKu.setTitle(knowledgeUnit.getTitle());
 					responseKu.setWorkflowState(knowledgeUnit.getWorkflowState());
 					responseKu.setContentCategoryTags(parseForTags(knowledgeUnit.getContentCategoryTags()));
+					responseKu.setPublishedID(knowledgeUnit.getPublishedID());
 					responseKu.setTags(parseForTags(knowledgeUnit.getTags()));
 					responseKu.setRelevanceScore(new Double(knowledgeUnit.getRelevanceScore()));
 					knowledgeUnits.add(responseKu);
@@ -197,6 +198,7 @@ public class NewOrChangedDAOImpl extends BaseDAOImpl implements NewOrChangedDAO{
 		for (int x = 0; (suggestedQuery != null) && (x < suggestedQuery.length); x++) {
 			final com.verint.services.km.model.SuggestedQuery sq = new com.verint.services.km.model.SuggestedQuery();
 			sq.setNumberOfResults(suggestedQuery[x].getNumberOfGroupResultsFound());
+			sq.setSearchPrecision(suggestedQuery[x].getSearchPrecision());
 			sq.setQueryText(suggestedQuery[x].getQueryText());
 			sq.setType(suggestedQuery[x].getType());
 			final ReplacedTerm[] rt = suggestedQuery[x].getReplacedTermsList();
@@ -234,6 +236,7 @@ public class NewOrChangedDAOImpl extends BaseDAOImpl implements NewOrChangedDAO{
 					nKnowledgeUnit.setRelevanceScore(new Double(fku[a].getRelevanceScore()));
 					nKnowledgeUnit.setSynopsis(fku[a].getSynopsis());
 					nKnowledgeUnit.setContentCategoryTags(parseForTags(fku[a].getContentCategoryTags()));
+					nKnowledgeUnit.setPublishedID(fku[a].getPublishedID());
 					nKnowledgeUnit.setTags(parseForTags(fku[a].getTags()));
 					nKnowledgeUnit.setTitle(fku[a].getTitle());
 					nKnowledgeUnit.setWorkflowState(fku[a].getWorkflowState());
