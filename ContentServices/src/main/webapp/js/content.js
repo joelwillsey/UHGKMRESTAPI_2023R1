@@ -278,7 +278,8 @@ $(document).ready(function() {
 						!(data.contentCategory == "content_remotedocument" && data.customFields[x].name == "file") &&
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "file") &&
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "fileDescription") &&
-						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "File Information")){
+						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "File Information") &&
+						!data.customFields[x].name == "tagpaths"){
 					if (data.customFields[x].name == "keywords"){
 					links.push('<li><a class="content_skipto_links_field" href="#content-' + data.customFields[x].name + '">' + "Watchwords" + '</a></li>');
 					} else if (data.customFields[x].name == "referenceName") {
