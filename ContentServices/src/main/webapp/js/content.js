@@ -788,7 +788,8 @@ $(document).ready(function() {
 						!(data.contentCategory == "content_remotedocument" && data.customFields[i].name == "file") &&
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "file") &&
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "fileDescription") &&
-						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "File Information")){
+						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "File Information") &&
+						!data.customFields[i].name == "tagpaths"){
 					contentBody.push('<section id="content-' + data.customFields[i].name + '" class="content_body_field custom_field">');
 					contentBody.push('  <div class="content_body_field_label">');
 					if (data.customFields[i].name == "keywords"){
