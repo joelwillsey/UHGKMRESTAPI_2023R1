@@ -279,7 +279,8 @@ $(document).ready(function() {
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "file") &&
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "fileDescription") &&
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[x].name == "File Information") &&
-						!data.customFields[x].name == "tagpaths"){
+						data.customFields[x].name != "tagpaths" &&
+						data.customFields[x].name != "mustRead"){
 					if (data.customFields[x].name == "keywords"){
 					links.push('<li><a class="content_skipto_links_field" href="#content-' + data.customFields[x].name + '">' + "Watchwords" + '</a></li>');
 					} else if (data.customFields[x].name == "referenceName") {
@@ -790,7 +791,8 @@ $(document).ready(function() {
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "file") &&
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "fileDescription") &&
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "File Information") &&
-						!data.customFields[i].name == "tagpaths"){
+						data.customFields[i].name != "tagpaths" &&
+						data.customFields[i].name != "mustRead"){
 					contentBody.push('<section id="content-' + data.customFields[i].name + '" class="content_body_field custom_field">');
 					contentBody.push('  <div class="content_body_field_label">');
 					if (data.customFields[i].name == "keywords"){
