@@ -407,38 +407,40 @@ public class ElementParser {
 			LOGGER.debug("begin: " + begin);
 			LOGGER.debug("end: " + end);
 			if (begin != -1 && end != -1) {
-				int findBeginEnd = data.indexOf("'>");
+				int findBeginEnd = data.indexOf("\">");
 				LOGGER.debug("findBeginEnd: " + findBeginEnd);
 				if (findBeginEnd != -1){
 					Attachment attachment = new Attachment();
-					String name = data.substring(findBeginEnd + "'>".length(), end);
+					String name = data.substring(findBeginEnd + "\">".length(), end);
 					attachment.setName(name);
 					// Get href
-					//int beginHref = data.indexOf("href=\"");
-					int beginHref = data.indexOf("href='");
+					int beginHref = data.indexOf("href=\"");
+					//int beginHref = data.indexOf("href='");
 					LOGGER.debug("beginHref: " + beginHref);
 					if (beginHref != -1) {
-						//String tempString = data.substring(beginHref + "href=\"".length());
-						String tempString = data.substring(beginHref + "href='".length());
+						String tempString = data.substring(beginHref + "href=\"".length());
+						//String tempString = data.substring(beginHref + "href='".length());
 						LOGGER.debug("tempString: " + tempString);
-						//int endHref = tempString.indexOf("\">");
-						int endHref = tempString.indexOf("'>");
+						int endHref = tempString.indexOf("\">");
+						//int endHref = tempString.indexOf("'>");
 						LOGGER.debug("endHref: " + endHref);
 						if (endHref != -1) {
 							attachment.setUrl(tempString.substring(0, endHref));
 							attachments.add(attachment);
 							data = data.substring(end + 1);
 						} else {
-							//LOGGER.error("Unable to find '\">\" for closing of href tag.  Link Substring: " + data.substring(begin, end));
-							LOGGER.error("Unable to find '> for closing of href tag.  Link Substring: " + data.substring(begin, end));
+							LOGGER.error("Unable to find '\">\" for closing of href tag.  Link Substring: " + data.substring(begin, end));
+							//LOGGER.error("Unable to find '> for closing of href tag.  Link Substring: " + data.substring(begin, end));
+							break;
 						}
 					} else {
 						LOGGER.error("Unable to find href=' for start of link. Link Substring: " + data.substring(begin, end));
 						break;
 					}
 				}else {
-					//LOGGER.error("Unable to find '\">\" for closing of end tag of <a  findBeginEnd: " + findBeginEnd);
-					LOGGER.error("Unable to find '> for closing of end tag of <a  findBeginEnd: " + findBeginEnd);
+					LOGGER.error("Unable to find '\">\" for closing of end tag of <a  findBeginEnd: " + findBeginEnd);
+					//LOGGER.error("Unable to find '> for closing of end tag of <a  findBeginEnd: " + findBeginEnd);
+					break;
 				}
 			} else {
 				break;
