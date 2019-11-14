@@ -77,9 +77,10 @@
 						selectedFilter += document.getElementById(tag).title + ",";
 					}
 				})
+		
+				selectedFilter = selectedFilter.substring(0, selectedFilter.length - 1);
+				selectedFilter += ";;";
 			}
-			selectedFilter = selectedFilter.substring(0, selectedFilter.length - 1);
-			selectedFilter += ";;";
 			
 			if(productTags.length > 0) {
 				selectedFilter += "product::";
@@ -88,9 +89,10 @@
 						selectedFilter += document.getElementById(tag).title + ",";
 					}
 				})
+			
+				selectedFilter = selectedFilter.substring(0, selectedFilter.length - 1);
+				selectedFilter += ";;";
 			}
-			selectedFilter = selectedFilter.substring(0, selectedFilter.length - 1);
-			selectedFilter += ";;";
 			
 			if(regionTags.length > 0) {
 				selectedFilter += "region::";
@@ -99,11 +101,11 @@
 						selectedFilter += document.getElementById(tag).title + ",";
 					}
 				})
+			
+				selectedFilter = selectedFilter.substring(0, selectedFilter.length - 1);
+				selectedFilter += ";;";
 			}
-			selectedFilter = selectedFilter.substring(0, selectedFilter.length - 1);
-			selectedFilter += ";;";
 		}
-		
 		selectedFilter += "status::Published;;";
 	}
 
