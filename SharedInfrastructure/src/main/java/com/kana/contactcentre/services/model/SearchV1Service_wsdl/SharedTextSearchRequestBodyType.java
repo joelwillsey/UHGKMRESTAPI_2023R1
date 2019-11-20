@@ -40,7 +40,7 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
 
     private java.lang.String contentVersion;
 
-    private java.math.BigInteger sortFieldOrder;
+    private int sortFieldOrder;
 
     private float searchPrecision;
 
@@ -64,7 +64,7 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
            java.lang.String username,
            java.lang.String workflowState,
            java.lang.String contentVersion,
-           java.math.BigInteger sortFieldOrder,
+           int sortFieldOrder,
            float searchPrecision) {
            this.applicationID = applicationID;
            this.contentCategory = contentCategory;
@@ -412,7 +412,7 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
      * 
      * @return sortFieldOrder
      */
-    public java.math.BigInteger getSortFieldOrder() {
+    public int getSortFieldOrder() {
         return sortFieldOrder;
     }
 
@@ -420,10 +420,10 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
     /**
      * Sets the sortFieldOrder value for this SharedTextSearchRequestBodyType.
      * 
-     * @param sortFieldOrder
+     * @param i
      */
-    public void setSortFieldOrder(java.math.BigInteger sortFieldOrder) {
-        this.sortFieldOrder = sortFieldOrder;
+    public void setSortFieldOrder(int i) {
+        this.sortFieldOrder = i;
     }
 
 
@@ -506,9 +506,7 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
             ((this.contentVersion==null && other.getContentVersion()==null) || 
              (this.contentVersion!=null &&
               this.contentVersion.equals(other.getContentVersion()))) &&
-            ((this.sortFieldOrder==null && other.getSortFieldOrder()==null) || 
-             (this.sortFieldOrder!=null &&
-              this.sortFieldOrder.equals(other.getSortFieldOrder()))) &&
+            this.sortFieldOrder == other.getSortFieldOrder() &&
             this.searchPrecision == other.getSearchPrecision();
         __equalsCalc = null;
         return _equals;
@@ -569,9 +567,8 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
         if (getContentVersion() != null) {
             _hashCode += getContentVersion().hashCode();
         }
-        if (getSortFieldOrder() != null) {
-            _hashCode += getSortFieldOrder().hashCode();
-        }
+        _hashCode += getSortFieldOrder();
+        
         _hashCode += new Float(getSearchPrecision()).hashCode();
         __hashCodeCalc = false;
         return _hashCode;

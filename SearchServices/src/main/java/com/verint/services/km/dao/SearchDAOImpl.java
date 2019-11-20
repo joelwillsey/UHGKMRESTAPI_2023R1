@@ -108,7 +108,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		request.setModifiedDate(sdt);
 		request.setPublishedDate(sdt);
 		request.setContentVersion("");
-		request.setSortFieldOrder(null);
+		request.setSortFieldOrder(Integer.parseInt(prop.getSortOrder()));
 		      
 		// If search precision is passed in as a parameter then use it, is not, use the system property.
 		if (searchPrecision != null) {
