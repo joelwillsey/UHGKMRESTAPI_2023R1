@@ -1,5 +1,6 @@
 var contentId;
 var viewId;
+var version;
 var contentIds= new Array();
 var externalLink = false;
 var contentTitle = '';
@@ -1470,9 +1471,10 @@ $(document).ready(function() {
 	  	  return jQuery.ajax(options);
 	  	};
 	  	
-	$.fn.retrieveDraftContent = function(id, state) {
+	$.fn.retrieveDraftContent = function(id, state, contentVersion) {
 		log('Retrieve Draft Content id: ' + id);
 		log('Retrieve Draft Content state: ' + state);
+		log('Retrieve Draft Content version: ' + contentVersion);
     	var length = contentIds.unshift(id);
 
 		// First check if pushState is supported and if so is it enabled
@@ -1512,7 +1514,7 @@ $(document).ready(function() {
 			newContentServiceName= contentServiceName;
 		}
 		
-		$.fn.serviceCall('GET', '', newContentServiceName + 'km/content/id/' + id + '/state/' + state , CONTENT_SERVICE_TIMEOUT, function(data) {
+		$.fn.serviceCall('GET', '', newContentServiceName + 'km/content/id/' + id + '/state/' + state + '/version/'  + contentVersion, CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get draft content ID: ' + data);
 		    if (typeof data != 'undefined' && data != null && data != '') {
 		    	
@@ -1774,14 +1776,24 @@ $(document).ready(function() {
 
 	// Check to see if an id was passed in
 	var cId = $.fn.getParameterByName('id');
+	var hasVersion = false;
 	var cWorkflowState = $.fn.getParameterByName('workflowstate');
+	var cVersion = $.fn.getParameterByName('version');
+	if  (typeof cVersion != 'undefined' && cVersion != null &&  cVersion !='null' && cVersion != ''){
+		version  = cVersion;
+		hasVersion = true;
+	}
+	else  {
+		version = "";
+		cVersion = version;
+	}
 	if (typeof cId != 'undefined' && cId != null && cId != 'null' && cId != '') {
 		log('ContentID: ' + cId);
 		contentId = cId;
 		externalLink = true;
 		if (typeof cWorkflowState != 'undefined' && cWorkflowState != null && cWorkflowState != 'null' && cWorkflowState != '') {
 			log('Workflow State: ' + cWorkflowState);
-			$.fn.retrieveDraftContent(cId, cWorkflowState);
+			$.fn.retrieveDraftContent(cId, cWorkflowState, cVersion);
 		} else {
 			$.fn.retrieveContent(cId);
 		}

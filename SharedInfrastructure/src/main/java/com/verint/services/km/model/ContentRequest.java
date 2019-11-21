@@ -31,6 +31,8 @@ public class ContentRequest implements Serializable {
 	@XmlElement(nillable=true)
 	private String workflowState = "PUBLISHED";
 
+	@XmlElement(nillable=true)
+	private String version = "";
 	/**
 	 * Constructor
 	 */
@@ -44,7 +46,13 @@ public class ContentRequest implements Serializable {
 	public String getContentId() {
 		return contentId;
 	}
-
+	public String getVersion() {
+		return version;
+	}
+	
+	public void setVersion(String version) {
+		this.version = version;
+	}
 	/**
 	 * @param contentId the contentId to set
 	 */

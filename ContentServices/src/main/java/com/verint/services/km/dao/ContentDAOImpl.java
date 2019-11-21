@@ -180,7 +180,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		request.setContentID(contentRequest.getContentId());		
 		request.setLocale(Locale);
 		request.setUsername(contentRequest.getUsername());
-		request.setVersion("");
+		request.setVersion(contentRequest.getVersion());
 		request.setWorkflowState(contentRequest.getWorkflowState());
 		request.setPassword(contentRequest.getPassword());
 

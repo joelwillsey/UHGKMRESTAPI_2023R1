@@ -70,21 +70,29 @@ public class ContentService extends BaseService {
 	 * @return
 	 */
 	@GET
-	@Path("/id/{contentid}{state:(/state/[^/]+?)?}")
+	//@Path("/id/{contentid}{state:(/state/[^/]+?)?}")
+
+	@Path("/id/{contentid}{state:(/state/[^/]+?)?}{n:/?}{cVersion:(/version/[^/]+?)?}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public ContentResponse content(@PathParam("contentid") String contentid,
-    		@PathParam("state") String state,
+    		@PathParam("state") String state, @PathParam("cVersion") String cVersion,
     		@Context HttpServletRequest httpRequest) {
 		LOGGER.info("Entering content()");
 		LOGGER.debug("contentid: " + contentid);
 		String workflowState = "";
+		String version =  "";
 		if(state.equals("")){
 			LOGGER.debug("Optional parameter state not specified");
 		} else {
 			workflowState = state.split("/")[2];
 			LOGGER.debug("status: "+ workflowState);
 		}
-
+		if(cVersion.equals("")){
+			LOGGER.debug("Optional parameter version not specified");
+		} else {
+			version = cVersion.split("/")[2];
+			LOGGER.debug("version: "+ version);
+		}
 		ContentResponse contentResponse = null;
 		try {
 			// Check for a valid request
@@ -107,7 +115,9 @@ public class ContentService extends BaseService {
 			if(!workflowState.equals("")){
 				contentRequest.setWorkflowState(workflowState);
 			}
-			
+			if (cVersion!= null && !cVersion.equals("")) {
+				contentRequest.setVersion(version);
+			}
 			// Call the service
 			
 			contentResponse = contentDAO.getContent(contentRequest);
