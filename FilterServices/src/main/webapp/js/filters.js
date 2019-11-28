@@ -16,7 +16,7 @@ $(document).ready(function() {
 	});
 
 	// Service Cloud Reset link
-	$('.fs_cloud_reset').on('click', function() {
+	$('.fs_cloud_reset').on('click', function() {    
 		var kbasename = 'null';
 		$('.ul_all_tags li').each(function(index) {
 			log("Index: " + index);
@@ -1077,6 +1077,7 @@ $(document).ready(function() {
 		data = data.replace(/\(/g, " ");
 		data = data.replace(/\)/g, " ");
 		data = data.replace(/\//g, " ");
+		data = data.replace(/\'/g, " ");
 		log('removeSpecialCharacters end - ' + data);
 		return data;
 	}
