@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set +v
 # *************************************************************************
 # This script is used to export environment variables related to the container configuration.
@@ -36,5 +38,5 @@ export $KM_EM_APPSERVER_PORT
 # export KM_STARTUP_OPTIONS= -Denvironment.name=local -DconfigLocation=C:\em\projects\uhg\KMRestAPI\kmservices\config -Dmachine.name=localhost -Dcontainer.name=dev -DlogFile=C:\app_2\verint\projects\uhgiq\restapi\logs
 # export KM_MEMORY_OPTS= -Xms1024m -Xmx1024m
 
-echo Container (domain) is export to [$KM_DOMAIN]
-echo Your container environment has been export.
+echo Container (domain) has been exported to [$KM_DOMAIN]
+echo Your container environment has been exported.
