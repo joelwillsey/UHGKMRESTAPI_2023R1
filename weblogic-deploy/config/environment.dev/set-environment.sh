@@ -26,39 +26,57 @@ set +v
 # KM_CONFIG_ENVIRONMENT_export  - A flag to indicate that the export-config and export-environment properties have been export so no need to run them again for this session
 # *************************************************************************
 
+KM_ENVIRONMENT_NAME=dev
+export $KM_ENVIRONMENT_NAME
+
 # Path the em-appserver, export only KM_MW_HOME
-export KM_MW_HOME=/app_2/verint/em/containers/em-appserver
-export KM_WLS_HOME=$KM_MW_HOME/wlserver
+KM_MW_HOME=/app_2/verint/em/containers/em-appserver
+KM_WLS_HOME=$KM_MW_HOME/wlserver
+export $KM_MW_HOME
+export $KM_WLS_HOME
 
 # Path to war files export KM_RELEASE_DIRECTORY
-export KM_RELEASE_DIRECTORY=/app_2/verint/em/projects/uhgiq/restapi/release
+KM_RELEASE_DIRECTORY=/app_2/verint/em/projects/uhgiq/restapi/release
+export $KM_RELEASE_DIRECTORY
 
 # em-appserver logging directories
-export EM_KM_BASE_LOG_PATH=/app_2/verint/em/logs
-export EM_SERVER_LOGS=$EM_KM_BASE_LOG_PATH/$KM_DOMAIN/weblogic/server.log
-export EM_ACCESS_LOGS=$EM_KM_BASE_LOG_PATH/$KM_DOMAIN/weblogic/http-access.log
-export EM_DIAGNOSTIC_LOGS=$EM_KM_BASE_LOG_PATH/$KM_DOMAIN/weblogic/diagnostic-images
+EM_KM_BASE_LOG_PATH=/app_2/verint/em/logs
+EM_SERVER_LOGS=$EM_KM_BASE_LOG_PATH/$KM_DOMAIN/weblogic/server.log
+EM_ACCESS_LOGS=$EM_KM_BASE_LOG_PATH/$KM_DOMAIN/weblogic/http-access.log
+EM_DIAGNOSTIC_LOGS=$EM_KM_BASE_LOG_PATH/$KM_DOMAIN/weblogic/diagnostic-images
+export $EM_KM_BASE_LOG_PATH
+export $EM_SERVER_LOGS
+export $EM_ACCESS_LOGS
+export $EM_DIAGNOSTIC_LOGS
 
-export EM_IDENTITY_KEYSTORE=/app_2/verint/em/products/agent-desktop_15.3-FP6_5.6.0/config/config-exports/environment/environment.abstract-local-dev/resources/local-dev-keystore.jks
-export EM_IDENTITY_STORE_PASSPHRASE=changeit
-export EM_TRUST_KEYSTORE=/app_2/verint/em/products/agent-desktop_15.3-FP6_5.6.0/config/config-exports/environment/environment.abstract-local-dev/resources/local-dev-keystore.jks
-export EM_TRUST_STORE_PASSPHRASE=changeit
+EM_IDENTITY_KEYSTORE=/app_2/verint/em/products/agent-desktop_15.3-FP6_5.6.0/config/config-exports/environment/environment.abstract-local-dev/resources/local-dev-keystore.jks
+EM_IDENTITY_STORE_PASSPHRASE=changeit
+EM_TRUST_KEYSTORE=/app_2/verint/em/products/agent-desktop_15.3-FP6_5.6.0/config/config-exports/environment/environment.abstract-local-dev/resources/local-dev-keystore.jks
+EM_TRUST_STORE_PASSPHRASE=changeit
+export $EM_IDENTITY_KEYSTORE
+export $EM_IDENTITY_STORE_PASSPHRASE
+export $EM_TRUST_KEYSTORE
+export $EM_TRUST_STORE_PASSPHRASE
 
 # This is the java options the weblogic.WLST runs with
-export JAVA_WLST_OPTIONS=-Dweblogic.security.IdentityKeyStore=CustomIdentity -Dweblogic.security.CustomIdentityKeyStoreFileName=$EM_IDENTITY_KEYSTORE -Dweblogic.security.CustomIdentityKeyStorePassPhrase=$EM_IDENTITY_STORE_PASSPHRASE -Dweblogic.security.Identity.KeyStoreType=JKS -Dweblogic.security.TrustKeyStore=CustomTrust -Dweblogic.security.CustomTrustKeyStoreFileName=$EM_TRUST_KEYSTORE -Dweblogic.security.CustomTrustKeyStoreType=JKS -Dweblogic.security.CustomTrustKeyStorePassPhrase=$EM_TRUST_STORE_PASSPHRASE -Dweblogic.security.IgnoreHostNameVerification=true -Dweblogic.security.SSL.ignoreHostnameVerification=true
+JAVA_WLST_OPTIONS=-Dweblogic.security.IdentityKeyStore=CustomIdentity -Dweblogic.security.CustomIdentityKeyStoreFileName=$EM_IDENTITY_KEYSTORE -Dweblogic.security.CustomIdentityKeyStorePassPhrase=$EM_IDENTITY_STORE_PASSPHRASE -Dweblogic.security.Identity.KeyStoreType=JKS -Dweblogic.security.TrustKeyStore=CustomTrust -Dweblogic.security.CustomTrustKeyStoreFileName=$EM_TRUST_KEYSTORE -Dweblogic.security.CustomTrustKeyStoreType=JKS -Dweblogic.security.CustomTrustKeyStorePassPhrase=$EM_TRUST_STORE_PASSPHRASE -Dweblogic.security.IgnoreHostNameVerification=true -Dweblogic.security.SSL.ignoreHostnameVerification=true
+export $JAVA_WLST_OPTIONS
 
 # container start up options
-export KM_STARTUP_OPTIONS= -Denvironment.name=local -DconfigLocation=/app_2/verint/em/projects/uhg/KMRestAPI/kmservices/config -Dmachine.name=localhost -Dcontainer.name=dev -DlogFile=/app_2/verint/em/logs
-export KM_MEMORY_OPTS= -Xms1024m -Xmx1024m
+KM_STARTUP_OPTIONS= -Denvironment.name=local -DconfigLocation=/app_2/verint/em/projects/uhg/KMRestAPI/kmservices/config -Dmachine.name=localhost -Dcontainer.name=dev -DlogFile=/app_2/verint/em/logs
+KM_MEMORY_OPTS= -Xms1024m -Xmx1024m
+ORIGINAL_JAVA_OPTIONS = $JAVA_OPTIONS
 
-export ORIGINAL_JAVA_OPTIONS = $JAVA_OPTIONS
+export $KM_STARTUP_OPTIONS
+export $KM_MEMORY_OPTS
+export $ORIGINAL_JAVA_OPTIONS
 # export this variable as a check for the other scripts if the all config and environment variables have been export
 
 if [ -z "$KM_ENVIRONMENT_NAME" ]
 then
-	export KM_CONFIG_ENVIRONMENT_export=false
+	export KM_CONFIG_ENVIRONMENT_expor=false
 else
-	export KM_CONFIG_ENVIRONMENT_export=true
+	export KM_CONFIG_ENVIRONMENT_expor=true
 	echo export em-appserver path to $KM_MW_HOME
 	echo export WSLT path to $KM_WLS_HOME
 	echo export WSLT java options to $JAVA_WLST_OPTIONS
