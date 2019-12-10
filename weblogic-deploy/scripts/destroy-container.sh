@@ -29,10 +29,14 @@ if [ ! "$?" = "0" ]; then
 fi
 
 DIRECTORY="${KM_MW_HOME}/domains/server_${KM_DOMAIN}"
+echo "Directory to delete: ${DIRECTORY}"
 if [ -d DIRECTORY ]; then
+	echo "Attempting to delete domain directory: ${DIRECTORY}"
 	rm -rf $KM_MW_HOME/domains/server_$KM_DOMAIN
 	if [ ! "$?" = "0" ]; then
 		error "Unable to delete domain directory"
+	else
+		echo "Deleted directory successfully"
 	fi
 fi
 
