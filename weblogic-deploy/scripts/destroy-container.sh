@@ -24,14 +24,13 @@ echo command is $KM_WLS_HOME/common/bin/wlst.sh ../scripts/shutdown.py
 echo ---
 
 (exec $KM_WLS_HOME/common/bin/wlst.sh ../scripts/shutdown.py)
-
 if [ ! "$?" = "0" ]; then 
 	error "Unable to execute Python command!"
 fi
 
-DIRECTORY="${KM_MW_HOME}/domains/server_${KM_DOMAIN}/servers/${KM_DOMAIN}"
+DIRECTORY="${KM_MW_HOME}/domains/server_${KM_DOMAIN}"
 if [ -d DIRECTORY ]; then
-	rm -rf $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN
+	rm -rf $KM_MW_HOME/domains/server_$KM_DOMAIN
 	if [ ! "$?" = "0" ]; then
 		error "Unable to delete domain directory"
 	fi
