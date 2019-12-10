@@ -38,24 +38,24 @@ echo ---
 
 (exec $KM_WLS_HOME/common/bin/wlst.sh ../scripts/create-container.py)
 
-if [ ERRORLEVEL = 1 ]; then 
+if [ ! "$?" = "0" ]; then 
 	error
 fi
 
-DIRECTORY = $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN
+DIRECTORY="${KM_MW_HOME}/domains/server_${KM_DOMAIN}/servers/${KM_DOMAIN}"
 if [ ! -d DIRECTORY ]; then
 	mkdir $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN
-	if [ ERRORLEVEL = 1 ]; then
+	if [ ! "$?" = "0" ]; then
 		mkdir_error
 	fi
 	mkdir $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN/security
-	if [ ERRORLEVEL = 1 ]; then
+	if [ ! "$?" = "0" ]; then
 		mkdir_error
 	fi
     echo copying $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/AdminServer/security $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN/security
     echo
     cp --recursive --force $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/AdminServer/security $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN/security	
-	if [ ERRORLEVEL = 1 ]; then
+	if [ ! "$?" = "0" ]; then
 		copy_error
 	fi
 fi
