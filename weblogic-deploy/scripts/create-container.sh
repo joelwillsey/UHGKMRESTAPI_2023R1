@@ -19,7 +19,7 @@ function success () {
 	exit 0 
 }
 
-echo Creating contianer $CONTAINER_NAME
+echo Creating container $CONTAINER_NAME
 echo command is $KM_WLS_HOME/common/bin/wlst.sh ../scripts/create-container.py
 echo ---
 
@@ -33,11 +33,11 @@ DIRECTORY="${KM_MW_HOME}/domains/server_${KM_DOMAIN}/servers/${KM_DOMAIN}"
 if [ ! -d DIRECTORY ]; then
 	mkdir $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN
 	if [ ! "$?" = "0" ]; then
-		error "Unable to create new server directory"
+		error "Unable to create new domain directory"
 	fi
 	mkdir $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN/security
 	if [ ! "$?" = "0" ]; then
-		error "Unable to create new server directory"
+		error "Unable to create new domain security directory"
 	fi
     echo copying $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/AdminServer/security $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN/security
     echo
