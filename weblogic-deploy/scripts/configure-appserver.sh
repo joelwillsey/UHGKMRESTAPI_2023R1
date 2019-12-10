@@ -20,10 +20,9 @@ function success () {
 }
 
 echo Configure Appserver $CONTAINER_NAME
-echo Command is: java $JAVA_WLST_OPTIONS weblogic.WLST ../scripts/configure-general-exportings.py
+echo command is $KM_WLS_HOME/common/bin/wlst.sh ../scripts/configure-general-exportings.py
 echo ---
-
-(exec java $JAVA_WLST_OPTIONS weblogic.WLST ../scripts/configure-general-exportings.py)
+(exec $KM_WLS_HOME/common/bin/wlst.sh ../scripts/configure-general-exportings.py)
 
 if [ ! "$?" = "0" ]; then 
 	error "Unable to execute Python command!"
