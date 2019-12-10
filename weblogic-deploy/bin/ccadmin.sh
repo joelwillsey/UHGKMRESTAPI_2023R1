@@ -40,7 +40,7 @@ function setConfig () {
 	COMPUTER_NAME=$(hostname -f)
 	DIRECTORY="../config/environment.${ENVIRONMENT_NAME}/machine.${COMPUTER_NAME}"
 	# Check Machine Directory Exists
-	if [ "$(ls -A ${DIRECTORY})" ] 
+	if [ -d DIRECTORY ]; then
 		export KM_MACHINE_NAME="machine.localhost"
 	else
 		export KM_MACHINE_NAME="machine.${COMPUTER_NAME}"
