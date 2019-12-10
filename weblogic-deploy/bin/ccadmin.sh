@@ -41,12 +41,10 @@ function setConfig () {
 	DIRECTORY="../config/${ENVIRONMENT_NAME}/machine.${COMPUTER_NAME}"
 	# Check Machine Directory Exists
 	if [ ! -d $DIRECTORY ]; then 
-		KM_MACHINE_NAME="machine.localhost"
+		export=KM_MACHINE_NAME="machine.localhost"
 	else
-		KM_MACHINE_NAME="machine.${COMPUTER_NAME}"
+		export=KM_MACHINE_NAME="machine.${COMPUTER_NAME}"
 	fi
-	# Export Machine Name so we have it in create-container
-	export KM_MACHINE_NAME
 	if [ ERRORLEVEL = 1 ]; then 
 		echo "ERROR: Unable to set-environment.sh"
 		echo "bin/*.sh commands will fail without correcting this"
@@ -61,35 +59,25 @@ function setConfig () {
 
 function setEnvironment () {
 	# Path the em-appserver, export only KM_MW_HOME
-	KM_MW_HOME="/app_2/verint/em/containers/em-appserver"
-	KM_WLS_HOME="${KM_MW_HOME}/wlserver"
-	export $KM_MW_HOME
-	export $KM_WLS_HOME
+	export=KM_MW_HOME="/app_2/verint/em/containers/em-appserver"
+	export=KM_WLS_HOME="${KM_MW_HOME}/wlserver"
 	
 	# Path to war files export KM_RELEASE_DIRECTORY
-	KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/uhgiq/restapi/release"
-	export $KM_RELEASE_DIRECTORY
+	export=KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/uhgiq/restapi/release"
 	
 	# em-appserver logging directories
-	EM_KM_BASE_LOG_PATH="/app_2/verint/em/logs"
-	EM_SERVER_LOGS="${EM_KM_BASE_LOG_PATH}/${KM_DOMAIN}/weblogic/server.log"
-	EM_ACCESS_LOGS="${EM_KM_BASE_LOG_PATH}/${KM_DOMAIN}/weblogic/http-access.log"
-	EM_DIAGNOSTIC_LOGS="${EM_KM_BASE_LOG_PATH}/${KM_DOMAIN}/weblogic/diagnostic-images"
-	export $EM_KM_BASE_LOG_PATH
-	export $EM_SERVER_LOGS
-	export $EM_ACCESS_LOGS
-	export $EM_DIAGNOSTIC_LOGS
+	export=EM_KM_BASE_LOG_PATH="/app_2/verint/em/logs"
+	export=EM_SERVER_LOGS="${EM_KM_BASE_LOG_PATH}/${KM_DOMAIN}/weblogic/server.log"
+	export=EM_ACCESS_LOGS="${EM_KM_BASE_LOG_PATH}/${KM_DOMAIN}/weblogic/http-access.log"
+	export=EM_DIAGNOSTIC_LOGS="${EM_KM_BASE_LOG_PATH}/${KM_DOMAIN}/weblogic/diagnostic-images"
 	
 	# This is the java options the weblogic.WLST runs with
-	JAVA_WLST_OPTIONS="-Dweblogic.security.IdentityKeyStore=CustomIdentity -Dweblogic.security.CustomIdentityKeyStoreFileName=${EM_IDENTITY_KEYSTORE} -Dweblogic.security.CustomIdentityKeyStorePassPhrase=${EM_IDENTITY_STORE_PASSPHRASE} -Dweblogic.security.Identity.KeyStoreType=JKS -Dweblogic.security.TrustKeyStore=CustomTrust -Dweblogic.security.CustomTrustKeyStoreFileName=${EM_TRUST_KEYSTORE} -Dweblogic.security.CustomTrustKeyStoreType=JKS -Dweblogic.security.CustomTrustKeyStorePassPhrase=${EM_TRUST_STORE_PASSPHRASE} -Dweblogic.security.IgnoreHostNameVerification=true -Dweblogic.security.SSL.ignoreHostnameVerification=true"
-	export $JAVA_WLST_OPTIONS
+	export=JAVA_WLST_OPTIONS="-Dweblogic.security.IdentityKeyStore=CustomIdentity -Dweblogic.security.CustomIdentityKeyStoreFileName=${EM_IDENTITY_KEYSTORE} -Dweblogic.security.CustomIdentityKeyStorePassPhrase=${EM_IDENTITY_STORE_PASSPHRASE} -Dweblogic.security.Identity.KeyStoreType=JKS -Dweblogic.security.TrustKeyStore=CustomTrust -Dweblogic.security.CustomTrustKeyStoreFileName=${EM_TRUST_KEYSTORE} -Dweblogic.security.CustomTrustKeyStoreType=JKS -Dweblogic.security.CustomTrustKeyStorePassPhrase=${EM_TRUST_STORE_PASSPHRASE} -Dweblogic.security.IgnoreHostNameVerification=true -Dweblogic.security.SSL.ignoreHostnameVerification=true"
 
 	# container start up options
-	KM_STARTUP_OPTIONS=" -Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/uhg/KMRestAPI/kmservices/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
-	ORIGINAL_JAVA_OPTIONS=$JAVA_OPTIONS
+	export=KM_STARTUP_OPTIONS=" -Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/uhg/KMRestAPI/kmservices/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
+	export=ORIGINAL_JAVA_OPTIONS=$JAVA_OPTIONS
 
-	export $KM_STARTUP_OPTIONS
-	export $ORIGINAL_JAVA_OPTIONS
 	if [ ERRORLEVEL = 1 ]; then 
 		echo "Error in setEnvironment()"
 		endScriptFail
@@ -101,16 +89,11 @@ function setEnvironmentProperties () {
 	PROPERTY_FILE="../config/environment.${ENVIRONMENT_NAME}/environment.properties"
 	echo "# Reading properties from $PROPERTY_FILE"
 	
-	EM_IDENTITY_KEYSTORE=$(getProperty "em.identity.keystore")
-	EM_IDENTITY_STORE_PASSPHRASE=$(getProperty "em.identity.store.passphrase")
-	EM_TRUST_KEYSTORE=$(getProperty "em.trust.keystore")
-	EM_TRUST_STORE_PASSPHRASE=$(getProperty "em.trust.store.passphrase")
-	KM_MEMORY_OPTS=$(getProperty "km.memory.opts")
-	export $EM_IDENTITY_KEYSTORE
-	export $EM_IDENTITY_STORE_PASSPHRASE
-	export $EM_TRUST_KEYSTORE
-	export $EM_TRUST_STORE_PASSPHRASE
-	export $KM_MEMORY_OPTS
+	export=EM_IDENTITY_KEYSTORE=$(getProperty "em.identity.keystore")
+	export=EM_IDENTITY_STORE_PASSPHRASE=$(getProperty "em.identity.store.passphrase")
+	export=EM_TRUST_KEYSTORE=$(getProperty "em.trust.keystore")
+	export=EM_TRUST_STORE_PASSPHRASE=$(getProperty "em.trust.store.passphrase")
+	export=KM_MEMORY_OPTS=$(getProperty "km.memory.opts")
 }
 
 function setContainer () {
@@ -127,15 +110,10 @@ function setContainerProperties () {
 	PROPERTY_FILE="../config/environment.${ENVIRONMENT_NAME}/${KM_MACHINE_NAME}/container.${CONTAINER_NAME}/container.properties"
 	echo "# Reading properties from $PROPERTY_FILE"
 	
-	KM_MANAGEMENT_USERNAME=$(getProperty "km.management.username")
-	KM_MANAGEMENT_PASSWORD=$(getProperty "km.management.password")
-	KM_CONNECT_URL=$(getProperty "km.connect.url")
-	KM_EM_APPSERVER_PORT=$(getProperty "km.em.appserver.port")
-	
-	export $KM_MANAGEMENT_USERNAME
-	export $KM_MANAGEMENT_PASSWORD
-	export $KM_CONNECT_URL
-	export $KM_EM_APPSERVER_PORT
+	export=KM_MANAGEMENT_USERNAME=$(getProperty "km.management.username")
+	export=KM_MANAGEMENT_PASSWORD=$(getProperty "km.management.password")
+	export=KM_CONNECT_URL=$(getProperty "km.connect.url")
+	export=KM_EM_APPSERVER_PORT=$(getProperty "km.em.appserver.port")
 
 }
 
@@ -155,12 +133,11 @@ if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
 fi
 
 # Assign Variables
-export COMMAND_NAME=$1
-export ENVIRONMENT_NAME=$2
-export CONTAINER_NAME=$3
-
+export=COMMAND_NAME=$1
+export=ENVIRONMENT_NAME=$2
+export=CONTAINER_NAME=$3
 # Incase another script uses this variable directly
-export KM_ENVIRONMENT_NAME=$ENVIRONMENT_NAME
+export=KM_ENVIRONMENT_NAME=$ENVIRONMENT_NAME
 
 # Set Configuration 
 echo "---"
