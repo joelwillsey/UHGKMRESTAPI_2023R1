@@ -27,20 +27,3 @@ echo ---
 if [ ! "$?" = "0" ]; then
         error "Unable to execute Python command!"
 fi
-
-DIRECTORY="${KM_MW_HOME}/domains/server_${KM_DOMAIN}"
-echo "Directory to delete: ${DIRECTORY}"
-#if [ -d DIRECTORY ]; then
-if [ "$(ls -A ${DIRECTORY})" ]
-        echo "Attempting to delete domain directory: ${DIRECTORY}"
-then
-        rm -rf $KM_MW_HOME/domains/server_$KM_DOMAIN
-#       if [ ! "$?" = "0" ]; then
-else
-                error "Unable to delete domain directory"
-#       else
-#               echo "Deleted directory successfully"
-        fi
-
-
-success
