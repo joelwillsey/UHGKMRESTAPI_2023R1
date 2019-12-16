@@ -63,7 +63,7 @@ function setEnvironment () {
 	export KM_WLS_HOME="${KM_MW_HOME}/wlserver"
 	
 	# Path to war files export KM_RELEASE_DIRECTORY
-	export KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/uhgiq/restapi/release"
+	export KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/restapi/dev_rest/deployments"
 	
 	# em-appserver logging directories
 	export EM_KM_BASE_LOG_PATH="/app_2/verint/em/logs"
@@ -77,6 +77,7 @@ function setEnvironment () {
 	
 	# container start up options
 	export KM_STARTUP_OPTIONS=" -Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
+	
 	export ORIGINAL_JAVA_OPTIONS=$JAVA_OPTIONS
 
 	if [ ! "$?" = "0" ]; then 

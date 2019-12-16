@@ -13,7 +13,7 @@ identityKeystorePassphrase = os.environ.get('EM_IDENTITY_STORE_PASSPHRASE')
 trustKeystorePath = os.environ.get('EM_TRUST_KEYSTORE')
 trustKeystorePassphrase = os.environ.get('EM_TRUST_STORE_PASSPHRASE')
 privateKeyPassphrase = 'changeit'
-httpsEnabled = false
+httpsEnabled = true
 
 # WebLogic does not allow the http and https port to be the same.
 # Only one of the ports is enabled so changing the port here is okay
