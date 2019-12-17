@@ -19,7 +19,7 @@ function success () {
 	exit 0 
 }
 
-echo Configure Appserver $CONTAINER_NAME
+echo Deploy Application $CONTAINER_NAME
 echo command is $KM_WLS_HOME/common/bin/wlst.sh ../scripts/deploy-war-files.py
 echo ---
 (exec $KM_WLS_HOME/common/bin/wlst.sh ../scripts/deploy-war-files.py)

@@ -40,8 +40,10 @@ function setConfig () {
 	COMPUTER_NAME=$(hostname -f)
 	DIRECTORY="../config/environment.${ENVIRONMENT_NAME}/machine.${COMPUTER_NAME}"
 	# Check Machine Directory Exists
-	if [ -d DIRECTORY ]; then
-		export KM_MACHINE_NAME="machine.localhost"
+	if [ -d DIRECTORY ];
+#if [ "$(ls -A ${DIRECTORY})" ] 
+	then
+	export KM_MACHINE_NAME="machine.localhost"
 	else
 		export KM_MACHINE_NAME="machine.${COMPUTER_NAME}"
 	fi
@@ -64,20 +66,22 @@ function setEnvironment () {
 	
 	# Path to war files export KM_RELEASE_DIRECTORY
 	export KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/restapi/dev_rest/deployments"
-	
+
 	# em-appserver logging directories
 	export EM_KM_BASE_LOG_PATH="/app_2/verint/em/logs"
 	export EM_SERVER_LOGS="${EM_KM_BASE_LOG_PATH}/${KM_DOMAIN}/weblogic/server.log"
 	export EM_ACCESS_LOGS="${EM_KM_BASE_LOG_PATH}/${KM_DOMAIN}/weblogic/http-access.log"
 	export EM_DIAGNOSTIC_LOGS="${EM_KM_BASE_LOG_PATH}/${KM_DOMAIN}/weblogic/diagnostic-images"
-	
 	# This is the java options the weblogic.WLST runs with
+
 	export JAVA_WLST_OPTIONS="-Dweblogic.security.IdentityKeyStore=CustomIdentity -Dweblogic.security.CustomIdentityKeyStoreFileName=${EM_IDENTITY_KEYSTORE} -Dweblogic.security.CustomIdentityKeyStorePassPhrase=${EM_IDENTITY_STORE_PASSPHRASE} -Dweblogic.security.CustomIdentityKeyStoreType=JKS -Dweblogic.security.TrustKeyStore=CustomTrust -Dweblogic.security.CustomTrustKeyStoreFileName=${EM_TRUST_KEYSTORE} -Dweblogic.security.CustomTrustKeyStoreType=JKS -Dweblogic.security.CustomTrustKeyStorePassPhrase=${EM_TRUST_STORE_PASSPHRASE} -Dweblogic.security.IgnoreHostNameVerification=true -Dweblogic.security.SSL.ignoreHostnameVerification=true"
 	export WLST_PROPERTIES="-Dweblogic.security.IdentityKeyStore=CustomIdentity -Dweblogic.security.CustomIdentityKeyStoreFileName=${EM_IDENTITY_KEYSTORE} -Dweblogic.security.CustomIdentityKeyStorePassPhrase=${EM_IDENTITY_STORE_PASSPHRASE} -Dweblogic.security.CustomIdentityKeyStoreType=JKS -Dweblogic.security.TrustKeyStore=CustomTrust -Dweblogic.security.CustomTrustKeyStoreFileName=${EM_TRUST_KEYSTORE} -Dweblogic.security.CustomTrustKeyStoreType=JKS -Dweblogic.security.CustomTrustKeyStorePassPhrase=${EM_TRUST_STORE_PASSPHRASE} -Dweblogic.security.IgnoreHostNameVerification=true -Dweblogic.security.SSL.ignoreHostnameVerification=true"
 	
-	# container start up options
-	export KM_STARTUP_OPTIONS=" -Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
-	
+
+# container start up options
+
+#	export KM_STARTUP_OPTIONS="-Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
+	export KM_STARTUP_OPTIONS="-Denvironment.name=dev -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=apvrd39317.uhc.com -Dcontainer.name=km -DlogFile=/app_2/verint/em/logs"
 	export ORIGINAL_JAVA_OPTIONS=$JAVA_OPTIONS
 
 	if [ ! "$?" = "0" ]; then 
@@ -154,8 +158,8 @@ setConfig
 echo "Finished running setConfig()"
 echo "---"
 echo "Started running setEnvironment()"
-setEnvironment
 setEnvironmentProperties
+setEnvironment
 echo "Finished running setEnvironment()"
 echo "---"
 echo "Started running setContainer()"
@@ -163,8 +167,6 @@ setContainer
 setContainerProperties
 echo "Finshed running setContainer()"
 echo "---"
+echo "KM_STARTUP_OPTIONS ${KM_STARTUP_OPTIONS}"
 echo "Running command: ${COMMAND_NAME}"
 (exec ../scripts/$COMMAND_NAME.sh)
-
-
-

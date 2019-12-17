@@ -22,7 +22,7 @@ function success () {
 echo Start Appserver $CONTAINER_NAME
 echo command is $KM_MW_HOME/domains/server_$CONTAINER_NAME/bin/startWebLogic.sh
 echo ---
-(exec $KM_MW_HOME/domains/server_$CONTAINER_NAME/bin/startWebLogic.sh -Dweblogic.management.username=kmappservermanager -Dweblogic.management.password=kmappserver123 & )
+(exec $KM_MW_HOME/domains/server_$CONTAINER_NAME/bin/startWebLogic.sh -Dweblogic.Name=km -Dweblogic.management.username=kmappservermanager -Dweblogic.management.password=kmappserver123 -Dweblogic.security.SSL.ignoreHostnameVerification=true & )
 
 if [ ! "$?" = "0" ]; then 
 	error "Unable to execute Python command!"
