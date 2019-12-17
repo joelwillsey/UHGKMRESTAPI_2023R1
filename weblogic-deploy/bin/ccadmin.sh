@@ -82,7 +82,8 @@ function setEnvironment () {
 
 #	export KM_STARTUP_OPTIONS="-Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
 	export KM_STARTUP_OPTIONS="-Denvironment.name=dev -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=apvrd39317.uhc.com -Dcontainer.name=km -DlogFile=/app_2/verint/em/logs"
-	export ORIGINAL_JAVA_OPTIONS=$JAVA_OPTIONS
+#	export ORIGINAL_JAVA_OPTIONS=$JAVA_OPTIONS
+export JAVA_OPTIONS=$ORIGINAL_JAVA_OPTIONS $KM_STARTUP_OPTIONS
 
 	if [ ! "$?" = "0" ]; then 
 		echo "Error in setEnvironment()"
