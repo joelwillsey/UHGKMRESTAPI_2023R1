@@ -24,7 +24,8 @@
 		<param-value>
             classpath:spring.xml
             <!-- file:${configLocation}/environment.${environment.name}/spring-security-context.xml -->
-            file:${configLocation}/environment.${environment.name}/spring-siteminder-security-context.xml
+            <!--  file:${configLocation}/environment.${environment.name}/spring-siteminder-security-context.xml  -->
+		file:/app_2/verint/em/projects/restapi/km/weblogic-deploy/config/spring-security-context.xml		
         </param-value>
 	</context-param>
     <context-param>

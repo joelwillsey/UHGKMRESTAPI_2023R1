@@ -63,7 +63,8 @@ function setEnvironment () {
 	export KM_WLS_HOME="${KM_MW_HOME}/wlserver"
 	
 	# Path to war files export KM_RELEASE_DIRECTORY
-	export KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/restapi/dev_rest/deployments"
+	# export KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/restapi/dev_rest/deployments"
+	export KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/restapi/km/deployments"
 	
 	# em-appserver logging directories
 	export EM_KM_BASE_LOG_PATH="/app_2/verint/em/logs"
@@ -76,7 +77,8 @@ function setEnvironment () {
 	export WLST_PROPERTIES="-Dweblogic.security.IdentityKeyStore=CustomIdentity -Dweblogic.security.CustomIdentityKeyStoreFileName=${EM_IDENTITY_KEYSTORE} -Dweblogic.security.CustomIdentityKeyStorePassPhrase=${EM_IDENTITY_STORE_PASSPHRASE} -Dweblogic.security.CustomIdentityKeyStoreType=JKS -Dweblogic.security.TrustKeyStore=CustomTrust -Dweblogic.security.CustomTrustKeyStoreFileName=${EM_TRUST_KEYSTORE} -Dweblogic.security.CustomTrustKeyStoreType=JKS -Dweblogic.security.CustomTrustKeyStorePassPhrase=${EM_TRUST_STORE_PASSPHRASE} -Dweblogic.security.IgnoreHostNameVerification=true -Dweblogic.security.SSL.ignoreHostnameVerification=true"
 	
 	# container start up options
-	export KM_STARTUP_OPTIONS=" -Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
+	#export KM_STARTUP_OPTIONS=" -Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
+	export KM_STARTUP_OPTIONS=" -Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/km/weblogic-deploy/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
 	
 	export ORIGINAL_JAVA_OPTIONS=$JAVA_OPTIONS
 
