@@ -41,7 +41,7 @@ if [ ! -d DIRECTORY ]; then
 	fi
     echo copying $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/AdminServer/security $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN/security
     echo
-    cp --recursive --force $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/AdminServer/security $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN/security	
+    cp --recursive --force $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/AdminServer/security $KM_MW_HOME/domains/server_$KM_DOMAIN/servers/$KM_DOMAIN/
 	if [ ! "$?" = "0" ]; then
 		error "Unable to copy security folder to new server!"
 	fi

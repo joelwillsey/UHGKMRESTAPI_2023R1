@@ -21,6 +21,10 @@ function success () {
 
 echo Deploy Application $CONTAINER_NAME
 echo command is $KM_WLS_HOME/common/bin/wlst.sh ../scripts/deploy-war-files.py
+echo "KM Startup Options = " $KM_STARTUP_OPTIONS
+echo "Java Options = " $JAVA_OPTIONS
+echo "Original Java Options = " $ORIGINAL_JAVA_OPTIONS
+echo "WLST Properties = " $WLST_PROPERTIES
 echo ---
 (exec $KM_WLS_HOME/common/bin/wlst.sh ../scripts/deploy-war-files.py)
 
