@@ -65,7 +65,7 @@ function setEnvironment () {
 	export KM_WLS_HOME="${KM_MW_HOME}/wlserver"
 	
 	# Path to war files export KM_RELEASE_DIRECTORY
-	export KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/restapi/dev_rest/deployments"
+	export KM_RELEASE_DIRECTORY="/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/deployments"
 
 	# em-appserver logging directories
 	export EM_KM_BASE_LOG_PATH="/app_2/verint/em/logs"
@@ -80,11 +80,11 @@ function setEnvironment () {
 
 # container start up options
 
-#	export KM_STARTUP_OPTIONS="-Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=${KM_MACHINE_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
-	export KM_STARTUP_OPTIONS="-Denvironment.name=dev -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=apvrd39317.uhc.com -Dcontainer.name=km -DlogFile=/app_2/verint/em/logs"
+	export KM_STARTUP_OPTIONS="-Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/config -Dmachine.name=${COMPUTER_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
+#	export KM_STARTUP_OPTIONS="-Denvironment.name=dev -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=apvrd39317.uhc.com -Dcontainer.name=km -DlogFile=/app_2/verint/em/logs"
 	export WLST_PROPERTIES="${KM_STARTUP_OPTIONS} ${WLST_PROPERTIES}"
-	export configLocation="/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config"
-	export environment.name="dev"
+	export configLocation="/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/config"
+	#export environment.name="${ENVIRONMENT_NAME}"
 	export ORIGINAL_JAVA_OPTIONS=${JAVA_OPTIONS}
 	export JAVA_OPTIONS="${ORIGINAL_JAVA_OPTIONS} ${KM_STARTUP_OPTIONS}"
       
@@ -95,9 +95,8 @@ function setEnvironment () {
 	fi
 	echo "Successfully exported the environment variables"	
 }
-
 function setEnvironmentProperties () {
-	PROPERTY_FILE="../config/environment.${ENVIRONMENT_NAME}/environment.properties"
+	PROPERTY_FILE="/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/config/environment.${ENVIRONMENT_NAME}/environment.properties"
 	echo "# Reading properties from $PROPERTY_FILE"
 	
 	export EM_IDENTITY_KEYSTORE=$(getProperty "em.identity.keystore")
@@ -118,7 +117,7 @@ function setContainer () {
 }
 
 function setContainerProperties () {
-	PROPERTY_FILE="../config/environment.${ENVIRONMENT_NAME}/${KM_MACHINE_NAME}/container.${CONTAINER_NAME}/container.properties"
+	PROPERTY_FILE="/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/config/environment.${ENVIRONMENT_NAME}/${KM_MACHINE_NAME}/container.${CONTAINER_NAME}/container.properties"
 	echo "# Reading properties from $PROPERTY_FILE"
 	
 	export KM_MANAGEMENT_USERNAME=$(getProperty "km.management.username")
@@ -176,4 +175,4 @@ echo "KM_STARTUP_OPTIONS ${KM_STARTUP_OPTIONS}"
 echo "Java Options = ${JAVA_OPTIONS}"
 
 echo "Running command: ${COMMAND_NAME}"
-(exec ../scripts/$COMMAND_NAME.sh)
+(exec /app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/scripts/$COMMAND_NAME.sh)
