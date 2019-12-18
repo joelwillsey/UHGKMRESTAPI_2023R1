@@ -26,7 +26,7 @@ echo "Java Options = " $JAVA_OPTIONS
 echo "Original Java Options = " $ORIGINAL_JAVA_OPTIONS
 echo "WLST Properties = " $WLST_PROPERTIES
 echo ---
-(exec $KM_WLS_HOME/common/bin/wlst.sh ../scripts/deploy-war-files.py)
+(exec $KM_WLS_HOME/common/bin/wlst.sh /app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/scripts/deploy-war-files.py)
 
 if [ ! "$?" = "0" ]; then 
 	error "Unable to execute Python command!"

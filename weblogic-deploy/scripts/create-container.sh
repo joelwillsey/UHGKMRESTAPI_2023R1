@@ -23,7 +23,7 @@ echo Creating container $CONTAINER_NAME
 echo command is $KM_WLS_HOME/common/bin/wlst.sh ../scripts/create-container.py
 echo ---
 
-(exec $KM_WLS_HOME/common/bin/wlst.sh ../scripts/create-container.py)
+(exec $KM_WLS_HOME/common/bin/wlst.sh /app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/scripts/create-container.py)
 
 if [ ! "$?" = "0" ]; then 
 	error "Unable to execute Python command!"
