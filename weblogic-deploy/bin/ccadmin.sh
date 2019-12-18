@@ -81,13 +81,11 @@ function setEnvironment () {
 # container start up options
 
 	export KM_STARTUP_OPTIONS="-Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/config -Dmachine.name=${COMPUTER_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
-#	export KM_STARTUP_OPTIONS="-Denvironment.name=dev -DconfigLocation=/app_2/verint/em/projects/restapi/dev_rest/weblogic-deploy/config -Dmachine.name=apvrd39317.uhc.com -Dcontainer.name=km -DlogFile=/app_2/verint/em/logs"
 	export WLST_PROPERTIES="${KM_STARTUP_OPTIONS} ${WLST_PROPERTIES}"
 	export configLocation="/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/config"
-	#export environment.name="${ENVIRONMENT_NAME}"
 	export ORIGINAL_JAVA_OPTIONS=${JAVA_OPTIONS}
 	export JAVA_OPTIONS="${ORIGINAL_JAVA_OPTIONS} ${KM_STARTUP_OPTIONS}"
-      
+   
 
 	if [ ! "$?" = "0" ]; then 
 		echo "Error in setEnvironment()"
