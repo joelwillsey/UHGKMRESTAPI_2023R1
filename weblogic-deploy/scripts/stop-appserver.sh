@@ -4,7 +4,7 @@ set +v
 
 echo
 echo ==========================
-echo Destroy the KMRestAPI Container
+echo Stopping Appserver
 echo ==========================
 echo
 

@@ -4,7 +4,7 @@ set +v
 
 echo
 echo ==========================
-echo Create the KMRestAPI Container
+echo Starting Appserver
 echo ==========================
 echo
 
