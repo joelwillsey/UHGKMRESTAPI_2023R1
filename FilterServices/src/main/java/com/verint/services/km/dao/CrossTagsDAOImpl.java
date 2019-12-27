@@ -92,7 +92,8 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 		try {
 			// Loop through all source tags
 			for (int s = 0; (sourcetag != null && s < sourcetag.length); s++) {
-				final String query = "SELECT t.tagset, t.tag, t.preselected, t.select_children FROM X_CROSSTAG c JOIN X_CROSSTAG_SOURCE s ON s.CROSSTAG_ID = c.ID JOIN X_CROSSTAG_TARGET t ON t.CROSSTAG_ID = c.ID WHERE s.TAG = ? AND t.TAGSET = ?";
+				//final String query = "SELECT t.tagset, t.tag, t.preselected, t.select_children FROM X_CROSSTAG c JOIN X_CROSSTAG_SOURCE s ON s.CROSSTAG_ID = c.ID JOIN X_CROSSTAG_TARGET t ON t.CROSSTAG_ID = c.ID WHERE s.TAG = ? AND t.TAGSET = ?";
+				final String query = "SELECT t.tagset, t.tag, t.preselected, t.select_children FROM AKTR_TAG_RELATIONSHIP c JOIN AKTR_TAG_REL_SOURCE s ON s.CROSSTAG_ID = c.ID JOIN AKTR_TAG_REL_TARGET t ON t.CROSSTAG_ID = c.ID WHERE s.TAG = ? AND t.TAGSET = ?";
 				stmt = connection.prepareStatement(query);
 				stmt.setString(1, sourcetag[s]);
 				stmt.setString(2, currentTagSet);
