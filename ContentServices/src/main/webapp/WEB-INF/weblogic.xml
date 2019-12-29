@@ -35,5 +35,22 @@
 			<wls:package-name>org.objectweb.asm.*</wls:package-name>
 			<wls:package-name>antlr.*</wls:package-name>
 		</wls:prefer-application-packages>
+		
+		<wls:prefer-application-resources>
+		  <!-- apis -->
+		  <resource-name>javax.ws.rs.*</resource-name>
+		  <!-- jersey -->
+		  <wls:resource-name>META-INF/services/org.glassfish.jersey.*</wls:resource-name>
+		  <wls:resource-name>com.sun.research.ws.wadl.*</wls:resource-name>
+		  <wls:resource-name>com.sun.ws.rs.ext.*</wls:resource-name>
+		  <wls:resource-name>org.glassfish.jersey.*</wls:resource-name>
+		  <wls:resource-name>jersey.repackaged.*</wls:resource-name>
+		  <!-- hk2 -->
+		  <wls:resource-name>META-INF/services/org.glassfish.hk2.*</wls:resource-name>
+		  <wls:resource-name>org.glassfish.hk2.*</wls:resource-name>
+		  <wls:resource-name>org.jvnet.hk2.*</wls:resource-name>
+		  <wls:resource-name>org.jvnet.hk2.tiger_types.*</wls:resource-name>
+		</wls:prefer-application-resources>
+		
 	</wls:container-descriptor>	
 </wls:weblogic-web-app>
