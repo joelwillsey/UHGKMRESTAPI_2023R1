@@ -34,6 +34,8 @@
 			,"KM_UHC_Global_Underwriting","KM_CnS_Retention"
 			,"KM_ProviderAdvocacyCenter","KM_LearningSolutions","KM_UHCBrandedOptum","KM_UHCG_Sales_Demand_Mgmt","KM_EnI_Group_Specific"
 			,"KM_Family_Engagement_Center","KM_UHCGlobalRiskandSecurity","KM_National_MedTrans"
+			,"KM_CnS_Texas_Service_Coord","KM_Population_Health_Solutions","KM_Region_5_National_Provider"
+			,"KM_EnI_NBS","KM_EnI_Supervisor_NPSR"
 			};
 	
 	String parsedGroups=parseKMGroups(kmGroups,GLOBAL_GROUPS );
