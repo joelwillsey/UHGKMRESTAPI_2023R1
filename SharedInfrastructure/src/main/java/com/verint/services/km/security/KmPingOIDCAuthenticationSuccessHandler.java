@@ -57,8 +57,8 @@ public class KmPingOIDCAuthenticationSuccessHandler extends SimpleUrlAuthenticat
 		
 		// Use the DefaultSavedRequest URL
 		LOGGER.debug("Sending contents of URL: " + newUrl);
-		//getRedirectStrategy().sendRedirect(request, response, newUrl);
-		response.sendRedirect(newUrl);
+		getRedirectStrategy().sendRedirect(request, response, newUrl);
+		//response.sendRedirect(newUrl);
 		LOGGER.info("Exiting onAuthenticationSuccess()");
 	}
 	
@@ -80,7 +80,7 @@ public class KmPingOIDCAuthenticationSuccessHandler extends SimpleUrlAuthenticat
 			result = FILTER_SERVICES + url;
 		}
 			
-		//result = url;
+		result = url;
 				
 		return result;
 	}

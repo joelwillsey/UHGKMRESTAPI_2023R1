@@ -64,6 +64,8 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	private static final String	SSO_LAST_NAME = "SSO_LAST_NAME";
 	private static final String KB_NAMES = "KB_NAMES";
 	private static final String X_KM_AUTHORIZATION = "x-km-authorization";
+	private static final String AUTH_TOKEN_COOKIE_NAME = "AuthToken";
+	private static final String AGENT_INFO_COOKIE_NAME = "AgentInfo";
 	/**
 	 * The auhtorization code query parameter.
 	 */
@@ -259,11 +261,12 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			        //LOGGER.debug("agentInfo: " + agentInfo);
 					response.setHeader(X_KM_AUTHORIZATION, authToken);
 					response.setHeader(USERNAME, user);
-					response.setHeader(FIRST_NAME, user);
-					response.setHeader(LAST_NAME, user);
+					response.setHeader(FIRST_NAME, ssoFirstName);
+					response.setHeader(LAST_NAME, ssoLastName);
 					//response.setHeader(GROUPS, kbList);
-					response.setHeader("Set-Cookie", "AuthToken=" + authToken + "; path=/ ; HttpOnly");
-					response.setHeader("Set-Cookie", "AgentInfo=" + agentInfo + "; path=/ ; HttpOnly");
+					LOGGER.debug("Adding AuthToken ['" + authToken + "'] and AgentInfo ['"+ agentInfo + "'] cookies: ");
+					response.setHeader("Set-Cookie", "AgentInfo=" + agentInfo + "; path=/");
+					response.setHeader("Set-Cookie", "AuthToken=" + authToken + "; path=/");
 					
 				} catch (UnsupportedEncodingException eu) {
 					LOGGER.error("UnsupportedEncodingException" + eu.getMessage());

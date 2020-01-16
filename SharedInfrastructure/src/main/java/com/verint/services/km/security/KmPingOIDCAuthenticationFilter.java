@@ -9,9 +9,11 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.FilterChain;
@@ -29,6 +31,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -197,13 +200,6 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 			final Cookie[]cookies = request.getCookies();
 			
 			if (cookies != null) {
-//				for (int x = 0; x < cookies.length; x++) {
-//					LOGGER.debug("Cookie: " +cookies[x].getName() + "=" + cookies[x].getValue());
-//					if ("AuthToken".equals(cookies[x].getName())) {
-//						authToken = cookies[x].getValue();
-//						LOGGER.debug("AuthToken: " + authToken);
-//					}
-//				}
 				String rawCookie = request.getHeader("Cookie");
 				String[] rawCookieParams = rawCookie.split(";");
 				for(String rawCookieNameAndValue :rawCookieParams)
@@ -223,17 +219,14 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 			if (authToken != null) {
 				final String[] tokens = extractAndDecodeHeader(authToken, request);
 				assert tokens.length == 2;
-				username = tokens[0];
-		
-//					DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
-//					try {
-//						expiration = df.parse(tokens[1]);
-//					} catch (java.text.ParseException pe) {
-//						LOGGER.error("ParseException", pe);
-//					}
-	
-//				LOGGER.debug("Ping Authentication Authorization header found for user '" + username + "' expiration=" + expiration.toString());
-				LOGGER.debug("Ping Authentication Authorization header found for user '" + username + "'");
+				ssoUserName = tokens[0];
+				dummyPassword = tokens[1];
+				Authentication authenticationToken = setAuthentication(ssoUserName, dummyPassword);
+				SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+				rememberMeServices.loginSuccess(request, response, authenticationToken);
+				LOGGER.debug("Ping Authentication Authorization cookie found for user '" + ssoUserName + "'");
+				chain.doFilter(request, response);
+				return;
 			}
 		}
 		
@@ -245,7 +238,11 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 				assert tokens.length == 2;
 				ssoUserName = tokens[0];
 				dummyPassword = tokens[1];
-				LOGGER.debug("Basic Authentication Authorization header found for user '" + ssoUserName + "'");
+				Authentication authenticationToken = setAuthentication(ssoUserName, dummyPassword);
+				SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+				rememberMeServices.loginSuccess(request, response, authenticationToken);
+				
+				LOGGER.debug("Basic Authentication Authorization header found for user '" + ssoUserName + "', processing filters");
 				chain.doFilter(request, response);
 				return;
 			} catch (Exception exc){
@@ -306,7 +303,7 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 					LOGGER.info("Exiting doFilterInternal()");
 					return;
 				} else {
-					LOGGER.info("authCode: " + authCode + " was present when it should not have been, wrong filter");
+					LOGGER.info("authCode: " + authCode + " was present, wrong filter (This is normal)");
 				}								
 			} else {
 				LOGGER.info("authenticationIsRequired = false");
@@ -413,6 +410,14 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		return false;
+	}
+	
+	public Authentication setAuthentication(String username, String password) {		
+		// Now grant the proper access
+		final SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_REST");
+		final List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+		authorities.add(authority);
+		return new UsernamePasswordAuthenticationToken(username, password, authorities);
 	}
 	
 	private String createCSRFToken() {
