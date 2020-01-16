@@ -52,8 +52,8 @@
 	<beans:bean id="pingOIDCAuthCodeFilter" class="com.verint.services.km.security.KmPingOIDCAuthCodeFilter">
   		<beans:property name="authenticationManager" ref="authenticationManager"/>
   		<beans:property name="authenticationEntryPoint" ref="unauthorizedEntryPoint"/>
-		<beans:property name="jsonWebKeysURL" value="https://authgateway1-stg.entiam.uhg.com/pf/JWKS"/>	
-		<beans:property name="tokenURL" value="https://authgateway1-stg.entiam.uhg.com/as/token.oauth2"/>	
+		<beans:property name="jsonWebKeysURL" value="https://authgateway1-dev.entiam.uhg.com/pf/JWKS"/>	
+		<beans:property name="tokenURL" value="https://authgateway1-dev.entiam.uhg.com/as/token.oauth2"/>	
 		<beans:property name="clientId" value="DEV_KC"/>
 		<beans:property name="clientSecret" value="BELidmUPemS5JqxuGJdduADiH6YhbzPz3fmHjmFdmjhFH1r8hIRUNixkWWnRJQS7"/>
 		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>		
@@ -84,7 +84,7 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans"/>
 	<beans:bean id="pingOIDCAuthenticationFilter" class="com.verint.services.km.security.KmPingOIDCAuthenticationFilter">
   		<beans:property name="authenticationManager" ref="authenticationManager"/>
   		<beans:property name="authenticationEntryPoint" ref="unauthorizedEntryPoint"/>
-		<beans:property name="authenticateURL" value="https://authgateway1-stg.entiam.uhg.com/as/authorization.oauth2"/>	
+		<beans:property name="authenticateURL" value="https://authgateway1-dev.entiam.uhg.com/as/authorization.oauth2"/>	
 		<beans:property name="responseType" value="code"/>
 		<beans:property name="clientId" value="DEV_KC"/>
 		<beans:property name="scope" value="openid%20profile%20address%20email%20phone"/>
