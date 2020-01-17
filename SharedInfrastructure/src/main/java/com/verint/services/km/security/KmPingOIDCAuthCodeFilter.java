@@ -267,7 +267,7 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 					//LOGGER.debug("Adding AuthToken ['" + authToken + "'] and AgentInfo ['"+ agentInfo + "'] cookies: ");
 					//response.setHeader("Set-Cookie", "AgentInfo=" + agentInfo + "; path=/");
 					//response.setHeader("Set-Cookie", "AuthToken=" + authToken + "; path=/");
-					LOGGER.debug("Adding " +  AGENT_INFO_COOKIE_NAME + " ['"+ agentInfo + "'] cookies: ");
+					LOGGER.debug("Adding " +  AGENT_INFO_COOKIE_NAME + " ['"+ agentInfo + "'] cookies");
 					Cookie agentInfoCookie = new Cookie(AGENT_INFO_COOKIE_NAME, agentInfo);
 					agentInfoCookie.setPath("/");
 					response.addCookie(agentInfoCookie);
