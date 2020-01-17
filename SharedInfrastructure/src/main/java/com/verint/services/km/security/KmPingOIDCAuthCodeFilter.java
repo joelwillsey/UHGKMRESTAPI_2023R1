@@ -264,14 +264,14 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 					response.setHeader(FIRST_NAME, ssoFirstName);
 					response.setHeader(LAST_NAME, ssoLastName);
 					//response.setHeader(GROUPS, kbList);
-					LOGGER.debug("Adding AuthToken ['" + authToken + "'] and AgentInfo ['"+ agentInfo + "'] cookies: ");
+					//LOGGER.debug("Adding AuthToken ['" + authToken + "'] and AgentInfo ['"+ agentInfo + "'] cookies: ");
 					//response.setHeader("Set-Cookie", "AgentInfo=" + agentInfo + "; path=/");
 					//response.setHeader("Set-Cookie", "AuthToken=" + authToken + "; path=/");
-					
+					LOGGER.debug("Adding " +  AGENT_INFO_COOKIE_NAME + " ['"+ agentInfo + "'] cookies: ");
 					Cookie agentInfoCookie = new Cookie(AGENT_INFO_COOKIE_NAME, agentInfo);
 					agentInfoCookie.setPath("/");
 					response.addCookie(agentInfoCookie);
-					
+					LOGGER.debug("Adding " + AUTH_TOKEN_COOKIE_NAME + " ['" + authToken + "'] cookie");
 					Cookie authTokenCookie = new Cookie(AUTH_TOKEN_COOKIE_NAME , authToken);
 					authTokenCookie.setPath("/");
 					response.addCookie(authTokenCookie);
