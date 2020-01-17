@@ -13,6 +13,8 @@
 	<!-- Stateless RESTful services use custom BASIC authentication -->
     <security:http create-session="stateless" use-expressions="false" auto-config="false" entry-point-ref="unauthorizedEntryPoint" authentication-manager-ref="authenticationManager">
     	<security:intercept-url pattern="/km/ping/login" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<security:intercept-url pattern="/km/login" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<security:intercept-url pattern="/km/login_v2" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:intercept-url pattern="/km/**" access="ROLE_REST"/>
 		<security:custom-filter position="BASIC_AUTH_FILTER" ref="pingOIDCAuthenticationFilter" />
 		<security:custom-filter after="BASIC_AUTH_FILTER" ref="pingFilter"/>
