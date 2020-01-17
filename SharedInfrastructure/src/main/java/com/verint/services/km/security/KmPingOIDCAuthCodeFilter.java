@@ -553,6 +553,11 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			strRedirectURI = strRedirectURI.replaceFirst("http", "https");
 		}
 		
+		if (strRedirectURI.indexOf(":80/") != -1) {
+			LOGGER.debug("Removing port 80 which should never be on https: " + strRedirectURI);
+			strRedirectURI = strRedirectURI.replaceFirst(":80/", "/");
+		}
+		
 		LOGGER.debug("Modified from request URL - savedUrl: " + strRedirectURI);
 		LOGGER.info("Exiting createRedirectURI()");
 		return strRedirectURI;
