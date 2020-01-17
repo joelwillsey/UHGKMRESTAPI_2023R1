@@ -9,7 +9,7 @@
         http://www.springframework.org/schema/security 
         http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
-		<!-- These dont need securitry -->
+	<!-- These dont need securitry FYI Order of these in the config do matter-->
 	<security:http pattern="/km/login" security="none"/>
 	<security:http pattern="/km/login_v2" security="none"/>
 	<security:http pattern="/km/property/read" security="none"/>
@@ -23,7 +23,6 @@
         <security:csrf disabled="true"/>
     </security:http>
  
-
 	
     <security:authentication-manager id="authenticationManager" erase-credentials="false">
     	<security:authentication-provider ref="pingAuthenticationProvider" />

@@ -9,16 +9,21 @@
         http://www.springframework.org/schema/security 
         http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
+	<!-- These dont need securitry FYI Order of these in the config do matter-->
+	<security:http pattern="/km/login" security="none"/>
+	<security:http pattern="/km/login_v2" security="none"/>
+	<security:http pattern="/km/property/read" security="none"/>
 	
 	<!-- Stateless RESTful services use custom BASIC authentication -->
     <security:http create-session="stateless" use-expressions="false" auto-config="false" entry-point-ref="unauthorizedEntryPoint" authentication-manager-ref="authenticationManager">
-    	<security:intercept-url pattern="/km/login" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<security:intercept-url pattern="/km/**" access="ROLE_REST"/>		
+    	<security:intercept-url pattern="/km/ping/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<security:intercept-url pattern="/km/**" access="ROLE_REST"/>
 		<security:custom-filter position="BASIC_AUTH_FILTER" ref="pingOIDCAuthenticationFilter" />
 		<security:custom-filter after="BASIC_AUTH_FILTER" ref="pingFilter"/>
         <security:csrf disabled="true"/>
     </security:http>
  
+	
     <security:authentication-manager id="authenticationManager" erase-credentials="false">
     	<security:authentication-provider ref="pingAuthenticationProvider" />
     </security:authentication-manager>
@@ -76,8 +81,7 @@ KM_CnS_ProviderService,KM_Implementations,KM_MnR_Claims,KM_PRISM,KM_ContractMana
 KM_FQHC_RHC_ProviderSupport,KM_Natl_Acct_CSI,KM_Medica,KM_MnR_Sup_Con_Services,KM_ECS_Advocacy,
 KM_MnR_Cons_Svc_Specialty_Teams,KM_BCS,KM_IHR,KM_ONCE,KM_RMO,KM_VEM_Author,KM_UHC_Global_Underwriting,KM_CnS_Retention,
 KM_ProviderAdvocacyCenter,KM_LearningSolutions,KM_UHCBrandedOptum,KM_UHCG_Sales_Demand_Mgmt,KM_EnI_Group_Specific,
-KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_CnS_Texas_Service_Coord,KM_Population_Health_Solutions,
-KM_Region_5_National_Provider,KM_EnI_NBS,KM_EnI_Supervisor_NPSR"/>	
+KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans"/>	
 	  <beans:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
 	  <beans:property name="authenticationFailureHandler" ref="failureRedirectHandler"/>
 	</beans:bean>

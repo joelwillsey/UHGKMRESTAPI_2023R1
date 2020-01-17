@@ -9,16 +9,21 @@
         http://www.springframework.org/schema/security 
         http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
+	<!-- These dont need securitry FYI Order of these in the config do matter-->
+	<security:http pattern="/km/login" security="none"/>
+	<security:http pattern="/km/login_v2" security="none"/>
+	<security:http pattern="/km/property/read" security="none"/>
 	
 	<!-- Stateless RESTful services use custom BASIC authentication -->
     <security:http create-session="stateless" use-expressions="false" auto-config="false" entry-point-ref="unauthorizedEntryPoint" authentication-manager-ref="authenticationManager">
-    	<security:intercept-url pattern="/km/ping/login" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+    	<security:intercept-url pattern="/km/ping/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:intercept-url pattern="/km/**" access="ROLE_REST"/>
 		<security:custom-filter position="BASIC_AUTH_FILTER" ref="pingOIDCAuthenticationFilter" />
 		<security:custom-filter after="BASIC_AUTH_FILTER" ref="pingFilter"/>
         <security:csrf disabled="true"/>
     </security:http>
  
+	
     <security:authentication-manager id="authenticationManager" erase-credentials="false">
     	<security:authentication-provider ref="pingAuthenticationProvider" />
     </security:authentication-manager>
@@ -52,8 +57,8 @@
 	<beans:bean id="pingOIDCAuthCodeFilter" class="com.verint.services.km.security.KmPingOIDCAuthCodeFilter">
   		<beans:property name="authenticationManager" ref="authenticationManager"/>
   		<beans:property name="authenticationEntryPoint" ref="unauthorizedEntryPoint"/>
-		<beans:property name="jsonWebKeysURL" value="https://authgateway1-stg.entiam.uhg.com/pf/JWKS"/>	
-		<beans:property name="tokenURL" value="https://authgateway1-stg.entiam.uhg.com/as/token.oauth2"/>	
+		<beans:property name="jsonWebKeysURL" value="https://authgateway1-dev.entiam.uhg.com/pf/JWKS"/>	
+		<beans:property name="tokenURL" value="https://authgateway1-dev.entiam.uhg.com/as/token.oauth2"/>	
 		<beans:property name="clientId" value="DEV_KC"/>
 		<beans:property name="clientSecret" value="BELidmUPemS5JqxuGJdduADiH6YhbzPz3fmHjmFdmjhFH1r8hIRUNixkWWnRJQS7"/>
 		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>		
@@ -84,7 +89,7 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans"/>
 	<beans:bean id="pingOIDCAuthenticationFilter" class="com.verint.services.km.security.KmPingOIDCAuthenticationFilter">
   		<beans:property name="authenticationManager" ref="authenticationManager"/>
   		<beans:property name="authenticationEntryPoint" ref="unauthorizedEntryPoint"/>
-		<beans:property name="authenticateURL" value="https://authgateway1-stg.entiam.uhg.com/as/authorization.oauth2"/>	
+		<beans:property name="authenticateURL" value="https://authgateway1-dev.entiam.uhg.com/as/authorization.oauth2"/>	
 		<beans:property name="responseType" value="code"/>
 		<beans:property name="clientId" value="DEV_KC"/>
 		<beans:property name="scope" value="openid%20profile%20address%20email%20phone"/>
