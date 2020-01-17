@@ -265,8 +265,16 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 					response.setHeader(LAST_NAME, ssoLastName);
 					//response.setHeader(GROUPS, kbList);
 					LOGGER.debug("Adding AuthToken ['" + authToken + "'] and AgentInfo ['"+ agentInfo + "'] cookies: ");
-					response.setHeader("Set-Cookie", "AgentInfo=" + agentInfo + "; path=/");
-					response.setHeader("Set-Cookie", "AuthToken=" + authToken + "; path=/");
+					//response.setHeader("Set-Cookie", "AgentInfo=" + agentInfo + "; path=/");
+					//response.setHeader("Set-Cookie", "AuthToken=" + authToken + "; path=/");
+					
+					Cookie agentInfoCookie = new Cookie(AGENT_INFO_COOKIE_NAME, agentInfo);
+					agentInfoCookie.setPath("/");
+					response.addCookie(agentInfoCookie);
+					
+					Cookie authTokenCookie = new Cookie(AUTH_TOKEN_COOKIE_NAME , authToken);
+					authTokenCookie.setPath("/");
+					response.addCookie(authTokenCookie);
 					
 				} catch (UnsupportedEncodingException eu) {
 					LOGGER.error("UnsupportedEncodingException" + eu.getMessage());
