@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -56,6 +57,8 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	private String tokenURL;
 	private String kmGroups;
 	private String redirectURI;
+	private String redirectURIUnAuthorized;
+	private String redirectURIGeneralError;
 	private static final String USERNAME = "USERNAME";
 	private static final String	FIRST_NAME = "FIRST_NAME"; 
 	private static final String	LAST_NAME = "LAST_NAME";
@@ -240,6 +243,10 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 				LOGGER.info("KB List = '" + kbList + "'");
 			}
 			
+			if (kbList.length() < 1) {
+				LOGGER.info("User: " + ssoUserName + " has no kbLists, so they are not authorized for access");
+				response.sendRedirect(redirectURIUnAuthorized);
+			}
 			//we are going to pass in all the info need through password field of the UsernamePasswordAuthenticationToken
 			String credentials = dummyPassword + "|" + ssoFirstName + "|" + ssoLastName + "|" + kbList;
 			
@@ -288,8 +295,15 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 				LOGGER.error("Authentication failure: " + authResult);
 			}
 
-		} catch (Exception e1) {
-			LOGGER.debug("Error with authorization code", e1);
+		} catch (BadCredentialsException bce) { 
+			LOGGER.info("BadCredentialsException message: ", bce.toString());
+			if(bce.toString().contains("LoginResult=14")) {
+				response.sendRedirect(redirectURIUnAuthorized);
+			} else {
+			response.sendRedirect(redirectURIGeneralError);
+			}
+		}catch (Exception e1) {
+			LOGGER.error("Error with authorization code", e1);
 			throw new ServletException(e1);
 		}
 
@@ -407,6 +421,38 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	 */
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getRedirectURIUnAuthorized() {
+		return this.redirectURIUnAuthorized;
+	}
+	
+	/**
+	 * 
+	 * @param redirectURIUnAuthorized
+	 */
+	public void setRedirectURIUnAuthorized(String redirectURIUnAuthorized) {
+		this.redirectURIUnAuthorized = redirectURIUnAuthorized;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getRedirectURIGeneralError() {
+		return this.redirectURIGeneralError;
+	}
+	
+	/**
+	 * 
+	 * @param redirectURIGeneralError
+	 */
+	public void setRedirectURIGeneralError(String redirectURIGeneralError) {
+		this.redirectURIGeneralError = redirectURIGeneralError;
 	}
 	
 	/**

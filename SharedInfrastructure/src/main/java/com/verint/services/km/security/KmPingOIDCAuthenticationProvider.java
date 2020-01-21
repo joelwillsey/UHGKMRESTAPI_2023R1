@@ -124,7 +124,7 @@ public class KmPingOIDCAuthenticationProvider implements AuthenticationProvider 
 
 		if (response.getLoginResult().compareTo(new BigInteger(String.valueOf(1))) != 0) {
 			LOGGER.error("Bad Login result.LoginResult=" + response.getLoginResult().toString());
-			throw new BadCredentialsException("LoginV2 request failed. Bad Login result. LoginResult=" + response.getLoginResult().toString());
+			throw new BadCredentialsException("LoginV2 request failed. Bad Login result. LoginResult=" + response.getLoginResult().toString() + " message: " + response.getMessage());
 		}
 
 		// Now grant the proper access
