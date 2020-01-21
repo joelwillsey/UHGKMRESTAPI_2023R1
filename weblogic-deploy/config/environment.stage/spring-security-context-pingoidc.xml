@@ -13,6 +13,7 @@
 	<security:http pattern="/km/login" security="none"/>
 	<security:http pattern="/km/login_v2" security="none"/>
 	<security:http pattern="/km/property/read" security="none"/>
+	<security:http pattern="/km/ping/error/**" security="none"/>
 	
 	<!-- Stateless RESTful services use custom BASIC authentication -->
     <security:http create-session="stateless" use-expressions="false" auto-config="false" entry-point-ref="unauthorizedEntryPoint" authentication-manager-ref="authenticationManager">
@@ -60,7 +61,9 @@
 		<beans:property name="tokenURL" value="https://authgateway1-stg.entiam.uhg.com/as/token.oauth2"/>	
 		<beans:property name="clientId" value="Reg1Stg_KC"/>
 		<beans:property name="clientSecret" value="7pY8AkFPGjDcR2zFqswW81XXiMLgQXO27N8Bry3KjMsDEqo1keeHbuXQZIaxpJmL"/>
-		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>		
+		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>	
+		<beans:property name="redirectURIUnAuthorized" value="/km/ping/error/unauthorized.html"/>
+		<beans:property name="redirectURIGeneralError" value="/km/ping/error/general_error.html"/>				
 		<beans:property name="kmGroups" value="KIQACME_Agent_Dental_Vision_Call,KIQACME_Agent_Dental_Vision_Claim,KIQACME Agent ECS_OLT,
 KIQACME Agent Emp-Broker ECS,KIQACME Agent Emp-Broker Prime,KIQACME Agent Emp-Broker UHCBS,KIQACME Agent EnrollBill,
 KIQACME_Agent_MedicaidEligCOB,KIQACME_Agent_Medicare_Processor,KIQACME Agent ProviderData,KIQACME_Agent_ProviderOps,
