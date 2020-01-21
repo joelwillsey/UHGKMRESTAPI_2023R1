@@ -243,10 +243,6 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 				LOGGER.info("KB List = '" + kbList + "'");
 			}
 			
-			if (kbList.length() < 1) {
-				LOGGER.info("User: " + ssoUserName + " has no kbLists, so they are not authorized for access");
-				response.sendRedirect(redirectURIUnAuthorized);
-			}
 			//we are going to pass in all the info need through password field of the UsernamePasswordAuthenticationToken
 			String credentials = dummyPassword + "|" + ssoFirstName + "|" + ssoLastName + "|" + kbList;
 			
@@ -296,10 +292,12 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			}
 
 		} catch (BadCredentialsException bce) { 
-			LOGGER.info("BadCredentialsException message: ", bce.toString());
-			if(bce.toString().contains("LoginResult=14")) {
+			LOGGER.error("BadCredentialsException message: ", bce.getMessage());
+			if(bce.getMessage().contains("LoginResult=14") || bce.getMessage().contains("No Knowledge base")) {
+				LOGGER.error("Redirecting to: " + redirectURIUnAuthorized);
 				response.sendRedirect(redirectURIUnAuthorized);
 			} else {
+			LOGGER.error("Redirecting to: " + redirectURIGeneralError);				
 			response.sendRedirect(redirectURIGeneralError);
 			}
 		}catch (Exception e1) {
