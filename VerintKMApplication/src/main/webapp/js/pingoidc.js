@@ -130,11 +130,7 @@ var delete_cookie = function(name) {
 // Login Service
 $.fn.ssoLoginService = function() {
 
-	// Call the service
-	//headerData = '{"ssousername":"' + ssousername + '"ssofirstname":"' + ssofirstname + '"ssolastname":"' + ssolastname + '"kbnames":"' + kbnames + '"}';
 
-	/**When we split the pathname the first array element will be blank because it looks like this /verintkm/verintkm.html
-	contextPath[0]="", contextPath[1]="verintkm", contextPath[2]="verintkm.html", **/
 	var basicLogin = $.fn.getParameterByName('basicLogin');
 	log('basicLogin=' + basicLogin);
 	if (basicLogin == 'true'){
@@ -160,76 +156,7 @@ $.fn.ssoLoginService = function() {
 	if (typeof agentInfoCookie != 'undefined' && agentInfoCookie != ''){
 		log('Found AgentInfo: ' + agentInfoCookie);
 	}
-	
-	
-//	var contextPath = window.location.pathname.split('/');
-//	
-//	var URL = '';
-//	
-//	if (contextPath.length > 1){
-//		var newContextPath = '';
-//		//don't want the last element as it is the html page
-//		for (x=0; x < contextPath.length-1; x++){
-//			if(typeof contextPath[x] != 'undefined' && contextPath[x] != ''){
-//				newContextPath = newContextPath + contextPath[x] + "/";
-//			}
-//		}
-//		
-//		URL = window.location.protocol  + "//" + window.location.host + "/" + newContextPath  + "getuserinfo.jsp";
-//	} else {
-//		URL = window.location.protocol  + "//" + window.location.host +  verintKmServiceName + "getuserinfo.jsp"; //default value
-//	}
-//	
-//	var req = new XMLHttpRequest();
-//	req.open('GET', URL, false);
-//	req.send(null);
-//	var ssousername = req.getResponseHeader("ssousername");
-//	var kmgroups = req.getResponseHeader("kmgroups");
-//    var password = "doesNotMatterForSSO1";
-//    var firstName = req.getResponseHeader("ssofirstname");
-//    var lastName = req.getResponseHeader("ssolastname");
-//   	//var dataPackage = '{"username":"' + ssousername + '", "password":"' + password + '", "firstName":"Joe", "lastName":"Smoo", "vemGroups":"kiqadmin"}';
-//	var dataPackage = '{"username":"' + ssousername + '", "password":"' + password  + '", "firstName":"' + firstName + '", "lastName":"' + lastName + '", "vemGroups":"' + kmgroups + '"}';
-//
-//    if (ssousername == null){
-//        window.document.location = "/verintkm/km/ping/login";       
-//	} else {
-//		Log('Found SSO user: ' + ssousername);
-//	  		jQuery.ajaxSetup({
-//	  			async : false
-//	  		});    
-//	  		$.fn.serviceCall('POST', dataPackage, "km/login_v2", LOGIN_SERVICE_TIMEOUT, function(data) {
-//	  			// Check for a valid result code
-//	  			if (typeof data != 'undefined' && typeof data.loginResult != 'undefined' && data.loginResult === 1) {
-//	  				//var username = $('#username').val();
-//	  				//var password= $('#password').val();
-//	  				
-//	            // Setup token
-//	            $.fn.setupToken(ssousername, password);
-//	            //Setup user info
-//  				$.fn.setupUserInfo(data);
-//  				var cookieSavedUrlValue = document.cookie.replace(/(?:(?:^|.*;\s*)savedurl\s*\=\s*([^;]*).*$)|^.*$/, "$1");	
-//  				
-//  				 if (typeof cookieSavedUrlValue != 'undefined' && cookieSavedUrlValue != '') {
-// 	            	cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3F/g, "?");
-// 	 	            cookieSavedUrlValue = cookieSavedUrlValue.replace(/%3D/g, "=");
-// 	            	window.document.location = cookieSavedUrlValue;
-// 	            }
-//  			}
-//	  			else
-//	  				{
-//	  				   errorMessage = data.message;	  				   
-//	  				}
-//	  			
-//	  			}
-//	  		);
-//	  		jQuery.ajaxSetup({
-//	  			async : true
-//	  		});
-//      }
-		            
-
-		            
+	            
   }
 
 //Get parameter by name
