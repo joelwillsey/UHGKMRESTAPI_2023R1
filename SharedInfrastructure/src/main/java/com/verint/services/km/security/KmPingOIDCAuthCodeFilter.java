@@ -424,38 +424,6 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	 * 
 	 * @return
 	 */
-	public String getRedirectURIUnAuthorized() {
-		return this.redirectURIUnAuthorized;
-	}
-	
-	/**
-	 * 
-	 * @param redirectURIUnAuthorized
-	 */
-	public void setRedirectURIUnAuthorized(String redirectURIUnAuthorized) {
-		this.redirectURIUnAuthorized = redirectURIUnAuthorized;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getRedirectURIGeneralError() {
-		return this.redirectURIGeneralError;
-	}
-	
-	/**
-	 * 
-	 * @param redirectURIGeneralError
-	 */
-	public void setRedirectURIGeneralError(String redirectURIGeneralError) {
-		this.redirectURIGeneralError = redirectURIGeneralError;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public String getClientSecret() {
 		return this.clientSecret;
 	}
@@ -520,16 +488,48 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	 * 
 	 * @return
 	 */
-	public String getRedirectURIL() {
+	public String getRedirectURI() {
 		return this.redirectURI;
 	}
 	
 	/**
 	 * 
-	 * @param .redirectURI
+	 * @param redirectURI
 	 */
 	public void setRedirectURI(String redirectURI) {
 		this.redirectURI = redirectURI;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getRedirectURIUnAuthorized() {
+		return this.redirectURIUnAuthorized;
+	}
+	
+	/**
+	 * 
+	 * @param redirectURIUnAuthorized
+	 */
+	public void setRedirectURIUnAuthorized(String redirectURIUnAuthorized) {
+		this.redirectURIUnAuthorized = redirectURIUnAuthorized;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getRedirectURIGeneralError() {
+		return this.redirectURIGeneralError;
+	}
+	
+	/**
+	 * 
+	 * @param redirectURIGeneralError
+	 */
+	public void setRedirectURIGeneralError(String redirectURIGeneralError) {
+		this.redirectURIGeneralError = redirectURIGeneralError;
 	}
 	
 	private String createRedirectUri(HttpServletRequest request) {
