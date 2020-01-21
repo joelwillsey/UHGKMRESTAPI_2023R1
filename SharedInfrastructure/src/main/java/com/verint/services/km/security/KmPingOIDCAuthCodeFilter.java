@@ -43,7 +43,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.GenericData;
 
 public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
-	private final Logger LOGGER = LoggerFactory.getLogger(KmPingOIDCAuthenticationFilter.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(KmPingOIDCAuthCodeFilter.class);
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private RememberMeServices rememberMeServices = new NullRememberMeServices();
 	private AuthenticationEntryPoint authenticationEntryPoint;
@@ -62,7 +62,6 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	private static final String USERNAME = "USERNAME";
 	private static final String	FIRST_NAME = "FIRST_NAME"; 
 	private static final String	LAST_NAME = "LAST_NAME";
-	private static final String	GROUPS = "GROUPS";
 	private static final String	SSO_FIRST_NAME = "SSO_FIRST_NAME";
 	private static final String	SSO_LAST_NAME = "SSO_LAST_NAME";
 	private static final String KB_NAMES = "KB_NAMES";
@@ -291,9 +290,9 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 				LOGGER.error("Authentication failure: " + authResult);
 			}
 
-		} catch (BadCredentialsException bce) { 
-			LOGGER.error("BadCredentialsException message: ", bce.getMessage());
-			if(bce.getMessage().contains("LoginResult=14") || bce.getMessage().contains("No Knowledge base")) {
+		} catch (BadCredentialsException e0) { 
+			LOGGER.error("BadCredentialsException message: " + e0.toString());
+			if(e0.getMessage().contains("LoginResult=14") || e0.getMessage().contains("No Knowledge base")) {
 				LOGGER.error("Redirecting to: " + redirectURIUnAuthorized);
 				response.sendRedirect(redirectURIUnAuthorized);
 			} else {
