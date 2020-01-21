@@ -292,12 +292,13 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 
 		} catch (BadCredentialsException e0) { 
 			LOGGER.error("BadCredentialsException message: " + e0.toString());
+			String relativePath = getRelativedPath(request);
 			if(e0.getMessage().contains("LoginResult=14") || e0.getMessage().contains("No Knowledge base")) {
-				LOGGER.error("Redirecting to: " + redirectURIUnAuthorized);
-				response.sendRedirect(redirectURIUnAuthorized);
+				LOGGER.error("Redirecting to: " + relativePath + redirectURIUnAuthorized);
+				response.sendRedirect(relativePath + redirectURIUnAuthorized);
 			} else {
-			LOGGER.error("Redirecting to: " + redirectURIGeneralError);				
-			response.sendRedirect(redirectURIGeneralError);
+			LOGGER.error("Redirecting to: " + relativePath + redirectURIGeneralError);				
+			response.sendRedirect(relativePath +redirectURIGeneralError);
 			}
 		}catch (Exception e1) {
 			LOGGER.error("Error with authorization code", e1);
@@ -611,6 +612,29 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 		
 		LOGGER.debug("Modified from request URL - savedUrl: " + strRedirectURI);
 		LOGGER.info("Exiting createRedirectURI()");
+		return strRedirectURI;
+	}
+	
+private String getRelativedPath(HttpServletRequest request) {
+		
+		LOGGER.info("getRelativedPath");	
+		
+		String strRedirectURI = "";
+		String uRl = request.getRequestURL().toString();
+		
+		if(uRl.contains("verintkm")) {
+			strRedirectURI = "/verintkm";
+		} else if(uRl.contains("contentservices")) {
+			strRedirectURI = "/contentservices";
+		} else if(uRl.contains("searchservices")) {
+			strRedirectURI = "/searchservices";
+		} else if(uRl.contains("filterservices")) {
+			strRedirectURI = "/filterservices";
+		}
+
+		
+		LOGGER.debug("Relatived Path: " + strRedirectURI);
+		LOGGER.info("getRelativedPath()");
 		return strRedirectURI;
 	}
 	
