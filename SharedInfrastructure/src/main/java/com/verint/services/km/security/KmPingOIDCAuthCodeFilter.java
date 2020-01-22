@@ -533,54 +533,6 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 		this.redirectURIGeneralError = redirectURIGeneralError;
 	}
 	
-	private String createRedirectUri(HttpServletRequest request) {
-		String savedUrl = "";
-		
-		LOGGER.info("Entering createRedirectUri()");
-		// Go through the cookies to find original URL
-		final Cookie[] cookies = request.getCookies();
-		if (cookies != null && cookies.length > 0) {
-			for (int x = 0; x < cookies.length; x++) {
-				LOGGER.info("Cookie: " + cookies[x].getName() + "=" + cookies[x].getValue());
-				if ("savedurl".equals(cookies[x].getName())) {
-					savedUrl = "/" + cookies[x].getValue();
-//					savedUrl = savedUrl.replaceAll("?","%3F");
-//					savedUrl = savedUrl.replaceAll("=", "%3D");
-					LOGGER.debug("Found Cookie savedUrl: " + savedUrl);
-					
-					String referer = request.getHeader("referer");
-					LOGGER.debug("Found Request Header: Referer=" + referer);
-					if(!savedUrl.contains("http")) {
-						if(referer.contains("verintkm")) {
-							savedUrl = "/verintkm" + redirectURI;
-						} else if(referer.contains("contentservices")) {
-							savedUrl = "/contentservices" + redirectURI;
-						} else if(referer.contains("searchservices")) {
-							savedUrl = "/searchservices" + redirectURI;
-						} else if(referer.contains("filterservices")) {
-							savedUrl = "/filterservices" + redirectURI;
-						}
-						
-						//get the host protocol://name:port
-						StringBuffer url = request.getRequestURL();
-						String uri = request.getRequestURI();
-						String host = url.substring(0, url.indexOf(uri)); //result
-						
-						if (!host.startsWith("https")) {
-							//force it to be https
-							LOGGER.debug("Forced over to https original host: " + host);
-							host = host.replaceFirst("http", "https");
-						}						
-						savedUrl = host  + savedUrl;						
-					}
-				}
-			}
-		}
-
-		LOGGER.debug("Modified from referer header - savedUrl: " + savedUrl);
-		LOGGER.info("Exiting createRedirectUri()");
-		return savedUrl;
-	}
 	
 	private String createRedirectURI(HttpServletRequest request) {
 		

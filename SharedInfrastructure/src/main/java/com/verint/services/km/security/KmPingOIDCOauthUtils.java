@@ -39,8 +39,8 @@ public class KmPingOIDCOauthUtils {
 	private ObjectMapper mapper = new ObjectMapper();
 	
 	public static final String TOKEN_USERNAME = "msid";
-	public static final String TOKEN_FIRST_NAME = "firstname";
-	public static final String TOKEN_LAST_NAME = "lastname";
+	public static final String TOKEN_FIRST_NAME = "given_name";
+	public static final String TOKEN_LAST_NAME = "family_name";
 	public static final String TOKEN_GROUPS = "roles";
 	public static final String SSO_FIRST_NAME = "SSO_FIRST_NAME";
 	public static final String SSO_LAST_NAME = "SSO_LAST_NAME";
