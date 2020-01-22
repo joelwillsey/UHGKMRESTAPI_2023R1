@@ -32,7 +32,7 @@
     <beans:bean id="pingFilter" class="org.springframework.security.web.FilterChainProxy">
         <security:filter-chain-map request-matcher="ant">
 			<security:filter-chain pattern="/km/ping/login" filters="pingOIDCAuthenticationFilter"/>
-            <security:filter-chain pattern="/km/ping/authcode/**" filters="pingOIDCAuthCodeFilter"/>
+            <security:filter-chain pattern="/authCode.html" filters="pingOIDCAuthCodeFilter"/>
         </security:filter-chain-map>
     </beans:bean>
 	
@@ -61,7 +61,7 @@
 		<beans:property name="tokenURL" value="https://authgateway1-dev.entiam.uhg.com/as/token.oauth2"/>	
 		<beans:property name="clientId" value="DEV_KC"/>
 		<beans:property name="clientSecret" value="BELidmUPemS5JqxuGJdduADiH6YhbzPz3fmHjmFdmjhFH1r8hIRUNixkWWnRJQS7"/>
-		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>
+		<beans:property name="redirectURI" value="/authCode.html"/>
 		<beans:property name="redirectURIUnAuthorized" value="/unauthorized.html"/>
 		<beans:property name="redirectURIGeneralError" value="/general_error.html"/>		
 		<beans:property name="kmGroups" value="KIQACME_Agent_Dental_Vision_Call,KIQACME_Agent_Dental_Vision_Claim,KIQACME Agent ECS_OLT,
@@ -96,7 +96,7 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans"/>
 		<beans:property name="clientId" value="DEV_KC"/>
 		<beans:property name="scope" value="openid%20profile%20address%20email%20phone"/>
 		<beans:property name="acrValues" value="R1_AAL1_MS-AD-Kerberos"/>
-		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>
+		<beans:property name="redirectURI" value="/authCode.html"/>
 	</beans:bean>
  
 	
