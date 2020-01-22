@@ -2,6 +2,7 @@ package com.verint.services.km.security;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 
 import javax.servlet.FilterChain;
@@ -293,12 +294,13 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 		} catch (BadCredentialsException e0) { 
 			LOGGER.error("BadCredentialsException message: " + e0.toString());
 			String relativePath = getRelativedPath(request);
-			if(e0.getMessage().contains("LoginResult=14") || e0.getMessage().contains("No Knowledge base")) {
-				LOGGER.error("Redirecting to: " + relativePath + redirectURIUnAuthorized);
-				response.sendRedirect(relativePath + redirectURIUnAuthorized);
+			String errParam = "?errorMsg=" + URLEncoder.encode(e0.getMessage(), "utf-8");
+			if(e0.getMessage().contains("LoginResult=14") || e0.getMessage().contains("No Knowledge base")) {				
+				LOGGER.error("Redirecting to: " + relativePath + redirectURIUnAuthorized + errParam);
+				response.sendRedirect(relativePath + redirectURIUnAuthorized + errParam);
 			} else {
-			LOGGER.error("Redirecting to: " + relativePath + redirectURIGeneralError);				
-			response.sendRedirect(relativePath +redirectURIGeneralError);
+			LOGGER.error("Redirecting to: " + relativePath + redirectURIGeneralError + errParam);				
+			response.sendRedirect(relativePath +redirectURIGeneralError + errParam);
 			}
 		}catch (Exception e1) {
 			LOGGER.error("Error with authorization code", e1);
