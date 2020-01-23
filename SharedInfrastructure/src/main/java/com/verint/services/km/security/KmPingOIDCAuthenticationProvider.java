@@ -113,15 +113,15 @@ public class KmPingOIDCAuthenticationProvider implements AuthenticationProvider 
 		} catch (Throwable t) {
 			LOGGER.error("Exception during loginV2DAO()", t);
 		}
+				
+		// Check for a response
+		if (response == null & response.getLoginResult() != null) {
+			LOGGER.error("Bad response (null) from loginV2DAO()");
+			throw new BadCredentialsException("LoginV2 request failed, null response");
+		}
 
 		LOGGER.debug("LoginV2Request response: " + response.toString());
 		
-		// Check for a response
-		if (response == null & response.getLoginResult() != null) {
-			LOGGER.error("Bad response from loginV2DAO()");
-			throw new BadCredentialsException("LoginV2 request failed");
-		}
-
 		if (response.getLoginResult().compareTo(new BigInteger(String.valueOf(1))) != 0) {
 			LOGGER.error("LoginV2 request failed. Bad Login result. LoginResult=" + response.getLoginResult().toString() + " message: " + response.getMessage());
 			throw new BadCredentialsException("LoginV2 request failed. Bad Login result. LoginResult=" + response.getLoginResult().toString() + " message: " + response.getMessage());
