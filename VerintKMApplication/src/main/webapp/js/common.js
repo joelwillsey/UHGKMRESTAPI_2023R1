@@ -178,7 +178,7 @@ $.fn.serviceCallAsyncFalse = function(type, data, url, timeout, successCallback)
     			}
     		},
     	}).then(function(data) {
-    	    log('Calling disableSpinner');
+    	    //log('Calling disableSpinner');
     	    $.fn.disableSpinner();
     	}).responseJSON;
     }, 500);

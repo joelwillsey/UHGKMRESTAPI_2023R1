@@ -75,6 +75,8 @@ button {
 }
 	.alert_on {
 		display: block;
+		padding-left: 30px;
+	    padding-top: 3px;
 	}
 	.message {
 	    padding-left: 30px;
