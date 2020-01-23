@@ -250,7 +250,7 @@ public class KmPingOIDCOauthUtils {
 				}
 			}
 		}
-		if(group=="") return "default";
+		//if(group=="") return "default";
 		return group;
 	}
 	
