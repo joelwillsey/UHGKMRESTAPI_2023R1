@@ -38,10 +38,10 @@ public class KmPingOIDCOauthUtils {
 	private final Logger LOGGER = LoggerFactory.getLogger(KmPingOIDCOauthUtils.class);
 	private ObjectMapper mapper = new ObjectMapper();
 	
-	public static final String TOKEN_USERNAME = "msid";
+	public static final String TOKEN_USERNAME = "username";
 	public static final String TOKEN_FIRST_NAME = "given_name";
 	public static final String TOKEN_LAST_NAME = "family_name";
-	public static final String TOKEN_GROUPS = "roles";
+	public static final String TOKEN_GROUPS = "msad_groups";
 	public static final String SSO_FIRST_NAME = "SSO_FIRST_NAME";
 	public static final String SSO_LAST_NAME = "SSO_LAST_NAME";
 	public static final String KB_NAMES = "KB_NAMES";
