@@ -71,7 +71,7 @@ public class KmPingOIDCAuthenticationProvider implements AuthenticationProvider 
 		LOGGER.debug("username (Principal)=" + username);
 		LOGGER.debug("dataString=" + dataString);
 		
-		String[] credentials = dataString.split(Pattern.quote("|"));
+		String[] credentials = dataString.split(Pattern.quote("|"), -1);
 
 		LOGGER.debug("credentials.length=" + credentials.length);		
 		for(int i=0; i < credentials.length; i++ ) {
