@@ -73,10 +73,10 @@ public class KmPingOIDCAuthenticationProvider implements AuthenticationProvider 
 		
 		String[] credentials = dataString.split(Pattern.quote("|"), -1);
 
-		LOGGER.debug("credentials.length=" + credentials.length);		
-		for(int i=0; i < credentials.length; i++ ) {
-			LOGGER.debug("credentials[" + i + "]="+ credentials[i]);
-		}
+//		LOGGER.debug("credentials.length=" + credentials.length);		
+//		for(int i=0; i < credentials.length; i++ ) {
+//			LOGGER.debug("credentials[" + i + "]="+ credentials[i]);
+//		}
 		
 		if(credentials.length == 4) {
 			password = credentials[0];
@@ -85,15 +85,15 @@ public class KmPingOIDCAuthenticationProvider implements AuthenticationProvider 
 			vemGroups = credentials[3];
 		} 
 			
-		if (username == null || password == null) {
+		if (isNullOrEmpty(username) ||isNullOrEmpty(password)) {
 			throw new BadCredentialsException("Username/password not found");
 		}
 		
 		// Check data
-		if (firstName == "" || lastName == "") {
+		if (isNullOrEmpty(firstName) || isNullOrEmpty(lastName)) {
 			LOGGER.debug("No Login info found" + authentication.toString());
 			throw new BadCredentialsException("firstName/lastName not found");
-		} else if (vemGroups == "") {
+		} else if (isNullOrEmpty(vemGroups)) {
 			throw new BadCredentialsException("No Knowledge base (Active Directory groups) found");
 		}
 		
@@ -164,4 +164,10 @@ public class KmPingOIDCAuthenticationProvider implements AuthenticationProvider 
 			LOGGER.info("Exiting login_v2()");
 			return loginV2Response;
 		}
+	 
+	    public static boolean isNullOrEmpty(String str) {
+	        if(str != null && !str.trim().isEmpty())
+	            return false;
+	        return true;
+	    }
 }
