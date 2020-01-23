@@ -302,7 +302,12 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			LOGGER.error("Redirecting to: " + relativePath + redirectURIGeneralError + errParam);				
 			response.sendRedirect(relativePath +redirectURIGeneralError + errParam);
 			}
-		}catch (Exception e1) {
+		} catch (AuthenticationException ae) {
+			LOGGER.error("AuthenticationException message: " + ae.toString());
+			String relativePath = getRelativedPath(request);
+			String errParam = "?errorMsg=Exception during loginV2DAO() - " + URLEncoder.encode(ae.getMessage(), "utf-8");
+			response.sendRedirect(relativePath +redirectURIGeneralError + errParam);
+		} catch (Exception e1) {
 			LOGGER.error("Error with authorization code", e1);
 			throw new ServletException(e1);
 		}
