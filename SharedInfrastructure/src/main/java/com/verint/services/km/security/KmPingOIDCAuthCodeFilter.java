@@ -244,13 +244,13 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			}
 			
 			if (ssoUserName.equals("pseifer1")) {
-				ssoUserName = "pseiferfake";
+				ssoUserName = "pseiferfake2";
 				LOGGER.info("Overwrite user pseifer1 -> Username = '" + ssoUserName + "'");
 			}
 				
 			if (ssoUserName.equals("mroggero")) {
 				ssoUserName = "mroggerofake";
-				kbList = "KM_ALL_KB_Access,";
+				kbList = "KM_All_KB_Access,";
 				LOGGER.info("Overwrite user mrogerro -> Username = '" + ssoUserName + "'");
 			}
 			
