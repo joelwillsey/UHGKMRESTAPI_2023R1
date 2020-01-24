@@ -243,16 +243,6 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 				LOGGER.info("KB List = '" + kbList + "'");
 			}
 			
-			if (ssoUserName.equals("pseifer1")) {
-				ssoUserName = "pseiferfake2";
-				LOGGER.info("Overwrite user pseifer1 -> Username = '" + ssoUserName + "'");
-			}
-				
-			if (ssoUserName.equals("mroggero")) {
-				ssoUserName = "mroggerofake";
-				kbList = "KM_All_KB_Access,";
-				LOGGER.info("Overwrite user mrogerro -> Username = '" + ssoUserName + "'");
-			}
 			
 			//we are going to pass in all the info need through password field of the UsernamePasswordAuthenticationToken
 			String credentials = dummyPassword + "|" + ssoFirstName + "|" + ssoLastName + "|" + kbList;
