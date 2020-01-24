@@ -13,7 +13,6 @@
 	<security:http pattern="/km/login" security="none"/>
 	<security:http pattern="/km/login_v2" security="none"/>
 	<security:http pattern="/km/property/read" security="none"/>
-	<security:http pattern="/km/ping/error/**" security="none"/>
 	
 	<!-- Stateless RESTful services use custom BASIC authentication -->
     <security:http create-session="stateless" use-expressions="false" auto-config="false" entry-point-ref="unauthorizedEntryPoint" authentication-manager-ref="authenticationManager">
