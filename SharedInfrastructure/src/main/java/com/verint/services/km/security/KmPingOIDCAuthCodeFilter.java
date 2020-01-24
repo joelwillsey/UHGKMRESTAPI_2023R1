@@ -247,7 +247,13 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 				ssoUserName = "pseiferfake";
 				LOGGER.info("Overwrite user pseifer1 -> Username = '" + ssoUserName + "'");
 			}
-						
+				
+			if (ssoUserName.equals("mroggero")) {
+				ssoUserName = "mroggerofake";
+				kbList = "KM_ALL_KB_Access,";
+				LOGGER.info("Overwrite user mrogerro -> Username = '" + ssoUserName + "'");
+			}
+			
 			//we are going to pass in all the info need through password field of the UsernamePasswordAuthenticationToken
 			String credentials = dummyPassword + "|" + ssoFirstName + "|" + ssoLastName + "|" + kbList;
 			
@@ -265,7 +271,7 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 					String pass = (String) authResult.getCredentials();
 			        String authToken = setupToken(user,pass);		        
 			        String agentInfo = ssoFirstName + " " + ssoLastName;
-			        //LOGGER.debug("authToken: " + authToken);
+			        //LOGGER.debug("authToken: " + authToken);admin	
 			        //LOGGER.debug("agentInfo: " + agentInfo);
 					response.setHeader(X_KM_AUTHORIZATION, authToken);
 					response.setHeader(USERNAME, user);
