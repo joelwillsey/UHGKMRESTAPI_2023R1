@@ -735,22 +735,26 @@ $(document).ready(function() {
 			if (data.relatedContent && data.relatedContent.externalContents &&	data.relatedContent.externalContents.length > 0) {    			
 				for (var i = 0; i < data.relatedContent.externalContents.length; i++) {
 					if(data.relatedContent.externalContents[i].url) {
-						contentBody.push('  <div class="content_body_field_related_data">');
-						contentBody.push('    <div class="content_body_field_resuable_content">');
-						//we dont need to have a check on the content entries in order to post external content related content
-						//and it actually breaks a lot of the time if we do
-						contentBody.push('      <a target="_blank" href="' + data.relatedContent.externalContents[i].url + '">');
-						// Going under the assumption here if it's undefined it's a uploaded doc coming across as just a url
+						//added if statement below to stop the externalContents from displying if we dont know the type which is a file path to an upload doc.  
+						//That content is covered above in data.relatedContent.contentEntries
 						if (data.relatedContent.externalContents[i].type && data.relatedContent.externalContents[i].type != 'undefined'){
-						contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.externalContents[i].type + '">&nbsp;</div>');
-						} else { 
-							contentBody.push('        <div class="content_body_field_resuable_content_icon ' + 'KnowledgeUploadED' + '">&nbsp;</div>');
+							contentBody.push('  <div class="content_body_field_related_data">');
+							contentBody.push('    <div class="content_body_field_resuable_content">');
+							//we dont need to have a check on the content entries in order to post external content related content
+							//and it actually breaks a lot of the time if we do
+							contentBody.push('      <a target="_blank" href="' + data.relatedContent.externalContents[i].url + '">');
+							// Going under the assumption here if it's undefined it's a uploaded doc coming across as just a url
+							if (data.relatedContent.externalContents[i].type && data.relatedContent.externalContents[i].type != 'undefined'){
+							contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.externalContents[i].type + '">&nbsp;</div>');
+							} else { 
+								contentBody.push('        <div class="content_body_field_resuable_content_icon ' + 'KnowledgeUploadED' + '">&nbsp;</div>');
+							}
+							
+							contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.externalContents[i].name + '</div>');
+							contentBody.push('      </a>');
+							contentBody.push('    </div>');
+							contentBody.push('  </div>');
 						}
-						
-						contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.externalContents[i].name + '</div>');
-						contentBody.push('      </a>');
-						contentBody.push('    </div>');
-						contentBody.push('  </div>');
 					}
 				}
 			}
@@ -793,6 +797,7 @@ $(document).ready(function() {
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "fileDescription") &&
 						!(data.contentCategory == "content_uploadeddocument" && data.customFields[i].name == "File Information") &&
 						data.customFields[i].name != "tagpaths" &&
+						data.customFields[i].name != "publishedReviewDate" &&
 						data.customFields[i].name != "mustRead"){
 					contentBody.push('<section id="content-' + data.customFields[i].name + '" class="content_body_field custom_field">');
 					contentBody.push('  <div class="content_body_field_label">');
