@@ -83,7 +83,11 @@ public class ElementParser {
 		 * The we replace the <upload> with <content> to make it match the correct format.
 		 * I'll open a ticket on this so they can fix it.
 		**/	
-		bodyContent = removeUploadLinks(bodyContent);
+		
+		//removeUploadLinks is for 15.1 content
+		//bodyContent = removeUploadLinks(bodyContent);
+		//removeKnowledgeUploadLinks is for 15.3 content
+		bodyContent = removeKnowledgeUploadLinks(bodyContent);
 		bodyContent = bodyContent.replaceAll("<upload>", "<content>");
 		bodyContent = bodyContent.replaceAll("</upload>", "</content>");
 		
@@ -957,6 +961,95 @@ public class ElementParser {
 		}
 		
 		LOGGER.debug("Exiting removeUploadLinks()");
+		
+		return newData;
+	}
+	
+	public String removeKnowledgeUploadLinks(String data){
+		/** The file upload ED content comes across like this in EM 15.3
+		 * <a href='null?gtxResource=%2FKM%2Ffiles%2Fuploaded%2FApplying_HFR_Time1580943497320.pptm&gtxResourceFileName=%2FKM%2Ffiles%2Fuploaded%5CApplying_HFR.pptm&mode=download'>/KM/files/uploaded\Applying_HFR.pptm</a>
+		 *	<content>
+		 *		<entryId>
+		 *			<id>UOYkGFsAEG8Lxv9tzjZAq7</id>
+		 *			<locale>en-US</locale>
+		 *			<type>KnowledgeUploadED</type>
+		 *			<version>1.0</version>
+		 *			<anchor>upload</anchor>
+		 *		</entryId><title>Paul Test PPTM #1</title>
+		 *	</content>
+		 *
+		 * This is the fomrat for EM 15.1
+		 * <a href='null?gtxResource=/KM/files/uploaded/Sample2_Time1489596147222.htm&gtxResourceFileName=/KM/files/uploaded\Sample2.htm&mode=download'>/KM/files/uploaded\Sample2.htm</a>
+		 * <upload>
+		 * <entryId>
+		 * 		<id>g9ECFrthkT008uOFxf8Ex5</id>
+		 *		<locale>en-US</locale>
+		 *		<type>KnowledgeUploadED</type>
+		 *		<version>5.0</version>
+		 *	</entryId>
+		 *	<title>Paul's Puri Test</title>
+		 * </upload> 
+		 * 
+		 * We need to remove the <a> </a> element as it is a duplicate of what is in <upload>
+		**/	
+		LOGGER.debug("Entering removeKnowledgeUploadLinks()");
+		
+		String newData = data;
+		
+		//lets check to see if this content even has any upload content before parsing it
+		if (data.indexOf("<type>KnowledgeUploadED</type>") != -1){
+			int contentStartIndex = data.indexOf("<content>");
+			int contentEndIndex = -1;
+			int lastContentIndex = 0;
+			while (contentStartIndex != -1) {				
+				contentEndIndex = data.indexOf("</content>", contentStartIndex);
+				if (contentEndIndex != -1) {					
+					String contentStr = data.substring( contentStartIndex, contentEndIndex + "</content>".length()); 
+					//LOGGER.debug("Found Content: " + contentStr);
+					if (contentStr.indexOf("<type>KnowledgeUploadED</type>") != -1) {
+						//LOGGER.debug("Content is a KnowledgeUploadED");
+						//we have an upload piece of content
+						int startOfHREF = data.substring(lastContentIndex, contentStartIndex).lastIndexOf("<a");
+						//LOGGER.debug("startOfHREF=" + startOfHREF);
+						if (startOfHREF != -1) {
+							int endOfHREF =  data.substring(lastContentIndex, contentStartIndex).lastIndexOf("</a>");
+							//LOGGER.debug("endOfHREF=" + endOfHREF);
+							if (endOfHREF != -1) {
+								String contentPlusLink = data.substring(startOfHREF + lastContentIndex, contentEndIndex + "</content>".length());
+								//LOGGER.debug("Whole upload content: " + contentPlusLink);
+								String theLink = data.substring(startOfHREF + lastContentIndex, endOfHREF + lastContentIndex + "</a>".length());
+								//LOGGER.debug("Found link preceding content type upload: " + theLink);
+								//Replace the encoded %2F with/
+								String theLinkDecoded = theLink.replaceAll(Pattern.quote("%2F"), "/");
+								//LOGGER.debug("link (decoded) : " + theLinkDecoded);
+								if(theLinkDecoded.indexOf("gtxResource=/KM/files/uploaded") != -1 || theLinkDecoded.indexOf("gtxResource=\\KM\\files\\uploaded") != -1){
+									int indexOfTheLink = newData.indexOf(theLink);
+									if (indexOfTheLink != -1) {								
+										newData = newData.substring(0, indexOfTheLink) +  data.substring(startOfHREF + lastContentIndex + theLink.length());
+										LOGGER.debug("Removed link preceding <content> of type KnowledgeUploadED: " + theLink);
+										//LOGGER.debug("Data: " + newData);
+									}
+								} else {
+									//LOGGER.debug("Did not find gtxResource in link so skipping it");
+								}
+							} else {
+								//Did not find end of href, something is wrong stop processing
+								contentStartIndex = -1;
+							}
+						}
+					}
+					lastContentIndex = contentEndIndex + "</content>".length(); 
+					//LOGGER.debug("lastContentIndex=" + lastContentIndex);
+					contentStartIndex = data.indexOf("<content>", lastContentIndex);
+					//LOGGER.debug("contentStartIndex=" + contentStartIndex);
+				} else {
+					//Did not find end of content, something is wrong stop processing
+					contentStartIndex = -1;
+				}				
+			}
+		}
+		
+		LOGGER.debug("Exiting removeKnowledgeUploadLinks()");
 		
 		return newData;
 	}
