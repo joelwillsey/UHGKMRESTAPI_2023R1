@@ -56,7 +56,7 @@
 	<beans:bean id="pingOIDCAuthCodeFilter" class="com.verint.services.km.security.KmPingOIDCAuthCodeFilter">
   		<beans:property name="authenticationManager" ref="authenticationManager"/>
   		<beans:property name="authenticationEntryPoint" ref="unauthorizedEntryPoint"/>
-		<beans:property name="jsonWebKeysURL" value="https:///authgateway1.entiam.uhg.com/pf/JWKS"/>	
+		<beans:property name="jsonWebKeysURL" value="https://authgateway1.entiam.uhg.com/pf/JWKS"/>	
 		<beans:property name="tokenURL" value="https://authgateway1.entiam.uhg.com/as/token.oauth2"/>	
 		<beans:property name="clientId" value="Reg1_KC"/>
 		<beans:property name="clientSecret" value="gprjEYQYIRv3RIXKbPYjJat9hNwC5iWnDw2OG3FmvpktVAI3jAGfRZMKtd2HHysG"/>
