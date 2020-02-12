@@ -156,6 +156,7 @@ public class LoginV2BindingStub extends org.apache.axis.client.Stub implements c
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
+        System.out.println("Endpoint xxox " + super.cachedEndpoint);
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[0]);
         _call.setUseSOAPAction(true);
