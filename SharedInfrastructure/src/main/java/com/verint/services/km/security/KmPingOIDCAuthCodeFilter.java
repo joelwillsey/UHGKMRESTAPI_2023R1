@@ -3,8 +3,10 @@ package com.verint.services.km.security;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.rmi.RemoteException;
 import java.util.Date;
 
+import javax.net.ssl.SSLHandshakeException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 
@@ -12,7 +14,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.axis.AxisFault;
 import org.jose4j.json.internal.json_simple.JSONObject;
+import org.jose4j.lang.JoseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -306,10 +310,27 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 		} catch (AuthenticationException ae) {
 			LOGGER.error("AuthenticationException message: " + ae.toString());
 			String relativePath = getRelativedPath(request);
-			String errParam = "?errorMsg=Exception during loginV2DAO() - " + URLEncoder.encode(ae.getMessage(), "utf-8");
+			String errString = "Exception during loginV2DAO() - " + ae.getMessage();
+			String errParam = "?errorMsg=" + URLEncoder.encode(errString, "utf-8");
 			response.sendRedirect(relativePath +redirectURIGeneralError + errParam);
-		} catch (Exception e1) {
-			LOGGER.error("Error with authorization code", e1);
+		} catch (JoseException je) {
+			String relativePath = getRelativedPath(request);
+			String errString = "Exception during SSO - " + je.getMessage();
+			String errParam = "?errorMsg=" + URLEncoder.encode(errString, "utf-8");
+			response.sendRedirect(relativePath +redirectURIUnAuthorized + errParam);
+		} catch (RemoteException re) {
+			String relativePath = getRelativedPath(request);
+			String errString = "";
+			if(re instanceof AxisFault) {
+				errString = "AxisFault - " + ((AxisFault)re).getFaultString();
+			} else {
+			LOGGER.error("RemoteException: " + re.toString());
+				errString = "RemoteException - " + re.getMessage();
+			}
+			String errParam = "?errorMsg=" + URLEncoder.encode(errString, "utf-8");
+			response.sendRedirect(relativePath +redirectURIGeneralError + errParam);
+        }catch (Exception e1) {
+			LOGGER.error("Error with authorization code: " + e1);
 			throw new ServletException(e1);
 		}
 

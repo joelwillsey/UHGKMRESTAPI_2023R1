@@ -20,7 +20,7 @@ import org.jose4j.lang.StringUtil;
 import org.jose4j.jwk.JsonWebKey;
 import org.jose4j.jwk.JsonWebKeySet;
 import org.jose4j.jwk.VerificationJwkSelector;
-
+import org.jose4j.lang.JoseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.BufferedReader;
@@ -48,7 +48,7 @@ public class KmPingOIDCOauthUtils {
 	public static final String USERNAME = "USERNAME";
 		
 	
-	public JSONObject getUserDetails(String id_token, String secret, String jsonWebKeysURL, String kmGroups) throws ParseException {
+	public JSONObject getUserDetails(String id_token, String secret, String jsonWebKeysURL, String kmGroups) throws ParseException, JoseException {
 		
 		JSONObject userJson = null;
 		JSONObject json = null;
@@ -101,6 +101,7 @@ public class KmPingOIDCOauthUtils {
 
 		} else {
 			LOGGER.error( "verifyJwtSignatureAndUpdateResult is false, no token processing" );
+			throw new JoseException("Token does not contain a valid signature (no match jwk)");
 		}
 		
 		LOGGER.debug("Exiting getUserDetails" );
