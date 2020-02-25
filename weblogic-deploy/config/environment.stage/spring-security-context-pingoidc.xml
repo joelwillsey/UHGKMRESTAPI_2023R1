@@ -83,7 +83,7 @@ KM_FQHC_RHC_ProviderSupport,KM_Natl_Acct_CSI,KM_Medica,KM_MnR_Sup_Con_Services,K
 KM_MnR_Cons_Svc_Specialty_Teams,KM_BCS,KM_IHR,KM_ONCE,KM_RMO,KM_VEM_Author,KM_UHC_Global_Underwriting,KM_CnS_Retention,
 KM_ProviderAdvocacyCenter,KM_LearningSolutions,KM_UHCBrandedOptum,KM_UHCG_Sales_Demand_Mgmt,KM_EnI_Group_Specific,
 KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_CnS_Texas_Service_Coord,KM_Population_Health_Solutions,
-KM_Region_5_National_Provider,KM_EnI_NBS,KM_EnI_Supervisor_NPSR"/>	
+KM_Region_5_National_Provider,KM_EnI_NBS,KM_EnI_Supervisor_NPSR,KM_Financial_Protection"/>	
 	  <beans:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
 	  <beans:property name="authenticationFailureHandler" ref="failureRedirectHandler"/>
 	</beans:bean>
