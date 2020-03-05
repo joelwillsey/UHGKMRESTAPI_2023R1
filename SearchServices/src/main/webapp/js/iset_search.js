@@ -844,6 +844,8 @@ $(document).ready(function() {
 		data = data.replace(/\;/g, " ");
 		data = data.replace(/\:/g, " ");
 		data = data.replace(/\!/g, " ");
+		data = data.replace(/\&/g, " ");
+		data = data.replace(/\%/g, " ");
 		log('removeSpecialCharacters end - ' + data);
 		return data;
 	}
