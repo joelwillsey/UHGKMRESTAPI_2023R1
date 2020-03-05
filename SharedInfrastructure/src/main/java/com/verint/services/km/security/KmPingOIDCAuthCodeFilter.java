@@ -308,7 +308,7 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			response.sendRedirect(relativePath +redirectURIGeneralError + errParam);
 			}
 		} catch (AuthenticationException ae) {
-			LOGGER.error("AuthenticationException message: " + ae.toString());
+			LOGGER.error("AuthenticationException message: " + ae.toString()  + " StackTrace: " + ae.getStackTrace());
 			String relativePath = getRelativedPath(request);
 			String errString = "Exception during loginV2DAO() - " + ae.getMessage();
 			String errParam = "?errorMsg=" + URLEncoder.encode(errString, "utf-8");
@@ -317,7 +317,7 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			String relativePath = getRelativedPath(request);
 			String errString = "Exception during SSO - " + je.getMessage();
 			String errParam = "?errorMsg=" + URLEncoder.encode(errString, "utf-8");
-			LOGGER.error(errString);
+			LOGGER.error(errString  + " StackTrace: " + je.getStackTrace());
 			response.sendRedirect(relativePath +redirectURIUnAuthorized + errParam);
 		} catch (RemoteException re) {
 			String relativePath = getRelativedPath(request);
@@ -333,11 +333,11 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 		}catch (HttpResponseException hre1) {
 			String relativePath = getRelativedPath(request);
 			String errString = "Error with authorization code, HttpResponseException: " + hre1;
-			LOGGER.error(errString);
+			LOGGER.error(errString + " StackTrace: " + hre1.getStackTrace());
 			String errParam = "?errorMsg=" + URLEncoder.encode(errString, "utf-8");
 			response.sendRedirect(relativePath +redirectURIUnAuthorized + errParam);
         }catch (Exception e1) {
-			LOGGER.error("Error with authorization code: " + e1);
+			LOGGER.error("Error with authorization code: " + e1  + " StackTrace: " + e1.getStackTrace());
 			throw new ServletException(e1);
 		}
 
