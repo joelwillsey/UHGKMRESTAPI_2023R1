@@ -265,10 +265,10 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 					String redirect_uri;
 					
 					if(savedUrl.length() > 0) {
-						redirect_uri =  authenticateURL + "?&response_type=" + responseType + "&client_id=" + clientId 
+						redirect_uri =  authenticateURL + "?response_type=" + responseType + "&client_id=" + clientId 
 								+ "&redirect_uri="+ savedUrl + "&acr_values=" + acrValues + "&scope=" + scope;
 					} else {	
-						redirect_uri =  authenticateURL + "?&response_type=" + responseType + "&client_id=" + clientId 
+						redirect_uri =  authenticateURL + "?response_type=" + responseType + "&client_id=" + clientId 
 								+ "&redirect_uri="+ requestingURL + "&acr_values=" + acrValues + "&scope=" + scope;
 						LOGGER.error("Cookie savedUrl was missing redirecting to Requesting Resource");						
 					}
