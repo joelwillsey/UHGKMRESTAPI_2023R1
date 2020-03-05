@@ -60,7 +60,7 @@
 		<beans:property name="jsonWebKeysURL" value="https://authgateway1-dev.entiam.uhg.com/pf/JWKS"/>	
 		<beans:property name="tokenURL" value="https://authgateway1-dev.entiam.uhg.com/as/token.oauth2"/>	
 		<beans:property name="clientId" value="DEV_KC"/>
-		<beans:property name="clientSecret" value="BELidmUPemS5JqxuGJdduADiH6YhbzPz3fmHjmFdmjhFH1r8hIRUNixkWWnRJQS7"/>
+		<beans:property name="clientSecret" value="ohHiV2f3vIb4ikm8JyBviEzkaC93564G9pW6t2OaumEiuBM9KwGmXmxSpwukWrk0"/>
 		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>
 		<beans:property name="redirectURIUnAuthorized" value="/unauthorized.html"/>
 		<beans:property name="redirectURIGeneralError" value="/general_error.html"/>		
