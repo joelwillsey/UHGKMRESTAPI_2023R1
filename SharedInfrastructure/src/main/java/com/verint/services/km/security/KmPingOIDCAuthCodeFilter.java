@@ -216,7 +216,7 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 				responseData = res.parseAs(GenericData.class);
 				LOGGER.debug("responseData:  " + responseData);
 			} catch (HttpResponseException hre) {
-				LOGGER.error("HttpResponseException: " + hre.toString() + " - Message: " + hre.getMessage());
+				LOGGER.error("Token Request - HttpResponseException: " + hre.toString() + " - Message: " + hre.getMessage() + " StackTrace: " + hre.getStackTrace());
 				throw new ServletException(hre);
 			} finally {
 				//close the token response stream
