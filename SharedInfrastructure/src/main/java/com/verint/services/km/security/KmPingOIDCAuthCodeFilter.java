@@ -317,6 +317,7 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			String relativePath = getRelativedPath(request);
 			String errString = "Exception during SSO - " + je.getMessage();
 			String errParam = "?errorMsg=" + URLEncoder.encode(errString, "utf-8");
+			LOGGER.error(errString);
 			response.sendRedirect(relativePath +redirectURIUnAuthorized + errParam);
 		} catch (RemoteException re) {
 			String relativePath = getRelativedPath(request);
@@ -329,6 +330,12 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			}
 			String errParam = "?errorMsg=" + URLEncoder.encode(errString, "utf-8");
 			response.sendRedirect(relativePath +redirectURIGeneralError + errParam);
+		}catch (HttpResponseException hre1) {
+			String relativePath = getRelativedPath(request);
+			String errString = "Error with authorization code, HttpResponseException: " + hre1;
+			LOGGER.error(errString);
+			String errParam = "?errorMsg=" + URLEncoder.encode(errString, "utf-8");
+			response.sendRedirect(relativePath +redirectURIUnAuthorized + errParam);
         }catch (Exception e1) {
 			LOGGER.error("Error with authorization code: " + e1);
 			throw new ServletException(e1);
