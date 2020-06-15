@@ -79,7 +79,7 @@ KM_ProviderAdvocacyCenter,KM_LearningSolutions,KM_UHCBrandedOptum,KM_UHCG_Sales_
 KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_Financial_Protection
 ,KM_Financial_Protection,KM_Motion_Support,KM_Enhanced_AR_Team,KM_Global_Business_Readiness,KM_Pre_Sale,KM_Global_Product
 ,KM_CnS_Texas_Service_Coord,KM_Population_Health_Solutions,KM_Region_5_National_Provider
-,KM_EnI_Supervisor_NPSR,KM_OWCA_Ancillary
+,KM_EnI_Supervisor_NPSR,KM_OWCA_Ancillary,KM_UHC_West_Provider_Service
 "/>	
 	  <beans:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
 	  <beans:property name="authenticationFailureHandler" ref="failureRedirectHandler"/>
