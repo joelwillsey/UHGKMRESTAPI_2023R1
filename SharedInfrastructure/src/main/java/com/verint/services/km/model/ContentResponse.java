@@ -5,7 +5,11 @@ package com.verint.services.km.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -140,6 +144,23 @@ public class ContentResponse implements Serializable {
 	@XmlElement(nillable=true)
 	private com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage[] errorList;
  
+	@XmlElement(nillable=true)
+	private Boolean isDeleted = new Boolean(false);
+	
+	@XmlElement(nillable=true)
+	private Boolean isMigratable = new Boolean(false);
+	
+	@XmlElement(nillable=true)
+	private Boolean mustRead = new Boolean(false);
+	
+	@XmlElement(nillable=true)
+	private List<String> accessControls = new ArrayList<>();
+	
+	@XmlElement(nillable=true)
+	private ContentViewDefinition viewDefinition;
+	
+	@XmlElement(nillable=true)
+	private Map<Object, Object> bodyMap = new HashMap<>();
 
 	/**
 	 * 
@@ -789,7 +810,63 @@ public class ContentResponse implements Serializable {
 	public void setViewUUID(String viewUUID) {
 		this.viewUUID = viewUUID;
 	}
+	
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
 
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public Boolean getIsMigratable() {
+		return isMigratable;
+	}
+
+	public void setIsMigratable(Boolean isMigratable) {
+		this.isMigratable = isMigratable;
+	}
+
+	public Boolean getMustRead() {
+		return mustRead;
+	}
+
+	public void setMustRead(Boolean mustRead) {
+		this.mustRead = mustRead;
+	}
+
+	public List<String> getAccessControls() {
+		return accessControls;
+	}
+
+	public void setAccessControls(List<String> accessControls) {
+		this.accessControls = accessControls;
+	}
+	
+	public void addAccessControl(String accessControl) {
+		this.accessControls.add(accessControl);
+	}
+
+	public ContentViewDefinition getViewDefinition() {
+		return viewDefinition;
+	}
+
+	public void setViewDefinition(ContentViewDefinition viewDefinition) {
+		this.viewDefinition = viewDefinition;
+	}
+
+	public Map<Object, Object> getBodyMap() {
+		return bodyMap;
+	}
+
+	public void setBodyMap(Map<Object, Object> bodyMap) {
+		this.bodyMap = bodyMap;
+	}
+	
+	public void addBodyMapField(Object bodyMapKey, Object bodyMapValue) {
+		this.bodyMap.put(bodyMapKey, bodyMapValue);
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

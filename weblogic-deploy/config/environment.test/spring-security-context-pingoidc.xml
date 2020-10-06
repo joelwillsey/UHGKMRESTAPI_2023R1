@@ -60,8 +60,8 @@
   		<beans:property name="authenticationEntryPoint" ref="unauthorizedEntryPoint"/>
 		<beans:property name="jsonWebKeysURL" value="https://authgateway1-dev.entiam.uhg.com/pf/JWKS"/>	
 		<beans:property name="tokenURL" value="https://authgateway1-dev.entiam.uhg.com/as/token.oauth2"/>	
-		<beans:property name="clientId" value="DEV_KC"/>
-		<beans:property name="clientSecret" value="ohHiV2f3vIb4ikm8JyBviEzkaC93564G9pW6t2OaumEiuBM9KwGmXmxSpwukWrk0"/>
+		<beans:property name="clientId" value="Reg1_kmkc_test"/>
+		<beans:property name="clientSecret" value="ZBn5rfOyN6MV9cUQuoHF2oIzvhhjgRhhHby6FCpQPSohH8ggIVXsAApB95EK70Zp"/>
 		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>
 		<beans:property name="redirectURIUnAuthorized" value="/unauthorized.html"/>
 		<beans:property name="redirectURIGeneralError" value="/general_error.html"/>		
@@ -81,6 +81,7 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_
 ,KM_Financial_Protection,KM_Motion_Support,KM_Enhanced_AR_Team,KM_Global_Business_Readiness,KM_Pre_Sale,KM_Global_Product
 ,KM_CnS_Texas_Service_Coord,KM_Population_Health_Solutions,KM_Region_5_National_Provider
 ,KM_EnI_Supervisor_NPSR,KM_OWCA_Ancillary,KM_UHC_West_Provider_Service
+,KM_UHC_Hearing,KM_CnS_Tennessee_Whole_Person_Care,KM_GO_Member_Svc_Specialty_Exchange
 "/>	
 	  <beans:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
 	  <beans:property name="authenticationFailureHandler" ref="failureRedirectHandler"/>
@@ -91,7 +92,7 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_
   		<beans:property name="authenticationEntryPoint" ref="unauthorizedEntryPoint"/>
 		<beans:property name="authenticateURL" value="https://authgateway1-dev.entiam.uhg.com/as/authorization.oauth2"/>	
 		<beans:property name="responseType" value="code"/>
-		<beans:property name="clientId" value="DEV_KC"/>
+		<beans:property name="clientId" value="Reg1_kmkc_test"/>
 		<beans:property name="scope" value="openid%20profile%20address%20email%20phone"/>
 		<beans:property name="acrValues" value="R1_AAL1_MS-AD-Kerberos"/>
 		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>

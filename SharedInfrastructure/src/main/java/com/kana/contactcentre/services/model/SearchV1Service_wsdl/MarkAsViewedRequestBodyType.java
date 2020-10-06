@@ -19,6 +19,12 @@ public class MarkAsViewedRequestBodyType  implements java.io.Serializable {
     private java.lang.String locale;
 
     private java.lang.String siteName = "";
+    
+    private java.lang.String externalSearchId;
+    
+    private java.math.BigInteger rank;
+    
+    private java.math.BigInteger searchResultCount;
 
     public MarkAsViewedRequestBodyType() {
     }
@@ -29,13 +35,19 @@ public class MarkAsViewedRequestBodyType  implements java.io.Serializable {
            java.lang.String username,
            java.lang.String password,
            java.lang.String locale,
-           java.lang.String siteName) {
+           java.lang.String siteName,
+           java.lang.String externalSearchId,
+           java.math.BigInteger rank,
+           java.math.BigInteger searchResultCount) {
            this.applicationID = applicationID;
            this.contentID = contentID;
            this.username = username;
            this.password = password;
            this.locale = locale;
            this.siteName = siteName;
+           this.externalSearchId = externalSearchId;
+           this.rank = rank;
+           this.searchResultCount = searchResultCount;
     }
 
 
@@ -157,6 +169,69 @@ public class MarkAsViewedRequestBodyType  implements java.io.Serializable {
     public void setSiteName(java.lang.String siteName) {
         this.siteName = siteName;
     }
+    
+    
+    /**
+     * Gets the externalSearchId value for this MarkAsViewedRequestBodyType.
+     * 
+     * @return externalSearchId
+     */
+    public java.lang.String getexternalSearchId() {
+        return externalSearchId;
+    }
+
+
+    /**
+     * Sets the externalSearchId value for this MarkAsViewedRequestBodyType.
+     * 
+     * @param externalSearchId
+     */
+    public void setexternalSearchId(java.lang.String externalSearchId) {
+        this.externalSearchId = externalSearchId;
+    }
+    
+    
+    /**
+     * Gets the rank value for this MarkAsViewedRequestBodyType.
+     * 
+     * @return rank
+     */
+    public java.math.BigInteger getrank() {
+        return rank;
+    }
+
+
+    /**
+     * Sets the rank value for this MarkAsViewedRequestBodyType.
+     * 
+     * @param rank
+     */
+    public void setrank(java.math.BigInteger rank) {
+        this.rank = rank;
+    }
+    
+    
+    
+    /**
+     * Gets the searchResultCount value for this MarkAsViewedRequestBodyType.
+     * 
+     * @return searchResultCount
+     */
+    public java.math.BigInteger getsearchResultCount() {
+        return searchResultCount;
+    }
+
+
+    /**
+     * Sets the searchResultCount value for this MarkAsViewedRequestBodyType.
+     * 
+     * @param searchResultCount
+     */
+    public void setsearchResultCount(java.math.BigInteger searchResultCount) {
+        this.searchResultCount = searchResultCount;
+    }
+    
+    
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
@@ -187,7 +262,16 @@ public class MarkAsViewedRequestBodyType  implements java.io.Serializable {
               this.locale.equals(other.getLocale()))) &&
             ((this.siteName==null && other.getSiteName()==null) || 
              (this.siteName!=null &&
-              this.siteName.equals(other.getSiteName())));
+              this.siteName.equals(other.getSiteName()))) &&
+            ((this.externalSearchId==null && other.getexternalSearchId()==null) || 
+             (this.externalSearchId!=null &&
+              this.externalSearchId.equals(other.getexternalSearchId()))) &&        
+            ((this.rank==null && other.getrank()==null) || 
+             (this.rank!=null &&
+              this.rank.equals(other.getrank()))) &&        
+            ((this.searchResultCount==null && other.getsearchResultCount()==null) || 
+             (this.searchResultCount!=null &&
+              this.searchResultCount.equals(other.getsearchResultCount())));
         __equalsCalc = null;
         return _equals;
     }
@@ -217,6 +301,17 @@ public class MarkAsViewedRequestBodyType  implements java.io.Serializable {
         if (getSiteName() != null) {
             _hashCode += getSiteName().hashCode();
         }
+        if (getexternalSearchId() != null) {
+            _hashCode += getexternalSearchId().hashCode();
+        }
+        if (getrank() != null) {
+            _hashCode += getrank().hashCode();
+        }
+        if (getsearchResultCount() != null) {
+            _hashCode += getsearchResultCount().hashCode();
+        }
+               
+        
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -261,6 +356,24 @@ public class MarkAsViewedRequestBodyType  implements java.io.Serializable {
         elemField.setFieldName("siteName");
         elemField.setXmlName(new javax.xml.namespace.QName("", "siteName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("externalSearchId");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "externalSearchId"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("rank");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "rank"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
+        elemField.setNillable(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("searchResultCount");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "searchResultCount"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "integer"));
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
     }

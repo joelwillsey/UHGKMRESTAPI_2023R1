@@ -60,14 +60,27 @@
 	if (decisionTreeUrl === 'undefined' || decisionTreeUrl === null || decisionTreeUrl === 'null' || decisionTreeUrl === '') {
 		var errStatus = 'Error retriveing D-Tree confiuration (PageSetV1.RestPageSet.Url), contact administrator';
 			$.fn.handleErrorText(errStatus);
-	} else {						
-		var inlineHtml = '<iframe id="dtreeFrame" src="' + decisionTreeUrl + '" style="width: 100px; height: 100px; visibility: hidden" />'; 
+	} else {	
+		
+		var parameters = $.fn.getAllParametersString();
+		var killDecisionTreeUrl = "";
+		
+		if (parameters === 'undefined' || parameters === ''){
+			killDecisionTreeUrl = decisionTreeUrl + '?killSession';
+		} else {
+			killDecisionTreeUrl = decisionTreeUrl + '?' + parameters + '&killSession' ;
+		}
+		
+		var inlineHtml = '<iframe id="dtreeFrame" src="' + killDecisionTreeUrl + '" style="width: 100px; height: 100px; visibility: hidden" />'; 
 		log('inlineHtml: ' + inlineHtml);
 		var iframe = document.createElement('iframe');
 
-		iframe.setAttribute('src', decisionTreeUrl + '?killSession');
+		iframe.setAttribute('src', decisionTreeUrl + '?' + $.fn.getAllParametersString() + '&killSession');
 		iframe.setAttribute('onload', 'loaded()');
 		iframe.setAttribute('style', 'visibility: hidden');
+		
+		alert('URL ' + killDecisionTreeUrl);
+		
 		document.body.appendChild(iframe);
 	}
 			

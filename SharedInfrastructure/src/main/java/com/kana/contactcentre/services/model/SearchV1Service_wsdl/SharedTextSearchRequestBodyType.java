@@ -43,6 +43,15 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
     private int sortFieldOrder;
 
     private float searchPrecision;
+    
+    private java.lang.String searchTriggerType;
+
+    private java.lang.String searchData;
+
+    private java.lang.String searchContextual;
+
+    private java.lang.String externalSearchId;
+
 
     public SharedTextSearchRequestBodyType() {
     }
@@ -65,7 +74,11 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
            java.lang.String workflowState,
            java.lang.String contentVersion,
            int sortFieldOrder,
-           float searchPrecision) {
+           float searchPrecision,
+           java.lang.String searchTriggerType,
+           java.lang.String searchData,
+           java.lang.String searchContextual,
+           java.lang.String externalSearchId) {
            this.applicationID = applicationID;
            this.contentCategory = contentCategory;
            this.contentOwner = contentOwner;
@@ -84,6 +97,10 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
            this.contentVersion = contentVersion;
            this.sortFieldOrder = sortFieldOrder;
            this.searchPrecision = searchPrecision;
+           this.searchTriggerType = searchTriggerType;
+           this.searchData = searchData;
+           this.searchContextual = searchContextual;
+           this.externalSearchId = externalSearchId;
     }
 
 
@@ -445,6 +462,88 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
     public void setSearchPrecision(float searchPrecision) {
         this.searchPrecision = searchPrecision;
     }
+    
+    
+    /**
+     * Gets the searchTriggerType value for this SharedTextSearchRequestBodyType.
+     * 
+     * @return searchTriggerType
+     */
+    public java.lang.String getsearchTriggerType() {
+        return searchTriggerType;
+    }
+
+
+    /**
+     * Sets the searchTriggerType value for this SharedTextSearchRequestBodyType.
+     * 
+     * @param searchTriggerType
+     */
+    public void setsearchTriggerType(java.lang.String searchTriggerType) {
+        this.searchTriggerType = searchTriggerType;
+    }
+    
+    
+    /**
+     * Gets the searchData value for this SharedTextSearchRequestBodyType.
+     * 
+     * @return searchData
+     */
+    public java.lang.String getsearchData() {
+        return searchData;
+    }
+
+
+    /**
+     * Sets the contentVersion value for this SharedTextSearchRequestBodyType.
+     * 
+     * @param searchData
+     */
+    public void setsearchData(java.lang.String searchData) {
+        this.searchData = searchData;
+    }
+    
+    
+    /**
+     * Gets the searchContextual value for this SharedTextSearchRequestBodyType.
+     * 
+     * @return searchContextual
+     */
+    public java.lang.String getsearchContextual() {
+        return searchContextual;
+    }
+
+
+    /**
+     * Sets the searchContextual value for this SharedTextSearchRequestBodyType.
+     * 
+     * @param searchContextual
+     */
+    public void setsearchContextual(java.lang.String searchContextual) {
+        this.searchContextual = searchContextual;
+    }
+    
+    
+    /**
+     * Gets the externalSearchId value for this SharedTextSearchRequestBodyType.
+     * 
+     * @return externalSearchId
+     */
+    public java.lang.String getexternalSearchId() {
+        return externalSearchId;
+    }
+
+
+    /**
+     * Sets the externalSearchId value for this SharedTextSearchRequestBodyType.
+     * 
+     * @param externalSearchId
+     */
+    public void setexternalSearchId(java.lang.String externalSearchId) {
+        this.externalSearchId = externalSearchId;
+    }
+    
+    
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
@@ -507,7 +606,19 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
              (this.contentVersion!=null &&
               this.contentVersion.equals(other.getContentVersion()))) &&
             this.sortFieldOrder == other.getSortFieldOrder() &&
-            this.searchPrecision == other.getSearchPrecision();
+            this.searchPrecision == other.getSearchPrecision() &&      
+            ((this.searchTriggerType==null && other.getsearchTriggerType()==null) || 
+             (this.searchTriggerType!=null &&
+              this.searchTriggerType.equals(other.getsearchTriggerType()))) &&
+            ((this.searchData==null && other.getsearchData()==null) || 
+             (this.searchData!=null &&
+              this.searchData.equals(other.getsearchData()))) &&
+            ((this.searchContextual==null && other.getsearchContextual()==null) || 
+             (this.searchContextual!=null &&
+              this.searchContextual.equals(other.getsearchContextual()))) &&
+            ((this.externalSearchId==null && other.getexternalSearchId()==null) || 
+             (this.externalSearchId!=null &&
+              this.externalSearchId.equals(other.getexternalSearchId())));
         __equalsCalc = null;
         return _equals;
     }
@@ -570,6 +681,20 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
         _hashCode += getSortFieldOrder();
         
         _hashCode += new Float(getSearchPrecision()).hashCode();
+        
+        if (getsearchTriggerType() != null) {
+            _hashCode += getsearchTriggerType().hashCode();
+        }
+        if (getsearchData() != null) {
+            _hashCode += getsearchData().hashCode();
+        }
+        if (getsearchContextual() != null) {
+            _hashCode += getsearchContextual().hashCode();
+        }
+        if (getexternalSearchId() != null) {
+            _hashCode += getexternalSearchId().hashCode();
+        }
+        
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -686,6 +811,30 @@ public class SharedTextSearchRequestBodyType  implements java.io.Serializable {
         elemField.setFieldName("searchPrecision");
         elemField.setXmlName(new javax.xml.namespace.QName("", "searchPrecision"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "float"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("searchTriggerType");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "searchTriggerType"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("searchData");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "searchData"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("searchContextual");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "searchContextual"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("externalSearchId");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "externalSearchId"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }

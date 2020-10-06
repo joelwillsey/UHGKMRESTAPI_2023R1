@@ -22,7 +22,7 @@ public interface SearchDAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	public SearchResponse searchQuery(SearchRequest searchRequest, Float searchPrecision) throws RemoteException, AppException;
+	public SearchResponse searchQuery(SearchRequest searchRequest, Float searchPrecision, String searchTriggerType) throws RemoteException, AppException;
 
 	/**
 	 * 

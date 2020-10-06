@@ -21,6 +21,9 @@ public class MarkAsFeaturedRequestBodyType  implements java.io.Serializable {
     private java.lang.String locale;
 
     private java.lang.String version;
+    
+    private java.lang.String siteName;
+        
 
     public MarkAsFeaturedRequestBodyType() {
     }
@@ -32,7 +35,8 @@ public class MarkAsFeaturedRequestBodyType  implements java.io.Serializable {
            java.lang.String contentID,
            boolean isFeatured,
            java.lang.String locale,
-           java.lang.String version) {
+           java.lang.String version,
+           java.lang.String siteName) {
            this.password = password;
            this.username = username;
            this.applicationID = applicationID;
@@ -40,6 +44,7 @@ public class MarkAsFeaturedRequestBodyType  implements java.io.Serializable {
            this.isFeatured = isFeatured;
            this.locale = locale;
            this.version = version;
+           this.siteName = siteName;
     }
 
 
@@ -181,6 +186,28 @@ public class MarkAsFeaturedRequestBodyType  implements java.io.Serializable {
     public void setVersion(java.lang.String version) {
         this.version = version;
     }
+    
+    
+    /**
+     * Gets the siteName value for this MarkAsFeaturedRequestBodyType.
+     * 
+     * @return siteName
+     */
+    public java.lang.String getsiteName() {
+        return siteName;
+    }
+
+
+    /**
+     * Sets the siteName value for this MarkAsFeaturedRequestBodyType.
+     * 
+     * @param siteName
+     */
+    public void setsiteName(java.lang.String siteName) {
+        this.siteName = siteName;
+    }
+    
+    
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
@@ -212,7 +239,11 @@ public class MarkAsFeaturedRequestBodyType  implements java.io.Serializable {
               this.locale.equals(other.getLocale()))) &&
             ((this.version==null && other.getVersion()==null) || 
              (this.version!=null &&
-              this.version.equals(other.getVersion())));
+              this.version.equals(other.getVersion()))) &&
+        	((this.siteName==null && other.getsiteName()==null) || 
+             (this.siteName!=null &&
+              this.siteName.equals(other.getsiteName())));
+        
         __equalsCalc = null;
         return _equals;
     }
@@ -243,6 +274,9 @@ public class MarkAsFeaturedRequestBodyType  implements java.io.Serializable {
         if (getVersion() != null) {
             _hashCode += getVersion().hashCode();
         }
+        if (getsiteName() != null) {
+            _hashCode += getsiteName().hashCode();
+        }       
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -295,6 +329,12 @@ public class MarkAsFeaturedRequestBodyType  implements java.io.Serializable {
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("siteName");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "siteName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);        
     }
 
     /**

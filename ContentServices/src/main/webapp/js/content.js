@@ -1621,13 +1621,27 @@ $(document).ready(function() {
 				$.fn.handleErrorText(errStatus);
 		} else {			
 			//decisionTreeUrl2 = 'http://localhost:8280/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
-			var inlineHtml = '<iframe name="dtree-id" src="' + decisionTreeUrl + query + '" style="width: 1030px; height: 850px;"/>' 
-			inlineHtml = inlineHtml + '<script> window.onbeforeunload = function (e) { $.fn.logoutDTree(\'' + decisionTreeUrl + '\');};</script>'
+			var inlineHtml = '<iframe id="dtree-id" name="dtree-id" src="' + decisionTreeUrl + query + '&killSession' + '" style="width: 1030px; height: 850px;"/>' 
+			
+			//Removed the d-tree logout page as it will kill the session and then it would get re-logged in via SSO.  So by adding the 
+			//&killSession above in the URl it kills any existing session then EM drops the &killSession from the url and the d-tree 
+			//gets logged in by SSO  Also the more modern browsers are blocking the window popup on the onbeforeunload event
+			
+			//inlineHtml = inlineHtml + '<script> window.onbeforeunload = function (e) { $.fn.logoutDTree(\'' + query + '\');};</script>'
+			
 			$('#content-decision-tree').css('display', 'block');
 			$('#content-decision-tree').css('width', '100%');
 			$('#content-decision-tree').css('height', '100%');
 			log('inlineHtml: ' + inlineHtml);
 			$('#content-decision-tree').html(inlineHtml);
+			var cookieIFrame = document.getElementById('dtree-id').contentDocument.cookie;
+			console.log('pre  IFrame cookie: ' + cookieIFrame);
+			document.getElementById('dtree-id').contentDocument.cookie='JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+			cookieIFrame = document.getElementById('dtree-id').contentDocument.cookie;
+			console.log('post IFrame cookie: ' + cookieIFrame);
+			//$.fn.removeCookie('JSESSIONID');
+			var cookieFeedbackIFrame = document.getElementById('dtree-id').contentWindow.cookie;
+			console.log('Window Cookie ' + cookieIFrame);
 		}
 	}
 

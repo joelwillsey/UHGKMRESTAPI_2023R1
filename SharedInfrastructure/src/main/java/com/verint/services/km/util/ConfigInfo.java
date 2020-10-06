@@ -55,6 +55,7 @@ public class ConfigInfo {
 	private String solrAutosuggestURI = "";
 	private String alertsNumDays = "";
 	private String searchPrecision = "";
+	private String searchTriggerType = "";
 	private String sortOrder = "";
 	
 	private String connectionPoolFile;
@@ -132,6 +133,7 @@ public class ConfigInfo {
 				solrAutosuggestURI = prop.getProperty("solr.autosuggestURI");
 				alertsNumDays=prop.getProperty("alerts.numDays");
 				searchPrecision=prop.getProperty("search.precision");
+				searchTriggerType = prop.getProperty("search.TriggerType");
 				sortOrder=prop.getProperty("sort.order");
 				
 			} catch (FileNotFoundException fnfe) {
@@ -250,6 +252,9 @@ public class ConfigInfo {
 	}
 	public String getsearchPrecision(){
 		return searchPrecision;
+	}
+	public String getsearchTriggerType(){
+		return searchTriggerType;
 	}
 	public String getSortOrder(){
 		return sortOrder;

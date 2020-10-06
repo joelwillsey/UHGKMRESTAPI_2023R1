@@ -70,7 +70,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 			SearchRequest searchRequest = new SearchRequest();
 			searchRequest.setQuery("vernt");
 			//searchRequest.setUsername("kmagent");
-			SearchResponse searchResponse = searchDAO.searchQuery(searchRequest, null);
+			SearchResponse searchResponse = searchDAO.searchQuery(searchRequest, null, null);
 			LOGGER.info("SearchResponse: " + searchResponse);
 		} catch (Throwable t) {
 			LOGGER.error("Search exception", t);
@@ -82,7 +82,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 	 * @see com.verint.services.km.dao.SearchDAO#searchQuery(com.verint.services.km.model.SearchRequest)
 	 */
 	@Override
-	public SearchResponse searchQuery(SearchRequest searchRequest, Float searchPrecision) throws RemoteException, AppException {
+	public SearchResponse searchQuery(SearchRequest searchRequest, Float searchPrecision, String searchTriggerType) throws RemoteException, AppException {
 		LOGGER.info("Entering searchKnowledge()");
 		LOGGER.debug("SearchRequest: " + searchRequest);   
 		SearchResponse searchResponse = new SearchResponse();
@@ -118,6 +118,18 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 			request.setSearchPrecision(searchPrecision);
 		}
 		
+		
+		// If search precision is passed in as a parameter then use it, is not, use the system property.
+		if (searchTriggerType != null) {
+			request.setsearchTriggerType(searchTriggerType);
+		}else {
+			searchTriggerType = prop.getsearchTriggerType(); 
+			request.setsearchTriggerType(searchTriggerType);
+		}
+		
+		request.setsearchData("");
+		request.setsearchContextual("");
+		request.setexternalSearchId("");
 
 		// Setup the page# and size# (if any)
 		final ControlData controlData = new ControlData();

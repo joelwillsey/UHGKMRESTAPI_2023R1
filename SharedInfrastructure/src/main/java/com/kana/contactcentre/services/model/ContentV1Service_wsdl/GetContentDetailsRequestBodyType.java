@@ -10,36 +10,44 @@ package com.kana.contactcentre.services.model.ContentV1Service_wsdl;
 public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
     private java.lang.String applicationID;
 
+    private java.lang.String contentID;
+
+    private boolean convertFieldsToMap;
+
     private java.lang.String locale;
 
     private java.lang.String password;
 
     private java.lang.String username;
 
+    private boolean verbose;
+
     private java.lang.String version;
 
     private java.lang.String workflowState;
-
-    private java.lang.String contentID;
 
     public GetContentDetailsRequestBodyType() {
     }
 
     public GetContentDetailsRequestBodyType(
            java.lang.String applicationID,
+           java.lang.String contentID,
+           boolean convertFieldsToMap,
            java.lang.String locale,
            java.lang.String password,
            java.lang.String username,
+           boolean verbose,
            java.lang.String version,
-           java.lang.String workflowState,
-           java.lang.String contentID) {
+           java.lang.String workflowState) {
            this.applicationID = applicationID;
+           this.contentID = contentID;
+           this.convertFieldsToMap = convertFieldsToMap;
            this.locale = locale;
            this.password = password;
            this.username = username;
+           this.verbose = verbose;
            this.version = version;
            this.workflowState = workflowState;
-           this.contentID = contentID;
     }
 
 
@@ -60,6 +68,46 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
      */
     public void setApplicationID(java.lang.String applicationID) {
         this.applicationID = applicationID;
+    }
+
+
+    /**
+     * Gets the contentID value for this GetContentDetailsRequestBodyType.
+     * 
+     * @return contentID
+     */
+    public java.lang.String getContentID() {
+        return contentID;
+    }
+
+
+    /**
+     * Sets the contentID value for this GetContentDetailsRequestBodyType.
+     * 
+     * @param contentID
+     */
+    public void setContentID(java.lang.String contentID) {
+        this.contentID = contentID;
+    }
+
+
+    /**
+     * Gets the convertFieldsToMap value for this GetContentDetailsRequestBodyType.
+     * 
+     * @return convertFieldsToMap
+     */
+    public boolean isConvertFieldsToMap() {
+        return convertFieldsToMap;
+    }
+
+
+    /**
+     * Sets the convertFieldsToMap value for this GetContentDetailsRequestBodyType.
+     * 
+     * @param convertFieldsToMap
+     */
+    public void setConvertFieldsToMap(boolean convertFieldsToMap) {
+        this.convertFieldsToMap = convertFieldsToMap;
     }
 
 
@@ -124,6 +172,26 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
 
 
     /**
+     * Gets the verbose value for this GetContentDetailsRequestBodyType.
+     * 
+     * @return verbose
+     */
+    public boolean isVerbose() {
+        return verbose;
+    }
+
+
+    /**
+     * Sets the verbose value for this GetContentDetailsRequestBodyType.
+     * 
+     * @param verbose
+     */
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
+
+
+    /**
      * Gets the version value for this GetContentDetailsRequestBodyType.
      * 
      * @return version
@@ -162,26 +230,6 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
         this.workflowState = workflowState;
     }
 
-
-    /**
-     * Gets the contentID value for this GetContentDetailsRequestBodyType.
-     * 
-     * @return contentID
-     */
-    public java.lang.String getContentID() {
-        return contentID;
-    }
-
-
-    /**
-     * Sets the contentID value for this GetContentDetailsRequestBodyType.
-     * 
-     * @param contentID
-     */
-    public void setContentID(java.lang.String contentID) {
-        this.contentID = contentID;
-    }
-
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof GetContentDetailsRequestBodyType)) return false;
@@ -197,6 +245,10 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
             ((this.applicationID==null && other.getApplicationID()==null) || 
              (this.applicationID!=null &&
               this.applicationID.equals(other.getApplicationID()))) &&
+            ((this.contentID==null && other.getContentID()==null) || 
+             (this.contentID!=null &&
+              this.contentID.equals(other.getContentID()))) &&
+            this.convertFieldsToMap == other.isConvertFieldsToMap() &&
             ((this.locale==null && other.getLocale()==null) || 
              (this.locale!=null &&
               this.locale.equals(other.getLocale()))) &&
@@ -206,15 +258,13 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
             ((this.username==null && other.getUsername()==null) || 
              (this.username!=null &&
               this.username.equals(other.getUsername()))) &&
+            this.verbose == other.isVerbose() &&
             ((this.version==null && other.getVersion()==null) || 
              (this.version!=null &&
               this.version.equals(other.getVersion()))) &&
             ((this.workflowState==null && other.getWorkflowState()==null) || 
              (this.workflowState!=null &&
-              this.workflowState.equals(other.getWorkflowState()))) &&
-            ((this.contentID==null && other.getContentID()==null) || 
-             (this.contentID!=null &&
-              this.contentID.equals(other.getContentID())));
+              this.workflowState.equals(other.getWorkflowState())));
         __equalsCalc = null;
         return _equals;
     }
@@ -229,6 +279,10 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
         if (getApplicationID() != null) {
             _hashCode += getApplicationID().hashCode();
         }
+        if (getContentID() != null) {
+            _hashCode += getContentID().hashCode();
+        }
+        _hashCode += (isConvertFieldsToMap() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         if (getLocale() != null) {
             _hashCode += getLocale().hashCode();
         }
@@ -238,14 +292,12 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
         if (getUsername() != null) {
             _hashCode += getUsername().hashCode();
         }
+        _hashCode += (isVerbose() ? Boolean.TRUE : Boolean.FALSE).hashCode();
         if (getVersion() != null) {
             _hashCode += getVersion().hashCode();
         }
         if (getWorkflowState() != null) {
             _hashCode += getWorkflowState().hashCode();
-        }
-        if (getContentID() != null) {
-            _hashCode += getContentID().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -261,6 +313,18 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
         elemField.setFieldName("applicationID");
         elemField.setXmlName(new javax.xml.namespace.QName("", "applicationID"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("contentID");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "contentID"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("convertFieldsToMap");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "convertFieldsToMap"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
@@ -282,6 +346,12 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("verbose");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "verbose"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("version");
         elemField.setXmlName(new javax.xml.namespace.QName("", "version"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
@@ -290,12 +360,6 @@ public class GetContentDetailsRequestBodyType  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("workflowState");
         elemField.setXmlName(new javax.xml.namespace.QName("", "workflowState"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("contentID");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "contentID"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

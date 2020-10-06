@@ -27,6 +27,13 @@ public class ReportSharedTextSearchRequestBodyType  implements java.io.Serializa
     private java.lang.String searchContextual;
 
     private java.lang.String siteName;
+    
+    private java.lang.String contentCategory;
+    
+    private java.lang.String tags;
+    
+    private java.lang.String externalSearchId;
+    
 
     public ReportSharedTextSearchRequestBodyType() {
     }
@@ -41,7 +48,11 @@ public class ReportSharedTextSearchRequestBodyType  implements java.io.Serializa
            java.lang.String searchTriggerType,
            java.lang.String searchData,
            java.lang.String searchContextual,
-           java.lang.String siteName) {
+           java.lang.String siteName,
+           java.lang.String contentCategory,
+           java.lang.String tags,
+           java.lang.String externalSearchId
+    		) {
            this.applicationID = applicationID;
            this.locale = locale;
            this.password = password;
@@ -52,6 +63,9 @@ public class ReportSharedTextSearchRequestBodyType  implements java.io.Serializa
            this.searchData = searchData;
            this.searchContextual = searchContextual;
            this.siteName = siteName;
+           this.contentCategory = contentCategory;
+           this.tags = tags;
+           this.externalSearchId = externalSearchId;
     }
 
 
@@ -254,6 +268,65 @@ public class ReportSharedTextSearchRequestBodyType  implements java.io.Serializa
         this.siteName = siteName;
     }
 
+    
+    /**
+     * Gets the contentCategory value for this ReportSharedTextSearchRequestBodyType.
+     * 
+     * @return contentCategory
+     */
+    public java.lang.String getcontentCategory() {
+        return contentCategory;
+    }
+
+
+    /**
+     * Sets the contentCategory value for this ReportSharedTextSearchRequestBodyType.
+     * 
+     * @param contentCategory
+     */
+    public void setcontentCategory(java.lang.String contentCategory) {
+        this.contentCategory = contentCategory;
+    }
+    
+    /**
+     * Gets the tags value for this ReportSharedTextSearchRequestBodyType.
+     * 
+     * @return tags
+     */
+    public java.lang.String gettags() {
+        return tags;
+    }
+
+
+    /**
+     * Sets the tags value for this ReportSharedTextSearchRequestBodyType.
+     * 
+     * @param tags
+     */
+    public void settags(java.lang.String tags) {
+        this.tags = tags;
+    }
+    
+    /**
+     * Gets the externalSearchId value for this ReportSharedTextSearchRequestBodyType.
+     * 
+     * @return externalSearchId
+     */
+    public java.lang.String getexternalSearchId() {
+        return externalSearchId;
+    }
+
+
+    /**
+     * Sets the externalSearchId value for this ReportSharedTextSearchRequestBodyType.
+     * 
+     * @param externalSearchId
+     */
+    public void setexternalSearchId(java.lang.String externalSearchId) {
+        this.externalSearchId = externalSearchId;
+    }
+    
+    
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof ReportSharedTextSearchRequestBodyType)) return false;
@@ -295,7 +368,18 @@ public class ReportSharedTextSearchRequestBodyType  implements java.io.Serializa
               this.searchContextual.equals(other.getSearchContextual()))) &&
             ((this.siteName==null && other.getSiteName()==null) || 
              (this.siteName!=null &&
-              this.siteName.equals(other.getSiteName())));
+              this.siteName.equals(other.getSiteName()))) &&
+            ((this.contentCategory==null && other.getcontentCategory()==null) || 
+             (this.contentCategory!=null &&
+              this.contentCategory.equals(other.getcontentCategory()))) &&
+            ((this.tags==null && other.gettags()==null) || 
+             (this.tags!=null &&
+              this.tags.equals(other.gettags()))) &&
+            ((this.externalSearchId==null && other.getexternalSearchId()==null) || 
+             (this.externalSearchId!=null &&
+              this.externalSearchId.equals(other.getexternalSearchId())));
+        
+        
         __equalsCalc = null;
         return _equals;
     }
@@ -337,6 +421,16 @@ public class ReportSharedTextSearchRequestBodyType  implements java.io.Serializa
         if (getSiteName() != null) {
             _hashCode += getSiteName().hashCode();
         }
+        if (getcontentCategory() != null) {
+            _hashCode += getcontentCategory().hashCode();
+        }
+        if (gettags() != null) {
+            _hashCode += gettags().hashCode();
+        }
+        if (getexternalSearchId() != null) {
+            _hashCode += getexternalSearchId().hashCode();
+        }
+               
         __hashCodeCalc = false;
         return _hashCode;
     }
@@ -407,6 +501,25 @@ public class ReportSharedTextSearchRequestBodyType  implements java.io.Serializa
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("contentCategory");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "contentCategory"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);            
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("tags");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "tags"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);        
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("externalSearchId");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "externalSearchId"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        
     }
 
     /**

@@ -39,10 +39,12 @@ import com.verint.services.km.model.ContentResponse;
 import com.verint.services.km.model.CustomField;
 import com.verint.services.km.model.ExternalContent;
 import com.verint.services.km.model.Translated;
+import com.verint.services.km.model.ViewFieldDefinition;
 import com.verint.services.km.util.ConfigInfo;
 import com.verint.services.km.model.ScriptSrc;
 import com.verint.services.km.model.ContentVersionRequest;
 import com.verint.services.km.model.ContentVersionResponse;
+import com.verint.services.km.model.ContentViewDefinition;
 
 /**
  * @author jmiller
@@ -183,6 +185,8 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		request.setVersion(contentRequest.getVersion());
 		request.setWorkflowState(contentRequest.getWorkflowState());
 		request.setPassword(contentRequest.getPassword());
+		request.setVerbose(false);
+		request.setConvertFieldsToMap(false);
 
 		// Get the content details
 		Instant start = Instant.now();
@@ -219,7 +223,35 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			contentResponse.setViewContent(contentDetails.getViewCount());
 			contentResponse.setDescription(contentDetails.getDescription());
 			contentResponse.setRawBody(contentDetails.getBody());
+			contentResponse.setIsDeleted(contentDetails.isIsDeleted());
+			contentResponse.setIsMigratable(contentDetails.isIsMigratable());
+			contentResponse.setMustRead(contentDetails.isMustRead());
+			
+			if (contentDetails.getAccessControls() != null) {
+				for (StringItem item : contentDetails.getAccessControls()) {
+					contentResponse.addAccessControl(item.getValue());
+				}
+			}
 
+			ContentViewDefinition contentViewDefinition = new ContentViewDefinition();
+			com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentViewDefinition contentViewDefinitionBean = contentDetails.getViewDefinition();
+			if (contentViewDefinitionBean != null && contentViewDefinitionBean.getViewFields() != null) {
+				for (com.kana.contactcentre.services.model.ContentV1Service_wsdl.ViewFieldDefinition viewFieldDefBean : contentViewDefinitionBean.getViewFields()) {
+					ViewFieldDefinition viewFieldDefinition = new ViewFieldDefinition();
+					viewFieldDefinition.setFieldType(viewFieldDefBean.getFieldType());
+					viewFieldDefinition.setViewSequence(viewFieldDefBean.getViewSequence());
+					viewFieldDefinition.setShowLabel(viewFieldDefBean.isShowLabel());
+					viewFieldDefinition.setFieldDisplayName(viewFieldDefBean.getFieldDisplayName());
+					viewFieldDefinition.setFieldName(viewFieldDefBean.getFieldName());
+					contentViewDefinition.addViewField(viewFieldDefinition);
+				}
+			}
+			contentResponse.setViewDefinition(contentViewDefinition);
+
+			if (contentDetails.getBodyMap() != null && contentDetails.getBodyMap().getTypeDesc() != null) {
+				//Fields are not obvious because only testing scenarios have a null. Need to debug to figure out how to parse GTMap.
+			}
+			
 			// Parse the XML from the Body
 			if ("KnowledgeUploadED".equals(contentDetails.getContentType())) {
 				// Parse the body
