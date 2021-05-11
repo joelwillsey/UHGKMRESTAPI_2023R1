@@ -53,10 +53,10 @@
 		var BOOKMARK_SERVICE_TIMEOUT = 21000;
 		var SEARCH_SERVICE_TIMEOUT = 120000;
 		var historyPushEnabled = true;
-		
+		var LOGIN_SERVICE_TIMEOUT = 21000;
 		var postLogin  = "verintkm.html";
 		
-		var LOGIN_SERVICE_TIMEOUT = 21000;
+		
 		// Setup cookie to store the initial URL
 		var urlToSend = $.fn.getAllParametersString().split('=').join('%3D');
 		document.cookie = 'savedurl=' + 'verintkm.html%3F' + urlToSend + '; path=/';
@@ -1072,6 +1072,7 @@
 		//$.removeCookie('AgentInfo', null, { path: '/' });
 		//$.removeCookie("AuthToken",  { path: '/' });
 		$.cookie('AuthToken', '', { expires: -1, path: '/'});
+		$.cookie('verintAuthToken', '', { expires: -1, path: '/'});
 		//$.cookie('AgentInfo', '', { expires: -1, path: '/'});
 		basicAuth = '';		
 		$('#widgetHeader-name').html('');		

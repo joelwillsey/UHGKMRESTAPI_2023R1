@@ -20,5 +20,5 @@ public interface RequestAnswerDAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	public void suggestContent(RequestAnswerRequest requestAnswer) throws RemoteException, AppException;
+	public void suggestContent(RequestAnswerRequest requestAnswer, String oidcToken) throws RemoteException, AppException;
 }

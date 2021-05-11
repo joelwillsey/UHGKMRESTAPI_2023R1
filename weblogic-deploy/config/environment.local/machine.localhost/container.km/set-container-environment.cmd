@@ -28,7 +28,7 @@ set KM_CONNECT_URL=t3s://localhost:10290
 set KM_EM-APPSERVER_PORT=7380
 
 REM container start up options (This is optional if set at the Environment level)
-set KM_STARTUP_OPTIONS= -Denvironment.name=local -DconfigLocation=C:\em\projects\uhg\KMRestAPI\kmservices\config -Dmachine.name=localhost -Dcontainer.name=dev -DlogFile=C:\app_2\verint\projects\uhgiq\restapi\logs
+set KM_STARTUP_OPTIONS= -Denvironment.name=local -DconfigLocation=C:\em\projects\uhg\KMRestAPI_15_3_2020R2\kmservices\config -Dmachine.name=localhost -Dcontainer.name=dev -DlogFile=C:\app_2\verint\projects\uhgiq\restapi\logs
 set KM_MEMORY_OPTS= -Xms1024m -Xmx1024m
 
 echo Container (domain) is set to [%KM_DOMAIN%]

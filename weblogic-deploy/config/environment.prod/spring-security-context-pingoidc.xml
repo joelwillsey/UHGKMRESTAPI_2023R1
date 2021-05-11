@@ -10,9 +10,12 @@
         http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
 	<!-- These dont need securitry FYI Order of these in the config do matter-->
+	<security:http pattern="/km/authtoken" security="none"/>
 	<security:http pattern="/km/login" security="none"/>
 	<security:http pattern="/km/login_v2" security="none"/>
 	<security:http pattern="/km/property/read" security="none"/>
+	<security:http pattern="/km/hovertext/**" security="none"/>
+	<security:http pattern="/sso/error/**" security="none"/>
 
 	<!-- Stateless RESTful services use custom BASIC authentication -->
     <security:http create-session="stateless" use-expressions="false" auto-config="false" entry-point-ref="unauthorizedEntryPoint" authentication-manager-ref="authenticationManager">
@@ -79,11 +82,20 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_
 ,KM_Financial_Protection,KM_Motion_Support,KM_Enhanced_AR_Team,KM_Global_Business_Readiness,KM_Pre_Sale,KM_Global_Product
 ,KM_CnS_Texas_Service_Coord,KM_Population_Health_Solutions,KM_Region_5_National_Provider
 ,KM_EnI_Supervisor_NPSR,KM_OWCA_Ancillary,KM_UHC_West_Provider_Service
-,KM_UHC_Hearing,KM_CnS_Tennessee_Whole_Person_Care,KM_GO_Member_Svc_Specialty_Exchange
-,KM_AnG_Exchanges
+,KM_UHC_Hearing,KM_CnS_Tennessee_Whole_Person_Care,KM_GO_Member_Svc_Specialty_Exchange,KM_AnG_Exchanges,KM_Texas_DCM
 "/>	
 	  <beans:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
 	  <beans:property name="authenticationFailureHandler" ref="failureRedirectHandler"/>
+	  <!--authTokenExpirationDuration should match property oidc-token-service.token.expiration.duration in EM -->
+	  <beans:property name="authTokenExpirationDuration" value="57600"/>
+	  <!--<beans:property name="oidcTokenServiceURL" value="https://kmead.uhc.com/oidc-token-service/default/authorize"/> -->
+	  <beans:property name="oidcTokenServiceURL" value="https://kmead.uhc.com/oidc-token-service/default/token"/>
+	  <beans:property name="oidcTokenServiceGrantType" value="external-oidc"/>
+	  <beans:property name="oidcTokenServiceRedirectUri" value="https://kmead.uhc.com/verintkm/verintkm.html"/>
+	  <!-- only use oidcTokenServiceResponseType for authorize url, nor used -->
+	  <beans:property name="oidcTokenServiceResponseType" value="code"/>
+	  <beans:property name="oidcTokenServiceClientId" value="default"/>
+	  <beans:property name="oidcTokenServiceScope" value="openid tags content_entitlements context_entitlements"/>
 	</beans:bean>
 	
 	<beans:bean id="pingOIDCAuthenticationFilter" class="com.verint.services.km.security.KmPingOIDCAuthenticationFilter">

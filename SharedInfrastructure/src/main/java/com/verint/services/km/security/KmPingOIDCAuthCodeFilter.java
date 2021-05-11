@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.servlet.FilterChain;
@@ -15,7 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.AxisFault;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.jose4j.json.internal.json_simple.JSONObject;
+import org.jose4j.json.internal.json_simple.parser.JSONParser;
+import org.jose4j.json.internal.json_simple.parser.ParseException;
 import org.jose4j.lang.JoseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +61,7 @@ import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.GenericData;
 
+
 public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	private final Logger LOGGER = LoggerFactory.getLogger(KmPingOIDCAuthCodeFilter.class);
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
@@ -64,6 +79,13 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	private String redirectURI;
 	private String redirectURIUnAuthorized;
 	private String redirectURIGeneralError;
+	private String oidcTokenServiceURL;
+	private String oidcTokenServiceGrantType;
+	private String oidcTokenServiceRedirectUri;
+	private String oidcTokenServiceResponseType;
+	private String oidcTokenServiceClientId;
+	private String oidcTokenServiceScope;
+	private int authTokenExpirationDuration;
 	private static final String USERNAME = "USERNAME";
 	private static final String	FIRST_NAME = "FIRST_NAME"; 
 	private static final String	LAST_NAME = "LAST_NAME";
@@ -73,6 +95,12 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	private static final String X_KM_AUTHORIZATION = "x-km-authorization";
 	private static final String AUTH_TOKEN_COOKIE_NAME = "AuthToken";
 	private static final String AGENT_INFO_COOKIE_NAME = "AgentInfo";
+	public static final String ACCESS_TOKEN = "access_token";
+	public static final String TOKEN_TYPE = "token_type";
+	public static final String EXPIRES_IN = "expires_in";
+	public static final String ID_TOKEN = "id_token";
+	private static final String VERINT_AUTH_TOKEN_COOKIE_NAME = "verintAuthToken";
+	
 	/**
 	 * The auhtorization code query parameter.
 	 */
@@ -248,6 +276,7 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 			}
 			
 			
+			
 			//we are going to pass in all the info need through password field of the UsernamePasswordAuthenticationToken
 			String credentials = dummyPassword + "|" + ssoFirstName + "|" + ssoLastName + "|" + kbList;
 			
@@ -265,16 +294,12 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 					String pass = (String) authResult.getCredentials();
 			        String authToken = setupToken(user,pass);		        
 			        String agentInfo = ssoFirstName + " " + ssoLastName;
-			        //LOGGER.debug("authToken: " + authToken);admin	
+			        //LOGGER.debug("authToken: " + authToken);	
 			        //LOGGER.debug("agentInfo: " + agentInfo);
 					response.setHeader(X_KM_AUTHORIZATION, authToken);
 					response.setHeader(USERNAME, user);
 					response.setHeader(FIRST_NAME, ssoFirstName);
 					response.setHeader(LAST_NAME, ssoLastName);
-					//response.setHeader(GROUPS, kbList);
-					//LOGGER.debug("Adding AuthToken ['" + authToken + "'] and AgentInfo ['"+ agentInfo + "'] cookies: ");
-					//response.setHeader("Set-Cookie", "AgentInfo=" + agentInfo + "; path=/");
-					//response.setHeader("Set-Cookie", "AuthToken=" + authToken + "; path=/");
 					LOGGER.debug("Adding " +  AGENT_INFO_COOKIE_NAME + " ['"+ agentInfo + "'] cookies");
 					Cookie agentInfoCookie = new Cookie(AGENT_INFO_COOKIE_NAME, agentInfo);
 					agentInfoCookie.setPath("/");
@@ -282,6 +307,8 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 					LOGGER.debug("Adding " + AUTH_TOKEN_COOKIE_NAME + " ['" + authToken + "'] cookie");
 					Cookie authTokenCookie = new Cookie(AUTH_TOKEN_COOKIE_NAME , authToken);
 					authTokenCookie.setPath("/");
+					//Remove expiration to make it a session cookie
+					//authTokenCookie.setMaxAge(authTokenExpirationDuration);
 					response.addCookie(authTokenCookie);
 					
 				} catch (UnsupportedEncodingException eu) {
@@ -289,6 +316,27 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 					throw eu;
 				}
 				
+				//get token from oidc-token-service
+				JSONObject verintOidcToken = getVerintOIDCToken(idToken);
+				
+				// Create verint oidc token cookie
+				if (verintOidcToken.containsKey(ID_TOKEN)) {
+					String verintIdToken = (String) verintOidcToken.get(ID_TOKEN);
+					Long verintIdTokenExpiresl = (Long) verintOidcToken.get(EXPIRES_IN);
+					int verintIdTokenExpires = verintIdTokenExpiresl.intValue();
+					int expiryTimeInSeconds = getExpriyTimeInSecondsFromNow(verintIdTokenExpires);					
+					LOGGER.debug("verintOidcToken: " + verintOidcToken);
+					LOGGER.debug("Adding " + VERINT_AUTH_TOKEN_COOKIE_NAME + " ['" + verintIdToken + "'] cookie");
+					//LOGGER.debug("Adding " + VERINT_AUTH_TOKEN_COOKIE_NAME + " ['" + verintIdToken + "'] cookie, expires in "+ expiryTimeInSeconds);
+					Cookie verintAuthTokenCookie = new Cookie(VERINT_AUTH_TOKEN_COOKIE_NAME , verintIdToken);
+					//Remove expiration to make it a session cookie
+					//verintAuthTokenCookie.setMaxAge(expiryTimeInSeconds);
+					verintAuthTokenCookie.setPath("/");
+					response.addCookie(verintAuthTokenCookie);
+				} else {
+					LOGGER.error("Unable to read verintOidcToken json: " + verintOidcToken.toString());
+				}
+								
 				SecurityContextHolder.getContext().setAuthentication(authResult);
 				rememberMeServices.loginSuccess(request, response, authResult);
 				onSuccessfulAuthentication(request, response, authResult);
@@ -373,7 +421,60 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	}
 	
 
-
+	  public JSONObject getVerintOIDCToken(String pingIdToken) {
+		  JSONObject verintOIDCToken = null;
+		  
+		  LOGGER.debug("Entering getVerintOIDCToken()");
+		  
+		  CloseableHttpClient httpClient = HttpClients.createDefault();
+		  HttpPost httpPost = new HttpPost(oidcTokenServiceURL);
+		 
+		  try {
+			// Request parameters and other properties.
+			  List<NameValuePair> form = new ArrayList<NameValuePair>();
+			  form.add(new BasicNameValuePair("grant_type", oidcTokenServiceGrantType));
+			  form.add(new BasicNameValuePair("redirect_uri", oidcTokenServiceRedirectUri));
+			  //form.add(new BasicNameValuePair("response_type", oidcTokenServiceResponseType));
+			  form.add(new BasicNameValuePair("client_id", oidcTokenServiceClientId));
+			  form.add(new BasicNameValuePair("scope", oidcTokenServiceScope));
+			  UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form,  "UTF-8");
+			  httpPost.setEntity(entity);
+			  httpPost.setHeader("Ping-token", pingIdToken);
+	
+			// Create a custom response handler
+	          ResponseHandler < String > responseHandler = response -> {
+	              int status = response.getStatusLine().getStatusCode();
+	              if (status >= 200 && status < 300) {
+	                  HttpEntity responseEntity = response.getEntity();
+	                  return responseEntity != null ? EntityUtils.toString(responseEntity) : null;
+	              } else {
+	                  throw new ClientProtocolException("Unexpected response status: " + status);
+	              }
+	          };
+	          
+	          
+	          
+			  //Execute and get the response.
+	          LOGGER.debug("oidc-token-service Request - " + httpPost.getURI().toString());
+	          String response = httpClient.execute(httpPost, responseHandler);
+	          LOGGER.debug("oidc-token-service Response - " + response);
+	          
+	          verintOIDCToken = (JSONObject) new JSONParser().parse(response);
+	          	          
+			} catch (ClientProtocolException e) {
+				LOGGER.error("ClientProtocolException - " + e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				LOGGER.error("IOException - " + e.getMessage());
+				e.printStackTrace();
+			} catch (ParseException e) {
+				LOGGER.error("ParseException - " + e.getMessage());
+				e.printStackTrace();
+			}
+		 
+		  LOGGER.debug("Exiting getVerintOIDCToken()");		  
+		  return verintOIDCToken;
+	  }
 
 
 
@@ -456,6 +557,118 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	 */
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getAuthTokenExpirationDuration() {
+		return this.authTokenExpirationDuration;
+	}
+	
+	/**
+	 * 
+	 * @param authTokenExpirationDuration
+	 */
+	public void setAuthTokenExpirationDuration(int authTokenExpirationDuration) {
+		this.authTokenExpirationDuration = authTokenExpirationDuration;		
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOidcTokenServiceURL() {
+		return this.oidcTokenServiceURL;
+	}
+	
+	/**
+	 * 
+	 * @param clientId
+	 */
+	public void setOidcTokenServiceURL(String oidcTokenServiceURL) {
+		this.oidcTokenServiceURL = oidcTokenServiceURL;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOidcTokenServiceGrantType() {
+		return this.oidcTokenServiceGrantType;
+	}
+	
+	/**
+	 * 
+	 * @param clientId
+	 */
+	public void setOidcTokenServiceGrantType(String oidcTokenServiceGrantType) {
+		this.oidcTokenServiceGrantType = oidcTokenServiceGrantType;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOidcTokenServiceRedirectUriL() {
+		return this.oidcTokenServiceRedirectUri;
+	}
+	
+	/**
+	 * 
+	 * @param clientId
+	 */
+	public void setOidcTokenServiceRedirectUri(String oidcTokenServiceRedirectUri) {
+		this.oidcTokenServiceRedirectUri = oidcTokenServiceRedirectUri;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOidcTokenServiceResponseType() {
+		return this.oidcTokenServiceResponseType;
+	}
+	
+	/**
+	 * 
+	 * @param clientId
+	 */
+	public void setOidcTokenServiceResponseType(String oidcTokenServiceResponseType) {
+		this.oidcTokenServiceResponseType = oidcTokenServiceResponseType;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOidcTokenServiceClientId() {
+		return this.oidcTokenServiceClientId;
+	}
+	
+	/**
+	 * 
+	 * @param clientId
+	 */
+	public void setOidcTokenServiceClientId(String oidcTokenServiceClientId) {
+		this.oidcTokenServiceClientId = oidcTokenServiceClientId;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOidcTokenServiceScope() {
+		return this.oidcTokenServiceScope;
+	}
+	
+	/**
+	 * 
+	 * @param clientId
+	 */
+	public void setOidcTokenServiceScope(String oidcTokenServiceScope) {
+		this.oidcTokenServiceScope = oidcTokenServiceScope;
 	}
 	
 	/**
@@ -604,7 +817,7 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 		return strRedirectURI;
 	}
 	
-private String getRelativedPath(HttpServletRequest request) {
+	private String getRelativedPath(HttpServletRequest request) {
 		
 		LOGGER.info("getRelativedPath");	
 		
@@ -625,6 +838,17 @@ private String getRelativedPath(HttpServletRequest request) {
 		LOGGER.debug("Relatived Path: " + strRedirectURI);
 		LOGGER.info("getRelativedPath()");
 		return strRedirectURI;
+	}
+	
+	public static int getExpriyTimeInSecondsFromNow(int epochTime) {
+	
+		Long currentEpochTimeInMilliSeconds = System.currentTimeMillis()/1000;
+		int currentEpochTimeInSeconds = currentEpochTimeInMilliSeconds.intValue();
+		if (epochTime > currentEpochTimeInSeconds) {
+			return epochTime - currentEpochTimeInSeconds;
+		}
+	
+		return 0; 
 	}
 	
 }

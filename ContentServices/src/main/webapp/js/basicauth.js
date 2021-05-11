@@ -65,7 +65,9 @@ $.fn.isUserAuthenticated = function() {
 	var myCookies = $.fn.getCookies();
 	if (typeof myCookies != 'undefined' && myCookies != '') {
 		authToken = $.fn.getCookie('AuthToken');
-		if (typeof authToken === 'undefined' || authToken === '') {
+		verintAuthToken = $.fn.getCookie('verintAuthToken');
+		if (typeof authToken === 'undefined' || authToken === '' ||
+			typeof verintAuthToken === 'undefined' || verintAuthToken === '') {
 			var cId = $.fn.getParameterByName('id');
 			if (typeof cId != 'undefined' && cId != null && cId != 'null'
 					&& cId != '') {
@@ -92,9 +94,11 @@ $.fn.determineAuth = function() {
 	var myCookies = $.fn.getCookies();
 	if (typeof myCookies != 'undefined' && myCookies != '') {
 		authToken = $.fn.getCookie('AuthToken');
+		verintAuthToken = $.fn.getCookie('verintAuthToken');
 		// Check for a valid authentication
 		log('AuthToken: ' + authToken);
-		if (typeof authToken != 'undefined' && authToken != '') {
+		if (typeof authToken != 'undefined' && authToken != '' &&
+			typeof verintAuthToken != 'undefined' && verintAuthToken != '') {
 			window.document.location = postLogin + '?' + $.fn.getAllParametersString();
 		}
 	} else {

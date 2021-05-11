@@ -31,6 +31,8 @@ public class ManageBookmarkRequest implements Serializable {
 	@XmlElement(nillable=true)
 	private String password = "";
 
+	@XmlElement(nillable=true)
+	private String oidcToken = "";
 	
 	/**
 	 * Constructor
@@ -97,12 +99,21 @@ public class ManageBookmarkRequest implements Serializable {
 		this.password = password;
 	}
 
+	public String getOidcToken() {
+		return oidcToken;
+	}
+
+	public void setOidcToken(String oidcToken) {
+		this.oidcToken = oidcToken;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "ManageBookmarkRequest [contentId=" + contentId + ", userAction=" + userAction + ", username=" + username + ", password=" + password
-				+ "]";
+		return "ManageBookmarkRequest [contentId=" + contentId + ", userAction=" + userAction +
+				", username=" + username + ", password=" + password +
+				", oidcToken=" + oidcToken  +"]";
 	}
 }

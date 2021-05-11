@@ -24,6 +24,7 @@ public class AppErrorMessage {
 	public final static String LOGIN_ERROR = "Error during user login";
 	public final static String CROSS_TAGS_ERROR = "Error with source tag or target tagset";
 	public final static String UNAUTHORIZED_ACCESS = "Unauthorized: Authentication token was either missing or invalid";
+	public final static String BAD_REQUEST = "Bad Request";
 	public final static String UNEXPECTED_APPLICATION_EXCEPTION = "Unexpected application exception";
 	public final static String HOVERTEXT_HOVERID_ERROR = "Error finding Hover Id for HoverText";
 	public final static String HOVERTEXT_CONTENT_ERROR = "Error finding content for HoverText";

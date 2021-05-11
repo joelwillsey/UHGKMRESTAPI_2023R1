@@ -154,7 +154,7 @@ ul.jqtree-tree.jqtree-rtl {
 			.sr_lr_icon_tree_content_uploadeddocument, .sr_lr_icon_tree_KnowledgeUploadED {
 				background-image: url(../images/iconKnowledgeUploadedDocument.png);
 			}
-			.sr_lr_icon_tree_content_spidereddocument, .sr_lr_icon_tree_Unstructured {
+			.sr_lr_icon_tree_content_spidereddocument, .sr_lr_icon_tree_Spidered {
 				background-image: url(../images/iconKnowledgeWeblink.png);
 			}
 			.sr_lr_icon_tree_content_decisiontree, .sr_lr_icon_tree_pageSet {

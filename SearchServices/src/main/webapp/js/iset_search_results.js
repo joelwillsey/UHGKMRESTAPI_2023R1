@@ -131,11 +131,12 @@ $(document).ready(function() {
 	}
 	
 	// Call to view Content
-	$.fn.viewContent = function(contentId, contentType) {
+	$.fn.viewContent = function(contentId, contentType, externalSearchId) {
 		var packagedData = [];
 		packagedData = {
 			"contentId" : contentId,
-			"contentType" : contentType
+			"contentType" : contentType,
+			"externalSearchId" : externalSearchId
 		}
 
 		var sPageURL = decodeURIComponent(window.location.search.substring(1));
@@ -207,12 +208,18 @@ $(document).ready(function() {
 	}
 	
 	// Setup slice results if there are any
-	$.fn.setupSlicedContent = function(data, results) {
+	$.fn.setupSlicedContent = function(data, results, externalSearchId) {
+		var externalSearchIdParam = '';		
+		if (typeof externalSearchId != 'undefined' && externalSearchId != ''){
+			externalSearchIdParam = ", \'" + externalSearchId + "\'";
+		}
+		
+
 		results.push('<article>');
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
-		}  else if (data.contentType === 'Unstructured') {
+		}  else if (data.contentType === 'Spidered') {
 			//Spidered Content
 			
 			//Grab the tags for display, only have system name not display names
@@ -233,7 +240,7 @@ $(document).ready(function() {
 					data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
 					passTags + '\');">');
 		} else {
-			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType+ '\', \'' + externalSearchId + '\', \'' + data.knowledgeUnits[0].contentVersion + '\');">');
 		}		
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
@@ -259,7 +266,14 @@ $(document).ready(function() {
 	}
 	
 	// Setup external content links
-	$.fn.setupExternalContent = function(data, results) {
+	$.fn.setupExternalContent = function(data, results, externalSearchId) {
+		//log('setupExternalContent');
+		//log(data);
+		var externalSearchIdParam = '';		
+		if (typeof externalSearchId != 'undefined' && externalSearchId != ''){
+			externalSearchIdParam = ", " + externalSearchId
+		}
+		
 		var nTags = data.knowledgeUnits[0].tags;
 		var passTags = '';
 		if (typeof nTags != 'undefined' && nTags != null && nTags.length > 0) {
@@ -268,7 +282,7 @@ $(document).ready(function() {
 			}
 		}
 		results.push('<article>');
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewExternalContent(\'' +
+/*		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchViewExternalContent(\'' +
 			data.contentID + '\',\'' +
 			data.knowledgeUnits[0].associatedContentURL + '\',' + 
 			data.isFeatured + ',' +
@@ -276,7 +290,8 @@ $(document).ready(function() {
 			data.numberOfRatings + ',\'' +
 			data.title + '\',\'' +
 			data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
-			passTags + '\');">');
+			passTags + '\');">'); */
+		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\'' + externalSearchIdParam + '\');">');
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 
@@ -348,12 +363,17 @@ $(document).ready(function() {
 	// Setup search results list
 	$.fn.setupResultsListing = function(data) {
 		var results = [];
+		var externalSearchId = '';
+		
 		// First check if we have suggested content
 		if (typeof data != 'undefined' && data != null && typeof data.suggestedQueries != 'undefined' && data.suggestedQueries != null && data.suggestedQueries.length > 0) {
 			// Check for 0 results
 			if (data.numberOfResults === 0) {
 				$('.sr_numbers_showing').html('Showing 0 of 0 results');
 			}
+			
+			externalSearchId = data.data.externalSearchId;
+			
 			var queryText = '';
 			// Check for a REPLACED_SPECIFIC_TERMS first
 			for (var i=0; i < data.suggestedQueries.length; i++) {
@@ -397,11 +417,11 @@ $(document).ready(function() {
 						for (var p = 0; (data.suggestedQueries[i].knowledgeGroupUnits != null) && (p < data.suggestedQueries[i].knowledgeGroupUnits.length); p++) {
 							if (data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits != null && 
 								data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits.length > 1) {
-								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
+								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results, externalSearchId);
 							} else {
 								// Do we have spidered content to setup?
-								if (data.suggestedQueries[i].knowledgeGroupUnits[p].contentType === 'Unstructured') {
-									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
+								if (data.suggestedQueries[i].knowledgeGroupUnits[p].contentType === 'Spidered') {
+									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results, externalSearchId);
 								} else {
 									// "regular" content
 									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
@@ -424,11 +444,11 @@ $(document).ready(function() {
 			// Loop through the results
 			for (var i=0;(data.knowledgeGroupUnits != null) && (i < data.knowledgeGroupUnits.length); i++) {
 				if (data.knowledgeGroupUnits[i].knowledgeUnits != null && data.knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
-					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results);
+					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results, externalSearchId);
 				} else {
 					// Do we have spidered content to setup?
-					if (data.knowledgeGroupUnits[i].contentType === 'Unstructured') {
-						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results);
+					if (data.knowledgeGroupUnits[i].contentType === 'Spidered') {
+						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results, externalSearchId);
 					} else {
 						// "regular" content
 						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results);

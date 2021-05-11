@@ -30,7 +30,7 @@ public class ConnectionPoolRS {
 
 	static {
 		String fileLocation = PropertyUtil.getConnectionPoolRSPath();
-		LOGGER.debug("Connection Pool FileLocation: " + fileLocation);
+		//LOGGER.debug("Connection Pool FileLocation: " + fileLocation);
 		
 
 		

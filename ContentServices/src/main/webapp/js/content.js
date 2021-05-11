@@ -1,4 +1,6 @@
 var contentId;
+var contentType;
+//var externalSearchId;
 var viewId;
 var version;
 var contentIds= new Array();
@@ -98,7 +100,7 @@ $(document).ready(function() {
 
     // Refresh Link
     $('#content-skipto-refresh').on('click', function() {
-    	$.fn.retrieveContent(contentId);
+    	$.fn.retrieveContent(contentId, contentType);
     });
 
     // Setup Mobile Exit Button
@@ -177,22 +179,25 @@ $(document).ready(function() {
 	}
 
 	// Open up new window/tab to view content
-	$.fn.launchViewContent = function(data) {
-		log(data);
+	$.fn.launchViewContent = function(id, contentType, externalSearchId, contentVersion) {
+		log(id);
 		var currentPathName = window.location.pathname;
 		log('currentPathName: ' + currentPathName);
 		//Check if this is an iset_content_container, if it is the pop-out needs to open in a set_content_container
+		
+		var urlExtSearchId = (externalSearchId && externalSearchId != "undefined") ? "&externalSearchId=" + externalSearchId : "";
+		var urlContentVersion = (contentVersion && contentVersion != "undefined") ? "&version=" + contentVersion : "";
 		if (currentPathName.search('iset_content_container.html') == -1){
-			window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
+			window.open (contentServiceName + 'content_container.html?id=' + id + "&contentType=" + contentType + urlContentVersion + urlExtSearchId, id + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
 		} else {
-			window.open (contentServiceName + 'iset_content_container.html?id=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
+			window.open (contentServiceName + 'iset_content_container.html?id=' + id, id + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
 		}
 	}
 	
 	// Open up new window
 	$.fn.launchDTViewContent = function(data) {
 		log(data);
-		window.open (contentServiceName + 'content_container.html?dt=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
+		window.open (contentServiceName + 'content_container.html?dtreeid=' + data, data + '_contentwindow','menubar=1,resizable=1,width=1030,height=850');
 	}
 
 	 //Bookmark function
@@ -486,13 +491,41 @@ $(document).ready(function() {
 	    		} 
 	    	});	    
     	}
-    	    	
 
-    	
-
-    }
-
+		$.fn.setupEMShowHide();
+	}
     
+	$.fn.setupEMShowHide = function() {
+		//From OOTB formparaph.js with minor modifications
+        //this.destroyCollapsedContent();
+        var collapseContentHeaders = $(".GTCollapseContent");
+        if(collapseContentHeaders.length > 0) {
+            collapseContentHeaders.each(function() {                
+                var header = $(this).find(".pod").first();
+                var content = $(this).find(".content-holder").first();
+                $(this).find(".content-holder").first().removeClass("GTDisplay");
+                $(this).find(".content-holder").first().addClass("GTNone");                
+                $(this).find(".title").first().bind("click", function() {
+                    if($($(content).get(0)).hasClass("GTDisplay")) {
+                        $($(content).get(0)).removeClass("GTDisplay");
+                        $($(content).get(0)).addClass("GTNone");
+                    } else {
+                        $($(content).get(0)).removeClass("GTNone");
+                        $($(content).get(0)).addClass("GTDisplay");
+                    }                    
+                    if($($(header).get(0)).hasClass("collapsed")) {
+                        $($(header).get(0)).removeClass("collapsed");
+                        $($(header).get(0)).addClass("expanded");
+                    } else {
+                        $($(header).get(0)).addClass("collapsed");
+                        $($(header).get(0)).removeClass("expanded");
+                    }
+                });
+                
+            });
+        }
+	}
+
     // Setup Public Content
     $.fn.setupPublic = function(data, contentBody) {
     	if ((typeof data.publicBody != 'undefined' && data.publicBody != '') || 
@@ -522,9 +555,9 @@ $(document).ready(function() {
 				contentBody.push('  <div class="content_body_field_resuable_content">');
 				//contentBody.push(' <!-- Content Type for publicBody is: ' + data.publicSectionContent[p].type + ' -->');
 				if (data.publicSectionContent[p].type == 'pageSet') {
-					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.publicSectionContent[p].id + '\');">');
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.publicSectionContent[p].id + '\');">');
 				} else {
-					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.publicSectionContent[p].id + '\');">');
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.publicSectionContent[p].id + '\',\'' + data.publicSectionContent[p].type +'\',\'\',\'' + data.publicSectionContent[p].version + '\');">');
 				}
 				contentBody.push('      <div class="content_body_field_resuable_content_icon ' + data.publicSectionContent[p].type + '">&nbsp;</div>');
 				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.publicSectionContent[p].title + '</div>');
@@ -532,7 +565,7 @@ $(document).ready(function() {
 				if (data.publicSectionContent[p].type == 'pageSet') {
 					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.publicSectionContent[p].id + '\');">');
 				} else {
-					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.publicSectionContent[p].id + '\');">');
+					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.publicSectionContent[p].id + '\',\'' + data.publicSectionContent[p].type +'\',\'\',\'' + data.publicSectionContent[p].version + '\');">');
 				}
 				contentBody.push('      <img src="' + contentServiceName + '/images/ReadLaterGray16x16.png"/>');
 				contentBody.push('    </div>');
@@ -602,7 +635,7 @@ $(document).ready(function() {
 				if (data.privateSectionContent[p].type == 'pageSet') {
 					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.privateSectionContent[p].id + '\');">');
 				} else {
-					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.privateSectionContent[p].id + '\');">');
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.privateSectionContent[p].id + '\',\'' + data.privateSectionContent[p].type +'\',\'\',\'' + data.privateSectionContent[p].version + '\');">');
 				}
 				contentBody.push('      <div class="content_body_field_resuable_content_icon ' + data.privateSectionContent[p].type + '">&nbsp;</div>');
 				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.privateSectionContent[p].title + '</div>');
@@ -610,7 +643,7 @@ $(document).ready(function() {
 				if (data.privateSectionContent[p].type == 'pageSet') {
 					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.privateSectionContent[p].id + '\');">');
 				} else {
-					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.privateSectionContent[p].id + '\');">');
+					contentBody.push('    <div class="content_body_field_resuable_link" href="javascript:void(0);" onclick="$.fn.launchViewContent(\'' + data.privateSectionContent[p].id + '\',\'' + data.privateSectionContent[p].type +'\',\'\',\'' + data.privateSectionContent[p].version + '\');">');
 				}
 				contentBody.push('      <img src="' + contentServiceName + '/images/ReadLaterGray16x16.png"/>');
 				contentBody.push('    </div>');
@@ -650,7 +683,7 @@ $(document).ready(function() {
 				if (data.privateSectionContent[p].type == 'pageSet') {
 					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.privateSectionContent[p].id + '\');">');
 				} else {
-					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.privateSectionContent[p].id + '\');">');
+					contentBody.push('    <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.privateSectionContent[p].id + '\',\'' + data.privateSectionContent[p].type +'\',\'\',\'' + data.privateSectionContent[p].version+ '\');">');
 				}
 				contentBody.push('      <div class="content_body_field_resuable_content_icon ' + data.privateSectionContent[p].type + '">&nbsp;</div>');
 				contentBody.push('      <div class="content_body_field_resuable_content_link">' + data.privateSectionContent[p].title + '</div>');
@@ -715,9 +748,9 @@ $(document).ready(function() {
 					contentBody.push('  <div class="content_body_field_related_data">');
 					contentBody.push('    <div class="content_body_field_resuable_related_content">');
 					if (data.relatedContent.contentEntries[i].type == 'pageSet') {
-						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.showDTContent(\'' + data.relatedContent.contentEntries[i].id +  '\');">');
+						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.launchDTViewContent(\'' + data.relatedContent.contentEntries[i].id +  '\');">');
 					} else {
-						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.relatedContent.contentEntries[i].id +  '\');">');
+						contentBody.push('      <a href="javascript:void(0);" onclick="$.fn.retrieveContent(\'' + data.relatedContent.contentEntries[i].id + '\',\'' + data.relatedContent.contentEntries[i].type +'\',\'\',\'' + data.relatedContent.contentEntries[i].version + '\');">');
 					}
 					contentBody.push('        <div class="content_body_field_resuable_content_icon ' + data.relatedContent.contentEntries[i].type + '">&nbsp;</div>');
 					contentBody.push('        <div class="content_body_field_resuable_content_link">' + data.relatedContent.contentEntries[i].title + '</div>');
@@ -725,7 +758,7 @@ $(document).ready(function() {
 					if (data.relatedContent.contentEntries[i].type == 'pageSet') {
 						contentBody.push('		<div class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchDTViewContent(\'' + data.relatedContent.contentEntries[i].id + '\');"><img src="images/ReadLaterGray16x16.png"></div>');
 					}else {
-						contentBody.push('		<div class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.relatedContent.contentEntries[i].id + '\');"><img src="images/ReadLaterGray16x16.png"></div>');
+						contentBody.push('		<div class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.relatedContent.contentEntries[i].id + '\',\'' + data.relatedContent.contentEntries[i].type +'\',\'\',\'' + data.relatedContent.contentEntries[i].version + '\');"><img src="images/ReadLaterGray16x16.png"></div>');
 					}
 					contentBody.push('    </div>');
 					contentBody.push('  </div>');					
@@ -1236,7 +1269,7 @@ $(document).ready(function() {
     
     // Rate content
 	$.fn.rateContent = function(id, rating) {
-		var dataPackage = '{"contentId":"' + id + '", "rating":' + rating + '}';
+		var dataPackage = '{"contentId":"' + id + '", "rating":' + rating + ', "contentType":"' + contentType + '"}';
 		$.fn.serviceCall('POST', dataPackage, contentServiceName + 'km/rate', FEEDBACK_SERVICE_TIMEOUT, function(data) {
 			// Do nothing for now...
 		});
@@ -1290,7 +1323,7 @@ $(document).ready(function() {
 	}
 	
 	// Retrieve content
-	$.fn.retrieveContent = function(id) {
+	$.fn.retrieveContent = function(id, contentType, externalSearchId, contentVersion) {
 		log('Retrieve Content: ' + id);
     	var length = contentIds.unshift(id);
 
@@ -1308,14 +1341,16 @@ $(document).ready(function() {
 				//history.pushState(stateObj, "newPage", verintKmServiceName + 'verintkm.html' + query);
 			}
 		}
-		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/id/' + id, CONTENT_SERVICE_TIMEOUT, function(data) {
+		var urlExtSearchId = (externalSearchId && externalSearchId != "undefined") ? "&externalSearchId=" + externalSearchId : "";
+		var urlContentVersion = (contentVersion && contentVersion != "undefined") ? "&version=" + contentVersion : "";
+		$.fn.serviceCall('GET', '', contentServiceName + 'km/content/?contentid=' + encodeURIComponent(id) + "&contentType=" + contentType + urlContentVersion + urlExtSearchId, CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get content ID: ' + data);
 		    if (typeof data != 'undefined' && data != null && data != '') {
-		    	
+
 		    	//if there are externalSourceFiles need to load them before rendering the content
 		    	if (typeof data.externalSrcFiles != 'undefined' && data.externalSrcFiles != null && data.externalSrcFiles.length > 0) {
 		    		
-		    		//initilize array to keep track of js file downloads
+		    		//initialize array to keep track of js file downloads
 		    		var finished = [];
 		    		for (var z= 0; z < data.externalSrcFiles.length; z++){
 		    			finished[z] = false;
@@ -1411,7 +1446,7 @@ $(document).ready(function() {
 		    				}
 		    			}
 		    			if (bold !== true){
-		    				$.fn.serviceCall('POST', '', contentServiceName + 'km/alerts/setread?contentId='+contentID+'&migRefId='+data.id, SEARCH_SERVICE_TIMEOUT,function(data){
+		    				$.fn.serviceCall('POST', '', contentServiceName + 'km/alerts/setread?contentId='+encodeURIComponent(contentID)+'&migRefId='+data.id, SEARCH_SERVICE_TIMEOUT,function(data){
 								log('Sent read alert update for content id:' + contentID);
 		    				});
 		    			}
@@ -1519,7 +1554,7 @@ $(document).ready(function() {
 			newContentServiceName= contentServiceName;
 		}
 		
-		$.fn.serviceCall('GET', '', newContentServiceName + 'km/content/id/' + id + '/state/' + state + '/version/'  + contentVersion, CONTENT_SERVICE_TIMEOUT, function(data) {
+		$.fn.serviceCall('GET', '', newContentServiceName + 'km/content/?contentid=' + encodeURIComponent(id) + '&state=' + state + '&version='  + contentVersion, CONTENT_SERVICE_TIMEOUT, function(data) {
 			log('Get draft content ID: ' + data);
 		    if (typeof data != 'undefined' && data != null && data != '') {
 		    	
@@ -1655,7 +1690,8 @@ $(document).ready(function() {
 			} else {
 				$('#content-decision-tree').css('display', 'none');
 				$('#content-loader').addClass('content_loader_on');
-				$.fn.retrieveContent(data.contentId);
+				contentType = data.contentType;
+				$.fn.retrieveContent(data.contentId, data.contentType, data.externalSearchId, data.contentVersion);
 			}
 		}
 	}
@@ -1795,6 +1831,8 @@ $(document).ready(function() {
 
 	// Check to see if an id was passed in
 	var cId = $.fn.getParameterByName('id');
+	var cContentType = $.fn.getParameterByName('contentType');
+	var cExternalSearchId = $.fn.getParameterByName('externalSearchId');
 	var hasVersion = false;
 	var cWorkflowState = $.fn.getParameterByName('workflowstate');
 	var cVersion = $.fn.getParameterByName('version');
@@ -1809,12 +1847,14 @@ $(document).ready(function() {
 	if (typeof cId != 'undefined' && cId != null && cId != 'null' && cId != '') {
 		log('ContentID: ' + cId);
 		contentId = cId;
+		contentType = cContentType;
+		externalSearchId = cExternalSearchId;
 		externalLink = true;
 		if (typeof cWorkflowState != 'undefined' && cWorkflowState != null && cWorkflowState != 'null' && cWorkflowState != '') {
 			log('Workflow State: ' + cWorkflowState);
 			$.fn.retrieveDraftContent(cId, cWorkflowState, cVersion);
 		} else {
-			$.fn.retrieveContent(cId);
+			$.fn.retrieveContent(cId, cContentType, cExternalSearchId, cVersion);
 		}
 	} 
 

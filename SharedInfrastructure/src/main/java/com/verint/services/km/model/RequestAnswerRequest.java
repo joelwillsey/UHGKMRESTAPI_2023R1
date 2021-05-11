@@ -25,7 +25,7 @@ public class RequestAnswerRequest implements Serializable {
 
 	@XmlElement
     private String expectation;
-
+	
     @XmlElement(nillable=true)
     private String selectedFilter;
 
@@ -34,6 +34,9 @@ public class RequestAnswerRequest implements Serializable {
 
     @XmlElement
     private String username;
+    
+    @XmlElement
+    private String searchFeedbackURL;
 
     @XmlElement(nillable=true)
     private String password;
@@ -117,6 +120,20 @@ public class RequestAnswerRequest implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	/**
+	 * @return the searchFeedbackURL
+	 */
+	public String getSearchFeedbackURL() {
+		return searchFeedbackURL;
+	}
+
+	/**
+	 * @param searchFeedbackURL the searchFeedbackURL to set
+	 */
+	public void setSearchFeedbackURL(String searchFeedbackURL) {
+		this.searchFeedbackURL = searchFeedbackURL;
+	}
 
 	/**
 	 * @return the password
@@ -152,7 +169,7 @@ public class RequestAnswerRequest implements Serializable {
 	@Override
 	public String toString() {
 		return "RequestAnswerRequest [keyword=" + keyword + ", expectation=" + expectation + ", selectedFilter="
-				+ selectedFilter + ", searchDate=" + searchDate + ", username=" + username + ", password=" + password
+				+ selectedFilter + ", searchDate=" + searchDate + ", username=" + username + ", searchFeedbackURL=" + searchFeedbackURL + ", password=" + password
 				+ ", locale=" + locale + "]";
 	}
 }

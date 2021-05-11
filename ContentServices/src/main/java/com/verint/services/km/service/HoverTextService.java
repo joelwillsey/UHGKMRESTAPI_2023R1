@@ -1,8 +1,12 @@
 package com.verint.services.km.service;
 
 import java.util.Set;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -13,11 +17,19 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import com.verint.services.km.model.HoverTextResponse;
 import com.verint.services.km.model.MigratableReferenceId;
+import com.verint.services.km.model.rest.AuthorizationCode;
+import com.verint.services.km.model.rest.VerintOIDCToken;
+import com.verint.services.km.util.ConfigInfo;
+import com.verint.services.km.util.RestUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.verint.services.km.dao.ContentDAO;
 import com.verint.services.km.dao.ISETDAO;
@@ -34,7 +46,9 @@ import com.verint.services.km.model.ContentResponse;
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Service
 public class HoverTextService extends BaseService{
-	private final Logger LOGGER = LoggerFactory.getLogger(HoverTextService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(HoverTextService.class);
+	private static final ConfigInfo kmConfiguration = new ConfigInfo();
+	private static final String VERINT_AUTH_TOKEN_COOKIE_NAME = "verintAuthToken";
 	
 	@Autowired
 	private ISETDAO isetDAO;
@@ -62,8 +76,12 @@ public class HoverTextService extends BaseService{
 	}
 	
 	/**
-	 * 
-	 * @param userid
+	 *
+	 * @param hoverId
+	 * @param contentId
+	 * @param referenceName
+	 * @param applicationId
+	 * @param httpRequest
 	 * @return
 	 */
 	@GET
@@ -73,6 +91,7 @@ public class HoverTextService extends BaseService{
     		@QueryParam("contentid") String contentId,
     		@QueryParam("referencename") String referenceName,
     		@QueryParam("appid") String applicationId,
+			@QueryParam("externalSearchId") String externalSearchId,
     		@Context HttpServletRequest httpRequest) {
 	
 		LOGGER.info("Entering hovertext()");
@@ -84,10 +103,24 @@ public class HoverTextService extends BaseService{
 		try {
 		
 			// Get the authentication information
-			final String[] credentials = getAuthenticatinCredentials(httpRequest);
-			LOGGER.debug("Username: " + credentials[0]);
-			LOGGER.debug("Password: " + credentials[1]);
+			//final String[] credentials = getAuthenticatinCredentials(httpRequest);
+			//LOGGER.debug("Username: " + credentials[0]);
+			//LOGGER.debug("Password: " + credentials[1]);
 						
+			String authTokenCookie = getAuthToken(httpRequest);
+			final String[] tokens = extractAndDecodeHeader(authTokenCookie, httpRequest);
+			assert tokens.length == 2;
+			String userName = tokens[0];
+			String password = tokens[1];
+			//LOGGER.debug("Username: " + userName);
+			//LOGGER.debug("Password: " + password);
+			
+			if(userName.length() > 0) {
+				//we have a username from the 
+				LOGGER.debug("Hovertext Username: " + userName + " Switching to serviceAccount");
+				userName=kmConfiguration.getHoverTestServiceAccountUser();
+				password=kmConfiguration.getHoverTestServiceAccountPassword();
+			}
 			ContentResponse contentResponse = null;
 			
 			// Check for a valid request
@@ -142,17 +175,27 @@ public class HoverTextService extends BaseService{
 				// Create the ContentRequest
 				final ContentRequest contentRequest = new ContentRequest();
 				contentRequest.setContentId(contentId);
-				contentRequest.setUsername(credentials[0]);
-				contentRequest.setPassword(credentials[1]);			
+				contentRequest.setUsername(userName);
+				contentRequest.setPassword(password);			
 				
 				// Call the service
 				try{
 					
+					//This sets the OIDC token cookie
+					VerintOIDCToken authToken = Authtoken(userName, password);
+					
+					if (authToken.getIdToken() !=null && authToken.getIdToken().length() > 0) {
+					contentRequest.setOidcToken(authToken.getIdToken());
+					
 					contentResponse = contentDAO.getContent(contentRequest);
-										
+											
 					// Mark content as viewed for reporting
-					contentResponse.setViewUUID(searchDAO.markAsViewed(contentId, credentials[0], credentials[1], null ));
-				
+					contentResponse.setViewUUID(searchDAO.markAsViewed(contentId, userName, password,
+							null, authToken.getIdToken(), ""));
+					} else {
+						isError =true;
+						hoverTextResponse.setErrorString("Unable to authenticate, no OIDC_id_token");
+					}
 				} catch(Exception ex){
 					isError =true;
 					LOGGER.error("Unexpected exception in hovertext() Message: " + ex.getMessage());
@@ -188,7 +231,7 @@ public class HoverTextService extends BaseService{
 		} catch (Throwable t) {
 			LOGGER.error("Unexpected exception in hovertext()", t);
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
-					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
+					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION + " - hoverId= " + hoverId);
 		}
 		
 		return hoverTextResponse;
@@ -360,6 +403,91 @@ public class HoverTextService extends BaseService{
 					
 	}
 		
+	private VerintOIDCToken Authtoken(String userName, String password) {
+		VerintOIDCToken token = null;
+		String oidcTokenServiceAuthCodeURL = kmConfiguration.getRestOidcTokenService();
+		String scope= kmConfiguration.getRestOidcTokenScope();
+		String clientID = kmConfiguration.getRestTenantId();
 		
+		try {
+			LOGGER.info("Entering Authtoken()");
+			
+			//String requestURL = oidcTokenServiceAuthCodeURL + "?username=" + userName + "&password=" + password + "&client_id=" + clientID + "&scope=" + scope + "&redirect_uri=" + redirectURI;
+			String dataPackage = "{\"username\":\"" + userName + "\", \"password\":\"" + password + "\", \"redirect_uri\":\""+ oidcTokenServiceAuthCodeURL + "\", \"useCookie\":\"true\"}";
+			String requestURL = oidcTokenServiceAuthCodeURL + "/" + clientID + "/token?grant_type=password&username=" + userName + "&password=" + password + "&client_id=" + clientID + "&scope=" + scope + "&redirect_uri=" + oidcTokenServiceAuthCodeURL;
+			
+			LOGGER.debug("Rest Call Authtoken: " + requestURL);
+			//LOGGER.debug("Rest Call Authtoken dataPackage: " + dataPackage);
+			Instant start = Instant.now();
+			token = RestUtil.getAndDeserializeAuthCall(requestURL, null, HttpMethod.POST, VerintOIDCToken.class, null);
+			Instant end = Instant.now();
+			LOGGER.debug("SERVICE_CALL_PERFORMANCE - Authtoken() duration: " + Duration.between(start, end).toMillis() + "ms");
+			
+			if (token !=null) {				
+				LOGGER.debug("Authtoken response:" + token.toString());
+			} else {
+				LOGGER.error("Unable to get the Authtoken");
+			}
+			
+		} catch (Exception ex) {
+			LOGGER.error("Unexpected exception in Authtoken(): " + ex.getMessage());
+			/*
+			 * if (ex.getMessage().contains("400")) { throw new AppException(400,
+			 * AppErrorCodes.BAD_REQUEST, AppErrorMessage.BAD_REQUEST); }
+			 */
+		}
+		
+		LOGGER.info("Exiting Authtoken()");
+		return token;
+	}	
 
+	private String[] extractAndDecodeHeader(String header, HttpServletRequest request)
+			throws IOException {
+		String credentialsCharset = "utf-8";
+		
+		if (header == null || header.length() < 6){
+			throw new BadCredentialsException("Invalid basic authentication token. Header:" + header);
+		}
+		
+		byte[] base64Token = header.substring(6).getBytes("UTF-8");
+		byte[] decoded;
+		try {
+			decoded = Base64.decode(base64Token);
+		}
+		catch (IllegalArgumentException e) {
+			throw new BadCredentialsException(
+					"Failed to decode basic authentication token");
+		}
+
+		String token = new String(decoded, "UTF-8");
+		int delim = token.indexOf(":");
+		if (delim == -1) {
+			throw new BadCredentialsException("Invalid basic authentication token");
+		}
+		return new String[] { token.substring(0, delim), token.substring(delim + 1) };
+	}
+	
+	String getAuthToken(HttpServletRequest request) {
+		String authToken = null;
+		//Well this sucks the request.getCookies() is not bring back the whole authtoken because there is a space in the cookie
+		//we will get them via headers - This may not be correct
+		String cookieHeader = request.getHeader("cookie");
+		if (!StringUtils.isEmpty(cookieHeader)) {
+			String[] cookies = cookieHeader.split(";"); //This could get messed up if a value contains ;
+			for (String cookie : cookies) {
+				cookie = cookie.trim();
+				if (cookie.length() > 0) {
+					String[] cookieValues = cookie.split("=", 2);
+					if (cookieValues.length == 2) {
+						LOGGER.debug("Cookie Name: " + cookieValues[0] + "=" + cookieValues[1]);	
+						if ("AuthToken".equals(cookieValues[0])) {
+							authToken = cookieValues[1];
+							LOGGER.debug("AuthToken cookie exists.");
+						} 
+					}
+				}
+			}
+		}
+		return authToken;
+	}
 }

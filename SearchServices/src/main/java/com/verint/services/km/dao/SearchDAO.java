@@ -3,6 +3,7 @@
  */
 package com.verint.services.km.dao;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 import com.verint.services.km.errorhandling.AppException;
@@ -22,7 +23,7 @@ public interface SearchDAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	public SearchResponse searchQuery(SearchRequest searchRequest, Float searchPrecision, String searchTriggerType) throws RemoteException, AppException;
+	public SearchResponse searchQuery(SearchRequest searchRequest, Float searchPrecision, String searchTriggerType) throws IOException, AppException;
 
 	/**
 	 * 

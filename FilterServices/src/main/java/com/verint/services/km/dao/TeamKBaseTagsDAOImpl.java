@@ -47,11 +47,18 @@ public class TeamKBaseTagsDAOImpl extends BaseDAOImpl implements TeamKBaseTagsDA
 		LinkedHashSet<Tag> kBaseTagSet = new LinkedHashSet<Tag>();
 		Tag tagObj;
 		// Get the connection and statement
-		final Connection connection = ConnectionPool.getConnection();
+		//final Connection connection = ConnectionPool.getConnection();
 		PreparedStatement stmt = null;
 
+		Connection connection = null;
+		
 		// Execute query
 		try {
+			
+			LOGGER.info("Entering getAllTeamKBaseTags() - get db connection");
+			connection = ConnectionPool.getConnection();
+			LOGGER.info("Connection acquired getAllTeamKBaseTags()");
+			
 			final String query =  "SELECT EVA_TAG_DISPLAY_NAME_LOC.DISPLAY_NAME "
 								+ 	",EVA_TAG.SYSTEM_CODE "
 								+ "FROM EVA_TAG "

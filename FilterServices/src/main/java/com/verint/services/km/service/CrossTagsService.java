@@ -99,7 +99,7 @@ public class CrossTagsService extends BaseService {
 						stags[x++] = st2.nextToken(); 
 					}
 					// Get all the cross tag combinations
-					crossTagResponse = crossTagsDAO.getTagSetConfigurations(credentials[0], credentials[1], stags, targettagset, targettagset1, targettagset2, targettagset3);
+					crossTagResponse = crossTagsDAO.getTagSetConfigurations(credentials[0], credentials[1], getOIDCToken(httpRequest), stags, targettagset, targettagset1, targettagset2, targettagset3);
 				}
 			}
 		} catch (SQLException sqle) {

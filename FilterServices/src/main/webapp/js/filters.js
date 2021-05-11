@@ -393,11 +393,17 @@ $(document).ready(function() {
 		$('.ul_all_tags li').each(function(index) {
 			var li = $(this);
 			var id = li.attr('id');
+			var tagType = li.attr('tagtype');
+			var isSearchTerm = false;
+			if (typeof tagType != undefined && tagType != '' && tagType == 'search_term'){
+				isSearchTerm = true
+			}
 			id = id.substring(3);
-			if (typeof id != 'undefined' && id != '' && id != 'English' && id != 'ContentTypes') {
+			if (typeof id != 'undefined' && id != '' && id != 'English' && id != 'ContentTypes' && !isSearchTerm) {
 				tags += id + ',';
 			}
 		});
+
 		return tags;
 	}
 

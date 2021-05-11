@@ -39,6 +39,8 @@ import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.Assert;
+import org.springframework.util.Base64Utils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.google.api.client.http.GenericUrl;
@@ -52,12 +54,13 @@ import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.GenericData;
 
-
+import org.jose4j.json.JsonUtil;
 import org.jose4j.json.internal.json_simple.JSONObject;
 import org.jose4j.json.internal.json_simple.parser.ParseException;
-
+import org.jose4j.lang.JoseException;
 
 import com.verint.services.km.security.KmPingOIDCOauthUtils;
+import com.verint.services.km.util.VerintOIDCTokenUtil;
 
 
 
@@ -152,11 +155,14 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 		final boolean debug = logger.isDebugEnabled();
 		String ssoUserName = null;
 		String dummyPassword = null;
+		String oidcSubject = null;
 		String authCode = null; 
 
 		String username = null;
 		String password = null;
 		Date expiration = null;
+		boolean hasAuthToken = false;
+		boolean hasVerintAuthToken = false;
 				
 		//Properties needed to be grabbed
 		
@@ -195,38 +201,71 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 			LOGGER.info("Valid username/password");
 		} else {
 			String authToken = null;
+			String verintAuthToken = null;
 			//Well this sucks the request.getCookies() is not bring back the whole authtoken because there is a space in the cookie
-			//we will get them via headers
-			final Cookie[]cookies = request.getCookies();
-			
-			if (cookies != null) {
-				String rawCookie = request.getHeader("Cookie");
-				String[] rawCookieParams = rawCookie.split(";");
-				for(String rawCookieNameAndValue :rawCookieParams)
-				{
-				  String[] rawCookieNameAndValuePair = rawCookieNameAndValue.split("=");
-				  if(rawCookieNameAndValuePair.length== 2) {
-					  LOGGER.debug("Cookie Name: " + rawCookieNameAndValuePair[0] + "=" + rawCookieNameAndValuePair[1]);
-					  if ("AuthToken".equals(rawCookieNameAndValuePair[0].trim())) {
-						  authToken = rawCookieNameAndValuePair[1];
-						  LOGGER.debug("AuthToken: " + authToken);
-					  }
-					  
-				  }
+			//we will get them via headers - This may not be correct
+			String cookieHeader = request.getHeader("cookie");
+			if (!StringUtils.isEmpty(cookieHeader)) {
+				String[] cookies = cookieHeader.split(";"); 
+				for (String cookie : cookies) {
+					cookie = cookie.trim();
+					if (cookie.length() > 0) {
+						String[] cookieValues = cookie.split("=", 2);
+						if (cookieValues.length == 2) {
+							LOGGER.debug("Cookie Name: " + cookieValues[0] + "=" + cookieValues[1]);	
+							if ("AuthToken".equals(cookieValues[0])) {
+								authToken = cookieValues[1];
+								hasAuthToken = true;
+								LOGGER.debug("AuthToken cookie exists.");
+							} else if ("verintAuthToken".equals(cookieValues[0])) {
+								verintAuthToken = cookieValues[1];
+								//We have a cookie for the token, need to check if it's valid or expired								
+								VerintOIDCTokenUtil oidcToken = new VerintOIDCTokenUtil(verintAuthToken);
+								
+								if (oidcToken.isValid() && !oidcToken.isExpired()) {
+									 hasVerintAuthToken = true;
+									 oidcSubject = oidcToken.getSubject();
+									 LOGGER.debug("Valid verintAuthToken cookie exists for user " + oidcSubject);									 
+								}								
+							}
+						}
+					}
 				}
 			}
 			
-			if (authToken != null) {
+			/*
+			 * if (cookies != null) { String rawCookie = request.getHeader("Cookie");
+			 * String[] rawCookieParams = rawCookie.split(";"); for(String
+			 * rawCookieNameAndValue :rawCookieParams) { String[] rawCookieNameAndValuePair
+			 * = rawCookieNameAndValue.split("="); if(rawCookieNameAndValuePair.length== 2)
+			 * { LOGGER.debug("Cookie Name: " + rawCookieNameAndValuePair[0].trim() + "=" +
+			 * rawCookieNameAndValuePair[1]); if
+			 * ("AuthToken".equals(rawCookieNameAndValuePair[0].trim())) { authToken =
+			 * rawCookieNameAndValuePair[1]; hasAuthToken = true;
+			 * LOGGER.debug("AuthToken cookie exists."); } if
+			 * ("verintAuthToken".equals(rawCookieNameAndValuePair[0].trim())) {
+			 * verintAuthToken = rawCookieNameAndValuePair[1]; hasVerintAuthToken = true; if
+			 * (verintAuthToken.length() > 10) {
+			 * LOGGER.debug("verintAuthToken cookie exists.  Token=" +
+			 * verintAuthToken.subSequence(0, 10) + "..."); } else {
+			 * LOGGER.debug("verintAuthToken cookie exists."); } } } } }
+			 */
+
+			if (hasAuthToken && hasVerintAuthToken) {
 				final String[] tokens = extractAndDecodeHeader(authToken, request);
 				assert tokens.length == 2;
 				ssoUserName = tokens[0];
 				dummyPassword = tokens[1];
-				Authentication authenticationToken = setAuthentication(ssoUserName, dummyPassword);
-				SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-				rememberMeServices.loginSuccess(request, response, authenticationToken);
-				LOGGER.debug("Ping Authentication Authorization cookie found for user '" + ssoUserName + "'");
-				chain.doFilter(request, response);
-				return;
+				if (oidcSubject.contentEquals(ssoUserName)) {
+					Authentication authenticationToken = setAuthentication(ssoUserName, dummyPassword);
+					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+					rememberMeServices.loginSuccess(request, response, authenticationToken);
+					LOGGER.info("Ping Authentication Authorization cookie(s) was found for user '" + ssoUserName + "'");
+					chain.doFilter(request, response);
+					return;
+				} else {
+					LOGGER.error("AuthToken and VerintAuthToken user names DO NOT MATCH:  AuthToken: " + ssoUserName + " VerintAuthToken: " + oidcSubject);
+				}
 			}
 		}
 		
@@ -238,13 +277,18 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 				assert tokens.length == 2;
 				ssoUserName = tokens[0];
 				dummyPassword = tokens[1];
-				Authentication authenticationToken = setAuthentication(ssoUserName, dummyPassword);
-				SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-				rememberMeServices.loginSuccess(request, response, authenticationToken);
+				if (oidcSubject.contentEquals(ssoUserName)) {					
+					Authentication authenticationToken = setAuthentication(ssoUserName, dummyPassword);
+					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+					rememberMeServices.loginSuccess(request, response, authenticationToken);
+					
+					LOGGER.debug("Basic Authentication Authorization header found for user '" + ssoUserName + "', processing filters");
+					chain.doFilter(request, response);
+					return;
+				} else {
+					LOGGER.error("AuthToken and VerintAuthToken user names DO NOT MATCH:  AuthToken: " + ssoUserName + " VerintAuthToken: " + oidcSubject);
+				}
 				
-				LOGGER.debug("Basic Authentication Authorization header found for user '" + ssoUserName + "', processing filters");
-				chain.doFilter(request, response);
-				return;
 			} catch (Exception exc){
 				LOGGER.debug("Found Basic Authentication Authorization header but unable to decode: " + exc.toString());
 			}
@@ -775,4 +819,5 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 		LOGGER.info("Exiting createRedirectURI()");
 		return strRedirectURI;
 	}
+
 }

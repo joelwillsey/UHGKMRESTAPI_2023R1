@@ -15,6 +15,7 @@
 	<script type='text/javascript'>
 		var postLogin = "filters_container.html";
 		var LOGIN_SERVICE_TIMEOUT = 21000;
+		var OIDC_TOKEN_TIMEOUT = 30000;
 		
 		// Check if authenticated
 		$.fn.determineAuth();
@@ -45,6 +46,9 @@
 				</div>
 				<div id="show-alert-misconfigured" class="alert">
 					<div class="message">Agent is misconfigured.</div>
+				</div>
+				<div id="show-alert-token" class="alert">
+					<div class="message">Unable to retrieve Auth Token</div>
 				</div>
 			</div>
 			<div class="footer">

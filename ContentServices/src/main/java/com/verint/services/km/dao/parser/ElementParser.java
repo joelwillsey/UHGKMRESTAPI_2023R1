@@ -3,7 +3,6 @@
  */
 package com.verint.services.km.dao.parser;
 
-import java.sql.ResultSet;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -645,7 +644,7 @@ public class ElementParser {
 	 * @param data
 	 * @return
 	 */
-	public String parseInlineContent(String data) {
+	public static String parseInlineContent(String data) {
 		LOGGER.info("Entering parseInlineContent()");
 		//LOGGER.debug("parseInlineContent - data: " + data);
 		//[[--ContentED.tC7ZxVwafh6P2ZGru9SQP6||1. Overview||KM1000521||Article--]]
@@ -726,7 +725,7 @@ public class ElementParser {
 	 * @param data
 	 * @return resultParseScriptPlaceHolders
 	 */
-	public resultParseScriptPlaceHolders parseScriptPlaceHolders(String data){
+	public static resultParseScriptPlaceHolders parseScriptPlaceHolders(String data){
 		LOGGER.info("Entering parseScriptPlaceHolders()");
 		
 		resultParseScriptPlaceHolders result = new resultParseScriptPlaceHolders();
@@ -839,7 +838,7 @@ public class ElementParser {
 	}
 	
 	//Find link placeholders and convert it to the correct script verbiage and move it to the top
-		public String parseLinkPlaceHolders(String data){
+		public static String parseLinkPlaceHolders(String data){
 			LOGGER.info("Entering parseLinkPlaceHolders()");
 			
 			String originalData = data;			
@@ -847,19 +846,21 @@ public class ElementParser {
 			String linkPlaceHolder = "#startlink#";
 			//HTML escape character > = &gt;
 			String greaterThanEsc = "&gt;";
-
 			
 			int startSearchIndex = 0;
 			
 			int indexStartLink = originalData.indexOf(linkPlaceHolder, startSearchIndex);
 			
+			//LOGGER.debug("parseLinkPlaceHolders: indexStartLink of " + linkPlaceHolder + " at index: " + indexStartLink);
 			
 			while (indexStartLink != -1) {
+				
 				
 				// link tag;  #startlink# media="screen" type="text/css" href="/http://localhost:8090/fileStorage/SpryTabbedPanels.css" rel="stylesheet" &gt;
 				
 				int indexStartLinkClosing = originalData.indexOf(greaterThanEsc, indexStartLink);
 				
+				//LOGGER.debug("parseLinkPlaceHolders: indexStartLinkClosing of " + greaterThanEsc + " at index: " + indexStartLinkClosing);
 				
 				if (indexStartLinkClosing != -1){
 					String linkString = originalData.substring(indexStartLink, indexStartLinkClosing) + originalData.substring(indexStartLinkClosing, indexStartLinkClosing + greaterThanEsc.length());
@@ -868,13 +869,15 @@ public class ElementParser {
 					
 					int indexPublicBody = data.indexOf(publicBody);
 					
-					if (indexPublicBody != -1) {
-						data = data.replaceAll(Pattern.quote(linkString), "<!-- Moved link tag to top of publicBody content from here -->");
-						data = data.substring(0, indexPublicBody + publicBody.length()) + newLinkString + data.substring(indexPublicBody + publicBody.length());
-						LOGGER.debug("parseLinkPlaceHolders: Replacing Link placeholders: \"" + linkString + "\" with \"" + newLinkString + "\"");
-					}
-					
-					
+					//This fails because in REST the <publicBody> is not there
+					//if (indexPublicBody != -1) {
+					//	data = data.replaceAll(Pattern.quote(linkString), "<!-- Moved link tag to top of publicBody content from here -->");
+					//	data = data.substring(0, indexPublicBody + publicBody.length()) + newLinkString + data.substring(indexPublicBody + publicBody.length());
+					//	LOGGER.debug("parseLinkPlaceHolders: Replacing Link placeholders: \"" + linkString + "\" with \"" + newLinkString + "\"");
+					//}
+					data = data.replaceAll(Pattern.quote(linkString), "<!-- Moved link tag to top of publicBody content from here -->");
+					data = newLinkString + data;
+					LOGGER.debug("parseLinkPlaceHolders: Replacing Link placeholders: \"" + linkString + "\" with \"" + newLinkString + "\"");					
 				}
 				
 				startSearchIndex = 	indexStartLink + linkPlaceHolder.length();
@@ -891,7 +894,7 @@ public class ElementParser {
 		}
 		
 	//PRS replace html escape characters for script with correct characters
-	public String replaceEscapeChar(String data){
+	public static String replaceEscapeChar(String data){
 		//HTML Escape characters
 		//& becomes &amp;
 		//< becomes &lt;

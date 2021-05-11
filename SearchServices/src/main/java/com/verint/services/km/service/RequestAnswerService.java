@@ -85,10 +85,11 @@ public class RequestAnswerService extends BaseService {
 			requestAnswerRequest.setUsername(credentials[0]);
 			requestAnswerRequest.setPassword(credentials[1]);
 			requestAnswerRequest.setLocale("en-US");
+			requestAnswerRequest.setSearchFeedbackURL(request.getSearchFeedbackURL());
 			LOGGER.debug("RequestAnswerRequest: " + requestAnswerRequest);
 			
 			// Suggest Content
-			requestAnswerDAO.suggestContent(requestAnswerRequest);
+			requestAnswerDAO.suggestContent(requestAnswerRequest, getOIDCToken(httpRequest));
 		} catch (AppException ae) {
 			LOGGER.error("AppException in suggestContent()", ae);
 			throw ae;

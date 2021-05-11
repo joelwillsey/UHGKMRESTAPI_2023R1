@@ -305,7 +305,10 @@ $(document).ready(function() {
 		if(!tags) {
 			tags = "search_showinsearch";
 		} else {
-			tags += ",search_showinsearch";
+			if (tags.slice(-1) != ","){
+				tags += ",";
+			}
+			tags += "search_showinsearch";
 		}
 		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
 	}
@@ -642,7 +645,7 @@ $(document).ready(function() {
 					type : 'GET',
 					contentType : 'application/json',
 					data : '',
-					url : contentServiceName + 'km/content/id/' + contentId,
+					url : contentServiceName + 'km/content/?contentid=' + encodeURIComponent(contentId) + "&contentType=" + contentType,
 					async: true,
 					dataType : 'json',
 					timeout : CONTENT_SERVICE_TIMEOUT,
@@ -655,7 +658,7 @@ $(document).ready(function() {
 						log('Bookmark validated - contentType=' + contentType +  ' contentId=' + contentId);
 						if ($('#popup').hasClass('popup_full')){
 							//The manage bookmark screen is showing
-							$.fn.launchViewContent(contentId);
+							$.fn.launchViewContent(contentId, contentType);
 						} else {
 							$('.dpui-widget').trigger("dpui:viewContent", packagedData);
 						}

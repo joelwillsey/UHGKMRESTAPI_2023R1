@@ -343,8 +343,8 @@ var reorderEvent = null;
 					    		if (node.systemTagName === "KnowledgeUploadED"){
 						    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeUploadED"></span>');
 						    	}else{
-						    		if (node.systemTagName === "Unstructured"){
-							    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_Unstructured"></span>');
+						    		if (node.systemTagName === "Spidered" || node.systemTagName === "Unstructured"){
+							    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_Spidered"></span>');
 							    	}else{
 							    		if (node.systemTagName === "pageSet"){
 								    		 $li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_pageSet"></span>');

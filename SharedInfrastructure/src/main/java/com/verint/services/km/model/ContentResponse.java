@@ -162,6 +162,9 @@ public class ContentResponse implements Serializable {
 	@XmlElement(nillable=true)
 	private Map<Object, Object> bodyMap = new HashMap<>();
 
+	@XmlElement(nillable=true)
+	private String restFeedbackUrl;
+
 	/**
 	 * 
 	 */
@@ -866,6 +869,14 @@ public class ContentResponse implements Serializable {
 	public void addBodyMapField(Object bodyMapKey, Object bodyMapValue) {
 		this.bodyMap.put(bodyMapKey, bodyMapValue);
 	}
+
+	public String getRestFeedbackUrl() {
+		return restFeedbackUrl;
+	}
+
+	public void setRestFeedbackUrl(String restFeedbackUrl) {
+		this.restFeedbackUrl = restFeedbackUrl;
+	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -884,6 +895,9 @@ public class ContentResponse implements Serializable {
 				+ ", viewContent=" + viewContent + ", description=" + description + ", attachments=" + attachments
 				+ ", publishedDate=" + publishedDate + ", expiredDate=" + expiredDate + ", lastModifiedBy="
 				+ lastModifiedBy + ", owner=" + owner + ", weighting=" + weighting + ", status=" + status
-				+ ", bookmarked=" + bookmarked + ", rawBody=" + rawBody + ", viewUUID=" + viewUUID + ", externalSrcFiles=" + externalSrcFiles + " ]";
+				+ ", bookmarked=" + bookmarked + ", rawBody=" + rawBody + ", viewUUID=" + viewUUID + ", externalSrcFiles=" + externalSrcFiles
+				+ ", restFeedbackUrl=" + restFeedbackUrl + " ]";
 	}
+
+
 }

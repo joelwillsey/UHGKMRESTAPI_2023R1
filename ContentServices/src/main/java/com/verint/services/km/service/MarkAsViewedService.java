@@ -4,11 +4,7 @@
 package com.verint.services.km.service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -58,13 +54,14 @@ public class MarkAsViewedService extends BaseService {
 	/**
 	 * 
 	 * @param contentId
-	 * @param authorization
+	 * @param httpRequest
 	 * @return
 	 */
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })	
     public MarkAsViewedResponse markAsViewed(ContentId contentId,
+		    @QueryParam("externalSearchId") String externalSearchId,
     		@Context HttpServletRequest httpRequest) {
 		LOGGER.info("Entering markAsViewed()");
 		LOGGER.debug("Content Id: " + contentId);		
@@ -82,11 +79,12 @@ public class MarkAsViewedService extends BaseService {
 			// Get the authentication information
 			final String[] credentials = getAuthenticatinCredentials(httpRequest);
 			LOGGER.debug("Username: " + credentials[0]);
-			LOGGER.debug("Password: " + credentials[1]);	
+			LOGGER.debug("Password: " + credentials[1]);
 			LOGGER.debug("Content Id: " + contentId.getContentId());
 			
 			// Rate the content
-			markAsViewedResponse.setViewUUID(searchDAO.markAsViewed(contentId.getContentId(), credentials[0], credentials[1], null));
+			markAsViewedResponse.setViewUUID(searchDAO.markAsViewed(contentId.getContentId(),
+					credentials[0], credentials[1], null, getOIDCToken(httpRequest), externalSearchId));
 			
 		} catch (Throwable t) {
 			LOGGER.error("markAsViewed() Exception", t);

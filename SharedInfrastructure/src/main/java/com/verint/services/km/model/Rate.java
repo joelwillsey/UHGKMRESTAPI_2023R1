@@ -25,6 +25,9 @@ public class Rate implements Serializable {
 	@XmlElement
 	private Double rating;
 
+	@XmlElement
+	private String contentType;
+
 	/**
 	 * Constructor
 	 */
@@ -60,11 +63,22 @@ public class Rate implements Serializable {
 		this.rating = rating;
 	}
 
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Rate [contentId=" + contentId + ", rating=" + rating + "]";
+		return "Rate [contentId=" + contentId +
+				", rating=" + rating +
+				", contentType=" + contentType +
+				"]";
 	}
 }

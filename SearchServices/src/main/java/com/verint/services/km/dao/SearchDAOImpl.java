@@ -3,20 +3,19 @@
  */
 package com.verint.services.km.dao;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.time.Instant;
 import java.time.Duration;
 
+import com.verint.services.km.model.SearchResponse;
+import com.verint.services.km.model.rest.*;
+import com.verint.services.km.util.RestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.BookmarkedContent;
@@ -40,9 +39,9 @@ import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.SearchRequest;
-import com.verint.services.km.model.SearchResponse;
 import com.verint.services.km.model.Tag;
 import com.verint.services.km.util.ConfigInfo;
+import org.springframework.util.StringUtils;
 
 /**
  * @author jmiller
@@ -51,6 +50,20 @@ import com.verint.services.km.util.ConfigInfo;
 @Repository
 public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchDAOImpl.class);
+
+	private static String REST_SEARCH_URL;
+	private static String REST_TAGS_URL;
+
+	static {
+		try {
+			ConfigInfo config = new ConfigInfo();
+			REST_SEARCH_URL = config.getRestKmSearchService();
+			REST_TAGS_URL = config.getRestKmTagService();
+		} catch (Throwable t) {
+			LOGGER.error("Throwable Exception", t);
+			System.exit(1);
+		}
+	}
 
 	/**
 	 * 
@@ -82,7 +95,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 	 * @see com.verint.services.km.dao.SearchDAO#searchQuery(com.verint.services.km.model.SearchRequest)
 	 */
 	@Override
-	public SearchResponse searchQuery(SearchRequest searchRequest, Float searchPrecision, String searchTriggerType) throws RemoteException, AppException {
+	public SearchResponse searchQuery(SearchRequest searchRequest, Float searchPrecision, String searchTriggerType) throws IOException, AppException {
 		LOGGER.info("Entering searchKnowledge()");
 		LOGGER.debug("SearchRequest: " + searchRequest);   
 		SearchResponse searchResponse = new SearchResponse();
@@ -139,26 +152,39 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		controlData.setMaxNumberOfGroupResults(searchRequest.getSize());
 		controlData.setSpellCheckEnabled(SpellCheckEnabled);
 		request.setControlData(controlData);
+		
+		LOGGER.debug("request: " + request);
+
+		String externalSearchId = UUID.randomUUID().toString();
+		String restRequestURI = buildRestAPIRequest(searchRequest, searchPrecision, false, false, externalSearchId);
 
 		// Call the search
 		Instant start = Instant.now();
-		final SharedTextSearchResponseBodyType response = SearchPortType.sharedTextSearch(request);
+		RestSearchResponse searchJsonResponse = RestUtil.getAndDeserialize(restRequestURI,null,
+				HttpMethod.GET, RestSearchResponse.class, searchRequest.getOidcToken(), null, false);
 		Instant end = Instant.now();
 		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+searchRequest.getUsername()+") - searchQuery() duration: " + Duration.between(start, end).toMillis() + "ms");
-		if (response != null && response.getResponse() != null) {
-			// Valid response
-			final KnowledgeResultSet resultSet = response.getResponse();
-			// Populate Base Response
-			searchResponse = populateResponse(resultSet, searchResponse);
-			// Populate Suggested Query
-			searchResponse = populateSuggestedQuery(resultSet, searchResponse);
-		} else {
+
+		if (false) {
 			// We have a problem with the service
 			// We already have one, send necessary error message
-			throw new AppException(500, AppErrorCodes.SHARED_TEXT_SEARCH_ERROR,  
+			throw new AppException(500, AppErrorCodes.SHARED_TEXT_SEARCH_ERROR,
 					AppErrorMessage.SHARED_TEXT_SEARCH_ERROR);
 		}
-		LOGGER.debug("SearchResponse: " + searchResponse);
+
+		searchResponse = populateRESTApiResponse(searchJsonResponse, searchResponse);
+		searchResponse.setExternalSearchId(externalSearchId);
+
+		// Populate Suggested Query
+		searchResponse = populateRestSuggestedQuery(searchJsonResponse, searchResponse);
+		if (searchRequest.getPublishedId().length() > 0) {
+			LOGGER.debug("searchKnowledge() Removing suggestedQueries becasue this was a KM id search : " + searchResponse.getSuggestedQueries());
+			//This was a content ID (published id, KM id) search, removed suggested queries otherwise when it finds the one piece of content it suggest another search
+			final List<com.verint.services.km.model.SuggestedQuery> suggestedQueries = new ArrayList<com.verint.services.km.model.SuggestedQuery>();
+			final Set<com.verint.services.km.model.SuggestedQuery> setSuggestedQueries = new LinkedHashSet<com.verint.services.km.model.SuggestedQuery>(suggestedQueries);
+			searchResponse.setSuggestedQueries(setSuggestedQueries);
+			
+		}
 		LOGGER.info("Exiting searchKnowledge()");
 		return searchResponse;
 	}
@@ -296,6 +322,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 	public SearchResponse searchBookmarks(SearchRequest searchRequest) throws RemoteException, AppException {
 		LOGGER.info("Entering searchBookmarks()");
 		LOGGER.debug("SearchRequest: " + searchRequest);
+		
 
 		final SearchResponse searchResponse = new SearchResponse();
 		final ListAllBookmarksRequestBodyType request = new ListAllBookmarksRequestBodyType();
@@ -307,6 +334,9 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		
 		final List<com.verint.services.km.model.KnowledgeGroupUnit> knowledgeGroupUnits = new ArrayList<com.verint.services.km.model.KnowledgeGroupUnit>();
 		Instant start = Instant.now();
+		
+		
+		
 		final ListAllBookmarksResponseBodyType response = KMBookmarkServicePortType.listAllBookmarks(request);
 		Instant end = Instant.now();
 		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+searchRequest.getUsername()+") - searchBookmarks() duration: " + Duration.between(start, end).toMillis() + "ms");
@@ -439,6 +469,8 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		return searchResponse;
 	}
 	
+	
+	
 	/**
 	 * 
 	 * @param resultSet
@@ -512,11 +544,91 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		}
 		final Set<com.verint.services.km.model.SuggestedQuery> setSuggestedQueries = new LinkedHashSet<com.verint.services.km.model.SuggestedQuery>(suggestedQueries);
 		searchResponse.setSuggestedQueries(setSuggestedQueries);
-		
+
 		LOGGER.info("Exiting populateSuggestedQuery()");
 		return searchResponse;
 	}
-	
+
+	private SearchResponse populateRestSuggestedQuery(RestSearchResponse restResponse, SearchResponse searchResponse) {
+		LOGGER.info("Entering populateSuggestedQuery()");
+		// Setup the Suggest Query
+		final List<com.verint.services.km.model.SuggestedQuery> suggestedQueries = new ArrayList<>();
+		List<SearchAlternative> restAlternative = restResponse.getAlternative();
+		if (restAlternative != null && !restAlternative.isEmpty()) {
+			for (int i = 0; i < restAlternative.size(); i++) {
+				final com.verint.services.km.model.SuggestedQuery sq = new com.verint.services.km.model.SuggestedQuery();
+				sq.setQueryText(restAlternative.get(0).getSearchCriteria().getQuery());
+				sq.setType("REPLACED_SPECIFIC_TERMS");
+				suggestedQueries.add(sq);
+			}
+		}
+
+		List<SearchExpanded> restSuggestions = restResponse.getExpanded();
+		for (int x = 0; (restSuggestions != null) && (x < restSuggestions.size()); x++) {
+			final com.verint.services.km.model.SuggestedQuery sq = new com.verint.services.km.model.SuggestedQuery();
+			sq.setNumberOfResults(BigInteger.valueOf(restSuggestions.get(x).getTotalItems()));
+			sq.setQueryText(restSuggestions.get(x).getSearchCriteria().getQuery());
+			sq.setType(restSuggestions.get(x).getType().get(0));
+//			sq.setSearchPrecision(suggestedQuery[x].getSearchPrecision());
+//			final ReplacedTerm[] rt = suggestedQuery[x].getReplacedTermsList();
+//			final List<com.verint.services.km.model.ReplacedTerm> replacedTerms = new ArrayList<com.verint.services.km.model.ReplacedTerm>();
+//			for (int y = 0; (rt != null) && (y < rt.length); y++) {
+//				final com.verint.services.km.model.ReplacedTerm replacedTerm = new com.verint.services.km.model.ReplacedTerm();
+//				replacedTerm.setReplacement(rt[y].getReplacement());
+//				replacedTerm.setTerm(rt[y].getTerm());
+//				replacedTerms.add(replacedTerm);
+//			}
+//			final Set<com.verint.services.km.model.ReplacedTerm> setReplacedTerms = new LinkedHashSet<com.verint.services.km.model.ReplacedTerm>(replacedTerms);
+//			sq.setReplacedTerms(setReplacedTerms);
+
+			final List<HydraMember> extraResults = restSuggestions.get(x).getHydraMember();
+			final List<com.verint.services.km.model.KnowledgeGroupUnit> knowledgeGroupUnits2 = new ArrayList<com.verint.services.km.model.KnowledgeGroupUnit>();
+			for (int z = 0; (extraResults != null) && (z < extraResults.size()); z++) {
+				final com.verint.services.km.model.KnowledgeGroupUnit nKnowledgeGroupUnit = new com.verint.services.km.model.KnowledgeGroupUnit();
+				MemberDetails restExtraResult = extraResults.get(0).getMemberDetails().get(0);
+				nKnowledgeGroupUnit.setContentID(RestUtil.getContentIdFromUrl(restExtraResult.getUrl(), restExtraResult.getCategory().get(0).getId()));
+//				nKnowledgeGroupUnit.setContentSource(skgu[z].getContentSource());
+				nKnowledgeGroupUnit.setContentType(RestUtil.convertContentRestType(restExtraResult.getCategory().get(0).getId()));
+				nKnowledgeGroupUnit.setLocale(restExtraResult.getInLanguage());
+				nKnowledgeGroupUnit.setTitle(restExtraResult.getName());
+				nKnowledgeGroupUnit.setViewCount(restExtraResult.getUserInteractionCount());
+				final List<com.verint.services.km.model.KnowledgeUnit> knowledgeUnit2 = new ArrayList<>();
+				final com.verint.services.km.model.KnowledgeUnit nKnowledgeUnit = new com.verint.services.km.model.KnowledgeUnit();
+//				nKnowledgeUnit.setAssociatedContentURL(fku[a].getAssociatedContentURL());
+//				nKnowledgeUnit.setContentOwner(fku[a].getContentOwner());
+//				nKnowledgeUnit.setContentUnitID(RestUtil.getContentIdFromUrl(restExtraResult.getUrl()));
+				nKnowledgeUnit.setContentVersion(restExtraResult.getVersion());
+				nKnowledgeUnit.setLastModifiedDate(restExtraResult.getDateModified());
+				nKnowledgeUnit.setLastPublishedDate(restExtraResult.getDatePublished());
+//				nKnowledgeUnit.setPageIdentifier(fku[a].getPageIdentifier());
+//				nKnowledgeUnit.setPublishedID(fku[a].getPublishedID());
+//				nKnowledgeUnit.setRelevanceScore(new Double(fku[a].getRelevanceScore()));
+				nKnowledgeUnit.setSynopsis(restExtraResult.getDescription());
+				nKnowledgeUnit.setContentCategoryTags(parseForTags(RestUtil.convertContentRestType(restExtraResult.getCategory().get(0).getId())));
+//				nKnowledgeUnit.setTags(parseForTags(fku[a].getTags()));
+				nKnowledgeUnit.setTitle(restExtraResult.getName());
+				nKnowledgeUnit.setWorkflowState("PUBLISHED");
+				knowledgeUnit2.add(nKnowledgeUnit);
+				final Set<com.verint.services.km.model.KnowledgeUnit> setKnowledgeUnit2 = new LinkedHashSet<>(knowledgeUnit2);
+				nKnowledgeGroupUnit.setKnowledgeUnits(setKnowledgeUnit2);
+
+				if (restExtraResult.getAggregateRating() != null) {
+					nKnowledgeGroupUnit.setAverageRating(Double.parseDouble(restExtraResult.getAggregateRating().getRatingValue()));
+				}
+				knowledgeGroupUnits2.add(nKnowledgeGroupUnit);
+			}
+			final Set<com.verint.services.km.model.KnowledgeGroupUnit> setKnowledgeGroupUnits2 = new LinkedHashSet<com.verint.services.km.model.KnowledgeGroupUnit>(knowledgeGroupUnits2);
+			sq.setKnowledgeGroupUnits(setKnowledgeGroupUnits2);
+			suggestedQueries.add(sq);
+		}
+		final Set<com.verint.services.km.model.SuggestedQuery> setSuggestedQueries = new LinkedHashSet<>(suggestedQueries);
+		searchResponse.setSuggestedQueries(setSuggestedQueries);
+
+		LOGGER.info("Exiting populateSuggestedQuery()");
+		return searchResponse;
+	}
+
+
 	/**
 	 * 
 	 * @param cTags
@@ -536,5 +648,329 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		}
 		LOGGER.info("Exiting parseForTags()");
 		return rTags;
+	}
+	
+	// Build rest API response
+	private SearchResponse populateRESTApiResponse(RestSearchResponse searchJsonResponse, SearchResponse searchResponse) {
+		LOGGER.info("Entering populateRESTApiResponse()");
+		final List<com.verint.services.km.model.KnowledgeGroupUnit> knowledgeGroupUnits = new ArrayList<com.verint.services.km.model.KnowledgeGroupUnit>();
+
+		searchResponse.setNumberOfResults(searchJsonResponse.getTotalItems());
+		searchResponse.setSearchFeedbackURL(searchJsonResponse.getSearchFeedbackURL());
+		
+		LOGGER.info("Search Response number of results = " + searchResponse.getNumberOfResults());
+		
+		List<HydraMember> resultsList = searchJsonResponse.getHydraMember();
+		
+		LOGGER.info("Search resultsList size = " + (resultsList == null ? 0 : resultsList.size()));
+
+		if (resultsList != null && resultsList.size() > 0) {  
+			for (int i = 0; i < resultsList.size(); i++) {
+				com.verint.services.km.model.KnowledgeGroupUnit restResponseKgu = new com.verint.services.km.model.KnowledgeGroupUnit();
+				List<com.verint.services.km.model.KnowledgeUnit> knowledgeUnits = new ArrayList<com.verint.services.km.model.KnowledgeUnit>();
+				
+
+				//LOGGER.info("In resultList loop"); 
+				restResponseKgu.setTitle(resultsList.get(i).getName());
+				restResponseKgu.setContentID(resultsList.get(i).getContentId());
+				
+				List<MemberDetails> detailsList = resultsList.get(i).getMemberDetails();
+				if (detailsList != null) {
+					//LOGGER.info("detailsList size() = " + detailsList.size());  
+					
+					if (!detailsList.isEmpty()) {
+						for (int j = 0; j < detailsList.size(); j++) {
+							final com.verint.services.km.model.KnowledgeUnit restResponseKu = new com.verint.services.km.model.KnowledgeUnit();
+							MemberDetails memberDetails = detailsList.get(j);
+
+							// Set details
+							//restResponseKgu
+							restResponseKgu.setIsFeatured(memberDetails.isFeatured());
+							restResponseKgu.setLocale(memberDetails.getInLanguage());
+							restResponseKgu.setViewCount(memberDetails.getUserInteractionCount());
+							if (memberDetails.getAggregateRating() != null) {
+								restResponseKgu.setAverageRating(new Double(memberDetails.getAggregateRating().getRatingValue()));
+							}
+														
+							//restResponseKu
+							restResponseKu.setLastModifiedDate(memberDetails.getDateModified());
+							String pubDate = memberDetails.getDatePublished();
+							if (pubDate != null && pubDate.length() > 0) {
+								int index = pubDate.indexOf("T");
+								if (index != -1) {
+									pubDate = pubDate.substring(0, index);
+									restResponseKu.setLastPublishedDate(pubDate);						
+								}
+							} else {
+								String modDate = memberDetails.getDateModified();
+								if (modDate != null && modDate.length() > 0) {
+									int index = modDate.indexOf("T");
+									if (index != -1) {
+										modDate = modDate.substring(0, index);
+										restResponseKu.setLastPublishedDate(modDate);						
+									}
+								}
+							}
+							
+							restResponseKu.setRelevanceScore(new Double(memberDetails.getRelevance()));
+							restResponseKu.setTitle(memberDetails.getName());
+							restResponseKu.setContentVersion(memberDetails.getVersion());
+							restResponseKu.setSynopsis(memberDetails.getDescription());
+							restResponseKu.setAssociatedContentURL(memberDetails.getUrl());
+							
+							
+							
+							// results list but go in knowledgeUnit
+							restResponseKu.setPublishedID(resultsList.get(i).getIdentifier());
+							restResponseKu.setContentUnitID(resultsList.get(i).getContentId());
+							
+							//Hard coded as not returned from REST API call and is needed for display.
+							restResponseKu.setWorkflowState("PUBLISHED");
+							
+							
+							////////////////////////////////////
+							//not returned in REST API and not needed.
+							//restResponseKu.setPageIdentifier("1.0"); 
+							//restResponseKu.setTags(parseForTags("kbase_test,search_showinsearch,newchange_neworchanged"));
+							//restResponseKu.setContentOwner("UserED.80004_666_-1");
+							//restResponseKgu.setContentSource("Authored");
+							//BigInteger noOfRatings = new BigInteger("0");
+							//restResponseKgu.setNumberOfRatings(noOfRatings);
+							////////////////////////////////////
+							
+							//category list
+							if (memberDetails.getCategory() != null) {
+								List<Category> categoryList = memberDetails.getCategory();
+								if (categoryList != null && categoryList.size() > 0) { 
+									for (int k = 0; k < categoryList.size(); k++) {
+										restResponseKgu.setContentType(categoryList.get(k).getDisplayName());
+										restResponseKu.setContentCategoryTags(parseForTags(categoryList.get(k).getContentCategoryTag()));
+									}
+								}
+							}
+
+							//Highlight words in title and description
+							if (memberDetails.getAnnotations() != null && !memberDetails.getAnnotations().isEmpty()) {
+								List<String[]> textReplaceList = new ArrayList<>();
+								for (Annotation anno : memberDetails.getAnnotations()) {
+									if ("oa:highlighting".equals(anno.getMotivation())) {
+										int replaceStart = -1;
+										int replaceEnd = -1;
+										String path = null;
+										for (AnnotationSelector selector : anno.getTarget().getSelector()) {
+											if (selector.getType() != null) {
+												if ("vkm:PropertyPathSelector".equals(selector.getType().get(0))) {
+													path = selector.getPath().get(0).getId();
+												} else if ("oa:TextPositionSelector".equals(selector.getType().get(0))) {
+													replaceStart = selector.getStart();
+													replaceEnd = selector.getEnd();
+												}
+											}
+										}
+										if (replaceStart != -1 && replaceEnd != -1 && path != null) {
+											textReplaceList.add(new String[]{replaceStart + "", replaceEnd + "", path});
+										}
+									}
+								}
+								textReplaceList.sort(Comparator.comparingInt(o -> Integer.parseInt(o[0])));
+								Collections.reverse(textReplaceList);
+								for (String[] textReplace : textReplaceList) {
+									if ("vkm:name".equals(textReplace[2])) {
+										String newTitle = restResponseKu.getTitle();
+										newTitle = newTitle.substring(0, Integer.parseInt(textReplace[0])) +
+												"<strong>" + newTitle.substring(Integer.parseInt(textReplace[0]), Integer.parseInt(textReplace[1])) +
+												"</strong>" + newTitle.substring(Integer.parseInt(textReplace[1]));
+										restResponseKu.setTitle(newTitle);
+										restResponseKgu.setTitle(newTitle);
+									} else if ("vkm:description".equals(textReplace[2])) {
+										String newDescription = restResponseKu.getSynopsis();
+										newDescription = newDescription.substring(0, Integer.parseInt(textReplace[0])) +
+												"<strong>" + newDescription.substring(Integer.parseInt(textReplace[0]), Integer.parseInt(textReplace[1])) +
+												"</strong>" + newDescription.substring(Integer.parseInt(textReplace[1]));
+										restResponseKu.setSynopsis(newDescription);
+									}
+								}
+							}
+
+							// Set the knowledge group units
+							knowledgeUnits.add(restResponseKu);
+						}			
+					}
+				}
+				
+				// Set the knowledge group units
+				final Set<com.verint.services.km.model.KnowledgeUnit> setKnowledgeUnits = new LinkedHashSet<com.verint.services.km.model.KnowledgeUnit>(knowledgeUnits);
+				restResponseKgu.setKnowledgeUnits(setKnowledgeUnits);
+				knowledgeGroupUnits.add(restResponseKgu);
+			}
+		}
+		
+		
+		// Set the knowledge group units
+		final Set<com.verint.services.km.model.KnowledgeGroupUnit> setKnowledgeGroupUnits = new LinkedHashSet<com.verint.services.km.model.KnowledgeGroupUnit>(knowledgeGroupUnits);
+		searchResponse.setKnowledgeGroupUnits(setKnowledgeGroupUnits);
+		
+		LOGGER.info("Leaving populateRESTApiResponse()");
+		
+		return searchResponse;
+	}
+	
+	
+	private String buildRestAPIRequest(SearchRequest searchRequest, Float searchPrecision, Boolean isFeatured, Boolean isBookmark, String externalSearchId) {
+		
+		// initalise variables
+		String restAPIRequest = null;
+		String customCategories = null;
+		String categorySpideredContent = "content_spidereddocument";
+		String sp = null;
+		String language = null;
+		String orderBy = null;
+		String orderdirection = null;
+		String size = null;
+		String featured = null;
+		String bookmarked = null;
+		String start = null;
+		ConfigInfo prop = new ConfigInfo();
+	
+		// set URL (this will need to be config not hard coded)
+		restAPIRequest = REST_SEARCH_URL + "/default/search?";
+		
+		// set the search query
+		String query = "query=" + searchRequest.getQuery();
+		if (searchRequest.getPublishedId() != "") {
+			if (!searchRequest.getQuery().equals("*") && !searchRequest.getQuery().equals("*")) {
+			//query = "query=" + searchRequest.getPublishedId() + " AND " + searchRequest.getQuery();
+				//This does not work in the Test API call any additional text to a KM number brings back 0 results
+				query = "query=" + searchRequest.getPublishedId();
+			} else {
+				query = "query=" + searchRequest.getPublishedId();
+			}
+			LOGGER.info("BuildRestAPIRequest PublishedId = " + searchRequest.getPublishedId() + " Adding to search text: " + query);
+		}
+		
+		restAPIRequest = restAPIRequest + query;
+		
+		// set tags
+		restAPIRequest = addRestTagsToURL(restAPIRequest, searchRequest);
+		
+		// set categories
+		String categories = searchRequest.getCategories();
+		
+		if (categories != null && categories.length() > 0) {
+		
+			// If categories has a , at the end of the string then remove it.
+			if (categories.charAt(categories.length() - 1) == ',') {
+				categories = categories.substring(0, categories.length() - 1);
+			}
+			categories = "&category=" + String.join("&category=", categories.split(","));
+			categories = categories.replace("category=content_spidereddocument","category=vkm:SpideredCategory");
+			restAPIRequest = restAPIRequest + categories;
+        
+		}
+		
+		// Search Precision
+		// If search precision is passed in as a parameter then use it, is not, use the system property.
+		if (searchPrecision != null) {
+			sp ="&sp=" + searchPrecision;
+			
+		}else {
+			searchPrecision = Float.parseFloat(prop.getsearchPrecision()); 
+			sp ="&sp=" + searchPrecision;
+		}
+		restAPIRequest = restAPIRequest + sp;
+		
+		// Language (locale)
+		if (Locale != null) {
+			language = "&lang=" + Locale;
+			restAPIRequest = restAPIRequest + language;
+		} 
+		
+		// Order by
+		orderdirection = "&orderdirection=vkm:ItemListOrderDescending";
+		if ("publishedDate".equals(searchRequest.getSort())) {
+			orderBy = "&orderby=vkm:datePublished";
+		} else {
+			orderBy = "&orderby=vkm:relevance";
+		}
+		restAPIRequest = restAPIRequest + orderBy;
+		restAPIRequest = restAPIRequest + orderdirection;
+
+
+		
+		// Size
+		if(searchRequest.getSize() != null) {
+			size = "&size=" + searchRequest.getSize();
+			restAPIRequest = restAPIRequest + size;
+		}
+		
+		// featured
+		if(isFeatured) {
+			featured = "&featured=vkm:MatchOnly";
+			restAPIRequest = restAPIRequest + featured;
+		}
+		
+		// bookmark
+		if(isBookmark) {
+			bookmarked = "&bookmarked=vkm:MatchOnly";
+			restAPIRequest = restAPIRequest + bookmarked;
+		} 
+		
+		//page start item number
+		LOGGER.info("BuildRestAPIRequest page number = " + searchRequest.getPage());
+		int pageStart = searchRequest.getPage().intValue() - 1;
+		pageStart = pageStart * searchRequest.getSize().intValue();
+		LOGGER.info("BuildRestAPIRequest pageStart = " + pageStart);
+		start = "&start=" + Integer.toString(pageStart);
+		LOGGER.info("BuildRestAPIRequest start = " + start);
+		restAPIRequest = restAPIRequest + start;
+		
+		
+		//entitlements
+
+
+		//externalSearchId
+		restAPIRequest = restAPIRequest + "&externalSearchId=" + externalSearchId;
+
+        LOGGER.info(" restAPIRequest = " + restAPIRequest); 
+        LOGGER.info("Exiting BuildRestAPIRequest"); 
+		
+		
+		return restAPIRequest;
+	}
+
+	private String addRestTagsToURL(String restAPIRequest, SearchRequest searchRequest) {
+		LOGGER.info("BuildRestAPIRequest tags = {0}" + searchRequest.getTags());
+		String[] tags = (String[]) Arrays.stream(searchRequest.getTags().split(","))
+				.map(tag -> convertTagToCoverageTag(tag, searchRequest))
+				.toArray(String[]::new);
+		String tagUrlString = "&tag=" + String.join("&tag=", tags);
+		return restAPIRequest + tagUrlString;
+	}
+
+	private String convertTagToCoverageTag(String tag, SearchRequest searchRequest) {
+		if (tag.startsWith("kbase_") || tag.startsWith("search_")) {
+			return tag;
+		}
+		RestTag restTag = getTag(searchRequest.getUsername(), searchRequest.getOidcToken(), tag);
+		if (restTag != null && !StringUtils.isEmpty(restTag.getCoverage())) {
+			return restTag.getCoverage();
+		}
+		return tag;
+	}
+
+
+	private RestTag getTag(String username, String oidcToken, String systemTagName) {
+		Instant start = Instant.now();
+		RestTag tagJsonResponse = null;
+		try {
+			tagJsonResponse = RestUtil.getAndDeserialize(REST_TAGS_URL + "/default/tag/" + systemTagName,null,
+					HttpMethod.GET, RestTag.class, oidcToken, null, false);
+		} catch (IOException e) {
+			LOGGER.error("Error during getTag()", e);
+		}
+		Instant end = Instant.now();
+		LOGGER.debug("getTag SERVICE_CALL_PERFORMANCE(" + username + ", " + systemTagName + ") - duration: " + Duration.between(start, end).toMillis() + "ms");
+
+		return tagJsonResponse;
 	}
 }

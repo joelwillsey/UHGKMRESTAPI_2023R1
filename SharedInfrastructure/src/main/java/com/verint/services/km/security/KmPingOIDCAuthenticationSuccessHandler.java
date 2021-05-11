@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+
 /**
  * @author John.Miller
  *
@@ -53,10 +54,13 @@ public class KmPingOIDCAuthenticationSuccessHandler extends SimpleUrlAuthenticat
 		}
 		//clearAuthenticationAttributes(request);
 		
+		LOGGER.debug("Request - RequestURL: " + request.getRequestURL().toString());
+	
 		String newUrl = checkServiceContext(savedUrl);
-		
+
 		// Use the DefaultSavedRequest URL
 		LOGGER.debug("Sending contents of URL: " + newUrl);
+	
 		getRedirectStrategy().sendRedirect(request, response, newUrl);
 		//response.sendRedirect(newUrl);
 		LOGGER.info("Exiting onAuthenticationSuccess()");
@@ -80,6 +84,7 @@ public class KmPingOIDCAuthenticationSuccessHandler extends SimpleUrlAuthenticat
 			result = FILTER_SERVICES + url;
 		}
 			
+		//This is tied to the line getRedirectStrategy().sendRedirect(request, response, newUrl);
 		result = url;
 				
 		return result;

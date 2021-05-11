@@ -34,6 +34,12 @@ public class RateRequest implements Serializable {
 	@XmlElement(nillable=true)
 	private String siteName = "";
 
+	@XmlElement(nillable=true)
+	private String contentType = "";
+
+	@XmlElement(nillable=true)
+	private String oidcToken = "";
+
 	/**
 	 * Constructor
 	 */
@@ -109,14 +115,36 @@ public class RateRequest implements Serializable {
 	 */
 	public void setSiteName(String siteName) {
 		this.siteName = siteName;
-	}	
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public String getOidcToken() {
+		return oidcToken;
+	}
+
+	public void setOidcToken(String oidcToken) {
+		this.oidcToken = oidcToken;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "RateRequest [contentId=" + contentId + ", username=" + username + ", password=" + password + ", siteName=" + siteName + ", rating="
-				+ rating + "]";
+		return "RateRequest [contentId=" + contentId +
+				", username=" + username +
+				", password=" + password +
+				", siteName=" + siteName +
+				", rating=" + rating +
+				", contentType=" + contentType +
+				", oidcToken=" + oidcToken +
+				"]";
 	}
 }

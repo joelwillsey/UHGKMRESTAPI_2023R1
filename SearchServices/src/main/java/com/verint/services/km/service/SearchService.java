@@ -124,6 +124,7 @@ public class SearchService extends BaseService {
 			searchRequest.setPassword(credentials[1]);
 			searchRequest.setSort(sort);
 			searchRequest.setPublishedId(publishedId);
+			searchRequest.setOidcToken(getOIDCToken(httpRequest));
 			LOGGER.debug("SearchRequest: " + searchRequest);
 
 			// Do the search and get the response back

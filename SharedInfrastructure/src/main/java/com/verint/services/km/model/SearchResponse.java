@@ -24,6 +24,9 @@ public class SearchResponse implements Serializable {
 
 	@XmlElement
 	private BigInteger numberOfResults;
+	
+	@XmlElement(nillable = true)
+	private String searchFeedbackURL = "";
 
 	@XmlElement
 	private BigInteger page;
@@ -39,6 +42,9 @@ public class SearchResponse implements Serializable {
 
     @XmlElement(nillable=true)
 	private Set<SuggestedQuery> suggestedQueries = new HashSet<SuggestedQuery>();
+
+	@XmlElement
+	private String externalSearchId;
     
 	/**
 	 * 
@@ -60,6 +66,22 @@ public class SearchResponse implements Serializable {
 	public void setNumberOfResults(BigInteger numberOfResults) {
 		if (numberOfResults != null)
 			this.numberOfResults = numberOfResults;
+	}
+	
+	/**
+	 * @return the searchFeedbackURL
+	 */
+	public String getSearchFeedbackURL() {
+		return searchFeedbackURL;
+	}
+
+	/**
+	 * @param searchFeedbackURL
+	 *            the searchFeedbackURL to set
+	 */
+	public void setSearchFeedbackURL(String searchFeedbackURL) {
+		if (searchFeedbackURL != null)
+			this.searchFeedbackURL = searchFeedbackURL;
 	}
 
 	/**
@@ -136,6 +158,14 @@ public class SearchResponse implements Serializable {
 		this.suggestedQueries = suggestedQueries;
 	}
 
+	public String getExternalSearchId() {
+		return externalSearchId;
+	}
+
+	public void setExternalSearchId(String externalSearchId) {
+		this.externalSearchId = externalSearchId;
+	}
+
 	/**
 	 * @param suggestedQueries the suggestedQueries to set
 	 */
@@ -150,6 +180,6 @@ public class SearchResponse implements Serializable {
 	public String toString() {
 		return "SearchResponse [numberOfResults=" + numberOfResults + ", page=" + page + ", size=" + size
 				+ ", totalPages=" + totalPages + ", knowledgeGroupUnits=" + knowledgeGroupUnits + ", suggestedQueries="
-				+ suggestedQueries + "]";
+				+ suggestedQueries + ", externalSearchId=" + externalSearchId + "]";
 	}
 }

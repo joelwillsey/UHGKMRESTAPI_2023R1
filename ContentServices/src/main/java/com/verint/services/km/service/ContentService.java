@@ -4,6 +4,7 @@
 package com.verint.services.km.service;
 
 import java.rmi.RemoteException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -27,6 +28,8 @@ import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.ContentRequest;
 import com.verint.services.km.model.ContentResponse;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
@@ -66,34 +69,28 @@ public class ContentService extends BaseService {
 
 	/**
 	 * 
-	 * @param userid
+	 * @param contentid, state, cVersion, httpRequest
 	 * @return
 	 */
 	@GET
 	//@Path("/id/{contentid}{state:(/state/[^/]+?)?}")
 
-	@Path("/id/{contentid}{state:(/state/[^/]+?)?}{n:/?}{cVersion:(/version/[^/]+?)?}")
+	@Path("/")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public ContentResponse content(@PathParam("contentid") String contentid,
-    		@PathParam("state") String state, @PathParam("cVersion") String cVersion,
-    		@Context HttpServletRequest httpRequest) {
+    public ContentResponse content(@QueryParam("contentid") String contentid,
+								   @QueryParam("state") String state,
+								   @QueryParam("cVersion") String cVersion,
+								   @QueryParam("version") String version,
+								   @QueryParam("contentType") String contentType,
+								   @QueryParam("externalSearchId") String externalSearchId,
+								   @Context HttpServletRequest httpRequest) {
 		LOGGER.info("Entering content()");
 		LOGGER.debug("contentid: " + contentid);
-		String workflowState = "";
-		String version =  "";
-		if(state.equals("")){
-			LOGGER.debug("Optional parameter state not specified");
-		} else {
-			workflowState = state.split("/")[2];
-			LOGGER.debug("status: "+ workflowState);
-		}
-		if(cVersion.equals("")){
-			LOGGER.debug("Optional parameter version not specified");
-		} else {
-			version = cVersion.split("/")[2];
-			LOGGER.debug("version: "+ version);
-		}
 		ContentResponse contentResponse = null;
+		if (StringUtils.isEmpty(version) && !StringUtils.isEmpty(cVersion)) {
+			version = cVersion;
+		}
+		LOGGER.debug("version: "+ version);
 		try {
 			// Check for a valid request
 			if (contentid == null || contentid.length() == 0) {
@@ -112,29 +109,33 @@ public class ContentService extends BaseService {
 			contentRequest.setContentId(contentid);
 			contentRequest.setUsername(credentials[0]);
 			contentRequest.setPassword(credentials[1]);
-			if(!workflowState.equals("")){
-				contentRequest.setWorkflowState(workflowState);
+			if (!StringUtils.isEmpty(state)) {
+				contentRequest.setWorkflowState(state);
 			}
-			if (cVersion!= null && !cVersion.equals("")) {
+			if (!StringUtils.isEmpty(version)) {
 				contentRequest.setVersion(version);
 			}
+			contentRequest.setContentType(contentType);
+			contentRequest.setOidcToken(getOIDCToken(httpRequest));
+
 			// Call the service
 			
 			contentResponse = contentDAO.getContent(contentRequest);
 			
 
 			// Check if content is bookmarked
-			if(!workflowState.equals("PUBLISHED") && !workflowState.equals("")){
+			if (!StringUtils.isEmpty((state)) && !"PUBLISHED".equals(state)) {
 				//bookmarks do not work on draft state content
 				contentResponse.setBookmarked(false);
-				LOGGER.debug("Content is in a non-PUBLISHED state skipping bookmarks and markAsViewed. Workflow State: " + workflowState);
+				LOGGER.debug("Content is in a non-PUBLISHED state skipping bookmarks and markAsViewed. Workflow State: " + state);
 			} else {
 				
 				// Check if content is bookmarked
 				contentResponse.setBookmarked(bookmarksDAO.isContentBookmarked(contentRequest));
 				
 				// Mark content as viewed
-				contentResponse.setViewUUID(searchDAO.markAsViewed(contentid, credentials[0], credentials[1], null));
+				contentResponse.setViewUUID(searchDAO.markAsViewed(contentid, credentials[0], credentials[1],
+						null, getOIDCToken(httpRequest), externalSearchId));
 			}
 			
 			

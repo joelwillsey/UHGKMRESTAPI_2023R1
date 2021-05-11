@@ -82,6 +82,7 @@ public class BookmarkService extends BaseService {
 
 			bookmark.setUsername(credentials[0]);
 			bookmark.setPassword(credentials[1]);
+			bookmark.setOidcToken(getOIDCToken(httpRequest));
 			
 			// Call the service
 			manageBookmarkResponse = bookmarksDAO.addBookmark(bookmark);
@@ -127,6 +128,7 @@ public class BookmarkService extends BaseService {
 
 			bookmark.setUsername(credentials[0]);
 			bookmark.setPassword(credentials[1]);
+			bookmark.setOidcToken(getOIDCToken(httpRequest));
 			
 			// Call the service
 			manageBookmarkResponse = bookmarksDAO.removeBookmark(bookmark);

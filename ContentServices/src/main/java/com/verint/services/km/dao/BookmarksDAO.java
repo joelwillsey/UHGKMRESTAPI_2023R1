@@ -3,6 +3,7 @@
  */
 package com.verint.services.km.dao;
 
+import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
 
 import com.verint.services.km.errorhandling.AppException;
@@ -32,7 +33,7 @@ public interface BookmarksDAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	public ManageBookmarkResponse removeBookmark(ManageBookmarkRequest manageBookmarkRequest) throws RemoteException, AppException;
+	public ManageBookmarkResponse removeBookmark(ManageBookmarkRequest manageBookmarkRequest) throws RemoteException, AppException, UnsupportedEncodingException;
 	
 	/**
 	 * 
@@ -41,5 +42,5 @@ public interface BookmarksDAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	public boolean isContentBookmarked(ContentRequest contentRequest) throws RemoteException, AppException;
+	public boolean isContentBookmarked(ContentRequest contentRequest) throws RemoteException, AppException, UnsupportedEncodingException;
 }

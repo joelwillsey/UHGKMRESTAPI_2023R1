@@ -1,5 +1,6 @@
 	var keyword;
 	var selectedFilter;
+	var searchFeedbackURL;
 		
 	$.fn.throwError = function(data) {
 		$('#error-body').html(data);
@@ -21,7 +22,7 @@
 		if (expectation === '') {
 			$.fn.throwError('Fields cannot be empty.');
 		} else {
-			var postObject = '{"keyword":"' + keyword + '", "expectation":"' + expectation + '", "selectedFilter":"' + selectedFilter + '", "searchDate":' + jsonDate + '}';
+			var postObject = '{"keyword":"' + keyword + '", "expectation":"' + expectation + '", "searchFeedbackURL":"' + searchFeedbackURL + '", "selectedFilter":"' + selectedFilter + '", "searchDate":' + jsonDate + '}';
 			$.fn.suggestContent(postObject, function(data) {
 				$('#request-answer-widget').html($('#popup').html());
 				$('#background').removeClass('background_on');
@@ -31,7 +32,9 @@
 	}
 	
 	$.fn.parseParams = function() {
-		var tagList = $.fn.getAllParameters().tags.split(',');
+		if (typeof $.fn.getAllParameters().tags != 'undefined' && $.fn.getAllParameters().tags != null && $.fn.getAllParameters().tags.length > 0) {
+			var tagList = $.fn.getAllParameters().tags.split(',');
+		}
 		var categoryList = $.fn.getAllParameters().categories.split(',');
 		if(tagList) {
 			tagList = tagList.filter(function(tags) {
@@ -120,11 +123,13 @@
 
 	
 	// Initialize the data
-	$.fn.initData = function(keywordParam, selectedFilterParam) {
+	$.fn.initData = function(keywordParam, searchFeedbackURParam, selectedFilterParam) {
 		log('keyword: ' + keywordParam);
+		log('searchFeedbackURL' + searchFeedbackURParam);
 		log('searchFilter: ' + selectedFilterParam);
 		keyword = keywordParam;
 		selectedFilter = selectedFilterParam;
+		searchFeedbackURL = searchFeedbackURParam;
 		if(selectedFilter === '') {
 			selectedFilter = $.fn.getAllParameters().tags;
 		}

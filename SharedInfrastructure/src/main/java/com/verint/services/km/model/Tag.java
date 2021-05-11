@@ -30,9 +30,12 @@ public class Tag implements Serializable {
 
 	@XmlElement(nillable=true)
 	private String systemTagName = "";
-	
+
 	@XmlElement(nillable=true)
 	private String systemTagDisplayName = "";
+
+	@XmlElement(nillable=true)
+	private String coverage = "";
 
 	@XmlElement(nillable=true)
 	private Boolean preselected = new Boolean(false);
@@ -112,6 +115,14 @@ public class Tag implements Serializable {
 	 */
 	public void setSystemTagDisplayName(String systemTagDisplayName) {
 		this.systemTagDisplayName = systemTagDisplayName;
+	}
+
+	public String getCoverage() {
+		return coverage;
+	}
+
+	public void setCoverage(String coverage) {
+		this.coverage = coverage;
 	}
 
 	/**

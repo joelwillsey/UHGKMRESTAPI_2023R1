@@ -80,7 +80,7 @@ function setEnvironment () {
 
 # container start up options
 
-	export KM_STARTUP_OPTIONS="-Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/config -Dmachine.name=${COMPUTER_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs"
+	export KM_STARTUP_OPTIONS="-Denvironment.name=${ENVIRONMENT_NAME} -DconfigLocation=/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/config -Dmachine.name=${COMPUTER_NAME} -Dcontainer.name=${CONTAINER_NAME} -DlogFile=/app_2/verint/em/logs -Dweblogic.SelfTuningThreadPoolSizeMin=100"
 	export WLST_PROPERTIES="${KM_STARTUP_OPTIONS} ${WLST_PROPERTIES}"
 	export configLocation="/app_2/verint/em/projects/restapi/${ENVIRONMENT_NAME}_rest/weblogic-deploy/config"
 	export ORIGINAL_JAVA_OPTIONS=${JAVA_OPTIONS}

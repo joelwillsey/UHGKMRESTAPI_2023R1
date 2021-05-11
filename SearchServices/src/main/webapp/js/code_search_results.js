@@ -9,6 +9,8 @@ var policiesTopicTag = '';
 var codesTopicTag;
 var maxSizeOfPolicyResults;
 var defaultTitle = 'Verint Code Search';
+var searchFeedbackURL;
+
 
 $(document).ready(function() {
 
@@ -124,11 +126,12 @@ $(document).ready(function() {
 	}
 	
 	// Call to view Content
-	$.fn.viewContent = function(contentId, contentType) {
+	$.fn.viewContent = function(contentId, contentType, externalSearchId) {
 		var packagedData = [];
 		packagedData = {
 			"contentId" : contentId,
-			"contentType" : contentType
+			"contentType" : contentType,
+			"externalSearchId" : externalSearchId
 		}
 
 		//hide the code search window
@@ -211,7 +214,7 @@ $(document).ready(function() {
 	}
 	
 	// Setup slice results if there are any
-	$.fn.setupSlicedContent = function(data, results, addPolicySearch) {
+	$.fn.setupSlicedContent = function(data, results, addPolicySearch, externalSearchId) {
 		results.push('<article>');
 		if (addPolicySearch){
 			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + $.fn.addslashes(data.title) + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
@@ -219,7 +222,7 @@ $(document).ready(function() {
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
-		}  else if (data.contentType === 'Unstructured') {
+		}  else if (data.contentType === 'Spidered') {
 			//Spidered Content
 			
 			//Grab the tags for display, only have system name not display names
@@ -230,7 +233,7 @@ $(document).ready(function() {
 					passTags += nTags[j].systemTagName + ",";
 				}
 			}
-			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
+/*			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
 					data.contentID + '\',\'' +
 					data.knowledgeUnits[0].associatedContentURL + '\',' + 
 					data.isFeatured + ',' +
@@ -238,9 +241,10 @@ $(document).ready(function() {
 					data.numberOfRatings + ',\'' +
 					$.fn.addslashes(data.title) + '\',\'' +
 					data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
-					passTags + '\');">');
+					passTags + '\');">');*/
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\', \'' + externalSearchId +'\');">');
 		} else {
-			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\');">');
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\', \'' + externalSearchId + '\');">');
 		}		
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
@@ -269,9 +273,14 @@ $(document).ready(function() {
 	}
 	
 	// Setup external content links
-	$.fn.setupExternalContent = function(data, results, addPolicySearch) {
+	$.fn.setupExternalContent = function(data, results, addPolicySearch, externalSearchId) {
 		//log('setupExternalContent');
 		//log(data);
+		var externalSearchIdParam = '';		
+		if (typeof externalSearchId != 'undefined' && externalSearchId != ''){
+			externalSearchIdParam = ", " + externalSearchId
+		}
+		
 		var nTags = data.knowledgeUnits[0].tags;
 		var passTags = '';
 		if (typeof nTags != 'undefined' && nTags != null && nTags.length > 0) {
@@ -283,7 +292,7 @@ $(document).ready(function() {
 		if (addPolicySearch){
 			results.push('  <a class="sr_lr_icon_expand_collapse" href="javascript:void(0);" onclick="$.fn.launchPolicySearch(\'' + $.fn.getAlphaNumeric(data.contentID) + '\', \'' + $.fn.addslashes(data.title) + '\');"><div id="policy_' + $.fn.getAlphaNumeric(data.contentID) + '" class="sr_lr_icon_expand_collapse sr_lr_icon_content_toggle_expand">&nbsp;&nbsp;</div></a>');
 		}
-		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
+/*		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewExternalContent(\'' +
 			data.contentID + '\',\'' +
 			data.knowledgeUnits[0].associatedContentURL + '\',' + 
 			data.isFeatured + ',' +
@@ -291,7 +300,8 @@ $(document).ready(function() {
 			data.numberOfRatings + ',\'' +
 			$.fn.addslashes(data.title) + '\',\'' +
 			data.knowledgeUnits[0].lastPublishedDate + '\',\'' +
-			passTags + '\');">');
+			passTags + '\');">');*/
+		results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\', \'' + externalSearchId + '\');">');
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
 
@@ -372,12 +382,17 @@ $(document).ready(function() {
 	// Setup search results list
 	$.fn.setupResultsListing = function(data) {
 		var results = [];
+		var searchFeedbackURL;
+		var externalSearchId = '';
+		
 		// First check if we have suggested content
 		if (typeof data != 'undefined' && data != null && typeof data.suggestedQueries != 'undefined' && data.suggestedQueries != null && data.suggestedQueries.length > 0) {
 			// Check for 0 results
 			if (data.numberOfResults === 0) {
 				$('.sr_numbers_showing').html('Showing 0 of 0 results');
 			}
+			externalSearchId = data.externalSearchId;
+			
 			var queryText = '';
 			// Check for a REPLACED_SPECIFIC_TERMS first
 			for (var i=0; i < data.suggestedQueries.length; i++) {
@@ -421,11 +436,12 @@ $(document).ready(function() {
 						for (var p = 0; (data.suggestedQueries[i].knowledgeGroupUnits != null) && (p < data.suggestedQueries[i].knowledgeGroupUnits.length); p++) {
 							if (data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits != null && 
 								data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits.length > 1) {
-								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results, true);
+								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results, true, externalSearchId);
 							} else {
 								// Do we have spidered content to setup?
-								if (data.suggestedQueries[i].knowledgeGroupUnits[p].contentType === 'Unstructured') {
-									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results, true);
+								if (data.suggestedQueries[i].knowledgeGroupUnits[p].contentType === 'Spidered') {
+									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results, true, externalSearchId);
+									
 								} else {
 									// "regular" content
 									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[p], results, true);
@@ -448,11 +464,11 @@ $(document).ready(function() {
 			// Loop through the results
 			for (var i=0;(data.knowledgeGroupUnits != null) && (i < data.knowledgeGroupUnits.length); i++) {
 				if (data.knowledgeGroupUnits[i].knowledgeUnits != null && data.knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
-					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results, true);
+					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results, true, externalSearchId);
 				} else {
 					// Do we have spidered content to setup?
-					if (data.knowledgeGroupUnits[i].contentType === 'Unstructured') {
-						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results, true);
+					if (data.knowledgeGroupUnits[i].contentType === 'Spidered') {
+						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results, true, externalSearchId);
 					} else {
 						// "regular" content
 						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, true);
@@ -647,7 +663,9 @@ $(document).ready(function() {
     	
 		var fTags = kbaseTag + "," + policiesTopicTag;
 		
-		$.fn.search(search_text, 1, maxSizeOfPolicyResults, fTags, contentType, sortBy, publishedid, function(data) {
+		//$.fn.search(search_text, 1, maxSizeOfPolicyResults, fTags, contentType, sortBy, publishedid, function(data) {
+		//remove contentType constraint
+		$.fn.search(search_text, 1, maxSizeOfPolicyResults, fTags, '', sortBy, publishedid, function(data) {
 			log('Policy Search Below:');
 			log(data);
 			$.fn.setPolicySearchResults(data, resultsHTML, id);
@@ -701,6 +719,9 @@ $(document).ready(function() {
 	
 	$.fn.setPolicySearchResults = function(data, results, id){
 	
+		var externalSearchId = data.externalSearchId;
+		log('externalSearchId=' + externalSearchId);
+		
 		$.fn.setupPolicyResultsNumbers(data,id);
 		
 		// See if there is regular results
@@ -708,11 +729,11 @@ $(document).ready(function() {
 			// Loop through the results
 			for (var i=0;(data.knowledgeGroupUnits != null) && (i < data.knowledgeGroupUnits.length); i++) {
 				if (data.knowledgeGroupUnits[i].knowledgeUnits != null && data.knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
-					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results, false);
+					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results, false, externalSearchId);
 				} else {
 					// Do we have spidered content to setup?
-					if (data.knowledgeGroupUnits[i].contentType === 'Unstructured') {
-						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results, false);
+					if (data.knowledgeGroupUnits[i].contentType === 'Spidered') {
+						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results, false, externalSearchId);
 					} else {
 						// "regular" content
 						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, false);
@@ -783,6 +804,8 @@ $(document).ready(function() {
             		$('.sr_label').html(data.label);
             	}
             	pageSelected = data.data.page;
+            	searchFeedbackURL = data.data.searchFeedbackURL;
+				
             	
             	//make sure the base query is always there
             	if (!data.query == ""){

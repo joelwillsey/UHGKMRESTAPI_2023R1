@@ -33,6 +33,13 @@ public class ContentRequest implements Serializable {
 
 	@XmlElement(nillable=true)
 	private String version = "";
+
+	@XmlElement(nillable=true)
+	private String contentType = "";
+
+	@XmlElement(nillable=true)
+	private String oidcToken = "";
+
 	/**
 	 * Constructor
 	 */
@@ -89,17 +96,33 @@ public class ContentRequest implements Serializable {
 	}
 	
 	/**
-	 * @return the password
+	 * @return the workflowState
 	 */
 	public String getWorkflowState() {
 		return workflowState;
 	}
 
 	/**
-	 * @param password the password to set
+	 * @param workflowState the password to set
 	 */
 	public void setWorkflowState(String workflowState) {
 		this.workflowState = workflowState;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public String getOidcToken() {
+		return oidcToken;
+	}
+
+	public void setOidcToken(String oidcToken) {
+		this.oidcToken = oidcToken;
 	}
 
 	/* (non-Javadoc)
@@ -107,6 +130,9 @@ public class ContentRequest implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "ContentRequest [contentId=" + contentId + ", username=" + username + ", password=" + password + ", workflowState=" + workflowState + "]";
+		return "ContentRequest [contentId=" + contentId +
+				", username=" + username + ", password=" + password +
+				", workflowState=" + workflowState + ", contentType=" + contentType +
+				", oidcToken=" + oidcToken + "]";
 	}
 }

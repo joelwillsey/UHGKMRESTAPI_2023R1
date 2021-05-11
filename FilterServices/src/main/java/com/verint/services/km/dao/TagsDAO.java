@@ -20,7 +20,7 @@ public interface TagsDAO {
 	 * @param password
 	 * @return
 	 */
-	public TagSet[] getAllTagSets(String username, String password);
+	public TagSet[] getAllTagSets(String username, String password, String oidcToken);
 
 	/**
 	 * 
@@ -29,7 +29,7 @@ public interface TagsDAO {
 	 * @param tagset
 	 * @return
 	 */
-	public Tag[] getTagSet(String username, String password, String tagset);
+	public Tag[] getTagSet(String username, String password, String oidcToken, String tagset);
 
 	/**
 	 * 
@@ -38,5 +38,5 @@ public interface TagsDAO {
 	 * @param tagsets
 	 * @return
 	 */
-	public Set<TagSet> getTagSets(String username, String password, String[] tagsets);	
+	public Set<TagSet> getTagSets(String username, String password, String oidcToken, String[] tagsets);
 }

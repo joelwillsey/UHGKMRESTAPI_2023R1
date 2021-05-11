@@ -3,26 +3,27 @@
  */
 package com.verint.services.km.dao;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.time.Duration;
 import java.time.Instant;
 
+import com.verint.services.km.util.ConfigInfo;
+import com.verint.services.km.util.RestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.BookmarkedContent;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ErrorMessage;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ListAllBookmarksRequestBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ListAllBookmarksResponseBodyType;
 import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ManageBookmarkRequestBodyType;
-import com.kana.contactcentre.services.model.KMBookmarkServiceV1Service_wsdl.ManageBookmarkResponseBodyType;
 import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
 import com.verint.services.km.model.ContentRequest;
-import com.verint.services.km.model.ErrorList;
 import com.verint.services.km.model.ManageBookmarkRequest;
 import com.verint.services.km.model.ManageBookmarkResponse;
 
@@ -33,6 +34,16 @@ import com.verint.services.km.model.ManageBookmarkResponse;
 @Repository
 public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BookmarksDAOImpl.class);
+	private static String REST_BOOKMARK_URL;
+
+	static {
+		try {
+			REST_BOOKMARK_URL = (new ConfigInfo()).getRestKmBookmarkService();
+		} catch (Throwable t) {
+			LOGGER.error("Throwable Exception", t);
+			System.exit(1);
+		}
+	}
 
 	/**
 	 * 
@@ -58,33 +69,20 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 		LOGGER.info("Entering addBookmark()");
 		LOGGER.debug("ManageBookmarkRequest: " + manageBookmarkRequest);
 		final ManageBookmarkResponse manageBookmarkResponse = new ManageBookmarkResponse();
-		
-		// Setup the service request
-		final ManageBookmarkRequestBodyType request = new ManageBookmarkRequestBodyType();
-		request.setApplicationID(AppID);
-		request.setLocaleName(Locale);
-		request.setContentId(manageBookmarkRequest.getContentId());
-		request.setUserName(manageBookmarkRequest.getUsername());
-		request.setPassword(manageBookmarkRequest.getPassword());
-		request.setUserAction("ADD");
 
 		// Make the service call
 		Instant start = Instant.now();
-		final ManageBookmarkResponseBodyType response = KMBookmarkServicePortType.manageBookmark(request);
+		String abUrl = REST_BOOKMARK_URL + "/default/bookmark/" + manageBookmarkRequest.getUsername();
+		ResponseEntity<String> restResponse = RestUtil.getRestResponse(abUrl,
+				"{ \"@type\": \"vkm:Bookmark\", " +
+						"\"vkm:contentID\":\"" + manageBookmarkRequest.getContentId() + "\", " +
+						"\"vkm:inLanguage\":\"" + Locale + "\" }",
+				HttpMethod.POST, String.class, manageBookmarkRequest.getOidcToken(), null, false);
 		Instant end = Instant.now();
 		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + manageBookmarkRequest.getUsername() + ") - addBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
 		
-		LOGGER.debug("ManageBookmarkResponseBodyType: " + response);
-		if (response != null && response.getErrorList() != null) {
-			final ErrorMessage[] errors = response.getErrorList();
-			// Loop through the errors
-			for (int x = 0; (errors != null) && (x < errors.length); x++) {
-				ErrorList errorList = new ErrorList();
-				errorList.setCode(errors[x].getCode());
-				errorList.setMessage(errors[x].getMessage());
-				manageBookmarkResponse.addErrorList(errorList);
-			}
-		} else {
+		LOGGER.debug("ManageBookmarkResponseBodyType: " + restResponse.getStatusCode() + ", " + restResponse.getBody());
+		if (!restResponse.getStatusCode().is2xxSuccessful()) {
 			// We have a problem with the service
 			throw new AppException(500, AppErrorCodes.ADD_BOOKMARK_ERROR,
 					AppErrorMessage.ADD_BOOKMARK_ERROR);
@@ -99,37 +97,23 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 	 * @see com.verint.services.km.dao.BookmarksDAO#addBookmark(com.verint.services.km.model.ManageBookmarkRequest)
 	 */
 	@Override
-	public ManageBookmarkResponse removeBookmark(ManageBookmarkRequest manageBookmarkRequest) throws RemoteException, AppException {
+	public ManageBookmarkResponse removeBookmark(ManageBookmarkRequest manageBookmarkRequest) throws RemoteException, AppException, UnsupportedEncodingException {
 		LOGGER.info("Entering addBookmark()");
 		LOGGER.debug("ManageBookmarkRequest: " + manageBookmarkRequest);
 		final ManageBookmarkResponse manageBookmarkResponse = new ManageBookmarkResponse();
-		
-		// Setup the service request
-		final ManageBookmarkRequestBodyType request = new ManageBookmarkRequestBodyType();
-		request.setApplicationID(AppID);
-		request.setLocaleName(Locale);
-		request.setContentId(manageBookmarkRequest.getContentId());
-		request.setUserName(manageBookmarkRequest.getUsername());
-		request.setPassword(manageBookmarkRequest.getPassword());
-		request.setUserAction("REMOVE");
 
 		// Make the service call
 		Instant start = Instant.now();
-		final ManageBookmarkResponseBodyType response = KMBookmarkServicePortType.manageBookmark(request);
+		String rbUrl = REST_BOOKMARK_URL + "/default/bookmark/" + manageBookmarkRequest.getUsername() + "/" +
+				URLEncoder.encode(manageBookmarkRequest.getContentId(), StandardCharsets.UTF_8.toString()) +
+				"?lang=" + Locale;
+		ResponseEntity<String> restResponse = RestUtil.getRestResponse(rbUrl, null, HttpMethod.DELETE, String.class,
+				manageBookmarkRequest.getOidcToken(), null, true);
 		Instant end = Instant.now();
 		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + manageBookmarkRequest.getUsername() + ") - removeBookmark() duration: " + Duration.between(start, end).toMillis() + "ms");
 		
-		LOGGER.debug("ManageBookmarkResponseBodyType: " + response);
-		if (response != null && response.getErrorList() != null) {
-			final ErrorMessage[] errors = response.getErrorList();
-			// Loop through the errors
-			for (int x = 0; (errors != null) && (x < errors.length); x++) {
-				ErrorList errorList = new ErrorList();
-				errorList.setCode(errors[x].getCode());
-				errorList.setMessage(errors[x].getMessage());
-				manageBookmarkResponse.addErrorList(errorList);
-			}
-		} else {
+		LOGGER.debug("ManageBookmarkResponseBodyType: " + restResponse.getStatusCode() + ", " + restResponse.getBody());
+		if (!restResponse.getStatusCode().is2xxSuccessful()) {
 			// We have a problem with the service
 			throw new AppException(500, AppErrorCodes.ADD_BOOKMARK_ERROR,
 					AppErrorMessage.ADD_BOOKMARK_ERROR);
@@ -143,33 +127,29 @@ public class BookmarksDAOImpl extends BaseDAOImpl implements BookmarksDAO {
 	 * (non-Javadoc)
 	 * @see com.verint.services.km.dao.BookmarksDAO#isContentBookmarked(com.verint.services.km.model.ContentRequest)
 	 */
-	public boolean isContentBookmarked(ContentRequest contentRequest) throws RemoteException, AppException {
+		public boolean isContentBookmarked(ContentRequest contentRequest) throws RemoteException, AppException, UnsupportedEncodingException {
 		boolean isBookmarked = false;
-		final ListAllBookmarksRequestBodyType bookmarkRequest = new ListAllBookmarksRequestBodyType();
-		bookmarkRequest.setApplicationID(AppID);
-		bookmarkRequest.setUserName(contentRequest.getUsername());
-		bookmarkRequest.setPassword(contentRequest.getPassword());
-		bookmarkRequest.setSortColumnName("");
-		bookmarkRequest.setSortOrder("");
 
-		// Check for a match
 		Instant start = Instant.now();
-		final ListAllBookmarksResponseBodyType bookmarkResponse = KMBookmarkServicePortType.listAllBookmarks(bookmarkRequest);
+		String rbUrl = REST_BOOKMARK_URL + "/default/bookmark/" + contentRequest.getUsername() +
+				"/" +
+				URLEncoder.encode(contentRequest.getContentId(), StandardCharsets.UTF_8.toString()) +
+				"?lang=" + Locale;
+		ResponseEntity<String> restResponse = RestUtil.getRestResponse(rbUrl, null, HttpMethod.GET,
+				String.class, contentRequest.getOidcToken(), RestUtil.getIgnoreErrorHandler(), true);
 		Instant end = Instant.now();
 		LOGGER.debug("SERVICE_CALL_PERFORMANCE - isContentBookmarked() duration: " + Duration.between(start, end).toMillis() + "ms");
 		
-		if (bookmarkResponse != null && bookmarkResponse.getContentList() != null) {
-			final BookmarkedContent[] content = bookmarkResponse.getContentList();
-			for (int x = 0; (content != null) && (x < content.length); x++) {
-				// Is there a match?
-				if (contentRequest.getContentId().equalsIgnoreCase(content[x].getContentId())) {
-					isBookmarked = true;
-				}
-			}
+		if (restResponse.getStatusCode().is2xxSuccessful()) {
+			isBookmarked = true;
+		} else if (restResponse.getStatusCode() == HttpStatus.NOT_FOUND &&
+				restResponse.getBody() != null &&
+				restResponse.getBody().contains("Bookmark Not Found")) {
+			//Content not bookmarked
 		} else {
 			// We have a problem with the service
 			throw new AppException(500, AppErrorCodes.CONTENT_BOOKMARK_ERROR,
-					AppErrorMessage.CONTENT_BOOKMARK_ERROR);			
+					AppErrorMessage.CONTENT_BOOKMARK_ERROR);
 		}
 		return isBookmarked;
 	}

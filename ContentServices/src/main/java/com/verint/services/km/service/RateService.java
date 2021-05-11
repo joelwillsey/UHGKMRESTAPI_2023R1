@@ -39,6 +39,7 @@ public class RateService extends BaseService {
 	@Autowired
 	private SearchDAO searchDAO;
 
+
 	/**
 	 * 
 	 */
@@ -57,7 +58,7 @@ public class RateService extends BaseService {
 	/**
 	 * 
 	 * @param rate
-	 * @param authorization
+	 * @param httpRequest
 	 * @return
 	 */
 	@POST
@@ -90,6 +91,8 @@ public class RateService extends BaseService {
 			rateRequest.setRating(rate.getRating());
 			rateRequest.setUsername(credentials[0]);
 			rateRequest.setPassword(credentials[1]);
+			rateRequest.setContentType(rate.getContentType());
+			rateRequest.setOidcToken(getOIDCToken(httpRequest));
 
 			// Rate the content
 			rateResponse.setRatingUUID(searchDAO.rateContent(rateRequest));

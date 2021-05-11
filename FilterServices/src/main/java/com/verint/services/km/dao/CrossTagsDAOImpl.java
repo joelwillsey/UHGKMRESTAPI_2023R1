@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -57,19 +58,20 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 	 * @see com.verint.services.km.dao.CrossTagsDAO#getTagSetConfigurations(java.lang.String, java.lang.String, java.lang.String[], java.lang.String)
 	 */
 	@Override
-	public CrossTagResponse getTagSetConfigurations(String username, String password, String[] sourcetag, String targettagset, String targettagset1, String targettagset2, String targettagset3) throws SQLException, IOException {
+	public CrossTagResponse getTagSetConfigurations(String username, String password, String oidcToken, String[] sourcetag, String targettagset, String targettagset1, String targettagset2, String targettagset3) throws SQLException {
 		LOGGER.info("Entering getTagSetConfiguration()");
-		LOGGER.debug("sourcetag: " + sourcetag);
+		LOGGER.debug("sourcetag: " + Arrays.toString(sourcetag));
 		LOGGER.debug("targettagset: " + targettagset);
 		LOGGER.debug("targettagset1: " + targettagset1);
 		LOGGER.debug("targettagset2: " + targettagset2);
-		LOGGER.debug("targettagset2: " + targettagset3);
+		LOGGER.debug("targettagset3: " + targettagset3);
 		final CrossTagResponse response = new CrossTagResponse();
 		
 		// Get the connection and statement
 		final Connection connection = ConnectionPool.getConnection();
 		PreparedStatement stmt = null;
 
+		Instant startCross = Instant.now();
 		//looping through all three target sets to get all crosstags in one source
 		for(int c = 0; c < 4; c++){
 			
@@ -91,7 +93,8 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 		//actually executes everything, just three times
 		try {
 			// Loop through all source tags
-			for (int s = 0; (sourcetag != null && s < sourcetag.length); s++) {
+			for (int s = 0; (sourcetag != null && s < sourcetag.length && currentTagSet != null); s++) {
+				LOGGER.debug("Looping Begin sourceTag[" + s + "]: " + sourcetag[s] + " targetTagSet" + c + ": " + currentTagSet);
 				//final String query = "SELECT t.tagset, t.tag, t.preselected, t.select_children FROM X_CROSSTAG c JOIN X_CROSSTAG_SOURCE s ON s.CROSSTAG_ID = c.ID JOIN X_CROSSTAG_TARGET t ON t.CROSSTAG_ID = c.ID WHERE s.TAG = ? AND t.TAGSET = ?";
 				final String query = "SELECT t.tagset, t.tag, t.preselected, t.select_children FROM AKTR_TAG_RELATIONSHIP c JOIN AKTR_TAG_REL_SOURCE s ON s.CROSSTAG_ID = c.ID JOIN AKTR_TAG_REL_TARGET t ON t.CROSSTAG_ID = c.ID WHERE s.TAG = ? AND t.TAGSET = ?";
 				stmt = connection.prepareStatement(query);
@@ -101,7 +104,7 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 				Instant start = Instant.now();
 				final ResultSet rs = stmt.executeQuery();
 				Instant end = Instant.now();
-				LOGGER.debug("SERVICE_CALL_PERFORMANCE("+username+") - getTagSetConfigurations() duration: " + Duration.between(start, end).toMillis() + "ms");
+				LOGGER.debug("SERVICE_CALL_PERFORMANCE("+username+") - getTagSetConfigurations(" + sourcetag[s] + "," + currentTagSet + ") duration: " + Duration.between(start, end).toMillis() + "ms");
 
 				
 				
@@ -137,8 +140,17 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 					
 					crossTag.setSourceTag(sourcetag[s]);
 					crossTag.setTargetTagSet(targettagset);
-					final Tag[] tags = tagsDAO.getTagSet(username, password, tagset);
+					
 
+					//final Tag[] tags = tagsDAO.getTagSet(username, password, oidcToken, tagset);
+					final Tag[] tags = tagsDAO.getTagSet(username, password, oidcToken, tag);
+
+					if (tags != null) {
+						for (int v = 0; v < tags.length; v++) {
+							LOGGER.debug("tags [" + v + "]=" + tags[v].toString());
+						}
+					}
+					
 					// convert the list
 					if (children != null && children.equals("Y")) {
 						boolean found = false;
@@ -154,6 +166,7 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 								// This means we are done with the tree
 								doneWithTree = true;
 							} else if (!doneWithTree) {
+								
 								if (tags[x].getSystemTagName().equals(tag)) {
 									LOGGER.debug("Found system tag: " + tags[x].getSystemTagName());
 									found = true;
@@ -183,10 +196,21 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 						final Set<Tag> nTags = new LinkedHashSet<Tag>(lTags);
 						crossTag.setTags(nTags);
 						response.addCrossTag(crossTag);
-					} else {
+					} else if (tags != null && tags.length > 1) {
 						boolean doneWithTree = false;
 						
 						//creation of the header tag
+						
+						boolean topOfTagset = false;
+						int findUnderScore = tags[0].getSystemTagName().indexOf("_");
+						if (findUnderScore != -1) {
+							//We found the root tag, the root tags do not have the _ in them
+							topOfTagset = true;
+						} else {
+							//We need to grab the parent tag of the target tag so we can climb up to the root tag
+							
+						}
+
 						Tag headerTag = new Tag();
 						headerTag.setParentTagName(tags[0].getSystemTagName());
 						headerTag.setSystemTagName(tags[0].getSystemTagName());
@@ -237,6 +261,8 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 				}
 				rs.close();
 			}
+			
+
 		} catch (SQLException sqle) {
 			LOGGER.error("SQLException", sqle);
 			throw sqle;
@@ -247,6 +273,8 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 				connection.close();
 		}
 		}
+		Instant endCross = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+username+") - getTagSetConfigurations(AllCalls) duration: " + Duration.between(startCross, endCross).toMillis() + "ms");
 		LOGGER.debug("CrossTagResponse: "  + response);
 		LOGGER.info("Exiting getTagSetConfiguration()");
 		return response;
@@ -259,7 +287,7 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 	 * @param lTags
 	 */
 	private void getBackOrder(Tag[] tags, String pTag, List<Tag> lTags) {
-		LOGGER.info("Entering getBackOrder()");
+		LOGGER.debug("Entering getBackOrder()");
 		// Loop through all the tags to go back through order
 		for (int a = 0; a < tags.length; a++) {
 			if (pTag != null) {
@@ -273,7 +301,7 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 				}
 			}
 		}
-		LOGGER.info("Entering getBackOrder()");
+		LOGGER.debug("Exiting getBackOrder()");
 	}
 
 	/**
@@ -282,14 +310,14 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 	 * @param tag
 	 */
 	private void setPreSelected(String preselected, Tag tag) {
-		LOGGER.info("Entering setPreSelected()");		
+		LOGGER.debug("Entering setPreSelected()");		
 		// Set the preselect indicator
 		if ("Y".equals(preselected)) {
 			tag.setPreselected(true);
 		} else {
 			tag.setPreselected(false);									
 		}
-		LOGGER.info("Exiting setPreSelected()");
+		LOGGER.debug("Exiting setPreSelected()");
 	}
 
 	/**
@@ -300,7 +328,7 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 	 * @param lTags
 	 */
 	private void addTag(boolean found, boolean skipFirst, Tag tag, List<Tag> lTags) {
-		LOGGER.info("Entering addTag()");
+		LOGGER.debug("Entering addTag()");
 		// Add it in
 		if (found && !skipFirst) {
 			// Add the tag
@@ -308,7 +336,7 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 			lTags.add(tag);
 			skipFirst = false;
 		}
-		LOGGER.info("Exiting addTag()");
+		LOGGER.debug("Exiting addTag()");
 	}
 
 	/**
@@ -318,9 +346,11 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 	 * @return
 	 */
 	private int determineTags(Tag[] tags, String parentTag) {
-		LOGGER.info("Entering determineTags()");
+		LOGGER.debug("Entering determineTags()");
 		int pTag = 0;
-		LOGGER.debug("ParentTag: " + parentTag);
+		if (parentTag != null && parentTag != "") {
+			LOGGER.debug("ParentTag: " + parentTag);
+		}
 		// Go through top down to get the parent info first
 		for (int a = 0; a < tags.length; a++) {
 			if (parentTag.equals(tags[a].getSystemTagName())) {
@@ -329,7 +359,7 @@ public class CrossTagsDAOImpl extends BaseDAOImpl implements CrossTagsDAO {
 				break;
 			}
 		}
-		LOGGER.info("Exiting determineTags()");
+		LOGGER.debug("Exiting determineTags()");
 		return pTag;
 	}
 }

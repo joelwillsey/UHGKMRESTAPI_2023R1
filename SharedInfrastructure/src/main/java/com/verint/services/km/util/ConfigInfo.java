@@ -48,9 +48,24 @@ public class ConfigInfo {
 	private String soapLocale="en-US";
 	private String soapMaxnumberofunitspergroup="10";
 	private String soapSpellcheckenabled="true";
+	//Rest Services
+	private String oidcTokenService="";
+	private String agentService="";
+	private String kmAssetService="";
+	private String kmBookmarkService="";
+	private String kmContentService="";
+	private String kmSearchService="";
+	private String kmTagService="";
+	private String kmAuthoringService="";
+	private String tenantId="";	
+	private String oidcTokenScope;
+	private String hoverTestServiceAccountUser;
+	private String hoverTestServiceAccountPassword;
 	
 	private String staticcontentFilelocation="";
 	private String staticcontentServerurl="";
+	
+	private String assetWrapperUrl="";
 	
 	private String solrAutosuggestURI = "";
 	private String alertsNumDays = "";
@@ -62,6 +77,9 @@ public class ConfigInfo {
 	private String systemFile;
 	private String readerFile;
 	private String connectionPoolRSFile;
+
+	private String sslkeystoreLocation;
+	private String sslkeystorePassword;
 
 
 	public ConfigInfo() {
@@ -126,16 +144,35 @@ public class ConfigInfo {
 				soapLocale=prop.getProperty("soap.locale");
 				soapMaxnumberofunitspergroup = prop.getProperty("soap.maxnumberofunitspergroup");
 				soapSpellcheckenabled = prop.getProperty("soap.spellcheckenabled");
-					
+				
+				oidcTokenService=prop.getProperty("rest.odictokenservice");
+				agentService=prop.getProperty("rest.agentservice");
+				kmAssetService=prop.getProperty("rest.kmassetservice");
+				kmBookmarkService=prop.getProperty("rest.kmbookmarkservice");
+				kmContentService=prop.getProperty("rest.kmcontentservice");
+				kmSearchService=prop.getProperty("rest.kmsearchservice");
+				kmTagService=prop.getProperty("rest.kmtagservice");
+				kmAuthoringService=prop.getProperty("rest.kmauthoringservice");
+				tenantId = prop.getProperty("rest.tentantid");								
+				oidcTokenScope=prop.getProperty("rest.odictokenscope");
+				hoverTestServiceAccountUser=prop.getProperty("hovertext.serviceaccountuser");
+				hoverTestServiceAccountPassword=prop.getProperty("hovertext.serviceaccountpassword");
+				
 				staticcontentFilelocation= prop.getProperty("staticcontent.filelocation");
 				staticcontentServerurl= prop.getProperty("staticcontent.serverurl");
+				
+				assetWrapperUrl= prop.getProperty("asset.wrapperurl");
 				
 				solrAutosuggestURI = prop.getProperty("solr.autosuggestURI");
 				alertsNumDays=prop.getProperty("alerts.numDays");
 				searchPrecision=prop.getProperty("search.precision");
 				searchTriggerType = prop.getProperty("search.TriggerType");
 				sortOrder=prop.getProperty("sort.order");
-				
+
+				sslkeystoreLocation=prop.getProperty("ssl.keystore.location");
+				sslkeystorePassword=prop.getProperty("ssl.keystore.password");
+
+
 			} catch (FileNotFoundException fnfe) {
 				LOGGER.error("FileNotFoundException", fnfe);
 				System.exit(1);
@@ -190,9 +227,7 @@ public class ConfigInfo {
 	}
 	
 	
-	
-	
-	
+		
 	public String getSoapSearchservice() {
 		return soapSearchservice;
 	}
@@ -225,6 +260,33 @@ public class ConfigInfo {
 	}
 	public String getSoapFeaturedservice() {
 		return soapFeaturedservice;
+	}	
+	public String getRestOidcTokenService() {
+		return oidcTokenService;
+	}
+	public String getRestAgentService() {
+		return agentService;
+	}
+	public String getRestKmAssetService() {
+		return kmAssetService;
+	}
+	public String getRestKmBookmarkService() {
+		return kmBookmarkService;
+	}
+	public String getRestKmContentService() {
+		return kmContentService;
+	}
+	public String getRestKmSearchService() {
+		return kmSearchService;
+	}
+	public String getRestKmTagService() {
+		return kmTagService;
+	}
+	public String getRestTenantId() {
+		return tenantId;
+	}
+	public String getRestKmAuthoringService() {
+		return kmAuthoringService;
 	}
 	public String getSoapAppid() {
 		return soapAppid;
@@ -243,6 +305,9 @@ public class ConfigInfo {
 	}
 	public String getStaticcontentServerurl() {
 		return staticcontentServerurl;
+	}
+	public String getAssetWrapperUrl() {
+		return assetWrapperUrl;
 	}
 	public String getsolrAutosuggestURI() {
 		return solrAutosuggestURI;
@@ -264,6 +329,21 @@ public class ConfigInfo {
 	}
 	public String getReaderFile() {
 		return readerFile;
+	}
+	public String getRestOidcTokenScope() {
+		return oidcTokenScope;
+	}
+	public String getHoverTestServiceAccountUser() {
+		return hoverTestServiceAccountUser;
+	}
+	public String getHoverTestServiceAccountPassword() {
+		return hoverTestServiceAccountPassword;
+	}
+	public String getSslkeystoreLocation() {
+		return sslkeystoreLocation;
+	}
+	public String getSslkeystorePassword() {
+		return sslkeystorePassword;
 	}
 
 	public String getConnectionPoolFile() {
@@ -360,8 +440,27 @@ public class ConfigInfo {
 		"soap.maxnumberofunitspergroup=" + soapMaxnumberofunitspergroup + "\n" +
 		"soap.spellcheckenabled=" + soapSpellcheckenabled + "\n" +			
 		"staticcontent.filelocation=" + staticcontentFilelocation + "\n" +
-		"staticcontent.serverurl=" + staticcontentServerurl	+ "\n" +	
-		"solr.autosuggestURI=" + solrAutosuggestURI;
+		"staticcontent.serverurl=" + staticcontentServerurl	+ "\n" +
+		"assetWrapperUrl=" + assetWrapperUrl + "\n" +
+		"solr.autosuggestURI=" + solrAutosuggestURI + "\n" +
+		"rest.odictokenservice=" + oidcTokenService + "\n" +
+		"rest.agentservice=" + agentService + "\n" +
+		"rest.kmassetservice=" + kmAssetService + "\n" +
+		"rest.kmbookmarkservice=" + kmBookmarkService + "\n" +
+		"rest.kmcontentservice=" + kmContentService + "\n" +
+		"rest.kmsearchservice=" + kmSearchService + "\n" +
+		"rest.kmtagservice=" + kmTagService + "\n" +
+		"rest.kmauthoringservice=" + kmAuthoringService + "\n" +
+		"rest.tentantid=" + tenantId + "\n" +
+		"rest.odictokenscope=" +oidcTokenScope + "\n" +
+		"hovertext.serviceaccountuser=" + hoverTestServiceAccountUser + "\n" +
+		"hovertext.serviceaccountpassword=********" + "\n" +
+		"alerts.numDays=" + alertsNumDays + "\n" +
+		"search.precision=" + searchPrecision + "\n" +
+		"search.TriggerType=" + searchTriggerType + "\n" +
+		"sort.order=" + sortOrder + "\n" +
+		"ssl.keystore.location=" + sslkeystoreLocation
+		;
 	}
 	
 }

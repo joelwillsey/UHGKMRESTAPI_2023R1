@@ -520,7 +520,7 @@ button {
 			.KnowledgeRemoteDocumentED {
 				background: transparent url(../images/iconKnowledgeRemoteDocument.png) no-repeat scroll center center;
 			}
-			.Unstructured {
+			.Spidered {
 				background: transparent url(../images/iconKnowledgeWeblink.png) no-repeat scroll center center;
 			}
 			.pageSet {
@@ -972,3 +972,57 @@ table {
 	}
 }
 */
+
+.GTNone, .GTImageButton.GTNone {
+    display: none;
+}
+
+.GTDisplay {
+    display: block;
+}
+
+.GTCollapseContent {
+	padding: 6px 0;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.GTCollapseContent h2 {
+	cursor: pointer;
+}
+
+.GTCollapseContent .content-holder {
+    padding: 6px 12px 6px 16px;
+}
+
+.GTCollapseContent .expander:before {
+	float: left;
+	/*line-height: 17px;*/
+	padding-right: 6px;
+	padding-top: 2px;
+	text-align: center;
+	font-size: 10px;
+	font-family: Xuicons;
+	-webkit-font-smoothing: antialiased;
+}
+
+.GTCollapseContent .collapsed .expander::before {
+    content: "\e3b2";
+}
+
+.GTCollapseContent .expanded .expander::before {
+    content: "\e3b1";
+}
+
+@font-face {
+  font-family: 'Xuicons';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../fonts/Xuicons.eot');
+  src: url('../fonts/Xuicons.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Xuicons.woff') format('woff'),
+       url('../fonts/Xuicons.ttf') format('truetype');
+  text-rendering: optimizeLegibility;
+}

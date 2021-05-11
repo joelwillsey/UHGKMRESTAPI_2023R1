@@ -42,10 +42,13 @@ public class SearchRequest implements Serializable {
 	private String password = "";
 	
 	@XmlElement(nillable=true)
-	private String sort = "";	
+	private String sort = "";
 
 	@XmlElement(nillable=true)
 	private String publishedId = "";
+
+	@XmlElement(nillable=true)
+	private String oidcToken = "";
 
 	/**
 	 * 
@@ -182,6 +185,14 @@ public class SearchRequest implements Serializable {
 		this.publishedId = publishedId;
 	}
 
+	public String getOidcToken() {
+		return oidcToken;
+	}
+
+	public void setOidcToken(String oidcToken) {
+		this.oidcToken = oidcToken;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -189,6 +200,6 @@ public class SearchRequest implements Serializable {
 	public String toString() {
 		return "SearchRequest [query=" + query + ", page=" + page + ", size=" + size + ", categories=" + categories
 				+ ", tags=" + tags + ", username=" + username + ", password=" + password + ", sort=" + sort
-				+ ", publishedId=" + publishedId + "]";
+				+ ", publishedId=" + publishedId + ", oidcToken=" + oidcToken + "]";
 	}
 }

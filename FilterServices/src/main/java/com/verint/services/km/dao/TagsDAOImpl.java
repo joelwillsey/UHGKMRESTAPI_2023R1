@@ -3,24 +3,19 @@
  */
 package com.verint.services.km.dao;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import com.verint.services.km.model.rest.RestTag;
+import com.verint.services.km.util.ConfigInfo;
+import com.verint.services.km.util.RestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 
-import com.kana.contactcentre.services.model.LoginV1Service_wsdl.LoginUserResponseBodyType;
-import com.kana.contactcentre.services.model.TagV1Service_wsdl.GetAllTagSetRequestBodyType;
-import com.kana.contactcentre.services.model.TagV1Service_wsdl.GetAllTagSetResponseBodyType;
-import com.kana.contactcentre.services.model.TagV1Service_wsdl.GetTagSetRequestBodyType;
-import com.kana.contactcentre.services.model.TagV1Service_wsdl.GetTagSetResponseBodyType;
-import com.kana.contactcentre.services.model.TagV1Service_wsdl.TagDescriptor;
 import com.verint.services.km.model.Tag;
 import com.verint.services.km.model.TagSet;
 
@@ -31,6 +26,16 @@ import com.verint.services.km.model.TagSet;
 @Repository
 public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TagsDAOImpl.class);
+	private static String REST_TAGS_URL;
+
+	static {
+		try {
+			REST_TAGS_URL = (new ConfigInfo()).getRestKmTagService();
+		} catch (Throwable t) {
+			LOGGER.error("Throwable Exception", t);
+			System.exit(1);
+		}
+	}
 
 	/**
 	 * 
@@ -46,11 +51,11 @@ public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 	 */
 	public static void main(String[] args) {
 		final TagsDAO tagsDAO = new TagsDAOImpl();
-		TagSet[] tagSets = tagsDAO.getAllTagSets("kmagent", "verint");
+		TagSet[] tagSets = tagsDAO.getAllTagSets("kmagent", "verint", "oidc");
 		for (int x = 0; (tagSets != null) && (x < tagSets.length); x++) {
 			System.out.println("TagSet: " + tagSets[x]);
 		}
-		Tag[] tags = tagsDAO.getTagSet("kmagent", "verint", "product");
+		Tag[] tags = tagsDAO.getTagSet("kmagent", "verint", "oidc", "product");
 		for (int x = 0; (tags != null) && (x < tags.length); x++) {
 			System.out.println("Tag: " + tags[x]);
 		}
@@ -61,43 +66,32 @@ public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 	 * @see com.verint.services.km.dao.TagsDAO#getAllTagSets(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public TagSet[] getAllTagSets(String username, String password) {
+	public TagSet[] getAllTagSets(String username, String password, String oidcToken) {
 		LOGGER.info("Entering getAllTagSet()");
 		LOGGER.debug("username: " + username);
 		TagSet[] tagSets = null;
 
 		try {
-			final GetAllTagSetRequestBodyType request = new GetAllTagSetRequestBodyType();
-			request.setApplicationID(AppID);
-			request.setLocale(Locale);
-			request.setTagDisplayNameType("");
-			request.setPassword(password);
-			request.setUsername(username);
-			
 			Instant start = Instant.now();
-			final GetAllTagSetResponseBodyType response = TagPortType.getAllTagSet(request);
+			RestTag tagJsonResponse = RestUtil.getAndDeserialize(REST_TAGS_URL + "/default/tag",null,
+					HttpMethod.GET, RestTag.class, oidcToken, null, false);
 			Instant end = Instant.now();
 			LOGGER.debug("SERVICE_CALL_PERFORMANCE("+username+") - getAllTagSets() duration: " + Duration.between(start, end).toMillis() + "ms");
-
-			LOGGER.debug("GetAllTagSetResponseBodyType: " + response);
-			TagDescriptor[] tagDescriptors = response.getTagDescriptors();
-			
-			// Check for valid TagSets
-			if ((tagDescriptors != null) && (tagDescriptors.length > 0)) {
-				tagSets = new TagSet[tagDescriptors.length];
-				// Loop through TagSets
-				for (int x = 0; x < tagDescriptors.length; x++) {
-					final TagSet tagSet = new TagSet();
-					tagSet.setDisplayTagName(tagDescriptors[x].getDisplayTagName());
-					tagSet.setParentTagName(tagDescriptors[x].getParentTagName());
-					tagSet.setSystemTagName(tagDescriptors[x].getSystemTagName());
-					tagSets[x] = tagSet;
+			if (tagJsonResponse != null && tagJsonResponse.getMember() != null) {
+				tagSets = new TagSet[tagJsonResponse.getMember().size()];
+				for (int i = 0; i < tagJsonResponse.getMember().size(); i++) {
+					RestTag curTag = tagJsonResponse.getMember().get(i);
+					TagSet tagSet = new TagSet();
+					tagSet.setDisplayTagName(curTag.getName());
+					tagSet.setSystemTagName(curTag.getIdentifier());
+					tagSets[i] = tagSet;
 				}
 			}
-		} catch (RemoteException re) {
-			LOGGER.error("RemoteException", re);
+		} catch (IOException re) {
+			LOGGER.error("Exception", re);
 		}
-		LOGGER.debug("TagSet[]: " + tagSets);
+		//LOGGER.trace("TagSet[]: " + tagSets);
+		LOGGER.debug("TagSet[]: " + tagSets.length + " TagSets");
 		LOGGER.info("Exiting getAllTagSet()");
 		return tagSets;
 	}
@@ -107,45 +101,19 @@ public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 	 * @see com.verint.services.km.dao.TagsDAO#getTagSet(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Tag[] getTagSet(String username, String password, String tagset) {
+	public Tag[] getTagSet(String username, String password, String oidcToken, String tagset) {
 		LOGGER.info("Entering getTagSet()");
 		LOGGER.debug("username: " + username);
 		LOGGER.debug("tagset: " + tagset);
 		Tag[] tags = null;
 
-		try {
-			final GetTagSetRequestBodyType request = new GetTagSetRequestBodyType();
-			request.setApplicationID(AppID);
-			request.setLocale(Locale);
-			request.setTagDisplayNameType("");
-			request.setPassword(password);
-			request.setUsername(username);
-			request.setTagSetName(tagset);
-			
-			Instant start = Instant.now();
-			final GetTagSetResponseBodyType response = TagPortType.getTagSet(request);
-			LOGGER.debug("GetTagSetResponseBodyType: " + response);
-			Instant end = Instant.now();
-			LOGGER.debug("SERVICE_CALL_PERFORMANCE("+username+") - getAllTagSets() duration: " + Duration.between(start, end).toMillis() + "ms");
-			TagDescriptor[] tagDescriptors = response.getTagDescriptors();
-
-			// Check for valid TagSets
-			if ((tagDescriptors != null) && (tagDescriptors.length > 0)) {
-				tags = new Tag[tagDescriptors.length];
-				// Loop through TagSets
-				for (int x = 0; x < tagDescriptors.length; x++) {
-					final Tag tag = new Tag();
-					tag.setSystemTagDisplayName(tagDescriptors[x].getDisplayTagName());
-					tag.setParentTagName(tagDescriptors[x].getParentTagName());
-					tag.setSystemTagName(tagDescriptors[x].getSystemTagName());
-					tags[x] = tag;
-				}
-			}
-		} catch (RemoteException re) {
-			LOGGER.error("RemoteException", re);
+		Instant start = Instant.now();
+		List<Tag> restTags = getRestTags(REST_TAGS_URL + "/default/tag/" + tagset + "?flatten=true&size=150",oidcToken, username, 0);
+		Instant end = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+username+") - getTagSet(" + tagset + ") duration: " + Duration.between(start, end).toMillis() + "ms");
+		if (!restTags.isEmpty()) {
+			tags = restTags.toArray(new Tag[restTags.size()]);
 		}
-
-		LOGGER.debug("Tags[]: " + tags);
 		LOGGER.info("Exiting getTagSet()");
 		return tags;
 	}
@@ -155,56 +123,73 @@ public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 	 * @see com.verint.services.km.dao.TagsDAO#getTagSets(java.lang.String, java.lang.String[])
 	 */
 	@Override
-	public Set<TagSet> getTagSets(String username, String password, String[] tagsets) {
+	public Set<TagSet> getTagSets(String username, String password, String oidcToken, String[] tagsets) {
 		LOGGER.info("Entering getTagSets()");
 		LOGGER.debug("username: " + username);
 		LOGGER.debug("tagset: " + tagsets);
 		List<TagSet> tagSets = new ArrayList<TagSet>();
 
-		try {
-			// Loop through the tagsets
-			for (int i = 0; (tagsets != null) && (i < tagsets.length); i++) {
-				final TagSet tagSet = new TagSet();
-				tagSet.setSystemTagName(tagsets[i]);
-				final GetTagSetRequestBodyType request = new GetTagSetRequestBodyType();
-				request.setApplicationID(AppID);
-				request.setLocale(Locale);
-				request.setTagDisplayNameType("");
-				request.setPassword(password);
-				request.setUsername(username);
-				request.setTagSetName(tagsets[i]);
-				
-				Instant start = Instant.now();
-				final GetTagSetResponseBodyType response = TagPortType.getTagSet(request);
-				LOGGER.debug("GetTagSetResponseBodyType: " + response);
-				Instant end = Instant.now();
-				LOGGER.debug("SERVICE_CALL_PERFORMANCE("+username+") - getAllTagSets() duration: " + Duration.between(start, end).toMillis() + "ms");
-				TagDescriptor[] tagDescriptors = response.getTagDescriptors();
-				List<Tag> tags = new ArrayList<Tag>();
-				
-				// Check for valid TagSets
-				if ((tagDescriptors != null) && (tagDescriptors.length > 0)) {
-					// Loop through TagSets
-					for (int x = 0; x < tagDescriptors.length; x++) {
-						final Tag tag = new Tag();
-						tag.setSystemTagDisplayName(tagDescriptors[x].getDisplayTagName());
-						tag.setParentTagName(tagDescriptors[x].getParentTagName());
-						tag.setSystemTagName(tagDescriptors[x].getSystemTagName());
-						tags.add(tag);
-					}
-				} else {
-					// TODO
-				}
-				final Set<Tag> setTags = new LinkedHashSet<Tag>(tags);
-				tagSet.setTags(setTags);
-				tagSets.add(tagSet);
+		// Loop through the tagsets
+		for (int i = 0; (tagsets != null) && (i < tagsets.length); i++) {
+			final TagSet tagSet = new TagSet();
+			tagSet.setSystemTagName(tagsets[i]);
+			Tag[] tags = this.getTagSet(username, password, oidcToken, tagsets[i]);
+			if (tags == null) {
+				//create empty tag array
+				tags = new Tag[]{};
 			}
-		} catch (RemoteException re) {
-			LOGGER.error("RemoteException", re);
+			final Set<Tag> setTags = new LinkedHashSet<>(Arrays.asList(tags));
+			tagSet.setTags(setTags);
+			tagSets.add(tagSet);
 		}
-
-		LOGGER.debug("TagSets[]: " + tagSets);
 		LOGGER.info("Exiting getTagSets()");
-		return new LinkedHashSet<TagSet>(tagSets);
+		return new LinkedHashSet<>(tagSets);
+	}
+
+	private List<Tag> getRestTags(String url, String oidcToken, String username, int startIndex) {
+		List<Tag> tags = new ArrayList<>();
+		try {
+			Instant start = Instant.now();
+			RestTag tagJsonResponse = RestUtil.getAndDeserialize(url,null,
+						HttpMethod.GET, RestTag.class, oidcToken, null, false);
+				Instant end = Instant.now();
+			LOGGER.debug("SERVICE_CALL_PERFORMANCE("+username+") - getRestTags(" + startIndex +") duration: " + Duration.between(start, end).toMillis() + "ms");
+			if (startIndex == 0) {
+				final Tag tag = new Tag();
+				tag.setSystemTagDisplayName(tagJsonResponse.getName());
+				tag.setSystemTagName(tagJsonResponse.getIdentifier());
+				//Start
+				if(tagJsonResponse.getUp() != null) {
+					//There is a parent tag to the tag we called
+					String rootParentId = tagJsonResponse.getUp().getId();
+					String rootParentName = rootParentId.substring(rootParentId.lastIndexOf("/")+1);
+					if (!rootParentName.equals(tag.getSystemTagName())) {
+						tag.setParentTagName(rootParentName);
+					}
+				}
+				//END
+				tags.add(tag);
+			}
+			if (tagJsonResponse != null && tagJsonResponse.getMember() != null) {
+				for (int i = 0; i < tagJsonResponse.getMember().size(); i++) {
+					final Tag tag = new Tag();
+					RestTag curTag = tagJsonResponse.getMember().get(i);
+					tag.setSystemTagDisplayName(curTag.getName());
+					if (curTag.getUp().getId() != null) {
+						String parentId = curTag.getUp().getId();
+						tag.setParentTagName(parentId.substring(parentId.lastIndexOf("/")+1));
+					}
+					tag.setSystemTagName(curTag.getIdentifier());
+					tags.add(tag);
+				}
+			}
+			if (tagJsonResponse.getView() != null && tagJsonResponse.getView().getNext() != null) {
+				List<Tag> nextTags = getRestTags(tagJsonResponse.getView().getNext(), oidcToken, username, startIndex+150);
+				tags.addAll(nextTags);
+			}
+		} catch (Exception e) {
+			LOGGER.error("Error during getRestTags()", e);
+		}
+		return tags;
 	}
 }

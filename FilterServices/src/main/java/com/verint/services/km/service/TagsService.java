@@ -59,7 +59,7 @@ public class TagsService extends BaseService {
 
 	/**
 	 * 
-	 * @param userid
+	 * @param httpRequest
 	 * @return
 	 */
 	@GET
@@ -73,19 +73,29 @@ public class TagsService extends BaseService {
 			final String[] credentials = getAuthenticatinCredentials(httpRequest);
 			LOGGER.debug("Username: " + credentials[0]);
 			LOGGER.debug("Password: " + credentials[1]);
+			LOGGER.debug("OIDC: " + getOIDCToken(httpRequest));
 	
 			// Get all the tagsets
-			final TagSet[] tagsets = tagsDAO.getAllTagSets(credentials[0], credentials[1]);
-			LOGGER.debug("TagSet[]: " + tagsets);
+			final TagSet[] tagsets = tagsDAO.getAllTagSets(credentials[0], credentials[1], getOIDCToken(httpRequest));
+			
+			if (tagsets != null) {
+				//LOGGER.debug("TagSet[]: " + tagsets);
+				LOGGER.debug("TagSet[]: Found " + tagsets.length + " Tagsets");
+			} else {
+				LOGGER.debug("TagSet[]: Undefined (NULL)");
+			}
+			
 			for (int x = 0; (tagsets != null) && x < tagsets.length; x++) {
 				tagSetResponse.addTagSets(tagsets[x]);
 			}
+							
 		} catch (Throwable t) {
 			LOGGER.error("Unexpected exception in getTagsets()", t);
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
 					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
 		}
-		LOGGER.debug("TagSetResponse: " + tagSetResponse);
+		//LOGGER.debug("TagSetResponse: " + tagSetResponse);
+		LOGGER.debug("TagSetResponse: " + tagSetResponse.getTagSets().size() + " TagSets");
 		LOGGER.info("Exiting getTagsets()");
 		return tagSetResponse;
 	}
@@ -109,10 +119,18 @@ public class TagsService extends BaseService {
 			final String[] credentials = getAuthenticatinCredentials(httpRequest);
 			LOGGER.debug("Username: " + credentials[0]);
 			LOGGER.debug("Password: " + credentials[1]);
+			LOGGER.debug("OIDC: " + getOIDCToken(httpRequest));
 	
 			// Get the tags for the tagset
-			final Tag[] tags = tagsDAO.getTagSet(credentials[0], credentials[1], tagset);
-			LOGGER.debug("Tag[]: " + tags);
+			final Tag[] tags = tagsDAO.getTagSet(credentials[0], credentials[1], getOIDCToken(httpRequest), tagset);
+			//To much logging of tags, so omly log tagresponse
+			if (tags != null) {
+				//LOGGER.debug("Tag[]: " + tags);
+				LOGGER.debug("Tag[]: Found " + tags.length + " Tagsets");
+			} else {
+				LOGGER.debug("Tag[]: Undefined (NULL)");
+			}
+			
 			for (int x = 0; (tags != null) && x < tags.length; x++) {
 				tagResponse.addTag(tags[x]);
 			}
@@ -121,7 +139,8 @@ public class TagsService extends BaseService {
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
 					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
 		}
-		LOGGER.debug("TagResponse: " + tagResponse);
+		LOGGER.debug("TagResponse: " + tagResponse.getTags().size() + " Tags");
+		//LOGGER.debug("TagResponse: " + tagResponse);
 		LOGGER.info("Exiting getTagset()");
 		return tagResponse;
 	}
@@ -145,13 +164,15 @@ public class TagsService extends BaseService {
 			final String[] credentials = getAuthenticatinCredentials(httpRequest);
 			LOGGER.debug("Username: " + credentials[0]);
 			LOGGER.debug("Password: " + credentials[1]);
+			LOGGER.debug("OIDC: " + getOIDCToken(httpRequest));
 	
 			// Get the tags for the tagset
 			String[] tokens = null;
 			if (tagsets != null && tagsets.length() > 0) {
 				tokens = tagsets.split(",");
-				final Set<TagSet> tagSetTags = tagsDAO.getTagSets(credentials[0], credentials[1], tokens);
-				LOGGER.debug("TagSet[]: " + tagSetTags);
+				final Set<TagSet> tagSetTags = tagsDAO.getTagSets(credentials[0], credentials[1], getOIDCToken(httpRequest), tokens);
+				//LOGGER.debug("TagSetTags[]: " + tagSetTags);
+				LOGGER.debug("TagSetTags[]: " + tagSetTags.size() + " Tags");
 				tagSetResponse.setTagSets(tagSetTags);
 			} else {
 				// TODO
@@ -161,7 +182,8 @@ public class TagsService extends BaseService {
 			throw new AppException(500, AppErrorCodes.UNEXPECTED_APPLICATION_EXCEPTION,  
 					AppErrorMessage.UNEXPECTED_APPLICATION_EXCEPTION);
 		}
-		LOGGER.debug("TagSetResponse: " + tagSetResponse);
+		//LOGGER.debug("TagSetResponse: " + tagSetResponse);
+		LOGGER.debug("TagSetResponse: " + tagSetResponse.getTagSets().size() + " TagSets");
 		LOGGER.info("Exiting getTagsets()");
 		return tagSetResponse;
 	}

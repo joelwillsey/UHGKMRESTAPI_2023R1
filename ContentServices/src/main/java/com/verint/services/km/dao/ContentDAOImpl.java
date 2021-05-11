@@ -3,48 +3,37 @@
  */
 package com.verint.services.km.dao;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.math.BigInteger;
+
+import com.verint.services.km.dao.parser.RestParser;
+import com.verint.services.km.model.rest.Annotation;
+import com.verint.services.km.model.rest.AnnotationSelector;
+import com.verint.services.km.model.rest.RestContentResponse;
+import com.verint.services.km.model.rest.RestTag;
+import com.verint.services.km.util.RestUtil;
+import com.verint.services.km.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.*;
 import org.springframework.stereotype.Repository;
 
-import com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentDetails;
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsRequestBodyType;
-import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentDetailsResponseBodyType;
-import com.kana.contactcentre.services.model.ContentV1Service_wsdl.StringItem;
-import com.kana.contactcentre.services.model.ContentV1Service_wsdl.ErrorMessage;
-import com.kana.contactcentre.services.model.ContentV1Service_wsdl.Version;
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsRequestBodyType;
 import com.kana.contactcentre.services.model.ContentV1Service_wsdl.GetContentVersionsResponseBodyType;
 import com.verint.services.km.dao.parser.ElementParser;
 import com.verint.services.km.errorhandling.AppErrorCodes;
 import com.verint.services.km.errorhandling.AppErrorMessage;
 import com.verint.services.km.errorhandling.AppException;
-import com.verint.services.km.model.Attachment;
-import com.verint.services.km.model.ContentRequest;
-import com.verint.services.km.model.ContentResponse;
-import com.verint.services.km.model.CustomField;
-import com.verint.services.km.model.ExternalContent;
-import com.verint.services.km.model.Translated;
-import com.verint.services.km.model.ViewFieldDefinition;
 import com.verint.services.km.util.ConfigInfo;
-import com.verint.services.km.model.ScriptSrc;
-import com.verint.services.km.model.ContentVersionRequest;
-import com.verint.services.km.model.ContentVersionResponse;
-import com.verint.services.km.model.ContentViewDefinition;
 
 /**
  * @author jmiller
@@ -54,24 +43,19 @@ import com.verint.services.km.model.ContentViewDefinition;
 public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContentDAOImpl.class);
 	private static String ExternalUrl;
+	private static String REST_CONTENT_URL;
 
 	static {
 		try {
-
-
 			// Get the properties
 			ConfigInfo kmConfiguration = new ConfigInfo();
 			ExternalUrl = kmConfiguration.getStaticcontentServerurl();
-
+			REST_CONTENT_URL = kmConfiguration.getRestKmContentService();
 		} catch (Throwable t) {
 			LOGGER.error("Throwable Exception", t);
 			System.exit(1);
 		}
 	}
-	
-
-
-	
 
 	/**
 	 * 
@@ -165,21 +149,19 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 
 		return contentVersionResponse;
 	}
-	
-	
+
 	@Override
 	public ContentResponse getContent(ContentRequest contentRequest)
 			throws RemoteException, IOException, SQLException, AppException {
 		LOGGER.info("Entering getContent()");
 		LOGGER.debug("ContentRequest: " + contentRequest);
 		ContentResponse contentResponse = new ContentResponse();
-		
 
-		
+
 		// Setup the request object to the SOAP call
 		final GetContentDetailsRequestBodyType request = new GetContentDetailsRequestBodyType();
 		request.setApplicationID(AppID);
-		request.setContentID(contentRequest.getContentId());		
+		request.setContentID(contentRequest.getContentId());
 		request.setLocale(Locale);
 		request.setUsername(contentRequest.getUsername());
 		request.setVersion(contentRequest.getVersion());
@@ -189,175 +171,175 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		request.setConvertFieldsToMap(false);
 
 		// Get the content details
+
+		// For Json -> Json requests we could use km-search-service vkm:url instead of creating the url ourselves
+		String contentType = "vkm:AuthoredContent";
+		if ("Spidered".equals(contentRequest.getContentType()) ||
+			"Unstructured".equals(contentRequest.getContentType())) {
+			contentType = "vkm:SpideredContent";
+		}
+		
+		/*
+		 * String contentUrl = REST_CONTENT_URL + "/default/content/" + contentType +
+		 * "/" + URLEncoder.encode(contentRequest.getContentId(),
+		 * StandardCharsets.UTF_8.toString()) + "/" + Locale +
+		 * "?version="+contentRequest.getVersion();
+		 */
+		
+		String contentUrl = REST_CONTENT_URL + "/default/content/" + contentType + "/" +
+				URLEncoder.encode(contentRequest.getContentId(), StandardCharsets.UTF_8.toString()) +
+				"/" + Locale;
+
+		//add version parameter if it's there
+		if (contentRequest.getVersion().length() >0) {
+			contentUrl = contentUrl + "?version="+contentRequest.getVersion();
+		}
+		
+		
 		Instant start = Instant.now();
-		final GetContentDetailsResponseBodyType response = ContentPortType.getContentDetails(request);
+		RestContentResponse contentJsonResponse = RestUtil.getAndDeserialize(contentUrl,null,
+				HttpMethod.GET, RestContentResponse.class, contentRequest.getOidcToken(), null, true);
+
+//				final GetContentDetailsResponseBodyType soapResponse = ContentPortType.getContentDetails(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + contentRequest.getUsername() + ") - getContentDetails() duration: "
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + contentRequest.getUsername() + ") - km-content-service duration: "
 				+ Duration.between(start, end).toMillis() + "ms");
-		LOGGER.debug("response: " + response);
+		LOGGER.debug("response: " + contentJsonResponse.toString());
 
-		// Get the response information
-		if (response != null && response.getResponse() != null) {
-			final ContentDetails contentDetails = response.getResponse();
-			contentResponse.setAverageRating(new Double(contentDetails.getAverageRating()));
-			contentResponse.setContentCategory(contentDetails.getContentCategory());
-			contentResponse.setContentType(contentDetails.getContentType());
-			contentResponse.setId(contentDetails.getId());
-			contentResponse.setIsFeatured(contentDetails.isIsFeatured());
-			contentResponse.setLanguage(contentDetails.getLanguage());
-			contentResponse.setLastModifiedDate(contentDetails.getLastModifiedDate());
-			contentResponse.setLocale(contentDetails.getLocale());
-			contentResponse.setNumberOfRatings(contentDetails.getNumberOfRatings());
-			contentResponse.setPublishedId(contentDetails.getPublishedId());
-			contentResponse.setTitle(contentDetails.getTitle());
-			contentResponse.setErrorList(response.getErrorList());
+
+		//Setup Tag calling
+		List<RestTag> jsonRestTagList = new ArrayList<>();
+		for (Annotation anno : contentJsonResponse.getAnnotations()) {
+			if (anno.getMotivation().equals("oa:tagging")) {
+				RestTag restTagJsonResponse = RestUtil.getAndDeserialize(anno.getBody().getId(),
+						null, HttpMethod.GET, RestTag.class, contentRequest.getOidcToken(), null, true);
+				jsonRestTagList.add(restTagJsonResponse);
+			}
+		}
+		//TODO preference would be to get all tags and cache to populate the tags on contentresponse
+		for (RestTag jt : jsonRestTagList) {
+			String tagset = jt.getStart().getIdentifier();
+			TagSet foundTs = null;
+
+			for (TagSet ts : contentResponse.getTagSets()) {
+				if (ts.getSystemTagName().equals(tagset)) {
+					foundTs = ts;
+					break;
+				}
+			}
+			if (foundTs == null) {
+				foundTs = new TagSet();
+				foundTs.setSystemTagName(jt.getStart().getIdentifier());
+				foundTs.setDisplayTagName(jt.getStart().getName());
+				contentResponse.addTagSet(foundTs);
+			}
+			Tag tag = new Tag();
+			tag.setSystemTagName(jt.getIdentifier());
+			tag.setSystemTagDisplayName(jt.getName());
+			tag.setParentTagName(jt.getUp().getName());
+			tag.setSystemTagSetDisplayName(jt.getStart().getName());
+			tag.setSystemTagSetName(jt.getStart().getIdentifier());
+			foundTs.addTag(tag);
+		}
+
+		//Setup related content
+		RelatedContent relatedContent = contentResponse.getRelatedContent();
+		List<String[]> textReplaceList = new ArrayList<>();
+		List<ContentEntry> publicSectionContents = new ArrayList<>();
+		List<ContentEntry> privateSectionContents = new ArrayList<>();
+		for (Annotation anno : contentJsonResponse.getAnnotations()) {
+			if ("oa:linking".equals(anno.getMotivation()) &&
+					anno.getTarget() != null &&
+					anno.getTarget().getType() != null &&
+					"oa:SpecificResource".equals(anno.getTarget().getType().get(0)) &&
+					anno.getTarget().getSelector() != null &&
+					!anno.getTarget().getSelector().isEmpty()) {
+				int replaceStart = 0;
+				int replaceEnd = 0;
+				String path = null;
+				for (AnnotationSelector selector : anno.getTarget().getSelector()) {
+					if (selector.getType() != null) {
+						if ("vkm:PropertyPathSelector".equals(selector.getType().get(0))) {
+							path = selector.getPath().get(0).getId();
+						} else if ("oa:TextPositionSelector".equals(selector.getType().get(0))) {
+							replaceStart = selector.getStart();
+							replaceEnd = selector.getEnd();
+						}
+					}
+				}
+
+				if (replaceEnd != 0 && path != null) {
+					textReplaceList.add(new String[]{replaceStart+"",
+							replaceEnd+"",
+							path,
+							RestUtil.getContentIdFromUrl(anno.getBody().getId(), anno.getBody().getType().get(0))});
+
+				}
+			} else if ("oa:linking".equals(anno.getMotivation()) &&
+					anno.getTarget() != null &&
+					anno.getTarget().getSelector() != null &&
+					anno.getTarget().getSelector().size() == 1 &&
+					anno.getTarget().getSelector().get(0).getType() != null &&
+					"vkm:PropertyPathSelector".equals(anno.getTarget().getSelector().get(0).getType().get(0))) {
+				String replaceLocation = anno.getTarget().getSelector().get(0).getPath().get(0).getId();
+				String contentId = RestUtil.getContentIdFromUrl(anno.getBody().getId(), anno.getBody().getType().get(0));
+				String contentVersion = RestUtil.getContentVersionFromUrl(anno.getBody().getId());
+				ContentEntry contentEntry = new ContentEntry();
+				contentEntry.setTitle(anno.getBody().getName());
+				contentEntry.setId(contentId);
+				contentEntry.setType(RestUtil.convertContentRestType(anno.getBody().getType().get(0)));
+				contentEntry.setVersion(contentVersion);
+				if ("vkm:articleBody".equals(replaceLocation)) {
+					publicSectionContents.add(contentEntry);
+//					contentJsonResponse.setArticleBody(addReuseContentLink(contentJsonResponse.getArticleBody(),
+//							anno.getBody().getName(),
+//							contentId));
+				} else if ("vkm:privateBody".equals(replaceLocation)) {
+					privateSectionContents.add(contentEntry);
+//					contentJsonResponse.setPrivateBody(addReuseContentLink(contentJsonResponse.getPrivateBody(),
+//							anno.getBody().getName(),
+//							contentId));
+				}
+			} else if (anno.getMotivation().equals("oa:linking") && anno.getBody() != null && anno.getBody().getName() != null) {
+				ContentEntry contentEntry = new ContentEntry();
+				contentEntry.setType(RestUtil.convertContentRestType(anno.getBody().getType().get(0)));
+				contentEntry.setTitle(anno.getBody().getName());
+				contentEntry.setId(RestUtil.getContentIdFromUrl(anno.getBody().getId(), anno.getBody().getType().get(0)));
+				contentEntry.setVersion(RestUtil.getContentVersionFromUrl(anno.getBody().getId()));
+				relatedContent.addContentEntries(contentEntry);
+			}
+		}
+		contentResponse.setPublicSectionContent(new LinkedHashSet<>(publicSectionContents));
+		contentResponse.setPrivateSectionContent(new LinkedHashSet<>(privateSectionContents));
+		textReplaceList.sort(Comparator.comparingInt(o -> Integer.parseInt(o[0])));
+		Collections.reverse(textReplaceList);
+		for (String[] textReplace : textReplaceList) {
+			if ("vkm:articleBody".equals(textReplace[2])) {
+				contentJsonResponse.setArticleBody(replaceEmbeddedContentLink(contentJsonResponse.getArticleBody(),
+						Integer.parseInt(textReplace[0]), Integer.parseInt(textReplace[1]), textReplace[3]));
+			} else if ("vkm:privateBody".equals(textReplace[2])) {
+				contentJsonResponse.setPrivateBody(replaceEmbeddedContentLink(contentJsonResponse.getPrivateBody(),
+						Integer.parseInt(textReplace[0]), Integer.parseInt(textReplace[1]), textReplace[3]));
+			}
+		}
+
+		String includeJSFile = "\n <script type=\"text/javascript\" src=\"" + ExternalUrl + "/VEM_showHideDiv.js\" ></script>";
+		ScriptSrc showHideDivFile = new ScriptSrc();
+		showHideDivFile.setAsync("true");
+		showHideDivFile.setSrc(ExternalUrl + "/VEM_showHideDiv.js");
+		showHideDivFile.setType("text/javascript");
+		contentResponse.addExternalSrcFiles(showHideDivFile);
+		RestParser restParser = new RestParser();
+		restParser.parseRestContent(contentResponse, contentJsonResponse, ExternalUrl);
 			// Translated text
-			final StringItem[] items = contentDetails.getTranslatedTo();
-			for (int x = 0; (items != null) && (x < items.length); x++) {
-				final Translated translated = new Translated();
-				translated.setLabel(items[x].getValue());
-				translated.setText(items[x].getValue());
-				contentResponse.addTranslatedTo(translated);
-			}
-			contentResponse.setVersion(contentDetails.getVersion());
-			contentResponse.setViewContent(contentDetails.getViewCount());
-			contentResponse.setDescription(contentDetails.getDescription());
-			contentResponse.setRawBody(contentDetails.getBody());
-			contentResponse.setIsDeleted(contentDetails.isIsDeleted());
-			contentResponse.setIsMigratable(contentDetails.isIsMigratable());
-			contentResponse.setMustRead(contentDetails.isMustRead());
-			
-			if (contentDetails.getAccessControls() != null) {
-				for (StringItem item : contentDetails.getAccessControls()) {
-					contentResponse.addAccessControl(item.getValue());
-				}
-			}
+//			contentResponse.setDescription(contentDetails.getDescription());
+//			contentResponse.setRawBody(contentDetails.getBody());
+//			contentResponse.setIsDeleted(contentDetails.isIsDeleted());
+//			contentResponse.setIsMigratable(contentDetails.isIsMigratable());
+//			contentResponse.setMustRead(contentDetails.isMustRead());
 
-			ContentViewDefinition contentViewDefinition = new ContentViewDefinition();
-			com.kana.contactcentre.services.model.ContentV1Service_wsdl.ContentViewDefinition contentViewDefinitionBean = contentDetails.getViewDefinition();
-			if (contentViewDefinitionBean != null && contentViewDefinitionBean.getViewFields() != null) {
-				for (com.kana.contactcentre.services.model.ContentV1Service_wsdl.ViewFieldDefinition viewFieldDefBean : contentViewDefinitionBean.getViewFields()) {
-					ViewFieldDefinition viewFieldDefinition = new ViewFieldDefinition();
-					viewFieldDefinition.setFieldType(viewFieldDefBean.getFieldType());
-					viewFieldDefinition.setViewSequence(viewFieldDefBean.getViewSequence());
-					viewFieldDefinition.setShowLabel(viewFieldDefBean.isShowLabel());
-					viewFieldDefinition.setFieldDisplayName(viewFieldDefBean.getFieldDisplayName());
-					viewFieldDefinition.setFieldName(viewFieldDefBean.getFieldName());
-					contentViewDefinition.addViewField(viewFieldDefinition);
-				}
-			}
-			contentResponse.setViewDefinition(contentViewDefinition);
-
-			if (contentDetails.getBodyMap() != null && contentDetails.getBodyMap().getTypeDesc() != null) {
-				//Fields are not obvious because only testing scenarios have a null. Need to debug to figure out how to parse GTMap.
-			}
-			
-			// Parse the XML from the Body
-			if ("KnowledgeUploadED".equals(contentDetails.getContentType())) {
-				// Parse the body
-				parseBody(contentResponse, contentDetails.getBody());
-
-				final CustomField customField = new CustomField();
-				customField.setName("File Information");
-				String body = contentDetails.getBody();
-				LOGGER.debug("Found KnowledgeUploadED - Body: " + body);
-				int index1 = body.indexOf("<fileDescription>");
-				int index2 = body.indexOf("</fileDescription>");
-				if (index1 != -1 && index2 != -1) {
-					String data = body.substring(index1 + "<fileDescription>".length(), index2);
-					index1 = body.indexOf("<file>");
-					index2 = body.indexOf("</file>");
-					if (index1 != -1 && index2 != -1) {
-						String tempData = body.substring(index1 + "<file>".length(), index2);
-						int index3 = tempData.indexOf("?gtxResource=");
-						if (index3 != -1) {
-							tempData = tempData.substring(index3 + "?gtxResource=".length());
-							LOGGER.debug("tempData: " + tempData);
-							tempData = tempData.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
-							LOGGER.debug("tempData: " + tempData);
-							//data = "<p>" + data + "</p>" + "<p><iframe srcdoc=\"" + ExternalUrl + tempData + "\" src=\"" + ExternalUrl + tempData
-							//		+ "\" width=\"100%\" height=\"400px\"/></p>";
-							data = "<p>" + data + "</p>" + "<p><iframe src=\"" + ExternalUrl + tempData
-									+ "\" width=\"100%\" height=\"400px\"/></p>";
-							LOGGER.debug("data: " + data);
-							customField.setData(data);
-							contentResponse.addCustomField(customField);
-						}
-					}
-				} else {
-					//there was no file description but there still might be a file so search for it
-					index1 = body.indexOf("<file>");
-					index2 = body.indexOf("</file>");
-					if (index1 != -1 && index2 != -1) {
-						String tempData = body.substring(index1 + "<file>".length(), index2);
-						int index3 = tempData.indexOf("?gtxResource=");
-						if (index3 != -1) {
-							tempData = tempData.substring(index3 + "?gtxResource=".length());
-							LOGGER.debug("tempData: " + tempData);
-							tempData = tempData.replaceFirst("&gtxResourceFileName=", "?gtxResourceFileName=");
-							LOGGER.debug("tempData: " + tempData);
-							//String data = "<p><iframe srcdoc=\"" + ExternalUrl + tempData + "\" src=\"" + ExternalUrl + tempData
-							//		+ "\" width=\"100%\" height=\"400px\"/></p>";
-							String data = "<p><iframe src=\"" + ExternalUrl + tempData
-									+ "\" width=\"100%\" height=\"400px\"/></p>";
-							LOGGER.debug("data: " + data);
-							customField.setData(data);
-							contentResponse.addCustomField(customField);
-						}
-					}
-				}
-			} else {
-				// Parse the body
-				parseBody(contentResponse, contentDetails.getBody());
-			}
-			
-			
-			//Add the javascript(s) includes at the most bottom of the content html to help with load times so I place it the bottom
-			//most section of the render.  Probably makes no difference :)
-			String includeJSFile = "\n <script type=\"text/javascript\" src=\"" + ExternalUrl + "/VEM_showHideDiv.js\" ></script>";
-			ScriptSrc showHideDivFile = new ScriptSrc();
-			showHideDivFile.setAsync("true");
-			showHideDivFile.setSrc(ExternalUrl + "/VEM_showHideDiv.js");
-			showHideDivFile.setType("text/javascript");
-			contentResponse.addExternalSrcFiles(showHideDivFile);
-			//String includeSpryTabbedPanelsJSFile = "\n <script type=\"text/javascript\" src=\"" + ExternalUrl + "/SpryTabbedPanels.js\" ></script>";
-			//String includeSpryCSS = "\n <link type=\"text/css\" href=\"" + ExternalUrl + "/SpryTabbedPanels.css\" rel=\"stylesheet\" />";
-			/**
-			if (contentResponse.getPrivateAnswer().length() > 0) {
-				contentResponse.setPrivateAnswer(contentResponse.getPrivateAnswer() + includeJSFile);
-				//contentResponse.setPrivateAnswer(contentResponse.getPrivateAnswer() + includeSpryTabbedPanelsJSFile);
-				LOGGER.debug("Added to end of Private Answer: " + includeJSFile);
-				//LOGGER.debug("Added to end of Private Answer: " + includeSpryTabbedPanelsJSFile);
-			} else if (contentResponse.getPrivateBody().length() > 0){
-				contentResponse.setPrivateBody(contentResponse.getPrivateBody() + includeJSFile);
-				//contentResponse.setPrivateBody(contentResponse.getPrivateBody() + includeSpryTabbedPanelsJSFile);
-				LOGGER.debug("Added to end of PrivateBody: " + includeJSFile);
-				//LOGGER.debug("Added to end of PrivateBody: " + includeSpryTabbedPanelsJSFile);
-			} else if (contentResponse.getPublicAnswer().length() > 0){
-				contentResponse.setPublicAnswer(contentResponse.getPublicAnswer() + includeJSFile);
-				//contentResponse.setPublicAnswer(contentResponse.getPublicAnswer() + includeSpryTabbedPanelsJSFile);
-				LOGGER.debug("Added to end of PublicAnswer: " + includeJSFile);
-				//LOGGER.debug("Added to end of PrivateBody: " + includeSpryTabbedPanelsJSFile);
-			} else if (contentResponse.getPublicBody().length() > 0){
-				contentResponse.setPublicBody(contentResponse.getPublicBody() + includeJSFile);
-				//contentResponse.setPublicBody(contentResponse.getPublicBody() + includeSpryTabbedPanelsJSFile);
-				//contentResponse.setPublicBody(contentResponse.getPublicBody() + includeSpryCSS);
-				
-				LOGGER.debug("Added to end of PublicBody: " + includeJSFile);
-				//LOGGER.debug("Added to end of PublicBody: " + includeSpryTabbedPanelsJSFile);
-			}
-			**/
-			
-			// Setup Public Body
-			contentResponse.setPublicBody(parseBodyData(contentResponse.getPublicBody()));
-			// Setup Public Answer
-			contentResponse.setPublicAnswer(parseBodyData(contentResponse.getPublicAnswer()));			
-			// Setup Private Body
-			contentResponse.setPrivateBody(parseBodyData(contentResponse.getPrivateBody()));
-			// Get Private Answer
-			contentResponse.setPrivateAnswer(parseBodyData(contentResponse.getPrivateAnswer()));
-			// Fix Dates
-			contentResponse = setupPublishedDate(contentResponse);
+//			// Fix Dates
+//			contentResponse = setupPublishedDate(contentResponse);
 			
 			
 			Set<ExternalContent> externalContents = contentResponse.getRelatedContent().getExternalContents();
@@ -392,7 +374,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 					attachment.setUrl(url);
 				}
 			}			
-						
+
 			// Reformat custom fields
 			final Set<CustomField> customFields = contentResponse.getCustomFields();
 			if (customFields != null && !customFields.isEmpty()) {
@@ -406,10 +388,11 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 					}
 				}
 			}
-		} else {
-			// We have a problem with the service
-			throw new AppException(500, AppErrorCodes.CONTENT_RETRIEVAL_ERROR, AppErrorMessage.CONTENT_RETRIEVAL_ERROR);
-		}
+
+//		} else {
+//			// We have a problem with the service
+//			throw new AppException(500, AppErrorCodes.CONTENT_RETRIEVAL_ERROR, AppErrorMessage.CONTENT_RETRIEVAL_ERROR);
+//		}
 		LOGGER.debug("ContentResponse: " + contentResponse);
 		LOGGER.info("Exiting getContent()");
 		return contentResponse;
@@ -417,7 +400,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 
 	/**
 	 * 
-	 * @param privateData
+	 * @param bodyData
 	 * @return
 	 */
 	private String parseBodyData(String bodyData) {
@@ -725,5 +708,18 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 
 		elementParser.parseBody(bodyContent, contentResponse);
 		LOGGER.info("Exiting parseBody()");
+	}
+
+	private String replaceEmbeddedContentLink(String body, int startIndex, int endIndex, String contentId) {
+		String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + contentId + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a>";
+		String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + contentId + "');\">" + body.substring(startIndex, endIndex) + "</a>" + openNewUrlInWindow;
+		return body.substring(0, startIndex) +
+				newUrl +  body.substring(endIndex);
+	}
+
+	private String addReuseContentLink(String body, String title, String contentId) {
+		String openNewUrlInWindow = "<a class=\"sr_lr_link\" href=\"javascript:void(0);\" title=\"Open in new window\" onclick=\"$.fn.launchViewContent('" + contentId + "');\"><img src=\"images/ReadLaterGray16x16.png\"></a>";
+		String newUrl = "<a href=\"#\" onclick=\"$.fn.retrieveContent('" + contentId + "');\">" + title + "</a>" + openNewUrlInWindow;
+		return body + "<p>" + newUrl + "</p>";
 	}
 }

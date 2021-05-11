@@ -3,6 +3,7 @@
  */
 package com.verint.services.km.dao;
 
+import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
 
 import com.verint.services.km.errorhandling.AppException;
@@ -21,7 +22,7 @@ public interface SearchDAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	public String rateContent(RateRequest rateRequest) throws RemoteException, AppException;
+	public String rateContent(RateRequest rateRequest) throws RemoteException, AppException, UnsupportedEncodingException;
 	
 	/**
 	 * 
@@ -32,5 +33,5 @@ public interface SearchDAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	public String markAsViewed(String contentID, String username, String password, String siteName) throws RemoteException, AppException;
+	public String markAsViewed(String contentID, String username, String password, String siteName, String oidcToken, String externalSearchId) throws RemoteException, AppException, UnsupportedEncodingException;
 }

@@ -1,6 +1,8 @@
 var pageSelected;
 var sortBy;
 var query;
+var searchFeedbackURL;
+//var externalSearchId;
 
 
 $(document).ready(function() {
@@ -84,12 +86,13 @@ $(document).ready(function() {
 	// Request Answer
 	$('#sr-request').on('click', function() {
 		log('query: ' + query);
+		log('searchFeedbackURL' + searchFeedbackURL);
 		// Load Request Answer HTML
 			$('#popup').html($('#request-answer-widget').html());
 			$('#request-answer-widget').html('');
 			///IainTest
 			///$('#request-answer-widget').css('display','block');
-			$.fn.initData(query, '');
+			$.fn.initData(query, searchFeedbackURL, '');
 			$('#background').addClass('background_on');
 			$('#popup').addClass('popup');
 			$('#popup').addClass('popup_on');
@@ -134,11 +137,13 @@ $(document).ready(function() {
 	}
 	
 	// Call to view Content
-	$.fn.viewContent = function(contentId, contentType) {
+	$.fn.viewContent = function(contentId, contentType, externalSearchId, contentVersion) {
 		var packagedData = [];
 		packagedData = {
 			"contentId" : contentId,
-			"contentType" : contentType
+			"contentType" : contentType,
+			"externalSearchId" : externalSearchId,
+			"contentVersion" : contentVersion
 		}
 		
 		// change the alert header from bold to normal text. Used the contendId as the ID for the <div> element so we could find only that one that was selected.
@@ -175,12 +180,14 @@ $(document).ready(function() {
 	}
 
 	// Open up new window/tab to view content
-	$.fn.launchViewContent = function(data) {
+	$.fn.launchViewContent = function(id, contentType, externalSearchId, contentVersion) {
     	// put the scroll bar back to the top
 		// UHG244 - Scroll bar has now to remain in place. Commenting out rather than deleting in case this functionality is to be returned.
     	// $('#sr-listing').scrollTop(0);
 
-		window.open (contentServiceName + 'content_container.html?id=' + data, data + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
+		var urlExtSearchId = (externalSearchId && externalSearchId != "undefined") ? "&externalSearchId=" + externalSearchId : "";
+		var urlContentVersion = (contentVersion && contentVersion != "undefined") ? "&version=" + contentVersion : "";
+		window.open (contentServiceName + 'content_container.html?id=' + id + "&contentType=" + contentType + urlContentVersion + urlExtSearchId, id + '_contentwindow','scrollbars=1,menubar=1,resizable=1,width=1040,height=850');
 	}
 	$.fn.launchDTContent = function(data) {
     	// put the scroll bar back to the top
@@ -255,12 +262,12 @@ $(document).ready(function() {
 	}
 	
 	// Setup slice results if there are any
-	$.fn.setupSlicedContent = function(data, results) {
+	$.fn.setupSlicedContent = function(data, results, externalSearchId) {
 		results.push('<article>');
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')">');
-		} else if (data.contentType === 'Unstructured') {
+		} else if (data.contentType === 'Spidered') {
 			//Spidered Content
 			
 			//Grab the tags for display, only have system name not display names
@@ -282,7 +289,7 @@ $(document).ready(function() {
 					passTags + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');">');
 		} else {
 			//Dynamic Content
-			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')">');
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\', \'' + externalSearchId + '\', \'' + data.knowledgeUnits[0].contentVersion + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')">');
 		}		
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		results.push('    <div class="sr_lr_title">' + data.title);
@@ -308,7 +315,7 @@ $(document).ready(function() {
 		if (data.contentType === 'pageSet') {
 			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchDTContent(\'' + data.contentID + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')"><img src="images/ReadLaterGray16x16.png"/></a>');
 		} else {
-			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')"><img src="images/ReadLaterGray16x16.png"/></a>');
+			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID+ '\', \'' + data.contentType + '\', \'' + externalSearchId + '\', \'' + data.knowledgeUnits[0].contentVersion + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\')"><img src="images/ReadLaterGray16x16.png"/></a>');
 		}
 		
 		results.push('</article>');
@@ -365,13 +372,13 @@ $(document).ready(function() {
 	}
 	
 	// Setup results links
-	$.fn.setupResultsLinks = function(data, results, alertDetailsContentIds, isAlert) {
+	$.fn.setupResultsLinks = function(data, results, alertDetailsContentIds, isAlert, externalSearchId) {
 		results.push('<article>');
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
 			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.launchDTContent(\'' + data.contentID + '\', \'' + data.contentType + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');">');
 		} else {
-			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');">');
+			results.push('  <a class="sr_lr_article" href="javascript:void(0);" onclick="$.fn.viewContent(\'' + data.contentID + '\', \'' + data.contentType + '\', \'' + externalSearchId + '\', \'' + data.knowledgeUnits[0].contentVersion + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');">');
 		}
 		results.push('    <div class="sr_lr_icon sr_lr_icon_' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '">&nbsp;&nbsp;</div>');
 		
@@ -423,7 +430,7 @@ $(document).ready(function() {
 		if (data.contentType === 'pageSet') {
 			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchDTContent(\'' + data.contentID + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
 		} else {
-			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+			results.push('  <a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + data.contentID + '\', \'' + data.contentType + '\', \'' + externalSearchId + '\', \'' + data.knowledgeUnits[0].contentVersion + '\'); $.fn.sendChatbotInfo(\'' + data.contentID + '\', \'' + $.fn.addslashes(data.title)  + '\', \'' + $.fn.addslashes(data.knowledgeUnits[0].synopsis) + '\', \'' + data.knowledgeUnits[0].contentCategoryTags[0].systemTagName + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
 		}
 		results.push('</article>');
 				
@@ -486,14 +493,14 @@ $(document).ready(function() {
 						for (var p = 0; (data.suggestedQueries[i].knowledgeGroupUnits != null) && (p < data.suggestedQueries[i].knowledgeGroupUnits.length); p++) {
 							if (data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits != null && 
 								data.suggestedQueries[i].knowledgeGroupUnits[p].knowledgeUnits.length > 1) {
-								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
+								results = $.fn.setupSlicedContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results, data.externalSearchId);
 							} else {
 								// Do we have spidered content to setup?
-								if (data.suggestedQueries[i].knowledgeGroupUnits[p].contentType === 'Unstructured') {
+								if (data.suggestedQueries[i].knowledgeGroupUnits[p].contentType === 'Spidered') {
 									results = $.fn.setupExternalContent(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
 								} else {
 									// "regular" content
-									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[p], results);
+									results = $.fn.setupResultsLinks(data.suggestedQueries[i].knowledgeGroupUnits[p], results, data.externalSearchId);
 								}
 							}
 						}
@@ -525,15 +532,15 @@ $(document).ready(function() {
 			// Loop through the results
 			for (var i=0;(data.knowledgeGroupUnits != null) && (i < data.knowledgeGroupUnits.length); i++) {
 				if (data.knowledgeGroupUnits[i].knowledgeUnits != null && data.knowledgeGroupUnits[i].knowledgeUnits.length > 1) {
-					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results);
+					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results, data.externalSearchId);
 				} else {
 					// Do we have spidered content to setup?
-					if (data.knowledgeGroupUnits[i].contentType === 'Unstructured') {
-						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results);
-					} else {
+					// if (data.knowledgeGroupUnits[i].contentType === 'Spidered') {
+					// 	results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results);
+					// } else {
 						// "regular" content						
-						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, alertDetails, isAlert);
-					}
+						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results, alertDetails, isAlert, data.externalSearchId);
+					// }
 				}
 			}
 		}
@@ -821,7 +828,7 @@ $(document).ready(function() {
 		
 		
 		$(function() {
-		    $('#searchResultsBookmarkTree').tree({
+			$('#searchResultsBookmarkTree').tree({
 		        data: bookmarkTreeResults,
 				autoOpen: false,
 				dragAndDrop: false,
@@ -836,7 +843,7 @@ $(document).ready(function() {
 			    		$li.find('.jqtree-title').css('font-size', '14px');
 			    	}
 			    	if (node.type == "bookmark"){
-			    		$li.find('.jqtree-title').after('<a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + node.id + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
+			    		$li.find('.jqtree-title').after('<a class="sr_lr_link" href="javascript:void(0);" title="Open in new window" onclick="$.fn.launchViewContent(\'' + node.id+ '\', \'' + node.systemTagName + '\');"><img src="images/ReadLaterGray16x16.png"/></a>');
 			    	}
 			    	// for each content type we need to explicitly state the class to display the icon. Not great code but can't find an alternative.
 			    	if (node.systemTagName == "KnowledgeArticleED"){
@@ -851,8 +858,8 @@ $(document).ready(function() {
 			    				if (node.systemTagName == "KnowledgeUploadED"){
 			    					$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_KnowledgeUploadED"></span>');
 			    				}else{
-			    					if (node.systemTagName == "Unstructured"){
-			    						$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_Unstructured"></span>');
+			    					if (node.systemTagName == "Spidered" || node.systemTagName == "Unstructured"){
+			    						$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_Spidered"></span>');
 			    					}else{
 			    						if (node.systemTagName == "pageSet"){
 			    							$li.find('.jqtree-title').before('<span class="sr_lr_icon_tree sr_lr_icon_tree_pageSet"></span>');
@@ -883,26 +890,28 @@ $(document).ready(function() {
 	
 	// checks the current date of the content and whether or no it should have the new or changed label
 	// returns true if less then the date agreed on, otherwise returns false
-	$.fn.isContentNewOrChanged = function(currentDate, tagData){
-		//CURRENTLY SET TO 3 DAYS; CHANGE HERE TO CHANGE THE TIME
+	$.fn.isContentNewOrChanged = function(lastModifiedDate, tagData){
+		//CURRENTLY SET TO 7 DAYS; CHANGE HERE TO CHANGE THE TIME
 		var newOrChangedTime = 60*60*24*7; // time in seconds (seconds*minutes*hours*days)
 		
 		// Returns false if the service doesn't return a lastModifiedDate (e.g. the bookmark search)
-		if(currentDate == ""){
+		if(lastModifiedDate == "undefined" || lastModifiedDate == ""){
 			return false;
 		}
-		
+		log('lastModifiedDate = '+lastModifiedDate);
 		// converts both times to epoch time
-		var a=currentDate.split("T");
+		var a=lastModifiedDate.split("T");
 		var s=a[1].split("+");
 		var d=a[0].split("-");
 		var t=s[0].split(":");
-		var date = new Date(d[0],(d[1]-1),d[2],t[0],t[1],t[2]).getTime()/1000.0;
+		//var date = new Date(d[0],(d[1]-1),d[2],t[0],t[1],t[2]).getTime()/1000.0;
+		var date = new Date(lastModifiedDate).getTime()/1000.0;
 		var currentDate = new Date().getTime()/1000.0;
-		
+		log('date = '+date);
+		log('currentDate = '+currentDate);
 		// calculates the difference between both dates
 		var dateDifference = currentDate - date;
-		
+		log('dateDifference = '+dateDifference);
 		//check for the new or changed tag when adding the icon to the knowledge piece
 		
 		//create a flag
@@ -969,6 +978,8 @@ $(document).ready(function() {
             	}
             	pageSelected = data.data.page;
             	query = data.query;
+            	searchFeedbackURL = data.data.searchFeedbackURL;
+				externalSearchId = data.data.externalSearchId;
 
 		    	// put the scroll bar back to the top
             	$('#sr-listing').scrollTop(0);

@@ -25,6 +25,9 @@ public class RequestAnswer implements Serializable {
 
 	@XmlElement
     private String expectation;
+	
+    @XmlElement
+    private String searchFeedbackURL;
 
     @XmlElement(nillable=true)
     private String selectedFilter;
@@ -67,6 +70,20 @@ public class RequestAnswer implements Serializable {
 		this.expectation = expectation;
 	}
 
+	/**
+	 * @return the searchFeedbackURL
+	 */
+	public String getSearchFeedbackURL() {
+		return searchFeedbackURL;
+	}
+
+	/**
+	 * @param searchFeedbackURL the searchFeedbackURL to set
+	 */
+	public void setSearchFeedbackURL(String searchFeedbackURL) {
+		this.searchFeedbackURL = searchFeedbackURL;
+	}
+	
 	/**
 	 * @return the selectedFilter
 	 */

@@ -5,6 +5,7 @@
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/classes"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/.apt_generated"/>
         <dependent-module archiveName="SharedInfrastructure-1.4-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/SharedInfrastructure/SharedInfrastructure">
             <dependency-type>uses</dependency-type>
         </dependent-module>

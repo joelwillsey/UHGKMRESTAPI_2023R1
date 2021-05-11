@@ -3,6 +3,7 @@
  */
 package com.verint.services.km.service;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -73,5 +74,17 @@ public class BaseService {
 
 		LOGGER.debug("Exiting getAuthenticatinCredentials()");
 		return credentials;
+	}
+
+	protected String getOIDCToken(HttpServletRequest httpRequest) {
+		String oidcToken = "";
+		Cookie[] cookies = httpRequest.getCookies();
+		for (Cookie cookie : cookies) {
+			if ("verintAuthToken".equals(cookie.getName())) {
+				oidcToken = cookie.getValue();
+				break;
+			}
+		}
+		return oidcToken;
 	}
 }
