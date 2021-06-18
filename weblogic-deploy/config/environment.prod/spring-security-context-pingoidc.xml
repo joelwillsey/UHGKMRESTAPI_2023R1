@@ -83,7 +83,7 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_
 ,KM_CnS_Texas_Service_Coord,KM_Population_Health_Solutions,KM_Region_5_National_Provider
 ,KM_EnI_Supervisor_NPSR,KM_OWCA_Ancillary,KM_UHC_West_Provider_Service
 ,KM_UHC_Hearing,KM_CnS_Tennessee_Whole_Person_Care,KM_GO_Member_Svc_Specialty_Exchange,KM_AnG_Exchanges,KM_Texas_DCM
-,KM_Portal_Technical_HelpDesk,KM_NYSNA_Benefits_Fund,KM_CnS_Appeals
+,KM_Portal_Technical_HelpDesk,KM_NYSNA_Benefits_Fund,KM_CnS_Appeals,KM_MnR_Group_Telesales
 "/>	
 	  <beans:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
 	  <beans:property name="authenticationFailureHandler" ref="failureRedirectHandler"/>
