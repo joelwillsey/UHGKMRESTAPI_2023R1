@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.net.ssl.SSLContext;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.security.KeyStore;
 
 public class RestUtil {
@@ -42,6 +43,8 @@ public class RestUtil {
         }
 
         RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters()
+                .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
         for (HttpMessageConverter converter : restTemplate.getMessageConverters()) {
             if (converter instanceof StringHttpMessageConverter) {
                 ((StringHttpMessageConverter) converter).setWriteAcceptCharset(false);
