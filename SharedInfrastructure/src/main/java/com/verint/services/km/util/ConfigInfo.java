@@ -61,6 +61,7 @@ public class ConfigInfo {
 	private String oidcTokenScope;
 	private String hoverTestServiceAccountUser;
 	private String hoverTestServiceAccountPassword;
+	private boolean convertTagServiceToHTTP = false;
 	
 	private String staticcontentFilelocation="";
 	private String staticcontentServerurl="";
@@ -152,12 +153,12 @@ public class ConfigInfo {
 				kmContentService=prop.getProperty("rest.kmcontentservice");
 				kmSearchService=prop.getProperty("rest.kmsearchservice");
 				kmTagService=prop.getProperty("rest.kmtagservice");
+				convertTagServiceToHTTP = prop.getProperty("rest.kmtagservice.forcehttp") != null;
 				kmAuthoringService=prop.getProperty("rest.kmauthoringservice");
 				tenantId = prop.getProperty("rest.tentantid");								
 				oidcTokenScope=prop.getProperty("rest.odictokenscope");
 				hoverTestServiceAccountUser=prop.getProperty("hovertext.serviceaccountuser");
 				hoverTestServiceAccountPassword=prop.getProperty("hovertext.serviceaccountpassword");
-				
 				staticcontentFilelocation= prop.getProperty("staticcontent.filelocation");
 				staticcontentServerurl= prop.getProperty("staticcontent.serverurl");
 				
@@ -281,6 +282,9 @@ public class ConfigInfo {
 	}
 	public String getRestKmTagService() {
 		return kmTagService;
+	}
+	public boolean getConvertTagServiceToHTTP() {
+		return convertTagServiceToHTTP;
 	}
 	public String getRestTenantId() {
 		return tenantId;
@@ -450,6 +454,7 @@ public class ConfigInfo {
 		"rest.kmcontentservice=" + kmContentService + "\n" +
 		"rest.kmsearchservice=" + kmSearchService + "\n" +
 		"rest.kmtagservice=" + kmTagService + "\n" +
+		"rest.kmtagservice.forcehttp=" + convertTagServiceToHTTP + "\n" +
 		"rest.kmauthoringservice=" + kmAuthoringService + "\n" +
 		"rest.tentantid=" + tenantId + "\n" +
 		"rest.odictokenscope=" +oidcTokenScope + "\n" +

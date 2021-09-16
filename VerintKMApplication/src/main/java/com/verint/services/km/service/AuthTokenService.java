@@ -155,7 +155,8 @@ public class AuthTokenService extends BaseService {
 	private AuthorizationCode AuthorizationCode(String userName, String password, String redirectURI) {
 		AuthorizationCode authCode = null;
 		String oidcTokenServiceAuthCodeURL = kmConfiguration.getRestOidcTokenService() + "/" + kmConfiguration.getRestTenantId() + "/authorization_code";
-		String scope= "openid tags content_entitlements context_entitlements";
+		String scope= kmConfiguration.getRestOidcTokenScope();
+		//String scope= "openid tags content_entitlements context_entitlements";
 		String clientID = "default";
 		
 		try {

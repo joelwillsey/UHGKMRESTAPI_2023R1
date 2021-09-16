@@ -44,6 +44,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContentDAOImpl.class);
 	private static String ExternalUrl;
 	private static String REST_CONTENT_URL;
+	private static boolean ConvertTagUrlToHttp;
 
 	static {
 		try {
@@ -51,6 +52,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 			ConfigInfo kmConfiguration = new ConfigInfo();
 			ExternalUrl = kmConfiguration.getStaticcontentServerurl();
 			REST_CONTENT_URL = kmConfiguration.getRestKmContentService();
+			ConvertTagUrlToHttp = kmConfiguration.getConvertTagServiceToHTTP();
 		} catch (Throwable t) {
 			LOGGER.error("Throwable Exception", t);
 			System.exit(1);
@@ -119,7 +121,7 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 	@Override
 	public  ContentVersionResponse getContentVersion(ContentVersionRequest contentVersionRequest) 
 			throws AppException, RemoteException {
-		LOGGER.info("Entering getContent()");
+		LOGGER.info("Entering getContentVersion()");
 		ContentVersionResponse contentVersionResponse = new ContentVersionResponse();
 		final GetContentVersionsRequestBodyType versionRequest = new GetContentVersionsRequestBodyType();
 		versionRequest.setApplicationID(AppID);
@@ -170,6 +172,8 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 		request.setVerbose(false);
 		request.setConvertFieldsToMap(false);
 
+		Instant startWrap = Instant.now();
+		
 		// Get the content details
 
 		// For Json -> Json requests we could use km-search-service vkm:url instead of creating the url ourselves
@@ -202,20 +206,45 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 
 //				final GetContentDetailsResponseBodyType soapResponse = ContentPortType.getContentDetails(request);
 		Instant end = Instant.now();
-		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + contentRequest.getUsername() + ") - km-content-service duration: "
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + contentRequest.getUsername() + ") - getContent - km-content-service duration: "
 				+ Duration.between(start, end).toMillis() + "ms");
 		LOGGER.debug("response: " + contentJsonResponse.toString());
 
-
+		
 		//Setup Tag calling
 		List<RestTag> jsonRestTagList = new ArrayList<>();
 		for (Annotation anno : contentJsonResponse.getAnnotations()) {
 			if (anno.getMotivation().equals("oa:tagging")) {
-				RestTag restTagJsonResponse = RestUtil.getAndDeserialize(anno.getBody().getId(),
+				Instant startTag = Instant.now();
+				String restTagUrl = anno.getBody().getId();
+				if (ConvertTagUrlToHttp) {
+					restTagUrl = restTagUrl.replaceFirst("https", "http");
+					restTagUrl = restTagUrl.replaceFirst(":443", ":80");
+					if (!anno.getBody().getId().equals(restTagUrl)) {
+						LOGGER.debug("Forced Tag URL to HTTP: " + anno.getBody().getId()+  " -> " + restTagUrl);
+					}
+				}
+				//RestTag restTagJsonResponse = RestUtil.getAndDeserialize(anno.getBody().getId(),
+				//		null, HttpMethod.GET, RestTag.class, contentRequest.getOidcToken(), null, true);
+				RestTag restTagJsonResponse = RestUtil.getAndDeserialize(restTagUrl,
 						null, HttpMethod.GET, RestTag.class, contentRequest.getOidcToken(), null, true);
+				Instant endTag = Instant.now();
+				int lastSlash = anno.getBody().getId().toString().lastIndexOf("/");
+				String tagSystemName;
+				if (lastSlash != -1){
+					tagSystemName = anno.getBody().getId().toString().substring(lastSlash + 1);
+				} else {
+					tagSystemName =anno.getBody().getId().toString();
+				}
+				
+				LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + contentRequest.getUsername() + ") - getContent - oa:tagging ("+ tagSystemName + "): " + Duration.between(startTag, endTag).toMillis() + "ms");
 				jsonRestTagList.add(restTagJsonResponse);
 			}
 		}
+		
+		//Start timing for parsing
+		start = Instant.now();
+		
 		//TODO preference would be to get all tags and cache to populate the tags on contentresponse
 		for (RestTag jt : jsonRestTagList) {
 			String tagset = jt.getStart().getIdentifier();
@@ -393,6 +422,10 @@ public class ContentDAOImpl extends BaseDAOImpl implements ContentDAO {
 //			// We have a problem with the service
 //			throw new AppException(500, AppErrorCodes.CONTENT_RETRIEVAL_ERROR, AppErrorMessage.CONTENT_RETRIEVAL_ERROR);
 //		}
+		end = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + contentRequest.getUsername() + ") - getContent - Parsing content: " + Duration.between(start, end).toMillis() + "ms");
+		Instant endWrap = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE(" + contentRequest.getUsername() + ") - getContent - Total duration: " + Duration.between(startWrap, endWrap).toMillis() + "ms");
 		LOGGER.debug("ContentResponse: " + contentResponse);
 		LOGGER.info("Exiting getContent()");
 		return contentResponse;

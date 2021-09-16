@@ -27,10 +27,14 @@ import com.verint.services.km.model.TagSet;
 public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TagsDAOImpl.class);
 	private static String REST_TAGS_URL;
-
+	private static boolean ConvertTagUrlToHttp;
+	
 	static {
 		try {
-			REST_TAGS_URL = (new ConfigInfo()).getRestKmTagService();
+			// Get the properties
+			ConfigInfo kmConfiguration = new ConfigInfo();
+			REST_TAGS_URL = kmConfiguration.getRestKmTagService();
+			ConvertTagUrlToHttp = kmConfiguration.getConvertTagServiceToHTTP();
 		} catch (Throwable t) {
 			LOGGER.error("Throwable Exception", t);
 			System.exit(1);
@@ -184,7 +188,16 @@ public class TagsDAOImpl extends BaseDAOImpl implements TagsDAO {
 				}
 			}
 			if (tagJsonResponse.getView() != null && tagJsonResponse.getView().getNext() != null) {
-				List<Tag> nextTags = getRestTags(tagJsonResponse.getView().getNext(), oidcToken, username, startIndex+150);
+				String restTagUrl = tagJsonResponse.getView().getNext();
+				if (ConvertTagUrlToHttp) {
+					restTagUrl = restTagUrl.replaceFirst("https", "http");
+					restTagUrl = restTagUrl.replaceFirst(":443", ":80");
+					if (!tagJsonResponse.getView().getNext().equals(restTagUrl)) {
+						LOGGER.debug("Forced Tag URL to HTTP: " + tagJsonResponse.getView().getNext() +  " -> " + restTagUrl);
+					}					
+				}
+				//List<Tag> nextTags = getRestTags(tagJsonResponse.getView().getNext(), oidcToken, username, startIndex+150);
+				List<Tag> nextTags = getRestTags(restTagUrl, oidcToken, username, startIndex+150);
 				tags.addAll(nextTags);
 			}
 		} catch (Exception e) {

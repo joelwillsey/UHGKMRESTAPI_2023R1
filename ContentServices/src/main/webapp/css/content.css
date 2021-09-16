@@ -1026,3 +1026,165 @@ table {
        url('../fonts/Xuicons.ttf') format('truetype');
   text-rendering: optimizeLegibility;
 }
+
+/* The below CCS is for GTContentTabs */
+.GTContentTabGroup{
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    clear: none;
+    width: 100%; /* IE Hack to force proper layout when preceded by a paragraph. (hasLayout Bug)*/
+}
+
+.VGTContentTabGroup {
+    overflow: hidden;
+    zoom: normal;
+    background-color: #f7f7f7;
+    border-bottom: solid 1px #CCC;
+    border-right: solid 1px #999;
+}
+
+/* This is the tabs section (list) */
+
+.GTContentTabs{
+    list-style:none;
+    margin:0px;
+    padding:0px;
+    float:left;
+    background-color: #f7f7f7;
+} 
+
+.GTContentTabs .GTContentTab{
+    border-radius: 5px 5px 0 0;
+}
+
+.VGTContentTabs .GTContentTab{
+    border-radius: 5px 0 0 5px;
+}
+
+.GTContentTabs .GTContentTabSelected{
+    background-color: #f7f7f7;
+    border-bottom: solid 1px #f7f7f7;
+}
+
+.VGTContentTabs .GTContentTabSelected{
+    background-color: #f7f7f7;
+    border-right: solid 1px #f7f7f7;
+}
+
+.GTContentTab{
+    position: relative;
+    /*width:100px;*/
+    float:left;
+    margin:0px;
+    margin-right:1px;
+    padding:5px 10px;
+    text-align: center;
+    background-color:#DDD;
+    border-left: solid 1px #CCC;
+    border-bottom: solid 1px #999;
+    border-top: solid 1px #999;
+    border-right: solid 1px #999;
+    list-style: none;
+    -moz-user-select: none;
+	-khtml-user-select: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.VGTContentTabs {
+    list-style:none;
+    margin: 0px;
+    padding: 0px;
+    margin-left: auto;
+    margin-right: -1px;
+    float: left;
+    background-color: #f7f7f7;
+    position: relative;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;    
+}
+
+.GTContentTabs .GTContentTab{
+    margin-bottom: -1px;
+}
+
+.VGTContentTabs .GTContentTab{
+    float: none;
+    margin-bottom: 2px;
+    margin-right:0px;
+    width:100px
+}
+
+/* This is the tabs content section */
+
+.GTContentTabContent{
+    display:none;
+    overflow: hidden;
+    padding: 4px;
+}
+
+.GTContentTabContentGroup {
+    clear: both;
+    border-left: solid 1px #CCC;
+    border-bottom: solid 1px #CCC;
+    border-top: solid 1px #999;
+    border-right: solid 1px #999;
+    background-color: #f7f7f7;
+}
+
+.VGTContentTabContentGroup {
+    float: none;
+    clear: none;
+    border-left: solid 1px #CCC;
+    border-top: solid 1px #999;
+    background-color: #f7f7f7;    
+}
+
+.VGTContentTabContentGroup .GTContentTabContent{
+    border-left:  solid 1px #999;
+}
+
+/* This section is for marking tabs as selected and displaying the associated content */
+
+.GTContentTabContentGroup .GTContentTabContentVisible{
+    display: block;
+}
+
+.VGTContentTabContentGroup .GTContentTabContentVisible{
+    display: block;
+}
+
+.GTContentTab.GTContentTabHover{
+    background:#dcf1f9;     
+}
+
+/* This section is for marking tabs as selected and displaying the associated content */
+
+/* Tooltip container */
+.GTContentTabToolTip {
+    position: relative;
+    display: block;
+}
+  
+/* Tooltip text */
+.GTContentTabToolTip .GTContentTabToolTipText {
+visibility: hidden;
+min-width: fit-content;
+background-color: white;
+color: black;
+text-align: center;  
+border: solid 1px black;
+padding: 2px 5px;
+/* Position the tooltip text */
+position: absolute;
+left: 80%;
+top: 75%;
+z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.GTContentTabToolTip:hover .GTContentTabToolTipText {
+visibility: visible;
+}

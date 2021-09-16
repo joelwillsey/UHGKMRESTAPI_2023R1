@@ -448,7 +448,7 @@ public class KmPingOIDCAuthCodeFilter  extends OncePerRequestFilter {
 	                  HttpEntity responseEntity = response.getEntity();
 	                  return responseEntity != null ? EntityUtils.toString(responseEntity) : null;
 	              } else {
-	                  throw new ClientProtocolException("Unexpected response status: " + status);
+	                  throw new ClientProtocolException("Unexpected response status code: " + status);
 	              }
 	          };
 	          

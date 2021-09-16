@@ -31,7 +31,7 @@ var tagsPathModule = (function(){
 
 $(document).ready(function() {	
 	
-
+	
 	
 	$('li').on('click', function() {
 		//alert('clicked');
@@ -526,6 +526,40 @@ $(document).ready(function() {
         }
 	}
 
+	// Set jquery for GTContentTabs
+	// From agent-desktop/components/cre/webclient/formcomponents/GTContentTabs/js/gtcontenttabs.js
+	// Replaced class .GTBody with .content_container
+	$('.content_container').on('click','.GTContentTabs .GTContentTab',function(){
+        //Use the tabGroupId to constrain the add/remove class to a particular GTContentTabGroup
+        var tabGroupId = '#' + $(this).parent().parent().attr('id');
+        $(tabGroupId + ' .GTContentTabs .GTContentTab').removeClass('GTContentTabSelected');
+        $(this).removeClass('GTContentTabHover');
+        $(this).addClass('GTContentTabSelected');
+
+        var tabIndex = $(tabGroupId + ' .GTContentTabs .GTContentTab').index(this);
+        $(tabGroupId + ' .GTContentTabContentGroup .GTContentTabContent').removeClass('GTContentTabContentVisible');
+        $(tabGroupId + ' .GTContentTabContentGroup .GTContentTabContent').eq(tabIndex).addClass('GTContentTabContentVisible');
+    });
+    
+
+    $('.content_container').on('mouseenter','.GTContentTab',function(){
+        $(this).not('.GTContentTab.GTContentTabSelected').addClass('GTContentTabHover');
+    }).on('mouseleave','.GTContentTab',function(){ 
+        $(this).removeClass('GTContentTabHover');
+    });
+	
+    $('.content_container').on('click','.VGTContentTabs .GTContentTab',function(){
+        //Use the tabGroupId to constrain the add/remove class to a particular GTContentTabGroup
+        var tabGroupId = '#' + $(this).parent().parent().attr('id');
+        $(tabGroupId + ' .VGTContentTabs .GTContentTab').removeClass('GTContentTabSelected');
+        $(this).removeClass('GTContentTabHover');
+        $(this).addClass('GTContentTabSelected');
+
+        var tabIndex = $(tabGroupId + ' .VGTContentTabs .GTContentTab').index(this);
+        $(tabGroupId + ' .VGTContentTabContentGroup .GTContentTabContent').removeClass('GTContentTabContentVisible');
+        $(tabGroupId + ' .VGTContentTabContentGroup .GTContentTabContent').eq(tabIndex).addClass('GTContentTabContentVisible');
+    });
+	
     // Setup Public Content
     $.fn.setupPublic = function(data, contentBody) {
     	if ((typeof data.publicBody != 'undefined' && data.publicBody != '') || 

@@ -4,6 +4,8 @@
 package com.verint.services.km.service;
 
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,11 +119,13 @@ public class ContentService extends BaseService {
 			}
 			contentRequest.setContentType(contentType);
 			contentRequest.setOidcToken(getOIDCToken(httpRequest));
-
+			LOGGER.debug("ContentService(" + contentRequest.getUsername() + ") - content() - Start");
+			Instant startWrapper = Instant.now();
 			// Call the service
-			
+			Instant start = Instant.now();			
 			contentResponse = contentDAO.getContent(contentRequest);
-			
+			Instant end = Instant.now();
+			LOGGER.debug("ContentService(" + contentRequest.getUsername() + ") - getContent(): " + Duration.between(start, end).toMillis() + "ms");
 
 			// Check if content is bookmarked
 			if (!StringUtils.isEmpty((state)) && !"PUBLISHED".equals(state)) {
@@ -131,13 +135,21 @@ public class ContentService extends BaseService {
 			} else {
 				
 				// Check if content is bookmarked
+				start = Instant.now();
 				contentResponse.setBookmarked(bookmarksDAO.isContentBookmarked(contentRequest));
+				end = Instant.now();
+				LOGGER.debug("ContentService(" + contentRequest.getUsername() + ") - setBookmarked() duration: " + Duration.between(start, end).toMillis() + "ms");
 				
 				// Mark content as viewed
-				contentResponse.setViewUUID(searchDAO.markAsViewed(contentid, credentials[0], credentials[1],
+				start = Instant.now();
+				contentResponse.setViewUUID(searchDAO.markAsViewed(contentid, version, credentials[0], credentials[1],
 						null, getOIDCToken(httpRequest), externalSearchId));
+				end = Instant.now();
+				LOGGER.debug("ContentService(" + contentRequest.getUsername() + ") - setViewUUID() duration: " + Duration.between(start, end).toMillis() + "ms");
 			}
 			
+			Instant endWrapper = Instant.now();
+			LOGGER.debug("ContentService(" + contentRequest.getUsername() + ") - content() - End duration: " + Duration.between(startWrapper, endWrapper).toMillis() + "ms");
 			
 		} catch (AppException ae) {
 			LOGGER.error("AppException in content()", ae);

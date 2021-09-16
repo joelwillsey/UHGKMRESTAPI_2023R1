@@ -21,6 +21,9 @@ public class ContentId implements Serializable {
 
 	@XmlElement
 	private String contentId;
+
+	@XmlElement
+	private String contentVersion;
 	
 
 	/**
@@ -44,13 +47,22 @@ public class ContentId implements Serializable {
 		this.contentId = contentId;
 	}
 
-	
+	public String getContentVersion() {
+		return contentVersion;
+	}
+
+	public void setContentVersion(String contentVersion) {
+		this.contentVersion = contentVersion;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "ContentId [contentId=" + contentId + "]";
+		return "ContentId [" +
+				"contentId=" + contentId +
+				", contentVersion=" + contentVersion +
+				"]";
 	}
 }

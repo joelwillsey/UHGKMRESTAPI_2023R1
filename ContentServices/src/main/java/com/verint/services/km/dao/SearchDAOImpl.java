@@ -7,11 +7,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.UUID;
 
 import com.verint.services.km.model.ContentId;
 import com.verint.services.km.util.ConfigInfo;
 import com.verint.services.km.util.RestUtil;
+import org.apache.axis.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -74,9 +77,13 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		String rateUrl = REST_CONTENT_URL + "/default/content/" + contentType + "/" +
 				URLEncoder.encode(rateRequest.getContentId(), StandardCharsets.UTF_8.toString()) +
 				"/" + Locale;// + "?version="+"1.0";
+		Instant start = Instant.now();
 		ResponseEntity<String> rateResponse = RestUtil.getRestResponse(rateUrl,
 				"{\"@type\":\"vkm:AggregateRating\", \"vkm:ratingValue\": \"" + rateRequest.getRating().intValue() + "\"}",
 				HttpMethod.POST, String.class, rateRequest.getOidcToken(), null, true);
+		Instant end = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+rateRequest.getUsername()+") - rateContent() duration: " + Duration.between(start, end).toMillis() + "ms");
+
 		LOGGER.debug("RateResponseBodyType: " + rateResponse.getStatusCode() + ", " + rateResponse.getBody());
 
 		if (!rateResponse.getStatusCode().is2xxSuccessful()) {
@@ -93,7 +100,7 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 	 * @see com.verint.services.km.dao.SearchDAO#markAsViewed(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String markAsViewed(String contentID, String username, String password, String siteName,
+	public String markAsViewed(String contentID, String contentVersion, String username, String password, String siteName,
 							   String oidcToken, String externalSearchId) throws AppException, UnsupportedEncodingException {
 		LOGGER.info("Entering markAsViewed()");
 		LOGGER.debug("ContentID: " + contentID);
@@ -102,11 +109,20 @@ public class SearchDAOImpl extends BaseDAOImpl implements SearchDAO {
 		String viewUrl = REST_CONTENT_URL + "/default/content/vkm:AuthoredContent/" +
 				URLEncoder.encode(contentID, StandardCharsets.UTF_8.toString()) +
 				"/" + Locale;
+		//TODO use some other url generation, this is bad
+		char paramChar = '?';
 		if (externalSearchId != null && !externalSearchId.equals("")) {
-			viewUrl += "?externalSearchId=" + externalSearchId;
+			viewUrl += paramChar + "externalSearchId=" + externalSearchId;
+			paramChar = '&';
 		}
+		if (!StringUtils.isEmpty(contentVersion)) {
+			viewUrl += paramChar + "version=" + contentVersion;
+		}
+		Instant start = Instant.now();
 	    ResponseEntity<String> restResponse = RestUtil.getRestResponse(viewUrl,"{\"@type\":\"vkm:View\"}",
 				HttpMethod.POST, String.class, oidcToken, null, true);
+	    Instant end = Instant.now();
+		LOGGER.debug("SERVICE_CALL_PERFORMANCE("+username+") - markAsViewed() duration: " + Duration.between(start, end).toMillis() + "ms");
 		LOGGER.debug("MarkAsViewedResponseBodyType: " + restResponse.getStatusCode() + ", " + restResponse.getBody());
 
 		// Check for a valid response

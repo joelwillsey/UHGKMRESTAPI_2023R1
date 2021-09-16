@@ -89,6 +89,7 @@ public class HoverTextService extends BaseService{
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public HoverTextResponse hovertext(@PathParam("hoverid") String hoverId,
     		@QueryParam("contentid") String contentId,
+    		@QueryParam("contentversion") String contentVersion,
     		@QueryParam("referencename") String referenceName,
     		@QueryParam("appid") String applicationId,
 			@QueryParam("externalSearchId") String externalSearchId,
@@ -190,7 +191,7 @@ public class HoverTextService extends BaseService{
 					contentResponse = contentDAO.getContent(contentRequest);
 											
 					// Mark content as viewed for reporting
-					contentResponse.setViewUUID(searchDAO.markAsViewed(contentId, userName, password,
+					contentResponse.setViewUUID(searchDAO.markAsViewed(contentId, contentVersion, userName, password,
 							null, authToken.getIdToken(), ""));
 					} else {
 						isError =true;

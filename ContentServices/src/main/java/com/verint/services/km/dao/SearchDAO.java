@@ -33,5 +33,5 @@ public interface SearchDAO {
 	 * @throws RemoteException
 	 * @throws AppException
 	 */
-	public String markAsViewed(String contentID, String username, String password, String siteName, String oidcToken, String externalSearchId) throws RemoteException, AppException, UnsupportedEncodingException;
+	public String markAsViewed(String contentID, String version, String username, String password, String siteName, String oidcToken, String externalSearchId) throws RemoteException, AppException, UnsupportedEncodingException;
 }

@@ -125,13 +125,14 @@ public class SearchService extends BaseService {
 			searchRequest.setSort(sort);
 			searchRequest.setPublishedId(publishedId);
 			searchRequest.setOidcToken(getOIDCToken(httpRequest));
+			LOGGER.debug("SearchService(" + searchRequest.getUsername() + ") - search() - Start");
 			LOGGER.debug("SearchRequest: " + searchRequest);
 
 			// Do the search and get the response back
 			Instant start = Instant.now();
 			searchResponse = searchDAO.searchQuery(searchRequest, null, null);
 			Instant end = Instant.now();
-			LOGGER.debug("SearchService - search() duration: " + Duration.between(start, end).toMillis() + "ms");
+			LOGGER.debug("SearchService(" + searchRequest.getUsername() + ") - search() - End duration: " + Duration.between(start, end).toMillis() + "ms");
 
 			if (searchResponse != null) {
 				searchResponse.setPage(searchRequest.getPage());
@@ -192,12 +193,12 @@ public class SearchService extends BaseService {
 			searchRequest.setTags(tags);
 			searchRequest.setUsername(credentials[0]);
 			searchRequest.setPassword(credentials[1]);
-	
+			LOGGER.debug("SearchService(" + searchRequest.getUsername() + ") - getFeaturedContent() - Start");
 			// Do the search and get the response back
 			Instant start = Instant.now();
 			searchResponse = searchDAO.searchFeatured(searchRequest);
 			Instant end = Instant.now();
-			LOGGER.debug("SearchService - getFeaturedContent() duration: " + Duration.between(start, end).toMillis() + "ms");
+			LOGGER.debug("SearchService(" + searchRequest.getUsername() + ") - getFeaturedContent() duration: " + Duration.between(start, end).toMillis() + "ms");
 			if (searchResponse != null) {
 				searchResponse.setPage(searchRequest.getPage());
 				searchResponse.setSize(searchRequest.getSize());
@@ -254,7 +255,7 @@ public class SearchService extends BaseService {
 			searchRequest.setSize(size);
 			searchRequest.setUsername(credentials[0]);
 			searchRequest.setPassword(credentials[1]);
-	
+			LOGGER.debug("SearchService(" + searchRequest.getUsername() + ") - getTopContent() - Start");
 			// Do the search and get the response back
 			Instant start = Instant.now();
 			searchResponse = searchDAO.searchTopContent(searchRequest);
@@ -315,12 +316,12 @@ public class SearchService extends BaseService {
 			searchRequest.setSize(size);
 			searchRequest.setUsername(credentials[0]);
 			searchRequest.setPassword(credentials[1]);
-	
+			LOGGER.debug("SearchService(" + searchRequest.getUsername() + ") - getBookmarks() - Start");
 			// Do the search and get the response back
 			Instant start = Instant.now();
 			searchResponse = searchDAO.searchBookmarks(searchRequest);
 			Instant end = Instant.now();
-			LOGGER.debug("SearchService - getBookmarks() duration: " + Duration.between(start, end).toMillis() + "ms");
+			LOGGER.debug("SearchService(" + searchRequest.getUsername() + ") - getBookmarks() duration: " + Duration.between(start, end).toMillis() + "ms");
 
 			if (searchResponse != null) {
 				searchResponse.setPage(searchRequest.getPage());

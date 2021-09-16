@@ -83,7 +83,7 @@ public class MarkAsViewedService extends BaseService {
 			LOGGER.debug("Content Id: " + contentId.getContentId());
 			
 			// Rate the content
-			markAsViewedResponse.setViewUUID(searchDAO.markAsViewed(contentId.getContentId(),
+			markAsViewedResponse.setViewUUID(searchDAO.markAsViewed(contentId.getContentId(), contentId.getContentVersion(),
 					credentials[0], credentials[1], null, getOIDCToken(httpRequest), externalSearchId));
 			
 		} catch (Throwable t) {

@@ -22,6 +22,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.verint.services.km.util.VerintOIDCTokenUtil;
 
 import javax.net.ssl.SSLContext;
 import java.io.*;
@@ -82,9 +83,10 @@ public class RestUtil {
     }
 
     public static <T> T getAndDeserialize(String url, String body, HttpMethod httpMethod, Class<T> classType, String oidcToken, ResponseErrorHandler errorHandler, boolean urlAlreadyEncoded) throws IOException {
-        LOGGER.debug(httpMethod.name() + " Rest Call Request: " + url +  " : " + body);
+    	VerintOIDCTokenUtil oidcTokenObj = new VerintOIDCTokenUtil(oidcToken);
+    	LOGGER.debug(httpMethod.name() + " Rest Call Request(" +oidcTokenObj.getSubject() +"): " + url +  " : " + body);
         ResponseEntity<String> restResponse = RestUtil.getRestResponse(url, body, httpMethod, String.class, oidcToken, errorHandler, urlAlreadyEncoded);
-        LOGGER.debug(httpMethod.name() + " Rest Call Response: " + url +  " : " + restResponse.getBody());
+        LOGGER.debug(httpMethod.name() + " Rest Call Response(" +oidcTokenObj.getSubject() +"): " + url +  " : " + restResponse.getBody());
         return RestUtil.deserializeResponse(restResponse.getBody(), classType);
     }
 
