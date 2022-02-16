@@ -85,6 +85,9 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_
 ,KM_EnI_Supervisor_NPSR,KM_OWCA_Ancillary,KM_UHC_West_Provider_Service
 ,KM_UHC_Hearing,KM_CnS_Tennessee_Whole_Person_Care,KM_GO_Member_Svc_Specialty_Exchange,KM_AnG_Exchanges,KM_Texas_DCM
 ,KM_Portal_Technical_HelpDesk,KM_NYSNA_Benefits_Fund,KM_CnS_Appeals,KM_MnR_Group_Telesales
+,KM_ECII_CDSM_Tech_Ops,KM_US_Health_Group,KM_UMR_Medical,KM_UMR_Training,KM_UMR_Dental,KM_UMR_Case_Installations,KM_UMR_NRECA
+,KM_UMR_USNAS,KM_UMR_Appeals,KM_UMR_Enrollment,KM_UMR_Wilson_McShane,KM_UMR_UHSS,KM_UMR_Internal_Claim_Review,KM_UMR_Consumer_Driven_Health
+,KM_UMR_Gilsbar,KM_UMR_Provider_Maintenance,KM_UMR_IEBP_TML,KM_UMR_Supervisor_Lead_CS_Documents,KM_UMR_Internal_Reporting,KM_UMR_CCSP
 "/>	
 	  <beans:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
 	  <beans:property name="authenticationFailureHandler" ref="failureRedirectHandler"/>
