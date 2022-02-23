@@ -99,7 +99,8 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_
 	  <!-- only use oidcTokenServiceResponseType for authorize url, nor used -->
 	  <beans:property name="oidcTokenServiceResponseType" value="code"/>
 	  <beans:property name="oidcTokenServiceClientId" value="default"/>
-	  <beans:property name="oidcTokenServiceScope" value="openid tags content_entitlements context_entitlements"/>
+	  <!-- <beans:property name="oidcTokenServiceScope" value="openid tags content_entitlements context_entitlements"/> -->
+	  <beans:property name="oidcTokenServiceScope" value="openid content_entitlements context_entitlements"/>
 	</beans:bean>
 	
 	<beans:bean id="pingOIDCAuthenticationFilter" class="com.verint.services.km.security.KmPingOIDCAuthenticationFilter">
