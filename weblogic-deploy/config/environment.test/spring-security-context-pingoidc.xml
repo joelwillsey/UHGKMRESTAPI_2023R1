@@ -88,6 +88,7 @@ KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_
 ,KM_ECII_CDSM_Tech_Ops,KM_US_Health_Group,KM_UMR_Medical,KM_UMR_Training,KM_UMR_Dental,KM_UMR_Case_Installations,KM_UMR_NRECA
 ,KM_UMR_USNAS,KM_UMR_Appeals,KM_UMR_Enrollment,KM_UMR_Wilson_McShane,KM_UMR_UHSS,KM_UMR_Internal_Claim_Review,KM_UMR_Consumer_Driven_Health
 ,KM_UMR_Gilsbar,KM_UMR_Provider_Maintenance,KM_UMR_IEBP_TML,KM_UMR_Supervisor_Lead_CS_Documents,KM_UMR_Internal_Reporting,KM_UMR_CCSP
+,KM_Correspondence_Source_Of_Truth,KM_BCCI
 "/>	
 	  <beans:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
 	  <beans:property name="authenticationFailureHandler" ref="failureRedirectHandler"/>
