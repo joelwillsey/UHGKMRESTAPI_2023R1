@@ -1521,7 +1521,7 @@ $(document).ready(function() {
   	    async: false,
   	  });
   	 
-  	jQuery.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+  	  jQuery.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
 	  	  // Modify options, control originalOptions, store jqXHR, etc
   			originalOptions.url = options.url;
 	  	});
@@ -1662,7 +1662,8 @@ $(document).ready(function() {
 		log('showDTContent id: ' + id)
 	    var millis = new Date().getTime();
 		var query = '?dtreeid=' + id + '&ts=' + millis;
-
+		
+		
 		// First check if pushState is supported and if so is it enabled
 		// Changes the browser URL to use the parameters so users can save searches and/or bookmark them
 		if (history.pushState && typeof historyPushEnabled != 'undefined' && historyPushEnabled) {
@@ -1680,23 +1681,29 @@ $(document).ready(function() {
 
 		// This is a Decision Tree
     	// Show the content
-	$.fn.setupContentWidget(); // Some bug w/ browsers where I need to call this
+		$.fn.setupContentWidget(); // Some bug w/ browsers where I need to call this
 		
 		var decisionTreeUrl = $.fn.getProperty('PageSetV1.RestPageSet.Url');
+		var queryKillSession = '?killSession&dtreeid=' + id + '&ts=' + millis;
 		
+
 		
 		if (decisionTreeUrl === 'undefined' || decisionTreeUrl === null || decisionTreeUrl === 'null' || decisionTreeUrl === '') {
 			var errStatus = 'Error retriveing D-Tree confiuration (PageSetV1.RestPageSet.Url), contact administrator';
 				$.fn.handleErrorText(errStatus);
 		} else {			
 			//decisionTreeUrl2 = 'http://localhost:8280/GTConnect/UnifiedAcceptor/AddKnowPageSetServices.Implementation.PageSetV1.RestPageSet';
-			var inlineHtml = '<iframe id="dtree-id" name="dtree-id" src="' + decisionTreeUrl + query + '&killSession' + '" style="width: 1030px; height: 850px;"/>' 
+			//var inlineHtml = '<iframe id="dtree-id" name="dtree-id" src="' + decisionTreeUrl + query + '&killSession' + '" style="width: 1030px; height: 850px;"/>' 			
+			var inlineHtml = '<iframe id="dtree-id" name="dtree-id" src="' + decisionTreeUrl + query + '" style="width: 1060px; height: 895px;"/>'
+			
 			
 			//Removed the d-tree logout page as it will kill the session and then it would get re-logged in via SSO.  So by adding the 
 			//&killSession above in the URl it kills any existing session then EM drops the &killSession from the url and the d-tree 
 			//gets logged in by SSO  Also the more modern browsers are blocking the window popup on the onbeforeunload event
 			
 			//inlineHtml = inlineHtml + '<script> window.onbeforeunload = function (e) { $.fn.logoutDTree(\'' + query + '\');};</script>'
+			//inlineHtml = inlineHtml + '<script>$(\'dtree-id\').load(function(){$(\'dtree-id\').unbind(\'load\');var errorMessageExist = $(\'h1\').is(\'.message\');if (errorMessageExist){var errorMsg = $(\'div.error.alert\').find(\'.message\').text();if(errorMsg == \'Sorry, we have experienced a temporary problem. Please try again later.\'){$(\'dtree-id\').attr(\'src\',\''+decisionTreeUrl+query+'\');}}});</script>';
+			
 			
 			$('#content-decision-tree').css('display', 'block');
 			$('#content-decision-tree').css('width', '100%');
@@ -1711,6 +1718,7 @@ $(document).ready(function() {
 			//$.fn.removeCookie('JSESSIONID');
 			var cookieFeedbackIFrame = document.getElementById('dtree-id').contentWindow.cookie;
 			console.log('Window Cookie ' + cookieIFrame);
+			
 		}
 	}
 

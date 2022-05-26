@@ -4,6 +4,7 @@ var query;
 var base_query;
 var filterTags;
 var contentType;
+var searchFeedbackURL;
 
 $(document).ready(function() {
 	
@@ -323,7 +324,7 @@ $(document).ready(function() {
 	}
 	
 	// Setup results links
-	$.fn.setupResultsLinks = function(data, results) {
+	$.fn.setupResultsLinks = function(data, results, externalSearchId) {
 		results.push('<article>');
 		// Check for a decision tree or not
 		if (data.contentType === 'pageSet') {
@@ -372,7 +373,8 @@ $(document).ready(function() {
 				$('.sr_numbers_showing').html('Showing 0 of 0 results');
 			}
 			
-			externalSearchId = data.data.externalSearchId;
+			searchFeedbackURL = data.searchFeedbackURL;
+			externalSearchId = data.externalSearchId;
 			
 			var queryText = '';
 			// Check for a REPLACED_SPECIFIC_TERMS first
@@ -447,12 +449,12 @@ $(document).ready(function() {
 					results = $.fn.setupSlicedContent(data.knowledgeGroupUnits[i], results, externalSearchId);
 				} else {
 					// Do we have spidered content to setup?
-					if (data.knowledgeGroupUnits[i].contentType === 'Spidered') {
-						results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results, externalSearchId);
-					} else {
+					//if (data.knowledgeGroupUnits[i].contentType === 'Spidered') {
+					//	results = $.fn.setupExternalContent(data.knowledgeGroupUnits[i], results, externalSearchId);
+					//} else {
 						// "regular" content
 						results = $.fn.setupResultsLinks(data.knowledgeGroupUnits[i], results);
-					}
+					//}
 				}
 			}
 		}

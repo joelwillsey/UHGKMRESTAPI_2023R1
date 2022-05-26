@@ -72,25 +72,32 @@ import org.jose4j.base64url.Base64Url;
  * @author jmiller
  * 
  */
-public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
-	private final Logger LOGGER = LoggerFactory.getLogger(KmPingOIDCAuthenticationFilter.class);
+public class KmOIDCSAMLAuthenticationFilter extends OncePerRequestFilter {
+	private final Logger LOGGER = LoggerFactory.getLogger(KmOIDCSAMLAuthenticationFilter.class);
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private RememberMeServices rememberMeServices = new NullRememberMeServices();
 	private AuthenticationEntryPoint authenticationEntryPoint;
 	private AuthenticationManager authenticationManager;
 	private boolean ignoreFailure = false;
 	private String credentialsCharset = "UTF-8";
-	private String authenticateURL;
-	private String responseType;
-	private String clientId;
-	private String scope;
-	private String acrValues;
-	private String clientSecret;
-	private String jsonWebKeysURL;
-	private String tokenURL;
-	private String kmGroups;
-	private String redirectURI;
+
 	
+	private String oidcTokenServiceURI;
+	private String redirectURI;
+	private Boolean redirectURIForceHTTPS;
+	private String redirectURIUnAuthorized;
+	private String redirectURIGeneralError;
+	private String oidcTokenServiceURL;
+	private String oidcTokenServiceResponseType;
+	private String oidcTokenServiceClientId;
+	private String oidcTokenServiceScope;
+
+
+	public static final String ACCESS_TOKEN = "access_token";
+	public static final String TOKEN_TYPE = "token_type";
+	public static final String EXPIRES_IN = "expires_in";
+	public static final String ID_TOKEN = "id_token";
+	private static final String X_KM_AUTHORIZATION = "x-km-authorization";
 	private static final String USERNAME = "USERNAME",
 								FIRST_NAME = "FIRST_NAME", 
 								LAST_NAME = "LAST_NAME",
@@ -98,16 +105,16 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 								SSO_FIRST_NAME = "SSO_FIRST_NAME",
 								SSO_LAST_NAME = "SSO_LAST_NAME",
 								KB_NAMES = "KB_NAMES";
-	private static final String HEADER_CODE = "code";
+	private static final String PARAMETER_CODE = "code";
+	private static final String PARAMETER_ERROR = "error";
 
-	private static final NetHttpTransport httpTransport = new NetHttpTransport();
 	
 
 	
 	/**
 	 * 
 	 */
-	public KmPingOIDCAuthenticationFilter() {
+	public KmOIDCSAMLAuthenticationFilter() {
 		super();
 		LOGGER.info("Entering kmPingOIDCAuthenticationFilter()");
 		LOGGER.info("Exiting kmPingOIDCAuthenticationFilter()");
@@ -117,7 +124,7 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 	 * 
 	 * @param authenticationManager
 	 */
-	public KmPingOIDCAuthenticationFilter(AuthenticationManager authenticationManager) {
+	public KmOIDCSAMLAuthenticationFilter(AuthenticationManager authenticationManager) {
 		super();
 		LOGGER.info("Entering kmPingOIDCAuthenticationFilter()");
 		this.authenticationManager = authenticationManager;
@@ -130,13 +137,12 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 	 * @param authenticationManager
 	 * @param authenticationEntryPoint
 	 */
-	public KmPingOIDCAuthenticationFilter(AuthenticationManager authenticationManager,
+	public KmOIDCSAMLAuthenticationFilter(AuthenticationManager authenticationManager,
 			AuthenticationEntryPoint authenticationEntryPoint) {
 		super();
 		LOGGER.info("Entering kmPingOIDCAuthenticationFilter()");
 		this.authenticationEntryPoint = authenticationEntryPoint;
-		this.authenticationManager = authenticationManager;
-		LOGGER.info("2authenticateURL::: " + authenticateURL);
+		this.authenticationManager = authenticationManager;		
 		LOGGER.info("Exiting kmPingOIDCAuthenticationFilter()");
 	}
 
@@ -161,6 +167,7 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 		String dummyPassword = null;
 		String oidcSubject = null;
 		String authCode = null; 
+		String errorStr = null;
 
 		String username = null;
 		String password = null;
@@ -169,35 +176,6 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 		boolean hasVerintAuthToken = false;
 				
 		//Properties needed to be grabbed
-		String fakeToken = "eyJzdWIiOiJhbWFydDQ2MSIsImF1ZCI6IlJlZzFfa21rYyIsImp0aSI6IjdSamJpYTBqSGNybHhQZWMzTzI3c3IiLCJpc3MiOiJodHRwczovL2F1dGhnYXRld2F5MS1kZXYuZW50aWFtLnVoZy5jb20iLCJpYXQiOjE2NDAwMjI5NjcsImV4cCI6MTY0MDAyMzI2NywiYWNyIjoiUjFfQUFMMV9NUy1BRC1LZXJiZXJvcyIsImF1dGhfdGltZSI6MTY0MDAyMjk2NywibXNhZF9ncm91cHMiOlsiQ049S01fTGVhcm5pbmdTb2x1dGlvbnMsQ049VXNlcnMsREM9bXMsREM9ZHMsREM9dWhjLERDPWNvbSIsIkNOPUtNX0NuU19SZXRlbnRpb24sQ049VXNlcnMsREM9bXMsREM9ZHMsREM9dWhjLERDPWNvbSIsIkNOPUtNX01uUl9DbGFpbXMsQ049VXNlcnMsREM9bXMsREM9ZHMsREM9dWhjLERDPWNvbSIsIkNOPUtNX01uUl9Db25zdW1lcl9TZXJ2aWNlLENOPVVzZXJzLERDPW1zLERDPWRzLERDPXVoYyxEQz1jb20iLCJDTj1LTV9NblJfQ2xhaW1fbl9BcHBlYWxzLENOPVVzZXJzLERDPW1zLERDPWRzLERDPXVoYyxEQz1jb20iLCJDTj1LTV9NblJfVGVsZXNhbGVzLENOPVVzZXJzLERDPW1zLERDPWRzLERDPXVoYyxEQz1jb20iLCJDTj1LTV9NblJfUHJvdmlkZXJfU2VydmljZSxDTj1Vc2VycyxEQz1tcyxEQz1kcyxEQz11aGMsREM9Y29tIiwiQ049S01fTW5SX0Vucm9sbEJpbGwsQ049VXNlcnMsREM9bXMsREM9ZHMsREM9dWhjLERDPWNvbSIsIkNOPUtNX01uUl9Qcm9kdWNlcl9IZWxwRGVzayxDTj1Vc2VycyxEQz1tcyxEQz1kcyxEQz11aGMsREM9Y29tIl0sImVtcGxveWVlSWQiOiIwMDE2NjQwMzIiLCJnaXZlbl9uYW1lIjoiQW5kcmVzIEZlbGlwZSIsImZhbWlseV9uYW1lIjoiTWFydGluZXogUGXDsWEiLCJ1c2VybmFtZSI6ImFtYXJ0NDYxIiwicGkuc3JpIjoiVHlnNzlyMzdPdHVhdGt2S3NXYjRfQWU4djM0LlVqRS53TU8yIn0";
-		byte[] fakeTokenBytes = fakeToken.getBytes(StandardCharsets.UTF_8);
-		String fakeTokenUTF8 = new String (fakeTokenBytes, StandardCharsets.UTF_8);
-		String decodedUTF8 = Base64Url.decodeToUtf8String(fakeTokenUTF8);
-		LOGGER.debug("Decoded decodedUTF8:  " + decodedUTF8);
-		String decodedDefaultCharSet = new String(decodedUTF8.getBytes(Charset.defaultCharset()));
-		LOGGER.debug("Decoded decodedDefaultCharSet:  " + decodedDefaultCharSet);
-		String testStrUTF8 = Base64Url.decodeToUtf8String(fakeToken);
-		LOGGER.debug("Decoded testStrUTF8:  " + testStrUTF8);
-		/**
-		String fakeTokenUnicode = new String(fakeTokenBytes, StandardCharsets.US_ASCII );
-		byte[] fakeTokenBytesUTF8 = fakeTokenUnicode.getBytes(StandardCharsets.UTF_8);
-		//String testStrUTF8 = Base64Url.decodeToUtf8String(new String(fakeTokenBytesUTF8));
-		String testStrUTF8 = Base64Url.decodeToUtf8String(fakeTokenUnicode);
-		
-		byte[] convertTo = fakeToken.getBytes(StandardCharsets.UTF_8);
-		
-		String testStr = Base64Url.decodeToUtf8String(fakeTokenUTF8);
-		
-		LOGGER.debug("Decoded Token:  " + testStr);
-	
-		LOGGER.debug("Decoded Token3:  " + testStrUTF8);
-		**/
-		String checkLogging = "Ñoño";
-		LOGGER.debug("Default CharSet:  " + Charset.defaultCharset());
-		LOGGER.debug("CharSet checkLogging:  " + checkLogging);
-		LOGGER.debug("CharSet checkLogging converted to StandardCharsets.UTF_8:  " + new String (checkLogging.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8));
-		if (checkLogging.contains("ñ")) LOGGER.debug(new String("Test String contains ñ".getBytes(), StandardCharsets.UTF_8));
-		
 		String requestURL = request.getRequestURL().toString();
 		LOGGER.debug("requestURL:::"+requestURL);
 		
@@ -217,8 +195,36 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 		
 		LOGGER.debug("Requesting Resource:::" + requestingURL);
 		
-		authCode = request.getParameter(HEADER_CODE);
+		authCode = request.getParameter(PARAMETER_CODE);
 		LOGGER.debug("authCode from request parameter:::"+authCode);
+		
+		
+		errorStr = request.getParameter(PARAMETER_ERROR);
+		if (errorStr != null) {
+		LOGGER.debug("Error from request parameter:::"+errorStr);
+			if (errorStr.equals("access_denied")) {
+				LOGGER.info("User unable to log in error: " + errorStr);
+				String errorMsg = "?errorMsg="+errorStr;
+				String redirectUrl = createRedirectURI(request);	
+				redirectUrl = redirectUrl.replaceFirst("/km/ping/authcode", "");
+				String errorURL = redirectUrl + "/unauthorized.html" + errorMsg;
+				LOGGER.info("Redirecting to error page: " + errorURL);
+				response.sendRedirect(errorURL);
+				LOGGER.info("Exiting doFilterInternal()");
+				return;
+			}else {
+				LOGGER.info("User unable to log in error: " + errorStr);
+				String errorMsg = "?errorMsg="+errorStr;
+				String redirectUrl = createRedirectURI(request);
+				//this will have the /km/ping/login or /km/ping/authcode url after the service part , need to remove it
+				redirectUrl = redirectUrl.replaceFirst("/km/ping/authcode", "");				
+				String errorURL = redirectUrl + "/general_error.html" + errorMsg;
+				LOGGER.info("Redirecting to error page: " + errorURL);
+				response.sendRedirect(errorURL);
+				LOGGER.info("Exiting doFilterInternal()");
+				return;
+			}
+		}
 		
 		// NOTE: Back-door way in
 		if (debug) {
@@ -235,7 +241,7 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 			String authToken = null;
 			String verintAuthToken = null;
 			//Well this sucks the request.getCookies() is not bring back the whole authtoken because there is a space in the cookie
-			//we will get them via headers - This may not be correct
+			//we will get them via headers - This is a hack for tomcat
 			String cookieHeader = request.getHeader("cookie");
 			if (!StringUtils.isEmpty(cookieHeader)) {
 				String[] cookies = cookieHeader.split(";"); 
@@ -247,6 +253,7 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 							LOGGER.debug("Cookie Name: " + cookieValues[0] + "=" + cookieValues[1]);	
 							if ("AuthToken".equals(cookieValues[0])) {
 								authToken = cookieValues[1];
+								authToken = authToken.replaceAll("%20Basic%20", " Basic ");
 								hasAuthToken = true;
 								LOGGER.debug("AuthToken cookie exists.");
 							} else if ("verintAuthToken".equals(cookieValues[0])) {
@@ -294,6 +301,7 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 					rememberMeServices.loginSuccess(request, response, authenticationToken);
 					LOGGER.info("Ping Authentication Authorization cookie(s) was found for user '" + ssoUserName + "'");
 					chain.doFilter(request, response);
+					LOGGER.info("Exiting doFilterInternal()");
 					return;
 				} else {
 					LOGGER.error("AuthToken and VerintAuthToken user names DO NOT MATCH:  AuthToken: " + ssoUserName + " VerintAuthToken: " + oidcSubject);
@@ -302,9 +310,10 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 		}
 		
 
-		String header = request.getHeader("x-km-authorization");
+		String header = request.getHeader(X_KM_AUTHORIZATION);
+		
 		if (header != null && header.startsWith("Basic ")) {
-			try {
+			try {				
 				String[] tokens = extractAndDecodeHeader(header, request);
 				assert tokens.length == 2;
 				ssoUserName = tokens[0];
@@ -314,8 +323,9 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 					rememberMeServices.loginSuccess(request, response, authenticationToken);
 					
-					LOGGER.debug("Basic Authentication Authorization header found for user '" + ssoUserName + "', processing filters");
+					LOGGER.debug("Basic Authentication Authorization header found for user '" + ssoUserName + "', processing filters");					
 					chain.doFilter(request, response);
+					LOGGER.info("Exiting doFilterInternal()");
 					return;
 				} else {
 					LOGGER.error("AuthToken and VerintAuthToken user names DO NOT MATCH:  AuthToken: " + ssoUserName + " VerintAuthToken: " + oidcSubject);
@@ -335,21 +345,16 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 			if (authenticationIsRequired(ssoUserName)) {			
 				if (authCode==null) {
 					// need to redirect to Ping
-					LOGGER.debug("############################ Redirect to authenticateURL ############################");
 					
-					String savedUrl = createRedirectURI(request);
-					String redirect_uri;
+					LOGGER.debug("############################ Redirect to oidc-token-service/{client ID}/authorize ############################");
 					
-					if(savedUrl.length() > 0) {
-						redirect_uri =  authenticateURL + "?response_type=" + responseType + "&client_id=" + clientId 
-								+ "&redirect_uri="+ savedUrl + "&acr_values=" + acrValues + "&scope=" + scope;
-					} else {	
-						redirect_uri =  authenticateURL + "?response_type=" + responseType + "&client_id=" + clientId 
-								+ "&redirect_uri="+ requestingURL + "&acr_values=" + acrValues + "&scope=" + scope;
-						LOGGER.error("Cookie savedUrl was missing redirecting to Requesting Resource");						
-					}
+					String redirect_uri = createRedirectURI(request);
+									
+					String oidcRedirect = oidcTokenServiceURI + oidcTokenServiceClientId + "/authorize?response_type=" 
+							+ oidcTokenServiceResponseType + "&redirect_uri=" + redirect_uri + "&scope=" + oidcTokenServiceScope
+							+ "&client_id=" + oidcTokenServiceClientId;
 					
-					LOGGER.debug("Responding to a Redirect to authenticateURL request with URL: " + redirect_uri);
+					LOGGER.debug("Responding to a Redirect to authenticateURL request with URL: " + oidcRedirect);
 					
 					String csfrToken = createCSRFToken();					
 					response.setHeader("Set-Cookie","X-CSRF-TOKEN="+ csfrToken +"; path=/" );
@@ -375,7 +380,8 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 				            LOGGER.debug("Request Method: "+request.getMethod());
 				        }					      
 					}
-					response.sendRedirect(redirect_uri);
+					LOGGER.debug("Redirecting to: " + oidcRedirect);
+					response.sendRedirect(oidcRedirect);
 					LOGGER.info("Exiting doFilterInternal()");
 					return;
 				} else {
@@ -414,7 +420,12 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 	private String[] extractAndDecodeHeader(String header, HttpServletRequest request)
 			throws IOException {
 
+		//LOGGER.debug("extractAndDecodeHeader() header: " + header);
+		//For some reason the header string is getting " out, need to remove them to decode
+		header = header.replaceAll("\"", "");
+		//LOGGER.debug("extractAndDecodeHeader() post replace header: " + header);
 		if (header == null || header.length() < 6){
+			LOGGER.error("Invalid basic authentication token. Header:" + header);
 			throw new BadCredentialsException("Invalid basic authentication token. Header:" + header);
 		}
 		
@@ -424,8 +435,9 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 			decoded = Base64.decode(base64Token);
 		}
 		catch (IllegalArgumentException e) {
-			throw new BadCredentialsException(
-					"Failed to decode basic authentication token");
+			LOGGER.error("Failed to decode basic authentication token=" + header + " Message: " + e.getMessage());
+			throw new BadCredentialsException("Failed to decode basic authentication token");
+			
 		}
 
 		String token = new String(decoded, getCredentialsCharset(request));
@@ -476,7 +488,7 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 		// AnonymousAuthenticationToken
 		// together with a BASIC authentication request header should indicate
 		// reauthentication using the
-		// BASIC protocol is desirable. This behaviour is also consistent with that
+		// BASIC protocol is desirable. This behavior is also consistent with that
 		// provided by form and digest,
 		// both of which force re-authentication if the respective header is detected (and
 		// in doing so replace
@@ -612,161 +624,148 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 	 * 
 	 * @return
 	 */
-	public String getAuthenticateURL() {
-		return this.authenticateURL;
-	}
-	
-	/**
-	 * 
-	 * @param authenticateURL
-	 */
-	public void setAuthenticateURL(String authenticateURL) {
-		this.authenticateURL = authenticateURL;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getResponseType() {
-		return this.responseType;
-	}
-	
-	/**
-	 * 
-	 * @param responseType
-	 */
-	public void setResponseType(String responseType) {
-		this.responseType = responseType;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getClientId() {
-		return this.clientId;
+	public String getOidcTokenServiceURL() {
+		return this.oidcTokenServiceURL;
 	}
 	
 	/**
 	 * 
 	 * @param clientId
 	 */
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setOidcTokenServiceURL(String oidcTokenServiceURL) {
+		this.oidcTokenServiceURL = oidcTokenServiceURL;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOidcTokenServiceResponseType() {
+		return this.oidcTokenServiceResponseType;
+	}
+	
+	/**
+	 * 
+	 * @param clientId
+	 */
+	public void setOidcTokenServiceResponseType(String oidcTokenServiceResponseType) {
+		this.oidcTokenServiceResponseType = oidcTokenServiceResponseType;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOidcTokenServiceClientId() {
+		return this.oidcTokenServiceClientId;
+	}
+	
+	/**
+	 * 
+	 * @param clientId
+	 */
+	public void setOidcTokenServiceClientId(String oidcTokenServiceClientId) {
+		this.oidcTokenServiceClientId = oidcTokenServiceClientId;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOidcTokenServiceScope() {
+		return this.oidcTokenServiceScope;
+	}
+	
+	/**
+	 * 
+	 * @param clientId
+	 */
+	public void setOidcTokenServiceScope(String oidcTokenServiceScope) {
+		this.oidcTokenServiceScope = oidcTokenServiceScope;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public String getScope() {
-		return this.scope;
-	}
-	
-	/**
-	 * 
-	 * @param scope
-	 */
-	public void setScope(String scope) {
-		this.scope = scope;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getAcrValues() {
-		return this.acrValues;
-	}
-	
-	/**
-	 * 
-	 * @param acrValues
-	 */
-	public void setAcrValues(String acrValues) {
-		this.acrValues = acrValues;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getClientSecret() {
-		return this.clientSecret;
-	}
-	
-	/**
-	 * 
-	 * @param clientSecret
-	 */
-	public void setClientSecret(String clientSecret) {
-		this.clientSecret = clientSecret;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getJsonWebKeysURL() {
-		return this.jsonWebKeysURL;
-	}
-	
-	/**
-	 * 
-	 * @param jsonWebKeysURL
-	 */
-	public void setJsonWebKeysURL(String jsonWebKeysURL) {
-		this.jsonWebKeysURL = jsonWebKeysURL;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getKmGroups() {
-		return this.kmGroups;
-	}
-	
-	/**
-	 * 
-	 * @param kmGroups
-	 */
-	public void setKmGroups(String kmGroups) {
-		this.kmGroups = kmGroups;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getTokenURL() {
-		return this.tokenURL;
+	public String getOidcTokenServiceURI() {
+		return this.oidcTokenServiceURI;
 	}
 	
 	/**
 	 * 
 	 * @param tokenURL
 	 */
-	public void setTokenURL(String tokenURL) {
-		this.tokenURL = tokenURL;
+	public void setOidcTokenServiceURI(String tokenServiceURI) {
+		this.oidcTokenServiceURI = tokenServiceURI;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public String getRedirectURIL() {
+	public Boolean getRedirectURIForceHTTPS() {
+		return this.redirectURIForceHTTPS;
+	}
+	
+	/**
+	 * 
+	 * @param redirectURI
+	 */
+	public void setRedirectURIForceHTTPS(Boolean redirectURI) {
+		this.redirectURIForceHTTPS = redirectURI;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getRedirectURI() {
 		return this.redirectURI;
 	}
 	
 	/**
 	 * 
-	 * @param .redirectURI
+	 * @param redirectURI
 	 */
 	public void setRedirectURI(String redirectURI) {
 		this.redirectURI = redirectURI;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getRedirectURIUnAuthorized() {
+		return this.redirectURIUnAuthorized;
+	}
+	
+	/**
+	 * 
+	 * @param redirectURIUnAuthorized
+	 */
+	public void setRedirectURIUnAuthorized(String redirectURIUnAuthorized) {
+		this.redirectURIUnAuthorized = redirectURIUnAuthorized;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getRedirectURIGeneralError() {
+		return this.redirectURIGeneralError;
+	}
+	
+	/**
+	 * 
+	 * @param redirectURIGeneralError
+	 */
+	public void setRedirectURIGeneralError(String redirectURIGeneralError) {
+		this.redirectURIGeneralError = redirectURIGeneralError;
+	}
+	
 	
 	private String createRedirectUri(HttpServletRequest request) {
 		String savedUrl = "";
@@ -801,7 +800,7 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 						String uri = request.getRequestURI();
 						String host = url.substring(0, url.indexOf(uri)); //result
 						
-						if (!host.startsWith("https")) {
+						if (!host.startsWith("https") && redirectURIForceHTTPS) {
 							//force it to be https
 							LOGGER.debug("Forced over to https original host: " + host);
 							host = host.replaceFirst("http", "https");
@@ -836,7 +835,7 @@ public class KmPingOIDCAuthenticationFilter extends OncePerRequestFilter {
 			strRedirectURI = uRl.substring(0, uRl.indexOf("filterservices") + "filterservices".length()) + redirectURI;
 		}
 		
-		if (!strRedirectURI.startsWith("https")) {
+		if (!strRedirectURI.startsWith("https") && redirectURIForceHTTPS) {
 			//force it to be https  For some stupid reason the request.getRequestURL() always returns http not https
 			LOGGER.debug("Forced over to https original host: " + strRedirectURI);
 			strRedirectURI = strRedirectURI.replaceFirst("http", "https");

@@ -372,7 +372,10 @@ $(document).ready(function() {
 		if(!tags) {
 			tags = "search_showinsearch";
 		} else {
-			tags += ",search_showinsearch";
+			if (tags.slice(-1) != ","){
+				tags += ",";
+			}
+			tags += "search_showinsearch";
 		}
 		$.fn.serviceCallAsyncFalse('GET', '', searchServiceName + 'km/knowledge/search?query=' + search_text + '&page=' + page + '&size=' + size + '&tags=' + tags + '&categories=' + categories + '&sort=' + sort + '&publishedid=' + publishedid, SEARCH_SERVICE_TIMEOUT, callBack);
 	}

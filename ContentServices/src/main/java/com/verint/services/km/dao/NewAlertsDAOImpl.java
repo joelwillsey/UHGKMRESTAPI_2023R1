@@ -149,40 +149,24 @@ public class NewAlertsDAOImpl extends BaseDAOImpl implements NewAlertsDAO {
 			stmt0.close();
 			
 			if (!existing){
-				final String query = "SELECT NEXT_ID from RES_NEXT_ID_HOLDER where TABLE_NAME = 'UHG_READ_ALERT'";
-				stmt = connection.prepareStatement(query);
+				
 				Instant start = Instant.now();
-				final ResultSet results = stmt.executeQuery();
-
 				Instant end = Instant.now();
-				LOGGER.debug("Getting ID - getReadAlerts() duration: " + Duration.between(start, end).toMillis() + "ms");
-				Integer nextId = 0;
-				//there should only be one result here
-				while (results != null && results.next()) {
-					nextId = results.getInt("NEXT_ID");
-				}
-				LOGGER.debug("nextId: " + nextId);
-				results.close();
-				stmt.close();
-				final String updateIDstatement = "UPDATE RES_NEXT_ID_HOLDER SET NEXT_ID = (?) WHERE TABLE_NAME = 'UHG_READ_ALERT'";
-				PreparedStatement stmt2 = connection.prepareStatement(updateIDstatement);
-				stmt2.setInt(1, nextId + 1);
-				final Boolean updateID = stmt2.execute();
-				stmt2.close();
-				final String statement = "INSERT INTO UHG_READ_ALERT (CONTENT_ID, MIGRATABLE_REFERENCE, FIRST_VIEWED_DATE, USERNAME, ID) VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?)";
+
+				final String statement = "INSERT INTO UHG_READ_ALERT (CONTENT_ID, MIGRATABLE_REFERENCE, FIRST_VIEWED_DATE, USERNAME, ID) VALUES (?, ?, CURRENT_TIMESTAMP, ?, (select MAX(ID)+1 from UHG_READ_ALERT))";
 				PreparedStatement stmt3 = connection.prepareStatement(statement);
 				stmt3.setString(1, content_id);
 				stmt3.setString(2, migRefId);
 				stmt3.setString(3, userName);
-				stmt3.setInt(4, nextId);
+				//stmt3.setInt(4, nextId);
 				start = Instant.now();
 				final Boolean rs = stmt3.execute();
 
 				end = Instant.now();
-				LOGGER.debug("SERVICE_CALL_PERFORMANCE("+userName+") - getReadAlerts() duration: " + Duration.between(start, end).toMillis() + "ms");
-				response.setdidComplete(updateID && rs);
+				LOGGER.debug("SERVICE_CALL_PERFORMANCE("+userName+") - recordReadStatus() duration: " + Duration.between(start, end).toMillis() + "ms");
+				response.setdidComplete(rs);
 				stmt3.close();
-			}
+			} 
 
 		} catch (SQLException sqle) {
 			LOGGER.error("SQLException", sqle);

@@ -982,11 +982,13 @@ table {
 }
 
 .GTCollapseContent {
-	padding: 6px 0;
+	padding: 6px 0;	
+	/**
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	**/
 }
 
 .GTCollapseContent h2 {
@@ -1009,7 +1011,7 @@ table {
 }
 
 .GTCollapseContent .collapsed .expander::before {
-    content: "\e3b2";
+    content: "\e3b2";    
 }
 
 .GTCollapseContent .expanded .expander::before {

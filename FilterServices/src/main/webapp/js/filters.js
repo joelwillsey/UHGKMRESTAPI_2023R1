@@ -1,3 +1,5 @@
+var  UnauthorizedPageRedirect = '/verintkm/unauthorized.html.html';
+
 $(document).ready(function() {
 
 	// Service Cloud arrow link
@@ -996,7 +998,9 @@ $(document).ready(function() {
 					}
 				}
 			}
-
+		} else {
+			log('No KnowledgeBases found redirecting to ' + UnauthorizedPageRedirect);
+		window.document.location =  UnauthorizedPageRedirect;
 		}
 	}
 
@@ -1016,19 +1020,22 @@ $(document).ready(function() {
 	// manages the themes for various kbase tags, basically just
 	// switches around the css sheets in the verintkm html
 	$.fn.manageTheme = function() {
+		/**
+		// Removed logic to get theme list and defaul all KB's to 'knowledgeCentralTheme''
 		var current = $.fn.getParameterByName('tags');					
 		//var configList = "";
 		var configList = $.fn.getProperty('themes.knowledgeCentralTheme');
-				
+	
 		if (current != 'undefined' && current != null) {
 			var currentArray = current.split(",");
 			var configArray = configList.split(",");
 
-			if ($.fn.hasCommonElement(currentArray, configArray)) {
+			if ($.fn.hasCommonElement(currentArray, configArray)) { 				*/
+
 				document.getElementById('knowledgeCentralTheme').disabled = false;
 				$.fn.setFavicon("images/faviconKC.png");
 				document.title = "Knowledge Central"
-				document.getElementById('defaultTheme').disabled = true;
+				document.getElementById('defaultTheme').disabled = true; /*
 			} else {
 				document.getElementById('knowledgeCentralTheme').disabled = true;
 				document.getElementById('defaultTheme').disabled = false;
@@ -1039,6 +1046,7 @@ $(document).ready(function() {
 			document.getElementById('defaultTheme').disabled = false;
 			$.fn.setFavicon("images/favicon.png");
 		}
+		**/
 	}
 
 	$.fn.setFavicon = function(src) {

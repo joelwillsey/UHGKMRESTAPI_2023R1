@@ -20,6 +20,8 @@ import org.jose4j.lang.StringUtil;
 import org.jose4j.jwk.JsonWebKey;
 import org.jose4j.jwk.JsonWebKeySet;
 import org.jose4j.jwk.VerificationJwkSelector;
+import java.util.Base64;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +30,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.Charset;
-
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.lang3.Validate;
 
@@ -73,9 +76,42 @@ public class KmPingOIDCOauthUtils {
 			String[] parts = CompactSerializer.deserialize(id_token);
 			
 			Base64Url base64url = new Base64Url();
-			String decoded_payload = base64url.base64UrlDecodeToString(parts[1], StringUtil.UTF_8);
+			//String decoded_payload = base64url.base64UrlDecodeToString(parts[1], StringUtil.UTF_8);
+			String decoded_payload = base64url.base64UrlDecodeToUtf8String(parts[1]);
+			
+			
+			
 			json = (JSONObject) new JSONParser().parse(decoded_payload);
 			LOGGER.debug("Decoded payload:  " + json);
+			
+			LOGGER.debug("Default CharSet:  " + Charset.defaultCharset());			
+			String fakeToken = "eyJzdWIiOiJhbWFydDQ2MSIsImF1ZCI6IlJlZzFfa21rYyIsImp0aSI6IjdSamJpYTBqSGNybHhQZWMzTzI3c3IiLCJpc3MiOiJodHRwczovL2F1dGhnYXRld2F5MS1kZXYuZW50aWFtLnVoZy5jb20iLCJpYXQiOjE2NDAwMjI5NjcsImV4cCI6MTY0MDAyMzI2NywiYWNyIjoiUjFfQUFMMV9NUy1BRC1LZXJiZXJvcyIsImF1dGhfdGltZSI6MTY0MDAyMjk2NywibXNhZF9ncm91cHMiOlsiQ049S01fTGVhcm5pbmdTb2x1dGlvbnMsQ049VXNlcnMsREM9bXMsREM9ZHMsREM9dWhjLERDPWNvbSIsIkNOPUtNX0NuU19SZXRlbnRpb24sQ049VXNlcnMsREM9bXMsREM9ZHMsREM9dWhjLERDPWNvbSIsIkNOPUtNX01uUl9DbGFpbXMsQ049VXNlcnMsREM9bXMsREM9ZHMsREM9dWhjLERDPWNvbSIsIkNOPUtNX01uUl9Db25zdW1lcl9TZXJ2aWNlLENOPVVzZXJzLERDPW1zLERDPWRzLERDPXVoYyxEQz1jb20iLCJDTj1LTV9NblJfQ2xhaW1fbl9BcHBlYWxzLENOPVVzZXJzLERDPW1zLERDPWRzLERDPXVoYyxEQz1jb20iLCJDTj1LTV9NblJfVGVsZXNhbGVzLENOPVVzZXJzLERDPW1zLERDPWRzLERDPXVoYyxEQz1jb20iLCJDTj1LTV9NblJfUHJvdmlkZXJfU2VydmljZSxDTj1Vc2VycyxEQz1tcyxEQz1kcyxEQz11aGMsREM9Y29tIiwiQ049S01fTW5SX0Vucm9sbEJpbGwsQ049VXNlcnMsREM9bXMsREM9ZHMsREM9dWhjLERDPWNvbSIsIkNOPUtNX01uUl9Qcm9kdWNlcl9IZWxwRGVzayxDTj1Vc2VycyxEQz1tcyxEQz1kcyxEQz11aGMsREM9Y29tIl0sImVtcGxveWVlSWQiOiIwMDE2NjQwMzIiLCJnaXZlbl9uYW1lIjoiQW5kcmVzIEZlbGlwZSIsImZhbWlseV9uYW1lIjoiTWFydGluZXogUGXDsWEiLCJ1c2VybmFtZSI6ImFtYXJ0NDYxIiwicGkuc3JpIjoiVHlnNzlyMzdPdHVhdGt2S3NXYjRfQWU4djM0LlVqRS53TU8yIn0";
+			String checkLogging = "Ñoño";
+			byte[] convertTo = fakeToken.getBytes(StandardCharsets.UTF_8);
+			String fakeTokenUTF8 = new String(fakeToken.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
+			String testStr4 = Base64Url.decodeToUtf8String(new String(convertTo, StandardCharsets.UTF_8));
+			String testStr = new String(Base64.getDecoder().decode(convertTo), StandardCharsets.UTF_8);
+			String testStr3 = base64url.base64UrlDecodeToUtf8String(fakeTokenUTF8);
+			//byte[] decoder = Base64.getDecoder().decode(fakeToken);
+			byte[] decoder = Base64.getUrlDecoder().decode(fakeToken);						
+			String testStr2 = new String(decoder, StandardCharsets.UTF_8);
+			LOGGER.debug("FakeToken Decoded payload:  " + testStr);
+			LOGGER.debug("FakeToken2 Decoded payload:  " + testStr2);
+			LOGGER.debug("FakeToken3 Decoded payload:  " + testStr3);
+			LOGGER.debug("FakeToken4 Decoded payload:  " + testStr4);
+			LOGGER.debug("FakeToken5 checkLogging:  " + checkLogging);
+			if (testStr.contains("ñ")) LOGGER.debug("Test String contains ñ");
+			Base64.Decoder b64Decoder = Base64.getUrlDecoder();
+			String testStr6 = new String(b64Decoder.decode(fakeToken));
+			LOGGER.debug("FakeToken6 Decoded payload:  " + testStr6);
+			
+			try {
+				byte[] tempDecodeTokenByte = decoded_payload.getBytes(StandardCharsets.UTF_8);
+				LOGGER.info("tempDecodeToken: " + new String(tempDecodeTokenByte, StringUtil.UTF_8 ));
+			} catch (UnsupportedEncodingException e) {
+				LOGGER.error("UnsupportedEncodingException - tempDecodeToken" + e.getMessage());
+			}
+			
 			
 			ssoUserName = (json.containsKey(TOKEN_USERNAME))?(String)json.get(TOKEN_USERNAME):"";
 			ssoFirstName = (json.containsKey(TOKEN_FIRST_NAME))?(String)json.get(TOKEN_FIRST_NAME):"";
@@ -121,7 +157,7 @@ public class KmPingOIDCOauthUtils {
 
 			String[] parts = CompactSerializer.deserialize(id_token);
 			Validate.isTrue(parts.length == 3);
-			Base64Url base64url = new Base64Url();
+			Base64Url base64url = new Base64Url();			
 			String decoded_header = base64url.base64UrlDecodeToString(parts[0], StringUtil.UTF_8);
 			//String decoded_payload = base64url.base64UrlDecodeToString(parts[1], StringUtil.UTF_8);
 			//String decoded_signature = base64url.base64UrlDecodeToString(parts[2], StringUtil.UTF_8);
@@ -206,6 +242,10 @@ public class KmPingOIDCOauthUtils {
 				    // Check the signature
 				    //LOGGER.debug("verifyJwtSignatureAndUpdateResult" , "Verify key");
 					result =  jws.verifySignature();
+					
+					LOGGER.info("JWT EncodedPayload: " + jws.getEncodedPayload());
+					LOGGER.info("JWT PayloadCharEncoding: " + jws.getPayloadCharEncoding());
+					LOGGER.info("JWT Payload: " + jws.getPayload());
 					
 				} else {
 					LOGGER.error("No matching Public key found to verify the signature for kid: " + kid);

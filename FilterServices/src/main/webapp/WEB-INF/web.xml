@@ -22,7 +22,8 @@
             classpath:spring.xml
             <!--  file:/app_2/verint/projects/restapi/kmservices/spring-security-context.xml -->
             <!-- file:${configLocation}/environment.${environment.name}/spring-siteminder-security-context.xml -->
-            file:${configLocation}/environment.${environment.name}/spring-security-context-pingoidc.xml
+            <!--file:${configLocation}/environment.${environment.name}/spring-security-context-pingoidc.xml -->
+            file:${configLocation}/environment.${environment.name}/spring-security-context-oidc-saml.xml
         </param-value>
 	</context-param>
     <context-param>
