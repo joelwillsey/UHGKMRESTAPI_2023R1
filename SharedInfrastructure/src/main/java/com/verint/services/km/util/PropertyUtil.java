@@ -1,32 +1,30 @@
 package com.verint.services.km.util;
 
+import java.util.Properties;
+
 public class PropertyUtil {
 
 	public static String GetBasePath() {
-		final String OSName = System.getProperty("os.name");
-		String returnValue = "/app_2/verint/em/projects/restapi/kmservices/";
-		
-		if (OSName != null && OSName.length() > 0 && OSName.startsWith("Windows")) {
-			returnValue = "C:\\app_2\\verint\\projects\\uhgiq\\restapi\\kmservices\\";
-		}
+		Properties property = System.getProperties();		
+		String returnValue = (String)property.get("configLocation");
 		
 		return returnValue;
 	}
 	
 	public static String getExternalFilesPath() {
-		return GetBasePath() + "externalFiles.properties";
+		return GetBasePath() + "\\externalFiles.properties";
 	}
 	
 	public static String getConnectionPoolPath() {
-		return GetBasePath() + "connectionPool.properties";
+		return GetBasePath() + "\\connectionPool.properties";
 	}
 	
 	public static String getConnectionPoolRSPath() {
-		return GetBasePath() + "connectionPoolRS.properties";
+		return GetBasePath() + "\\connectionPoolRS.properties";
 	}
 	
 	public static String getSoapConnectionPath() {
-		return GetBasePath() + "soapConnection.properties";
+		return GetBasePath() + "\\soapConnection.properties";
 	}
 
 }

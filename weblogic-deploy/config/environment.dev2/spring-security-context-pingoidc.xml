@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:security="http://www.springframework.org/schema/security"    
+	xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans      
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/security 
+        http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+	<!-- These dont need securitry FYI Order of these in the config do matter-->
+	<security:http pattern="/km/authtoken" security="none"/>
+	<security:http pattern="/km/login" security="none"/>
+	<security:http pattern="/km/login_v2" security="none"/>
+	<security:http pattern="/km/property/read" security="none"/>
+	<security:http pattern="/km/hovertext/**" security="none"/>
+	<security:http pattern="/sso/error/**" security="none"/>
+
+	<!-- Stateless RESTful services use custom BASIC authentication -->
+    <security:http create-session="stateless" use-expressions="false" auto-config="false" entry-point-ref="unauthorizedEntryPoint" authentication-manager-ref="authenticationManager">
+    	<security:intercept-url pattern="/km/ping/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<security:intercept-url pattern="/km/**" access="ROLE_REST"/>
+		<security:custom-filter position="BASIC_AUTH_FILTER" ref="pingOIDCAuthenticationFilter" />
+		<security:custom-filter after="BASIC_AUTH_FILTER" ref="pingFilter"/>
+        <security:csrf disabled="true"/>
+    </security:http>
+ 
+    <security:authentication-manager id="authenticationManager" erase-credentials="false">
+    	<security:authentication-provider ref="pingAuthenticationProvider" />
+    </security:authentication-manager>
+       
+<!-- Filters for processing of PING messages -->
+    <beans:bean id="pingFilter" class="org.springframework.security.web.FilterChainProxy">
+        <security:filter-chain-map request-matcher="ant">
+			<security:filter-chain pattern="/km/ping/login" filters="pingOIDCAuthenticationFilter"/>
+            <security:filter-chain pattern="/km/ping/authcode/**" filters="pingOIDCAuthCodeFilter"/>
+        </security:filter-chain-map>
+    </beans:bean>
+	
+	<beans:bean id="unauthorizedEntryPoint" class="com.verint.services.km.security.UnauthorizedEntryPoint" />
+	
+    <beans:bean id="pingAuthenticationProvider" class="com.verint.services.km.security.KmPingOIDCAuthenticationProvider" />
+	
+	<beans:bean id="successRedirectHandler" class="com.verint.services.km.security.KmPingOIDCAuthenticationSuccessHandler">
+		<!-- This is a mapping of pages to the service they belong in.  The savedurl cookie only saves pages so you can end up in the wrong service because the rest callout
+			that is protected mught be in a different service.  The redirect will look at the page name and send it to the appropiate service based on these mappings-->
+		<beans:property name="verintkm" value="verintkm.html,TestISet.html,jumppage.html"/>
+        <beans:property name="contentservices" value="content_container.html,content.html,dtree_logout.html,feedback_container.html,feddback.html,iset_content_container.html,iset_content.html,open_content_message.html"/>
+		<beans:property name="searchservices" value="code_content.html,code_search_container.html,code_search_results.html,code_search.html,iset_search_container.html,iset_search_results.html,iset_search.html,manage_bookmarks_container.html,manage_bookmarks.html,new_bookmark_folder_container.html,new_bookmark_folder.html,rename_bookmark_folder_container.html,rename_bookmark_folder.html,request_answer_container.html,request_answer.html,search_container.html,search_content_container.html,search_results.html,search.html"/>
+        <beans:property name="filterservices" value="add_filter.html,filters_container.html,filters.html"/>
+    </beans:bean>
+	
+	<beans:bean id="failureRedirectHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+	    <beans:property name="useForward" value="true"/>
+        <beans:property name="defaultFailureUrl" value="/error.jsp"/>
+    </beans:bean>
+	
+	<beans:bean id="pingOIDCAuthCodeFilter" class="com.verint.services.km.security.KmPingOIDCAuthCodeFilter">
+  		<beans:property name="authenticationManager" ref="authenticationManager"/>
+  		<beans:property name="authenticationEntryPoint" ref="unauthorizedEntryPoint"/>
+		<beans:property name="jsonWebKeysURL" value="https://authgateway1-dev.entiam.uhg.com/pf/JWKS"/>	
+		<beans:property name="tokenURL" value="https://authgateway1-dev.entiam.uhg.com/as/token.oauth2"/>	
+		<beans:property name="clientId" value="Reg1_kmkc"/>
+		<beans:property name="clientSecret" value="s8IwDyNyZ4dBvAaW5r4OzzmnbOQbxrGhChlqyXt3JryfJCNbB50XXj4Yrj7pmYYC"/>
+		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>
+		<beans:property name="redirectURIUnAuthorized" value="/unauthorized.html"/>
+		<beans:property name="redirectURIGeneralError" value="/general_error.html"/>		
+		<beans:property name="kmGroups" value="KM_All_KB_Access,KM_Dental_Vision_Call,KM_Dental_Vision_Claim,KM_EnI_ECS_OLT,KM_EnI_ECS,KM_EnI_PRIME,KM_EnI_UHCBS,KM_EnI_EnrollBill,
+KM_CnS_EnrollBill,KM_MnR_EnrollBill,KM_MnR_Claim_n_Appeals,KM_EnI_ProducerOps,KM_Shrd_Svcs_ProviderData,
+KM_Shrd_Svcs_ProviderOps,KM_EnI_UHCWest,KM_EnI_Customer_Implementation,KM_CnS_Consumer_Service,KM_CnS_Claims,
+KM_EnI_Claims,KM_EnI_Claim_Appeals,KM_EnI_Specialty_Ops,KM_EnI_Consumer_Service,KM_EnI_Provider_Service,KM_EnI_Empire,
+KM_EnI_Railroad,KM_UHCG_Clinical,KM_UHCG_Insurance,KM_UHCG_Markets,KM_UHCG_Medical,KM_MnR_Provider_Service,
+KM_EnI_Natl_Accounts_Advocacy,KM_MnR_Consumer_Service,KM_Test,KM_MnR_Telesales,KM_MnR_Producer_HelpDesk,
+KIQPolaris_Agent,KM_Polaris,KM_OClaims,KM_Exchange,
+KM_Dental_Vision_Provider_Network,KM_UHG_Authors,KM_UHCG_Assistance,KM_Quality,KM_CnS_BCO, 
+KM_CnS_ProviderService,KM_Implementations,KM_MnR_Claims,KM_PRISM,KM_ContractManagement,
+KM_FQHC_RHC_ProviderSupport,KM_MnR_Sup_Con_Services,KM_ECS_Advocacy,
+KM_MnR_Cons_Svc_Specialty_Teams,KM_BCS,KM_ONCE,KM_RMO,KM_VEM_Author,KM_UHC_Global_Underwriting,KM_CnS_Retention,
+KM_ProviderAdvocacyCenter,KM_LearningSolutions,KM_UHCBrandedOptum,KM_UHCG_Sales_Demand_Mgmt,KM_EnI_Group_Specific,
+KM_Family_Engagement_Center,KM_UHCGlobalRiskandSecurity,KM_National_MedTrans,KM_Financial_Protection
+,KM_Financial_Protection,KM_Motion_Support,KM_Enhanced_AR_Team,KM_Global_Business_Readiness,KM_Pre_Sale,KM_Global_Product
+,KM_CnS_Texas_Service_Coord,KM_Population_Health_Solutions,KM_Region_5_National_Provider
+,KM_EnI_Supervisor_NPSR,KM_OWCA_Ancillary,KM_UHC_West_Provider_Service
+,KM_UHC_Hearing,KM_CnS_Tennessee_Whole_Person_Care,KM_GO_Member_Svc_Specialty_Exchange,KM_AnG_Exchanges,KM_Texas_DCM
+,KM_Portal_Technical_HelpDesk,KM_NYSNA_Benefits_Fund,KM_CnS_Appeals,KM_MnR_Group_Telesales
+,KM_ECII_CDSM_Tech_Ops,KM_US_Health_Group,KM_UMR_Medical,KM_UMR_Training,KM_UMR_Dental,KM_UMR_Case_Installations,KM_UMR_NRECA
+,KM_UMR_USNAS,KM_UMR_Appeals,KM_UMR_Enrollment,KM_UMR_Wilson_McShane,KM_UMR_UHSS,KM_UMR_Internal_Claim_Review,KM_UMR_Consumer_Driven_Health
+,KM_UMR_Gilsbar,KM_UMR_Provider_Maintenance,KM_UMR_IEBP_TML,KM_UMR_Supervisor_Lead_CS_Documents,KM_UMR_Internal_Reporting,KM_UMR_CCSP
+"/>	
+	  <beans:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
+	  <beans:property name="authenticationFailureHandler" ref="failureRedirectHandler"/>
+	  <!--authTokenExpirationDuration should match property oidc-token-service.token.expiration.duration in EM -->
+	  <beans:property name="authTokenExpirationDuration" value="57600"/>
+	  <!--<beans:property name="oidcTokenServiceURL" value="http://apvrd39316.uhc.com:8285/oidc-token-service/default/authorize"/> -->
+	  <beans:property name="oidcTokenServiceURL" value="http://rn000065301.uhc.com:8285/oidc-token-service/default/token"/>
+	  <beans:property name="oidcTokenServiceGrantType" value="external-oidc"/>
+	  <beans:property name="oidcTokenServiceRedirectUri" value="https://rn000065188.uhc.com/verintkm/verintkm.html"/>
+	  <!-- only use oidcTokenServiceResponseType for authorize url, nor used -->
+	  <beans:property name="oidcTokenServiceResponseType" value="code"/>
+	  <beans:property name="oidcTokenServiceClientId" value="default"/>
+	  <beans:property name="oidcTokenServiceScope" value="openid content_entitlements context_entitlements"/>
+	</beans:bean>
+	
+	<beans:bean id="pingOIDCAuthenticationFilter" class="com.verint.services.km.security.KmPingOIDCAuthenticationFilter">
+  		<beans:property name="authenticationManager" ref="authenticationManager"/>
+  		<beans:property name="authenticationEntryPoint" ref="unauthorizedEntryPoint"/>
+		<beans:property name="authenticateURL" value="https://authgateway1-dev.entiam.uhg.com/as/authorization.oauth2"/>	
+		<beans:property name="responseType" value="code"/>
+		<beans:property name="clientId" value="Reg1_kmkc"/>
+		<beans:property name="scope" value="openid%20profile%20address%20email%20phone"/>
+		<beans:property name="acrValues" value="R1_AAL1_MS-AD-Kerberos"/>
+		<beans:property name="redirectURI" value="/km/ping/authcode/sso.html"/>
+	</beans:bean>
+ 
+	
+</beans:beans>

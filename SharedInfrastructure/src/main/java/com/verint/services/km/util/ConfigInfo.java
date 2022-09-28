@@ -86,16 +86,26 @@ public class ConfigInfo {
 	public ConfigInfo() {
 		
 		final String OSName = System.getProperty("os.name");
-		connectionPoolFile = getConfigLocation() + "/" + getEnvironmentName() + "/connectionPool.properties";
-		connectionPoolRSFile = getConfigLocation() + "/" + getEnvironmentName() + "/connectionPoolRS.properties";
-		systemFile = getConfigLocation() + "/" + getEnvironmentName() + "/" + getMachineName() + "/" + getContainerName() + "/system.properties";
-		readerFile = getConfigLocation() + "/" + getEnvironmentName() + "/propertyReader.properties";
+		//connectionPoolFile = getConfigLocation() + "/" + getEnvironmentName() + "/connectionPool.properties";
+		//connectionPoolRSFile = getConfigLocation() + "/" + getEnvironmentName() + "/connectionPoolRS.properties";
+		//systemFile = getConfigLocation() + "/" + getEnvironmentName() + "/" + getMachineName() + "/" + getContainerName() + "/system.properties";
+		//readerFile = getConfigLocation() + "/" + getEnvironmentName() + "/propertyReader.properties";
+		
+		connectionPoolFile = getConfigLocation() + "/connectionPool.properties";
+		connectionPoolRSFile = getConfigLocation() + "/connectionPoolRS.properties";
+		systemFile = getConfigLocation() + "/system.properties";
+		readerFile = getConfigLocation() + "/propertyReader.properties";
 		
 		if (OSName != null && OSName.length() > 0 && OSName.startsWith("Windows")) {
-			connectionPoolFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\connectionPool.properties";
-			connectionPoolRSFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\connectionPoolRS.properties";
-			systemFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\" + getMachineName() + "\\" + getContainerName() + "\\system.properties";
-			readerFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\propertyReader.properties";
+			//connectionPoolFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\connectionPool.properties";
+			//connectionPoolRSFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\connectionPoolRS.properties";
+			//systemFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\" + getMachineName() + "\\" + getContainerName() + "\\system.properties";
+			//readerFile = getConfigLocation() + "\\" + getEnvironmentName() + "\\propertyReader.properties";
+			
+			connectionPoolFile = getConfigLocation() + "\\connectionPool.properties";
+			connectionPoolRSFile = getConfigLocation() + "\\connectionPoolRS.properties";
+			systemFile = getConfigLocation()  + "\\system.properties";
+			readerFile = getConfigLocation() + "\\propertyReader.properties";
 		}
 
 		// Get the properties

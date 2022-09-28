@@ -52,13 +52,6 @@ public class PropertyReader extends BaseService{
 		try {
 			
 			ConfigInfo kmConfiguration = new ConfigInfo();
-			//LOGGER.debug("ConfigInfo: \n" + kmConfiguration.toString());
-		
-			//if(System.getProperty("os.name").startsWith("Windows")) {
-			//	propertyAddress = "C:\\app_2\\verint\\projects\\uhgiq\\restapi\\kmservices\\propertyReader.properties";
-			//} else {
-			//	propertyAddress = "/app_2/verint/projects/uhgiq/restapi/kmservices/propertyReader.properties";
-			//}
 			
 			if(propertyName == "HOSTNAME"){
 				value = InetAddress.getLocalHost().getHostName();
