@@ -50,13 +50,20 @@ public class VerintOIDCTokenUtil {
 		int indexOfHeader = jwt.indexOf(".");					
 		if (indexOfHeader != -1) {
 			String[] chunks = jwt.split("\\.");
-			//LOGGER.debug("JWT has " + chunks.length + " chunks");
+			LOGGER.debug("JWT has " + chunks.length + " chunks");
 			if (chunks.length > 1 && chunks.length <= 3) {
 				//there should be 2 or 3 chunks so this appears to be structured as a jwt so I'll let it through
-				oidcTokenHeader = decode(chunks[0]);				
+				LOGGER.debug("JWT decoding TokenHeader");
+				//LOGGER.debug("TokenHeader: " + chunks[0]);
+				oidcTokenHeader = decode(chunks[0]);	
+				LOGGER.debug("JWT decoding TokenBody");
+				//LOGGER.debug("TokenBody: " + chunks[1]);
 				oidcTokenBody = decode(chunks[1]);
 				if (chunks.length == 3) {
-					oidcTokenSignature = decode(chunks[2]);
+					LOGGER.debug("JWT decoding TokenSignature");
+					//LOGGER.debug("TokenSignature: " + chunks[2]);
+					//oidcTokenSignature = decode(chunks[2]);
+					oidcTokenSignature = chunks[2];
 				}
 								
 				try {
